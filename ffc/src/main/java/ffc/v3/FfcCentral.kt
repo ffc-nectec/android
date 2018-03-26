@@ -23,7 +23,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class FfcCentral(url: String = "https://4cbe0ac4-4548-4b6e-a38c-8ee9233e5e10.mock.pstmn.io") {
+class FfcCentral(url: String = "http://188.166.249.72/v0/") {
 
   val retrofit = Retrofit.Builder()
     .baseUrl(url)

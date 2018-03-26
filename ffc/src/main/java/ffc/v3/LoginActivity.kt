@@ -17,6 +17,8 @@
 
 package ffc.v3
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -35,26 +37,45 @@ class LoginActivity : AppCompatActivity() {
 
   private val orgService = FfcCentral().call<OrgService>()
 
-  var selectedOrg: Org? = null
+  val model: LoginViewModel by lazy { viewModel<LoginViewModel>() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
 
-    requestMyOrg()
-
     organization.gone()
     organization.setItemPresenter { item, position -> (item as Org).name }
     organization.setOnItemSelectedListener { _, selectedItem, _ ->
-      selectedOrg = selectedItem
-      username_layout.visible()
-      password_layout.visible()
-      submit.visible()
+      model.choosedOrg.value = selectedItem
     }
 
-    username_layout.gone()
-    password_layout.gone()
-    submit.gone()
+    if (model.orgList.isEmpty())
+      requestMyOrg()
+    else {
+      organization.setItems(model.orgList)
+      organization.visible()
+    }
+
+    if (model.choosedOrg.value != null) {
+      organization.selectedItem = model.choosedOrg.value
+    } else {
+      username_layout.gone()
+      password_layout.gone()
+      submit.gone()
+    }
+
+    model.choosedOrg.observe(this) {
+      if (it != null) {
+        username_layout.visible()
+        password_layout.visible()
+        submit.visible()
+      } else {
+        username_layout.gone()
+        password_layout.gone()
+        submit.gone()
+      }
+    }
+
     submit.setOnClickListener {
       try {
         doLogin(username.text.toString(), password.text.toString())
@@ -72,12 +93,13 @@ class LoginActivity : AppCompatActivity() {
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))
     debug("Basic Auth = %s", basicToken)
 
-    orgService.createAuthorize(selectedOrg!!.id, basicToken).then { response, throwable ->
+    orgService.createAuthorize(model.choosedOrg.value!!.id, basicToken)
+      .then { response, throwable ->
       response?.let {
         if (it.isSuccessful) {
           Toast.makeText(this, "Token ${it.body()!!.token}", Toast.LENGTH_SHORT).show()
         } else {
-          debug("Not Success")
+          Toast.makeText(this, "Not Success", Toast.LENGTH_SHORT).show()
         }
       }
     }
@@ -91,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
             visible()
             setItems(it.body()!!)
             setSelection(0)
+            model.orgList = it.body()!!
           }
         } else {
           requestOrgList()
@@ -113,5 +136,10 @@ class LoginActivity : AppCompatActivity() {
       }
       t?.let { }
     }
+  }
+
+  class LoginViewModel : ViewModel() {
+    var orgList: List<Org> = arrayListOf()
+    val choosedOrg: MutableLiveData<Org> by lazy { MutableLiveData<Org>() }
   }
 }
