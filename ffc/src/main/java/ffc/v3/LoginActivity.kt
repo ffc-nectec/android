@@ -102,24 +102,21 @@ class LoginActivity : AppCompatActivity() {
 
     orgService.createAuthorize(model.choosedOrg.value!!.id, basicToken)
       .then { response, throwable ->
-      response?.let {
-        if (it.isSuccessful) {
-          Toast.makeText(this, "Token ${it.body()!!.token}", Toast.LENGTH_SHORT).show()
-        } else {
-          Toast.makeText(this, "Not Success", Toast.LENGTH_SHORT).show()
+        response?.let {
+          if (it.isSuccessful) {
+            Toast.makeText(this, "Token ${it.body()!!.token}", Toast.LENGTH_SHORT).show()
+          } else {
+            Toast.makeText(this, "Not Success", Toast.LENGTH_SHORT).show()
+          }
         }
       }
-    }
   }
 
   private fun requestMyOrg() {
     orgService.myOrg().then { res, t ->
       res?.let {
-        if (it.isSuccessful) {
-          with(it.body()!!) {
-            model.orgList.value = this
-            model.choosedOrg.value = this[0]
-          }
+        if (it.isSuccessful && it.body() != null) {
+          model.orgList.value = it.body()
         } else {
           requestOrgList()
         }
@@ -131,7 +128,7 @@ class LoginActivity : AppCompatActivity() {
   private fun requestOrgList() {
     orgService.listOrgs().then { res, t ->
       res?.let {
-        if (it.isSuccessful) {
+        if (it.isSuccessful && it.body() != null) {
           if (it.body()!!.isNotEmpty()) model.orgList.value = it.body()!!
         } else {
           Toast.makeText(this, "Not found Org List", Toast.LENGTH_SHORT).show()
