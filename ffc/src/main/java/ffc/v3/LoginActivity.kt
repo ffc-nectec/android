@@ -49,11 +49,18 @@ class LoginActivity : AppCompatActivity() {
       model.choosedOrg.value = selectedItem
     }
 
-    if (model.orgList.isEmpty())
+    if (model.orgList.value?.isEmpty() == true)
       requestMyOrg()
     else {
-      organization.setItems(model.orgList)
+      organization.setItems(model.orgList.value!!)
       organization.visible()
+    }
+
+    model.orgList.observe(this) {
+      organization.setItems(it!!)
+      organization.visible()
+
+      if (it.size == 1) organization.selectedItem = it[0]
     }
 
     if (model.choosedOrg.value != null) {
@@ -109,11 +116,9 @@ class LoginActivity : AppCompatActivity() {
     orgService.myOrg().then { res, t ->
       res?.let {
         if (it.isSuccessful) {
-          with(organization) {
-            visible()
-            setItems(it.body()!!)
-            setSelection(0)
-            model.orgList = it.body()!!
+          with(it.body()!!) {
+            model.orgList.value = this
+            model.choosedOrg.value = this[0]
           }
         } else {
           requestOrgList()
@@ -127,11 +132,9 @@ class LoginActivity : AppCompatActivity() {
     orgService.listOrgs().then { res, t ->
       res?.let {
         if (it.isSuccessful) {
-          organization.setItems(it.body()!!)
-          organization.clearSelection()
+          if (it.body()!!.isNotEmpty()) model.orgList.value = it.body()!!
         } else {
-          Toast.makeText(this, "Can't connect server", Toast.LENGTH_SHORT)
-            .show()
+          Toast.makeText(this, "Not found Org List", Toast.LENGTH_SHORT).show()
         }
       }
       t?.let { }
@@ -139,7 +142,11 @@ class LoginActivity : AppCompatActivity() {
   }
 
   class LoginViewModel : ViewModel() {
-    var orgList: List<Org> = arrayListOf()
+    val orgList: MutableLiveData<List<Org>> by lazy {
+      MutableLiveData<List<Org>>().apply {
+        value = listOf()
+      }
+    }
     val choosedOrg: MutableLiveData<Org> by lazy { MutableLiveData<Org>() }
   }
 }

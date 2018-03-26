@@ -35,19 +35,12 @@ class FfcCentral(url: String = "http://188.166.249.72/v0/") {
 
 inline fun <reified T> Call<T>.then(crossinline task: (Response<T>?, Throwable?) -> Unit) {
   enqueue(object : Callback<T> {
-    override fun onResponse(
-      call: Call<T>,
-      response: Response<T>
-    ) {
+    override fun onResponse(call: Call<T>, response: Response<T>) {
       task(response, null)
     }
 
-    override fun onFailure(
-      call: Call<T>,
-      t: Throwable
-    ) {
+    override fun onFailure(call: Call<T>, t: Throwable) {
       task(null, t)
     }
   })
 }
-
