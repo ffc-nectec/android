@@ -1,0 +1,81 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 10000124,
+        "identity": {
+          "type": "thailand-household-id",
+          "id": "54520015001"
+        },
+        "haveChronics": true,
+        "type": "House",
+        "no": "510/45",
+        "road": "รังสิต-นครนายก",
+        "tambon": "คลองหนึ่ง",
+        "ampur": "คลองหลวง",
+        "changwat": "ปุทมธานี",
+        "coordinates": [
+          102.0,
+          13.0
+        ],
+        "people": [
+          {
+            "id": 3000214,
+            "name": "นายพิรุณ พานิชผล"
+          },
+          {
+            "id": 3000215,
+            "name": "นางสาวพรทิพา โชคสูงเนิน"
+          },
+          {
+            "id": 3000216,
+            "name": "นายธนชัย ทองคุ้ม"
+          }
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          102.0,
+          13.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 10000124,
+        "identity": {
+          "type": "thailand-household-id",
+          "id": "54520015001"
+        },
+        "haveChronics": false,
+        "type": "House",
+        "no": "112 ",
+        "road": "รังสิต-นครนายก",
+        "tambon": "คลองหนึ่ง",
+        "ampur": "คลองหลวง",
+        "changwat": "ปุทมธานี",
+        "coordinates": [
+          102.0,
+          13.1
+        ],
+        "people": [
+          {
+            "id": 2000117,
+            "name": "นายวัชรากร หนูทอง"
+          }
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          102.0,
+          13.1
+        ]
+      }
+    }
+  ]
+}
