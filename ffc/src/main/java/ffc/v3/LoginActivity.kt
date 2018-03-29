@@ -29,15 +29,14 @@ import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_login.username_layout
 import me.piruin.spinney.Spinney
 import okhttp3.Credentials
+import org.jetbrains.anko.intentFor
 import java.nio.charset.Charset
 
 class LoginActivity : AppCompatActivity() {
 
-  val organization by lazy { findViewById<Spinney<Org>>(R.id.org) }
-
+  private val organization by lazy { findViewById<Spinney<Org>>(R.id.org) }
   private val orgService = FfcCentral().service<OrgService>()
-
-  val model: LoginViewModel by lazy { viewModel<LoginViewModel>() }
+  private val viewModel: LoginViewModel by lazy { viewModel<LoginViewModel>() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -46,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
     organization.gone()
     organization.setItemPresenter { item, position -> (item as Org).name }
     organization.setOnItemSelectedListener { _, selectedItem, _ ->
-      model.choosedOrg.value = selectedItem
+      viewModel.choosedOrg.value = selectedItem
     }
 
     submit.setOnClickListener {
@@ -56,30 +55,37 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, assert.message, Toast.LENGTH_SHORT).show()
       }
     }
+    if (BuildConfig.DEBUG) {
+      submit.setOnLongClickListener {
+        username.setText("admin0")
+        password.setText("1234admin0")
+        true
+      }
+    }
 
-    if (model.orgList.value?.isEmpty() == true)
+    if (viewModel.orgList.value?.isEmpty() == true)
       requestMyOrg()
     else {
-      organization.setItems(model.orgList.value!!)
+      organization.setItems(viewModel.orgList.value!!)
       organization.visible()
     }
 
-    if (model.choosedOrg.value != null) {
-      organization.selectedItem = model.choosedOrg.value
+    if (viewModel.choosedOrg.value != null) {
+      organization.selectedItem = viewModel.choosedOrg.value
     } else {
       username_layout.gone()
       password_layout.gone()
       submit.gone()
     }
 
-    model.orgList.observe(this) {
+    viewModel.orgList.observe(this) {
       organization.setItems(it!!)
       organization.visible()
 
       if (it.size == 1) organization.selectedItem = it[0]
     }
 
-    model.choosedOrg.observe(this) {
+    viewModel.choosedOrg.observe(this) {
       if (it != null) {
         username_layout.visible()
         password_layout.visible()
@@ -100,11 +106,14 @@ class LoginActivity : AppCompatActivity() {
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))
     debug("Basic Auth = %s", basicToken)
 
-    orgService.createAuthorize(model.choosedOrg.value!!.id, basicToken)
+    orgService.createAuthorize(viewModel.choosedOrg.value!!.id, basicToken)
       .then { response, throwable ->
         response?.let {
           if (it.isSuccessful) {
-            Toast.makeText(this, "Token ${it.body()!!.token}", Toast.LENGTH_SHORT).show()
+            val token = it.body()!!.token
+            Toast.makeText(this, "Token $token", Toast.LENGTH_SHORT).show()
+            FfcCentral.TOKEN = token
+            startActivity(intentFor<MapsActivity>())
           } else {
             Toast.makeText(this, "Not Success", Toast.LENGTH_SHORT).show()
           }
@@ -116,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
     orgService.myOrg().then { res, t ->
       res?.let {
         if (it.isSuccessful && it.body() != null) {
-          model.orgList.value = it.body()
+          viewModel.orgList.value = it.body()
         } else {
           requestOrgList()
         }
@@ -129,7 +138,7 @@ class LoginActivity : AppCompatActivity() {
     orgService.listOrgs().then { res, t ->
       res?.let {
         if (it.isSuccessful && it.body() != null) {
-          if (it.body()!!.isNotEmpty()) model.orgList.value = it.body()!!
+          if (it.body()!!.isNotEmpty()) viewModel.orgList.value = it.body()!!
         } else {
           Toast.makeText(this, "Not found Org List", Toast.LENGTH_SHORT).show()
         }
