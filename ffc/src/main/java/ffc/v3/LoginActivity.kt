@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
   val organization by lazy { findViewById<Spinney<Org>>(R.id.org) }
 
-  private val orgService = FfcCentral().call<OrgService>()
+  private val orgService = FfcCentral().service<OrgService>()
 
   val model: LoginViewModel by lazy { viewModel<LoginViewModel>() }
 
@@ -49,18 +49,19 @@ class LoginActivity : AppCompatActivity() {
       model.choosedOrg.value = selectedItem
     }
 
+    submit.setOnClickListener {
+      try {
+        doLogin(username.text.toString(), password.text.toString())
+      } catch (assert: RuntimeException) {
+        Toast.makeText(this, assert.message, Toast.LENGTH_SHORT).show()
+      }
+    }
+
     if (model.orgList.value?.isEmpty() == true)
       requestMyOrg()
     else {
       organization.setItems(model.orgList.value!!)
       organization.visible()
-    }
-
-    model.orgList.observe(this) {
-      organization.setItems(it!!)
-      organization.visible()
-
-      if (it.size == 1) organization.selectedItem = it[0]
     }
 
     if (model.choosedOrg.value != null) {
@@ -69,6 +70,13 @@ class LoginActivity : AppCompatActivity() {
       username_layout.gone()
       password_layout.gone()
       submit.gone()
+    }
+
+    model.orgList.observe(this) {
+      organization.setItems(it!!)
+      organization.visible()
+
+      if (it.size == 1) organization.selectedItem = it[0]
     }
 
     model.choosedOrg.observe(this) {
@@ -80,14 +88,6 @@ class LoginActivity : AppCompatActivity() {
         username_layout.gone()
         password_layout.gone()
         submit.gone()
-      }
-    }
-
-    submit.setOnClickListener {
-      try {
-        doLogin(username.text.toString(), password.text.toString())
-      } catch (assert: RuntimeException) {
-        Toast.makeText(this, assert.message, Toast.LENGTH_SHORT).show()
       }
     }
   }
