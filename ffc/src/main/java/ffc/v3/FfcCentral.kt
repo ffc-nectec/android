@@ -37,13 +37,15 @@ class FfcCentral(url: String = "http://188.166.249.72/v0/") {
   val retrofitBuilder = Retrofit.Builder()
     .baseUrl(url)
     .addConverterFactory(GsonConverterFactory.create())
-    .client(httpBuilder.build())
 
   inline fun <reified T> service(): T {
     if (TOKEN != null)
       httpBuilder.addInterceptor(AuthTokenInterceptor(TOKEN))
 
-    return retrofitBuilder.build().create(T::class.java)
+    return retrofitBuilder
+      .client(httpBuilder.build())
+      .build()
+      .create(T::class.java)
   }
 
   companion object {
