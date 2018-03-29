@@ -29,6 +29,9 @@ dependencies {
   implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
   implementation 'me.piruin:spinney:0.2.2'
+  implementation 'com.google.code.gson:gson:2.8.2'
+  implementation "joda-time:joda-time:2.9.9"
+  implementation 'com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.6.0'
 
   testImplementation 'junit:junit:4.12'
 
