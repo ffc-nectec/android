@@ -15,14 +15,12 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import android.view.View
+import java.lang.RuntimeException
 
-fun View.gone() {
-  this.visibility = View.GONE
+inline fun assertThat(value: Boolean, lazyMessage: () -> String) {
+  if (!value) throw RuntimeException(lazyMessage())
 }
 
-fun View.visible() {
-  this.visibility = View.VISIBLE
-}
+fun String?.notNullOrBlank() = !this.isNullOrBlank()

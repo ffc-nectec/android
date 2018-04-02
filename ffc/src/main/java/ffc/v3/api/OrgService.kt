@@ -15,14 +15,25 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.api
 
+import ffc.v3.Authorize
+import ffc.v3.Org
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Part
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
 
-interface PersonService {
+interface OrgService {
 
-  @GET("org/{org}/person")
-  fun listPerson(@Part("org") orgId: Long): Call<List<Person>>
+  @GET("org") fun listOrgs(): Call<List<Org>>
+
+  @GET("org?my=true") fun myOrg(): Call<List<Org>>
+
+  @POST("org/{id}/authorize")
+  fun createAuthorize(
+    @Path("id") id: Long,
+    @Header("Authorization") authorize: String
+  ): Call<Authorize>
 }

@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import java.lang.RuntimeException
+import android.util.Log
+import ffc.v3.BuildConfig
 
-inline fun assertThat(value: Boolean, lazyMessage: () -> String) {
-  if (!value) throw RuntimeException(lazyMessage())
+fun debug(message: String, vararg args: Any?, throwable: Throwable? = null) {
+  if (BuildConfig.DEBUG) {
+    Log.d("FFC", String.format(message, *args), throwable)
+  }
 }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer

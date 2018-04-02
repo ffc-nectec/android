@@ -17,6 +17,8 @@
 
 package ffc.v3
 
+import ffc.v3.api.AuthTokenInterceptor
+import ffc.v3.api.DefaultInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback

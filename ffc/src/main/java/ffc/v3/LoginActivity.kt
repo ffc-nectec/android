@@ -22,6 +22,14 @@ import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import ffc.v3.api.OrgService
+import ffc.v3.util.assertThat
+import ffc.v3.util.debug
+import ffc.v3.util.gone
+import ffc.v3.util.notNullOrBlank
+import ffc.v3.util.observe
+import ffc.v3.util.viewModel
+import ffc.v3.util.visible
 import kotlinx.android.synthetic.main.activity_login.password
 import kotlinx.android.synthetic.main.activity_login.password_layout
 import kotlinx.android.synthetic.main.activity_login.submit
@@ -99,8 +107,8 @@ class LoginActivity : AppCompatActivity() {
   }
 
   private fun doLogin(username: String?, password: String?) {
-    assertThat(!username.isNullOrBlank()) { "กรุณาระบุ username" }
-    assertThat(!password.isNullOrBlank()) { "กรุณาระบุ password" }
+    assertThat(username.notNullOrBlank()) { "กรุณาระบุ username" }
+    assertThat(password.notNullOrBlank()) { "กรุณาระบุ password" }
 
     val basicToken =
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))

@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.api
 
-import android.util.Log
+import ffc.v3.Person
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Part
 
-fun debug(message: String, vararg args: Any?, throwable: Throwable? = null) {
-  if (BuildConfig.DEBUG) {
-    Log.d("FFC", String.format(message, *args), throwable)
-  }
+interface PersonService {
+
+  @GET("org/{org}/person")
+  fun listPerson(@Part("org") orgId: Long): Call<List<Person>>
 }

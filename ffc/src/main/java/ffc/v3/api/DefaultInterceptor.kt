@@ -15,20 +15,34 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.api
 
+import android.os.Build
+import ffc.v3.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+import java.lang.String.format
 
-class AuthTokenInterceptor(private val token: String) : Interceptor {
+internal class DefaultInterceptor : Interceptor {
 
   @Throws(IOException::class)
   override fun intercept(chain: Interceptor.Chain): Response {
     val original = chain.request()
+
     val builder = original.newBuilder()
-    builder.addHeader("Authorization", "Bearer $token")
+    builder.addHeader("User-Agent", USER_AGENT)
+      .addHeader("Accept", "application/json; charset=utf-8")
+      .addHeader("Accept-Charset", "utf-8")
+      .addHeader("X-Requested-By", "ffc-v3")
+    builder.method(original.method(), original.body())
 
     return chain.proceed(builder.build())
+  }
+
+  companion object {
+    private val ANDROID = format("Android ${Build.VERSION.RELEASE} (${Build.VERSION.SDK_INT})")
+    private val DEVICE = format("%s %s", Build.BRAND, Build.MODEL)
+    private val USER_AGENT = "FFC/${BuildConfig.VERSION_NAME} (${ANDROID}; ${DEVICE})"
   }
 }
