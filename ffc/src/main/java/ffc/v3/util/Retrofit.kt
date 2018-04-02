@@ -15,46 +15,11 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import ffc.v3.api.AuthTokenInterceptor
-import ffc.v3.api.DefaultInterceptor
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit.SECONDS
-
-class FfcCentral(url: String = "http://188.166.249.72/v0/") {
-
-  val httpBuilder: OkHttpClient.Builder =
-    OkHttpClient.Builder()
-      .readTimeout(60, SECONDS)
-      .writeTimeout(60, SECONDS)
-      .connectTimeout(30, SECONDS)
-      .addInterceptor(DefaultInterceptor())
-
-  val retrofitBuilder = Retrofit.Builder()
-    .baseUrl(url)
-    .addConverterFactory(GsonConverterFactory.create())
-
-  inline fun <reified T> service(): T {
-    val token = TOKEN
-    if (token != null)
-      httpBuilder.addInterceptor(AuthTokenInterceptor(token))
-
-    return retrofitBuilder
-      .client(httpBuilder.build())
-      .build()
-      .create(T::class.java)
-  }
-
-  companion object {
-    var TOKEN: String? = null
-  }
-}
 
 inline fun <reified T> Call<T>.then(crossinline task: (Response<T>?, Throwable?) -> Unit) {
   enqueue(object : Callback<T> {

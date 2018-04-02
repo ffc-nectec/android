@@ -17,13 +17,13 @@
 
 package ffc.v3.api
 
-import ffc.v3.Person
-import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Part
+import retrofit2.http.Headers
+import retrofit2.http.Path
 
-interface PersonService {
+interface PlaceService {
 
-  @GET("org/{orgId}/person")
-  fun listPerson(@Part("orgId") orgId: Long): Call<List<Person>>
+  @Headers("Accept: application/vnd.geo+json")
+  @GET("/org/{orgId}/place/house")
+  fun listHouseGeoJson(@Path("orgId") orgId: Long)
 }

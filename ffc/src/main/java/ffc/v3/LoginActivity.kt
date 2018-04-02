@@ -22,12 +22,14 @@ import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
 import ffc.v3.util.assertThat
 import ffc.v3.util.debug
 import ffc.v3.util.gone
 import ffc.v3.util.notNullOrBlank
 import ffc.v3.util.observe
+import ffc.v3.util.then
 import ffc.v3.util.viewModel
 import ffc.v3.util.visible
 import kotlinx.android.synthetic.main.activity_login.password

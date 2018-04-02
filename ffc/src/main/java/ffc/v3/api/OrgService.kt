@@ -31,9 +31,9 @@ interface OrgService {
 
   @GET("org?my=true") fun myOrg(): Call<List<Org>>
 
-  @POST("org/{id}/authorize")
+  @POST("org/{orgId}/authorize")
   fun createAuthorize(
-    @Path("id") id: Long,
+    @Path("orgId") id: Long,
     @Header("Authorization") authorize: String
   ): Call<Authorize>
 }
