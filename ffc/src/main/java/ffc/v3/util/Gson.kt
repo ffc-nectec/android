@@ -15,32 +15,18 @@
  * limitations under the License.
  */
 
-buildscript {
-  ext.kotlin_version = '1.2.31'
-  repositories {
-    jcenter()
-    google()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.0'
-    classpath 'com.google.gms:google-services:3.2.0'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
+package ffc.v3.util
+
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
+
+inline fun <reified T> Gson.parse(json: String): T? =
+  fromJson(json, object : TypeToken<T>() {}.type)
+
+inline fun <reified T> GsonBuilder.adapterFor(adapter: Any): GsonBuilder {
+  return registerTypeAdapter(object : TypeToken<T>() {}.type, adapter)
 }
 
-allprojects {
-  repositories {
-    jcenter()
-    google()
-    maven { url 'https://dl.bintray.com/blazei/maven' }
-  }
-}
-
-task clean(type: Delete) {
-  delete rootProject.buildDir
-}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '4.6'
-  distributionUrl = distributionUrl.replace("bin", "all")
-}
+inline fun <reified T> typeOf(): Type = object : TypeToken<T>() {}.type

@@ -19,10 +19,20 @@ package ffc.v3
 
 import com.fatboyindustrial.gsonjodatime.Converters
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import ffc.v3.util.adapterFor
+import ffc.v3.util.parse
+import me.piruin.geok.LatLng
 import org.joda.time.LocalDate
 import org.junit.Test
+import java.lang.reflect.Type
 
 class PersonTest {
+
+  val gson =
+    Converters.registerAll(GsonBuilder().adapterFor<Identity>(IdentityDeserializer())).create()
 
   @Test
   fun toJson() {
@@ -42,14 +52,38 @@ class PersonTest {
         tambon = "คลองหนึ่ง"
         ampur = "คลองหลวง"
         changwat = "ปุทมธานี"
-        latlng = arrayListOf(120.0, 10.0)
+        latlng = LatLng(10.0, 120.0)
       }
       chronics.add(Chronic("N18.3", LocalDate(2015, 5, 21)))
       chronics.add(Chronic("I10", LocalDate(2016, 5, 21)))
     }
 
-    val gson = Converters.registerAll(GsonBuilder()).create()
-
     print(gson.toJson(person))
+  }
+
+  @Test
+  fun fromJson() {
+    val json = """
+      {"hospCode":"15032","pid":1,"prename":"นาย","firstname":"พิรุณ","lastname":"พานิชผล","birthData":"1950-09-21","identities":[{"type":"thailand-citizen-id","id":"1015448452554"}],"house":{"identity":{"type":"thailand-household-id","id":"54520015001"},"type":"House","no":"510/45","road":"รังสิต-นครนายก","tambon":"คลองหนึ่ง","ampur":"คลองหลวง","changwat":"ปุทมธานี","latlng":{"type":"Point","latitude":10.0,"longitude":120.0},"id":-1493233147101929696},"chronics":[{"status":"active","idc10":"N18.3","diagDate":"2015-05-21"},{"status":"active","idc10":"I10","diagDate":"2016-05-21"}],"id":3473489528307407616}
+      """.trimIndent()
+
+    val person = gson.parse<Person>(json)!!
+
+    assert(person.identities[0] == ThaiCitizenId("1015448452554"))
+  }
+
+  class IdentityDeserializer : JsonDeserializer<Identity> {
+    override fun deserialize(
+      json: JsonElement,
+      typeOfT: Type,
+      context: JsonDeserializationContext
+    ): Identity {
+      val jsonObj = json.asJsonObject
+      return when (jsonObj.get("type").asString) {
+        "thailand-citizen-id" -> ThaiCitizenId(jsonObj.get("id").asString)
+        "thailand-household-id" -> ThaiHouseholdId(jsonObj.get("id").asString)
+        else -> throw IllegalArgumentException("Not support Identity type")
+      }
+    }
   }
 }

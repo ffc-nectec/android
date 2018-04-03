@@ -17,6 +17,7 @@
 
 package ffc.v3
 
+import me.piruin.geok.LatLng
 import org.joda.time.LocalDate
 import java.util.Random
 
@@ -42,7 +43,7 @@ data class Address(val id: Long = Random().nextLong() * -1) {
   var tambon: String? = null
   var ampur: String? = null
   var changwat: String? = null
-  var latlng: List<Double>? = null
+  var latlng: LatLng? = null
 
   enum class Type {
     House,
@@ -50,7 +51,10 @@ data class Address(val id: Long = Random().nextLong() * -1) {
   }
 }
 
-data class Chronic(val idc10: String, val diagDate: LocalDate) {
+data class Chronic(
+  val idc10: String,
+  val diagDate: LocalDate
+) {
   var diagHospCode: String? = null
   var careHospCode: String? = null
   var status: String = "active"
@@ -73,6 +77,10 @@ class ThaiHouseholdId(override val id: String) : Identity {
   override val type: String = "thailand-household-id"
 
   override fun isValid(): Boolean = id.length == 11
+}
+
+class IdentityDto(override val id: String, override val type: String) : Identity {
+  override fun isValid(): Boolean = true
 }
 
 

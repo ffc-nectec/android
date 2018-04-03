@@ -23,13 +23,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN
-import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED
-import com.google.android.gms.maps.model.BitmapDescriptorFactory.defaultMarker
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
-import ffc.v3.R.raw
+import ffc.v3.util.drawable
+import ffc.v3.util.toBitmap
+import org.jetbrains.anko.intentFor
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -55,21 +55,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
    */
   override fun onMapReady(googleMap: GoogleMap) {
     mMap = googleMap
+    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(13.0, 102.1), 10.0f))
 
-    // Add a marker in Sydney and move the camera
-    val poi = LatLng(13.0, 102.1)
-    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(poi, 10.0f))
-
-    val layer = GeoJsonLayer(mMap, raw.place, applicationContext)
+    val layer = GeoJsonLayer(mMap, R.raw.place, applicationContext)
     layer.features.forEach {
       it.pointStyle = GeoJsonPointStyle().apply {
-        icon =
-          if (it.getProperty("haveChronics") == "true") defaultMarker(HUE_RED) else defaultMarker(
-            HUE_GREEN)
+        icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
         title = "บ้านเลขที่ ${it.getProperty("no")}"
         snippet = it.getProperty("coordinates")
       }
     }
     layer.addLayerToMap()
+    layer.setOnFeatureClickListener {
+      startActivity(intentFor<HouseActivity>("houseId" to it.getProperty("id")))
+    }
   }
+
+  private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }
+  private val chronicHomeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap()) }
 }

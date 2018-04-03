@@ -15,32 +15,18 @@
  * limitations under the License.
  */
 
-buildscript {
-  ext.kotlin_version = '1.2.31'
-  repositories {
-    jcenter()
-    google()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.0'
-    classpath 'com.google.gms:google-services:3.2.0'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
-}
+package ffc.v3
 
-allprojects {
-  repositories {
-    jcenter()
-    google()
-    maven { url 'https://dl.bintray.com/blazei/maven' }
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import org.jetbrains.anko.toast
+
+class HouseActivity : AppCompatActivity() {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_house)
+
+    toast(intent.getStringExtra("houseId"))
   }
-}
-
-task clean(type: Delete) {
-  delete rootProject.buildDir
-}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '4.6'
-  distributionUrl = distributionUrl.replace("bin", "all")
 }
