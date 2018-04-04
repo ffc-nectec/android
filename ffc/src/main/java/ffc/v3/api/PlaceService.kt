@@ -17,13 +17,16 @@
 
 package ffc.v3.api
 
+import ffc.v3.Address
+import me.piruin.geok.geometry.FeatureCollection
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 
 interface PlaceService {
 
-  @Headers("Accept: application/vnd.geo+json")
-  @GET("/org/{orgId}/place/house")
-  fun listHouseGeoJson(@Path("orgId") orgId: Long)
+  @Headers("accept: application/vnd.geo+json")
+  @GET("org/{orgId}/place/house")
+  fun listHouseGeoJson(@Path("orgId") orgId: Long): Call<FeatureCollection<Address>>
 }

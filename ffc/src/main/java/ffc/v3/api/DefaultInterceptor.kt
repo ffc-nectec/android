@@ -24,18 +24,17 @@ import okhttp3.Response
 import java.io.IOException
 import java.lang.String.format
 
-internal class DefaultInterceptor : Interceptor {
+class DefaultInterceptor : Interceptor {
 
   @Throws(IOException::class)
   override fun intercept(chain: Interceptor.Chain): Response {
     val original = chain.request()
 
     val builder = original.newBuilder()
-    builder.addHeader("User-Agent", USER_AGENT)
+      .addHeader("User-Agent", USER_AGENT)
       .addHeader("Accept", "application/json; charset=utf-8")
       .addHeader("Accept-Charset", "utf-8")
       .addHeader("X-Requested-By", "ffc-v3")
-    builder.method(original.method(), original.body())
 
     return chain.proceed(builder.build())
   }

@@ -21,7 +21,7 @@ import org.joda.time.LocalDate
 
 data class Authorize(
   val token: String,
-  val expireDate: LocalDate = LocalDate.now().plusDays(1)
+  var expireDate: LocalDate? = LocalDate.now().plusDays(1)
 ) {
   val isValid
     get() = LocalDate.now() <= expireDate

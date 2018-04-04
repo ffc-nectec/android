@@ -23,26 +23,25 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
-class FfcCentral(url: String = "https://cef2febb-c769-4849-9a46-1e1b267a99af.mock.pstmn.io") {
+class FfcCentral(url: String = "http://188.166.249.72/v0/") {
 
-  val httpBuilder: OkHttpClient.Builder =
-    OkHttpClient.Builder()
-      .readTimeout(60, SECONDS)
-      .writeTimeout(60, SECONDS)
-      .connectTimeout(30, SECONDS)
-      .addInterceptor(DefaultInterceptor())
-
-  val retrofitBuilder = Retrofit.Builder()
-    .baseUrl(url)
-    .addConverterFactory(GsonConverterFactory.create(defaultGson))
+  val retrofitBuilder = Retrofit.Builder().baseUrl(url)
 
   inline fun <reified T> service(): T {
+    val httpBuilder: OkHttpClient.Builder =
+      OkHttpClient.Builder()
+        .readTimeout(60, SECONDS)
+        .writeTimeout(60, SECONDS)
+        .connectTimeout(30, SECONDS)
+    httpBuilder.addInterceptor(DefaultInterceptor())
     val token = TOKEN
     if (token != null)
       httpBuilder.addInterceptor(AuthTokenInterceptor(token))
 
+    var client = httpBuilder.build()
     return retrofitBuilder
-      .client(httpBuilder.build())
+      .addConverterFactory(GsonConverterFactory.create(defaultGson))
+      .client(client)
       .build()
       .create(T::class.java)
   }

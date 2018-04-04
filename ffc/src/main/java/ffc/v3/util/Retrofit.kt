@@ -22,6 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 inline fun <reified T> Call<T>.then(crossinline task: (Response<T>?, Throwable?) -> Unit) {
+  println("enqueue url ${request().url()} header ${request().headers()}")
   enqueue(object : Callback<T> {
     override fun onResponse(call: Call<T>, response: Response<T>) {
       task(response, null)

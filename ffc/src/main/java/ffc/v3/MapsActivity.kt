@@ -27,9 +27,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
+import ffc.v3.api.FfcCentral
+import ffc.v3.api.PlaceService
 import ffc.v3.util.drawable
+import ffc.v3.util.get
+import ffc.v3.util.then
 import ffc.v3.util.toBitmap
+import ffc.v3.util.toJson
+import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
+import org.json.JSONObject
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -44,31 +52,39 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     mapFragment.getMapAsync(this)
   }
 
-  /**
-   * Manipulates the map once available.
-   * This callback is triggered when the map is ready to be used.
-   * This is where we can add markers or lines, add listeners or move the camera. In this case,
-   * we just add a marker near Sydney, Australia.
-   * If Google Play services is not installed on the device, the user will be prompted to install
-   * it inside the SupportMapFragment. This method will only be triggered once the user has
-   * installed Google Play services and returned to the app.
-   */
   override fun onMapReady(googleMap: GoogleMap) {
     mMap = googleMap
     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(13.0, 102.1), 10.0f))
 
-    val layer = GeoJsonLayer(mMap, R.raw.place, applicationContext)
-    layer.features.forEach {
-      it.pointStyle = GeoJsonPointStyle().apply {
-        icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
-        title = "บ้านเลขที่ ${it.getProperty("no")}"
-        snippet = it.getProperty("coordinates")
+    val org = defaultSharedPreferences.get<Org>("org")!!
+    val call = FfcCentral().service<PlaceService>().listHouseGeoJson(org.id)
+
+    call.then { res, t ->
+      res?.let {
+        val layer = if (!it.isSuccessful) {
+          toast("Not success get geoJson ${it.code()} ")
+          GeoJsonLayer(mMap, R.raw.place, this)
+        } else {
+          GeoJsonLayer(mMap, JSONObject(it.body()?.toJson()))
+        }
+
+
+        layer.features.forEach {
+          it.pointStyle = GeoJsonPointStyle().apply {
+            icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
+            title = "บ้านเลขที่ ${it.getProperty("no")}"
+            snippet = it.getProperty("coordinates")
+          }
+        }
+        layer.addLayerToMap()
+        layer.setOnFeatureClickListener {
+          startActivity(intentFor<HouseActivity>("houseId" to it.getProperty("id")))
+        }
       }
+      t?.let { toast("${t.message}") }
     }
-    layer.addLayerToMap()
-    layer.setOnFeatureClickListener {
-      startActivity(intentFor<HouseActivity>("houseId" to it.getProperty("id")))
-    }
+
+
   }
 
   private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }

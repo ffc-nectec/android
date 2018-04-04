@@ -26,14 +26,15 @@ import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
 import ffc.v3.util.assertThat
 import ffc.v3.util.debug
+import ffc.v3.util.get
 import ffc.v3.util.gone
 import ffc.v3.util.notNullOrBlank
 import ffc.v3.util.observe
+import ffc.v3.util.put
 import ffc.v3.util.then
 import ffc.v3.util.toJson
 import ffc.v3.util.viewModel
 import ffc.v3.util.visible
-import get
 import kotlinx.android.synthetic.main.activity_login.password
 import kotlinx.android.synthetic.main.activity_login.password_layout
 import kotlinx.android.synthetic.main.activity_login.submit
@@ -44,7 +45,7 @@ import okhttp3.Credentials
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
-import put
+import org.joda.time.LocalDate
 import java.nio.charset.Charset
 
 class LoginActivity : AppCompatActivity() {
@@ -130,14 +131,20 @@ class LoginActivity : AppCompatActivity() {
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))
     debug("Basic Auth = %s", basicToken)
 
-    orgService.createAuthorize(viewModel.choosedOrg.value!!.id, basicToken)
+    val org = viewModel.choosedOrg.value!!
+    orgService.createAuthorize(org.id, basicToken)
       .then { response, throwable ->
         response?.let {
           if (it.isSuccessful) {
-            val token = it.body()!!.token
-            toast("Authorize ${it.body()!!.toJson()}")
-            FfcCentral.TOKEN = token
-            defaultSharedPreferences.edit().put("token", it.body()!!).apply()
+            val authorize = it.body()!!
+            //TODO response จาก server ควรมี expireDate ด้วย
+            if (authorize.expireDate == null) authorize.expireDate = LocalDate.now().plusDays(1)
+            toast("Authorize ${authorize.toJson()}")
+            FfcCentral.TOKEN = authorize.token
+            defaultSharedPreferences.edit()
+              .put("token", authorize)
+              .put("org", org)
+              .apply()
             startActivity(intentFor<MapsActivity>())
           } else {
             toast("Not Success")
