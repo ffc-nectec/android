@@ -30,8 +30,10 @@ import ffc.v3.util.gone
 import ffc.v3.util.notNullOrBlank
 import ffc.v3.util.observe
 import ffc.v3.util.then
+import ffc.v3.util.toJson
 import ffc.v3.util.viewModel
 import ffc.v3.util.visible
+import get
 import kotlinx.android.synthetic.main.activity_login.password
 import kotlinx.android.synthetic.main.activity_login.password_layout
 import kotlinx.android.synthetic.main.activity_login.submit
@@ -39,7 +41,10 @@ import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_login.username_layout
 import me.piruin.spinney.Spinney
 import okhttp3.Credentials
+import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
+import put
 import java.nio.charset.Charset
 
 class LoginActivity : AppCompatActivity() {
@@ -51,6 +56,15 @@ class LoginActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
+
+    val authorize = defaultSharedPreferences.get<Authorize>("token")
+    if (authorize?.isValid == true) {
+      toast("Use last token")
+      FfcCentral.TOKEN = authorize.token
+      startActivity(intentFor<MapsActivity>())
+      finish()
+      return
+    }
 
     organization.gone()
     organization.setItemPresenter { item, position -> (item as Org).name }
@@ -121,13 +135,15 @@ class LoginActivity : AppCompatActivity() {
         response?.let {
           if (it.isSuccessful) {
             val token = it.body()!!.token
-            Toast.makeText(this, "Token $token", Toast.LENGTH_SHORT).show()
+            toast("Authorize ${it.body()!!.toJson()}")
             FfcCentral.TOKEN = token
+            defaultSharedPreferences.edit().put("token", it.body()!!).apply()
             startActivity(intentFor<MapsActivity>())
           } else {
-            Toast.makeText(this, "Not Success", Toast.LENGTH_SHORT).show()
+            toast("Not Success")
           }
         }
+        throwable?.let { toast(it.message!!) }
       }
   }
 

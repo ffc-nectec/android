@@ -17,12 +17,28 @@
 
 package ffc.v3
 
+import ffc.v3.util.parseTo
+import org.amshove.kluent.shouldBe
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldEqual
 import org.joda.time.LocalDate
+import org.junit.Test
 
-data class Authorize(
-  val token: String,
-  val expireDate: LocalDate = LocalDate.now().plusDays(1)
-) {
-  val isValid
-    get() = LocalDate.now() <= expireDate
+class AuthorizeTest {
+
+  @Test
+  fun fromJson() {
+    val json = """{
+    "token": "123abcdef",
+    "expireDate": "2019-01-01"
+}""".trimIndent()
+
+    val authorize = json.parseTo<Authorize>()
+
+    with(authorize!!) {
+      token shouldBeEqualTo "123abcdef"
+      expireDate shouldEqual LocalDate(2019, 1, 1)
+      isValid shouldBe true
+    }
+  }
 }

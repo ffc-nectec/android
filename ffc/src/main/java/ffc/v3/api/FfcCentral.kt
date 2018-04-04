@@ -17,6 +17,7 @@
 
 package ffc.v3.api
 
+import ffc.v3.util.defaultGson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -33,7 +34,7 @@ class FfcCentral(url: String = "https://cef2febb-c769-4849-9a46-1e1b267a99af.moc
 
   val retrofitBuilder = Retrofit.Builder()
     .baseUrl(url)
-    .addConverterFactory(GsonConverterFactory.create())
+    .addConverterFactory(GsonConverterFactory.create(defaultGson))
 
   inline fun <reified T> service(): T {
     val token = TOKEN

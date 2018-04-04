@@ -23,7 +23,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import ffc.v3.util.adapterFor
-import ffc.v3.util.parse
+import ffc.v3.util.parseTo
 import me.piruin.geok.LatLng
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -67,7 +67,7 @@ class PersonTest {
       {"hospCode":"15032","pid":1,"prename":"นาย","firstname":"พิรุณ","lastname":"พานิชผล","birthData":"1950-09-21","identities":[{"type":"thailand-citizen-id","id":"1015448452554"}],"house":{"identity":{"type":"thailand-household-id","id":"54520015001"},"type":"House","no":"510/45","road":"รังสิต-นครนายก","tambon":"คลองหนึ่ง","ampur":"คลองหลวง","changwat":"ปุทมธานี","latlng":{"type":"Point","latitude":10.0,"longitude":120.0},"id":-1493233147101929696},"chronics":[{"status":"active","idc10":"N18.3","diagDate":"2015-05-21"},{"status":"active","idc10":"I10","diagDate":"2016-05-21"}],"id":3473489528307407616}
       """.trimIndent()
 
-    val person = gson.parse<Person>(json)!!
+    val person = json.parseTo<Person>(gson)!!
 
     assert(person.identities[0] == ThaiCitizenId("1015448452554"))
   }

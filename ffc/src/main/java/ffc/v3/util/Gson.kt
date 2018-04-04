@@ -17,9 +17,15 @@
 
 package ffc.v3.util
 
+import com.fatboyindustrial.gsonjodatime.LocalDateConverter
+import com.fatboyindustrial.gsonjodatime.LocalDateTimeConverter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import me.piruin.geok.LatLng
+import me.piruin.geok.gson.LatLngSerializer
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 import java.lang.reflect.Type
 
 inline fun <reified T> Gson.parse(json: String): T? =
@@ -30,3 +36,16 @@ inline fun <reified T> GsonBuilder.adapterFor(adapter: Any): GsonBuilder {
 }
 
 inline fun <reified T> typeOf(): Type = object : TypeToken<T>() {}.type
+
+inline fun Any.toJson(gson: Gson = defaultGson) = gson.toJson(this)
+
+inline fun <reified T> String.parseTo(gson: Gson = defaultGson): T? =
+  gson.fromJson(this, object : TypeToken<T>() {}.type)
+
+val defaultGson: Gson by lazy {
+  GsonBuilder()
+    .adapterFor<LatLng>(LatLngSerializer())
+    .adapterFor<LocalDate>(LocalDateConverter())
+    .adapterFor<LocalDateTime>(LocalDateTimeConverter())
+    .create()
+}

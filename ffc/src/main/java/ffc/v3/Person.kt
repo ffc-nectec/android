@@ -79,9 +79,6 @@ class ThaiHouseholdId(override val id: String) : Identity {
   override fun isValid(): Boolean = id.length == 11
 }
 
-class IdentityDto(override val id: String, override val type: String) : Identity {
-  override fun isValid(): Boolean = true
-}
 
 
 
