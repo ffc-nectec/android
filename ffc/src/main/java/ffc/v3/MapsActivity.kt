@@ -34,6 +34,7 @@ import ffc.v3.util.get
 import ffc.v3.util.then
 import ffc.v3.util.toBitmap
 import ffc.v3.util.toJson
+import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
@@ -54,8 +55,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
   override fun onMapReady(googleMap: GoogleMap) {
     mMap = googleMap
-    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(13.0, 102.1), 10.0f))
-
     val org = defaultSharedPreferences.get<Org>("org")!!
     val call = FfcCentral().service<PlaceService>().listHouseGeoJson(org.id)
 
@@ -63,9 +62,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
       res?.let {
         val layer = if (!it.isSuccessful) {
           toast("Not success get geoJson ${it.code()} ")
+          mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(13.0, 102.1), 10.0f))
           GeoJsonLayer(mMap, R.raw.place, this)
         } else {
-          GeoJsonLayer(mMap, JSONObject(it.body()?.toJson()))
+          val body = it.body()!!
+          val coordinates = (body.features[0].geometry as Point).coordinates
+          mMap.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+              LatLng(
+                coordinates.latitude,
+                coordinates.longitude), 10.0f))
+          GeoJsonLayer(mMap, JSONObject(body.toJson()))
         }
 
 
@@ -73,7 +80,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
           it.pointStyle = GeoJsonPointStyle().apply {
             icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
             title = "บ้านเลขที่ ${it.getProperty("no")}"
-            snippet = it.getProperty("coordinates")
+            snippet = """${it.getProperty("coordinates")}""".trimMargin()
           }
         }
         layer.addLayerToMap()

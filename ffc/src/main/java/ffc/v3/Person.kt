@@ -29,6 +29,7 @@ data class Person(val id: Long = Random().nextLong() * -1) {
   var lastname: String = ""
   val name: String
     get() = "$prename$firstname $lastname"
+
   var birthData: LocalDate? = null
   var identities: MutableList<Identity> = mutableListOf()
   var house: Address? = null
@@ -43,7 +44,9 @@ data class Address(val id: Long = Random().nextLong() * -1) {
   var tambon: String? = null
   var ampur: String? = null
   var changwat: String? = null
-  var latlng: LatLng? = null
+  var haveChronics: Boolean = false
+  var people: List<Person> = mutableListOf()
+  var coordinates: LatLng? = null
 
   enum class Type {
     House,
