@@ -28,10 +28,12 @@ class AuthorizeTest {
 
   @Test
   fun fromJson() {
-    val json = """{
+    val json = """
+{
     "token": "123abcdef",
     "expireDate": "2019-01-01"
-}""".trimIndent()
+}
+    """.trimIndent()
 
     val authorize = json.parseTo<Authorize>()
 
