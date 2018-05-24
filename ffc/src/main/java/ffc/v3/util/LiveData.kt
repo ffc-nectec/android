@@ -17,19 +17,6 @@
 
 package ffc.v3.util
 
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import android.arch.lifecycle.MutableLiveData
 
-inline fun <reified T> Call<T>.then(crossinline task: (Response<T>?, Throwable?) -> Unit) {
-  println("enqueue url ${request().url()} header ${request().headers()}")
-  enqueue(object : Callback<T> {
-    override fun onResponse(call: Call<T>, response: Response<T>) {
-      task(response, null)
-    }
-
-    override fun onFailure(call: Call<T>, t: Throwable) {
-      task(null, t)
-    }
-  })
-}
+inline fun <reified T> mutableLiveDataOf(): MutableLiveData<T> = MutableLiveData()

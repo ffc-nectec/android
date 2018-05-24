@@ -21,17 +21,17 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
+import android.view.View
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
 import ffc.v3.util.assertThat
 import ffc.v3.util.debug
+import ffc.v3.util.debugToast
 import ffc.v3.util.get
 import ffc.v3.util.gone
 import ffc.v3.util.notNullOrBlank
 import ffc.v3.util.observe
 import ffc.v3.util.put
-import ffc.v3.util.then
 import ffc.v3.util.toJson
 import ffc.v3.util.viewModel
 import ffc.v3.util.visible
@@ -44,8 +44,11 @@ import me.piruin.spinney.Spinney
 import okhttp3.Credentials
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.progressDialog
 import org.jetbrains.anko.toast
 import org.joda.time.LocalDate
+import retrofit2.dsl.enqueue
+import retrofit2.dsl.then
 import java.nio.charset.Charset
 
 class LoginActivity : AppCompatActivity() {
@@ -60,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
 
     val authorize = defaultSharedPreferences.get<Authorize>("token")
     if (authorize?.isValid == true) {
-      toast("Use last token")
+      debugToast("Use last token")
       FfcCentral.TOKEN = authorize.token
       startActivity(intentFor<MapsActivity>())
       finish()
@@ -68,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     organization.gone()
-    organization.setItemPresenter { item, position -> (item as Org).name }
+    organization.setItemPresenter { item, _ -> (item as Org).name }
     organization.setOnItemSelectedListener { _, selectedItem, _ ->
       viewModel.choosedOrg.value = selectedItem
     }
@@ -77,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
       try {
         doLogin(username.text.toString(), password.text.toString())
       } catch (assert: RuntimeException) {
-        Toast.makeText(this, assert.message, Toast.LENGTH_SHORT).show()
+        toast(assert.message ?: "Error")
       }
     }
     if (BuildConfig.DEBUG) {
@@ -111,15 +114,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     viewModel.choosedOrg.observe(this) {
-      if (it != null) {
-        username_layout.visible()
-        password_layout.visible()
-        submit.visible()
-      } else {
-        username_layout.gone()
-        password_layout.gone()
-        submit.gone()
-      }
+      val visible = if (it != null) View.VISIBLE else View.GONE
+      username_layout.visibility = visible
+      password_layout.visibility = visible
+      submit.visibility = visible
     }
   }
 
@@ -131,52 +129,50 @@ class LoginActivity : AppCompatActivity() {
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))
     debug("Basic Auth = %s", basicToken)
 
+    val dialog = progressDialog("Checking Authorize..")
     val org = viewModel.choosedOrg.value!!
-    orgService.createAuthorize(org.id, basicToken)
-      .then { response, throwable ->
-        response?.let {
-          if (it.isSuccessful) {
-            val authorize = it.body()!!
-            //TODO response จาก server ควรมี expireDate ด้วย
-            if (authorize.expireDate == null) authorize.expireDate = LocalDate.now().plusDays(1)
-            toast("Authorize ${authorize.toJson()}")
-            FfcCentral.TOKEN = authorize.token
-            defaultSharedPreferences.edit()
-              .put("token", authorize)
-              .put("org", org)
-              .apply()
-            startActivity(intentFor<MapsActivity>())
-          } else {
-            toast("Not Success")
-          }
-        }
-        throwable?.let { toast(it.message!!) }
+    orgService.createAuthorize(org.id, basicToken).enqueue {
+      always {
+        dialog.dismiss()
       }
+      onSuccess {
+        val authorize = body()!!
+        //TODO response จาก server ควรมี expireDate ด้วย
+        if (authorize.expireDate == null)
+          authorize.expireDate = LocalDate.now().plusDays(1)
+        debugToast("Authorize ${authorize.toJson()}")
+        FfcCentral.TOKEN = authorize.token
+        defaultSharedPreferences.edit()
+          .put("token", authorize)
+          .put("org", org)
+          .apply()
+        startActivity(intentFor<MapsActivity>())
+      }
+      onFailure {
+        toast(it.message!!)
+      }
+    }
   }
 
   private fun requestMyOrg() {
-    orgService.myOrg().then { res, t ->
-      res?.let {
-        if (it.isSuccessful && it.body() != null) {
-          viewModel.orgList.value = it.body()
-        } else {
-          requestOrgList()
-        }
-      }
-      t?.let { }
+    orgService.myOrg().then {
+      viewModel.orgList.value = it
+    }.catch { _, t ->
+      requestOrgList()
+      t?.let { toast(it.message ?: it.toString()) }
     }
   }
 
   private fun requestOrgList() {
-    orgService.listOrgs().then { res, t ->
-      res?.let {
-        if (it.isSuccessful && it.body() != null) {
-          if (it.body()!!.isNotEmpty()) viewModel.orgList.value = it.body()!!
-        } else {
-          Toast.makeText(this, "Not found Org List", Toast.LENGTH_SHORT).show()
-        }
+    orgService.listOrgs().then {
+      if (it.isEmpty()) {
+        toast("Not found Org List")
+        viewModel.orgList.value = listOf()
+      } else {
+        viewModel.orgList.value = it
       }
-      t?.let { }
+    }.catch { _, t ->
+      t?.let { toast(it.message ?: it.toString()) }
     }
   }
 

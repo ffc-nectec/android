@@ -23,7 +23,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
-class FfcCentral(url: String = "http://188.166.249.72/v0/") {
+class FfcCentral(url: String = "https://ab7c632c-75d5-4c14-a15e-fa7bfa7ca5e8.mock.pstmn.io") {
 
   val retrofitBuilder = Retrofit.Builder().baseUrl(url)
 
