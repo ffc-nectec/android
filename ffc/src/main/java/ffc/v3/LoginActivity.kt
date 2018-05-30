@@ -20,7 +20,6 @@ package ffc.v3
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
@@ -51,7 +50,7 @@ import retrofit2.dsl.enqueue
 import retrofit2.dsl.then
 import java.nio.charset.Charset
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
   private val organization by lazy { findViewById<Spinney<Org>>(R.id.org) }
   private val orgService = FfcCentral().service<OrgService>()
@@ -60,6 +59,8 @@ class LoginActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
+
+    toast("is Online = $isOnline")
 
     val authorize = defaultSharedPreferences.get<Authorize>("token")
     if (authorize?.isValid == true) {
@@ -78,6 +79,7 @@ class LoginActivity : AppCompatActivity() {
 
     submit.setOnClickListener {
       try {
+        assertThat(isOnline) { "กรุณาเชื่อมต่ออินเตอร์เน็ต" }
         doLogin(username.text.toString(), password.text.toString())
       } catch (assert: RuntimeException) {
         toast(assert.message ?: "Error")
@@ -137,7 +139,6 @@ class LoginActivity : AppCompatActivity() {
       }
       onSuccess {
         val authorize = body()!!
-        //TODO response จาก server ควรมี expireDate ด้วย
         if (authorize.expireDate == null)
           authorize.expireDate = LocalDate.now().plusDays(1)
         debugToast("Authorize ${authorize.toJson()}")
@@ -152,6 +153,10 @@ class LoginActivity : AppCompatActivity() {
         toast(it.message!!)
       }
     }
+  }
+
+  override fun onConnectivityChanged(isConnect: Boolean, message: String) {
+    super.onConnectivityChanged(isConnect, "please check internet connection")
   }
 
   private fun requestMyOrg() {
