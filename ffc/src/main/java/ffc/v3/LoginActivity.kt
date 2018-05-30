@@ -41,7 +41,9 @@ import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_login.username_layout
 import me.piruin.spinney.Spinney
 import okhttp3.Credentials
+import org.jetbrains.anko.contentView
 import org.jetbrains.anko.defaultSharedPreferences
+import org.jetbrains.anko.design.indefiniteSnackbar
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.progressDialog
 import org.jetbrains.anko.toast
@@ -59,8 +61,6 @@ class LoginActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
-
-    toast("is Online = $isOnline")
 
     val authorize = defaultSharedPreferences.get<Authorize>("token")
     if (authorize?.isValid == true) {
@@ -81,7 +81,7 @@ class LoginActivity : BaseActivity() {
       try {
         assertThat(isOnline) { "กรุณาเชื่อมต่ออินเตอร์เน็ต" }
         doLogin(username.text.toString(), password.text.toString())
-      } catch (assert: RuntimeException) {
+      } catch (assert: IllegalArgumentException) {
         toast(assert.message ?: "Error")
       }
     }
@@ -156,15 +156,23 @@ class LoginActivity : BaseActivity() {
   }
 
   override fun onConnectivityChanged(isConnect: Boolean, message: String) {
-    super.onConnectivityChanged(isConnect, "please check internet connection")
+    //super.onConnectivityChanged(isConnect, "please check internet connection")
   }
 
   private fun requestMyOrg() {
-    orgService.myOrg().then {
-      viewModel.orgList.value = it
-    }.catch { _, t ->
-      requestOrgList()
-      t?.let { toast(it.message ?: it.toString()) }
+    try {
+      assertThat(isOnline) { "Please connect internet" }
+
+      orgService.myOrg().then {
+        viewModel.orgList.value = it
+      }.catch { _, t ->
+        requestOrgList()
+        t?.let { toast(it.message ?: it.toString()) }
+      }
+    } catch (offline: IllegalArgumentException) {
+      contentView?.let {
+        indefiniteSnackbar(it, "Please connect internet!!", "retry") { requestMyOrg() }
+      }
     }
   }
 
@@ -178,6 +186,9 @@ class LoginActivity : BaseActivity() {
       }
     }.catch { _, t ->
       t?.let { toast(it.message ?: it.toString()) }
+      contentView?.let {
+        indefiniteSnackbar(it, "Can't load org", "retry") { requestMyOrg() }
+      }
     }
   }
 
