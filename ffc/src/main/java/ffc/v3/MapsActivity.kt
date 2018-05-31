@@ -36,6 +36,7 @@ import ffc.v3.util.toBitmap
 import ffc.v3.util.toJson
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.defaultSharedPreferences
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.json.JSONObject
@@ -53,7 +54,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   override fun onMapReady(googleMap: GoogleMap) {
-    map = googleMap
+    map = googleMap.apply {
+      setPadding(0, dip(86), 0, 0)
+    }
     val org = defaultSharedPreferences.get<Org>("org")!!
     FfcCentral().service<PlaceService>().listHouseGeoJson(org.id).enqueue {
       onSuccess {
