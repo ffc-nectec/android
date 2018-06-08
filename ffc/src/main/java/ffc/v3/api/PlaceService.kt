@@ -29,4 +29,7 @@ interface PlaceService {
   @Headers("accept: application/vnd.geo+json")
   @GET("org/{orgId}/place/house")
   fun listHouseGeoJson(@Path("orgId") orgId: Long): Call<FeatureCollection<Address>>
+
+  @GET("org/{orgId}/place/house?haveLocation=false")
+  fun listHouseNoLocation(@Path("orgId") orgId: Long): Call<Address>
 }

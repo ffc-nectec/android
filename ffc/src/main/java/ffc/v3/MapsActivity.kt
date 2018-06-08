@@ -18,7 +18,6 @@
 package ffc.v3
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -27,6 +26,7 @@ import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
+import ffc.v3.location.AddLocationActivity
 import ffc.v3.util.animateCameraTo
 import ffc.v3.util.drawable
 import ffc.v3.util.find
@@ -34,15 +34,20 @@ import ffc.v3.util.get
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
 import ffc.v3.util.toJson
+import kotlinx.android.synthetic.main.activity_maps.addLocationButton
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.defaultSharedPreferences
-import org.jetbrains.anko.dip
+import org.jetbrains.anko.dimen
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import retrofit2.dsl.enqueue
+import retrofit2.dsl.isNotFound
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+const val REQ_ADD_LOCATION = 10214
+
+class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
   private lateinit var map: GoogleMap
 
@@ -50,15 +55,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_maps)
 
-    supportFragmentManager.find<SupportMapFragment>(R.id.map).getMapAsync(this)
+    supportFragmentManager.find<SupportMapFragment>(R.id.mapFragment).getMapAsync(this)
+
   }
 
   override fun onMapReady(googleMap: GoogleMap) {
     map = googleMap.apply {
-      setPadding(0, dip(86), 0, 0)
+      setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
     }
+    addLocationButton.setOnClickListener {
+      startActivityForResult<AddLocationActivity>(
+        REQ_ADD_LOCATION,
+        "target" to map.cameraPosition.target,
+        "zoom" to map.cameraPosition.zoom
+      )
+    }
+
     val org = defaultSharedPreferences.get<Org>("org")!!
-    FfcCentral().service<PlaceService>().listHouseGeoJson(org.id).enqueue {
+    val placeService = FfcCentral().service<PlaceService>()
+    placeService.listHouseGeoJson(org.id).enqueue {
       onSuccess {
         val coordinates = (body()!!.features[0].geometry as Point).coordinates
         map.animateCameraTo(coordinates.latitude, coordinates.longitude, 10.0f)
@@ -89,6 +104,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         toast("${it.message}")
       }
     }
+
+    placeService.listHouseNoLocation(org.id).enqueue {
+      onSuccess {
+        addLocationButton.show()
+      }
+      onClientError {
+        when {
+          isNotFound -> addLocationButton.hide()
+        }
+      }
+    }
+
   }
 
   private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }

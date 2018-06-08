@@ -44,11 +44,18 @@
     <activity
       android:name=".MapsActivity"
       android:label="@string/title_activity_maps"
-      android:theme="@style/AppTheme.NoActionBar.TranslucentStatus">
-    </activity>
+      android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"/>
 
-    <activity android:name=".HouseActivity">
-    </activity>
+    <activity
+      android:name=".location.AddLocationActivity"
+      android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"/>
+
+    <activity
+      android:name=".location.HouseNoLocationActivtiy"
+      android:label="เลือกบ้านไม่มีพิกัด"/>
+
+    <activity android:name=".HouseActivity"/>
+
 
     <receiver
       android:name=".ConnectivityChangeReceiver"
