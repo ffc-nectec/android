@@ -18,6 +18,7 @@
 package ffc.v3
 
 import me.piruin.geok.LatLng
+import me.piruin.geok.geometry.Point
 import org.joda.time.LocalDate
 import java.util.Random
 
@@ -46,6 +47,10 @@ data class Address(val id: Long = Random().nextLong() * -1) {
   var changwat: String? = null
   var haveChronics: Boolean = false
   var people: List<Person> = mutableListOf()
+  var location: Point? = null
+  @Deprecated(
+    "Use location (Point) instead",
+    ReplaceWith("location", "me.piruin.geok.geometry.Point"))
   var coordinates: LatLng? = null
 
   enum class Type {

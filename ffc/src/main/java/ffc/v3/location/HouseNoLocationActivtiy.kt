@@ -17,37 +17,153 @@
 
 package ffc.v3.location
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.SearchView.OnQueryTextListener
-import android.view.Menu
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import ffc.v3.Address
 import ffc.v3.BaseActivity
+import ffc.v3.BuildConfig
+import ffc.v3.Org
 import ffc.v3.R
+import ffc.v3.api.FfcCentral
+import ffc.v3.api.PlaceService
+import ffc.v3.util.get
+import ffc.v3.util.toJson
+import kotlinx.android.synthetic.main.activity_house_no_location.houseList
+import kotlinx.android.synthetic.main.item_house.view.houseNo
+import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.defaultSharedPreferences
+import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
+import retrofit2.dsl.enqueue
 
 class HouseNoLocationActivtiy : BaseActivity() {
+
+  var houseAdapter: HouseAdapter? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_house_no_location)
-  }
 
-  override fun onCreateOptionsMenu(menu: Menu): Boolean {
-    menuInflater.inflate(R.menu.house_no_location, menu)
-    val searchView = menu.findItem(R.id.action_search).getActionView() as SearchView
+    setSupportActionBar(find(R.id.toolbar))
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+    val searchView = find<SearchView>(R.id.searchView)
     searchView.setOnQueryTextListener(object : OnQueryTextListener {
       override fun onQueryTextSubmit(query: String?): Boolean {
-        toast("Submit $query")
+        houseAdapter?.filter = query
         return true
       }
 
       override fun onQueryTextChange(newText: String?): Boolean {
-        toast("search for $newText")
+        houseAdapter?.filter = newText
         return true
       }
-
     })
+
+    val org = defaultSharedPreferences.get<Org>("org")!!
+    FfcCentral().service<PlaceService>().listHouseNoLocation(org.id).enqueue {
+      onSuccess {
+        if (BuildConfig.DEBUG) {
+          toast("Loaded ${body()?.size}")
+        }
+        setupListOf(body()!!)
+      }
+      onError {
+        //        toast("onError ${code()}")
+        if (BuildConfig.DEBUG) {
+          var houses: MutableList<Address> = mutableListOf()
+          for (i in 1..100) {
+            houses.add(Address().apply {
+              no = "100/$i"
+              changwat = "ปทุมธานี"
+            })
+          }
+          toast("mocked ${houses.size} house")
+          setupListOf(houses)
+        }
+      }
+
+      onFailure {
+        toast(it.message ?: "onFailure")
+      }
+    }
+  }
+
+  fun setupListOf(houses: List<Address>) {
+    houseAdapter = HouseAdapter(houses) {
+      val bundle = bundleOf("house" to it.toJson())
+      setResult(Activity.RESULT_OK, Intent().apply { putExtras(bundle) })
+      finish()
+    }
+    houseAdapter?.onEmptyHouse = {
+      toast("Empty House")
+    }
+    houseList.adapter = houseAdapter
+    houseList.layoutManager = LinearLayoutManager(this)
+  }
+
+  override fun onSupportNavigateUp(): Boolean {
+    onBackPressed()
     return true
   }
 
+  override fun onBackPressed() {
+    setResult(Activity.RESULT_CANCELED)
+    super.onBackPressed()
+  }
+
+  class HouseViewHolder(view: View, val onItemClick: (Address) -> Unit) : RecyclerView.ViewHolder(
+    view) {
+
+    fun bind(address: Address) {
+      with(address) {
+        itemView.houseNo.text = address.no
+        itemView.setOnClickListener { onItemClick(address) }
+      }
+    }
+  }
+
+  class HouseAdapter(
+    val houses: List<Address>,
+    val onItemClick: (Address) -> Unit
+  ) : RecyclerView.Adapter<HouseViewHolder>() {
+
+    var onEmptyHouse: (() -> Unit)? = null
+
+    var filteredHouse: List<Address> = ArrayList()
+
+    var filter: String? = null
+      set(value) {
+        field = value
+        if (value != null)
+          filteredHouse = houses.filter { it.no?.contains(value) ?: false }
+        else
+          filteredHouse = ArrayList(houses)
+        notifyDataSetChanged()
+      }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
+      val view = LayoutInflater.from(parent.context).inflate(R.layout.item_house, null)
+      return HouseViewHolder(view, onItemClick)
+    }
+
+    override fun getItemCount(): Int {
+      val size = filteredHouse.size
+      if (size == 0)
+        onEmptyHouse?.invoke()
+      return filteredHouse.size
+    }
+
+    override fun onBindViewHolder(holder: HouseViewHolder, position: Int) {
+      holder.bind(filteredHouse[position])
+    }
+  }
 }

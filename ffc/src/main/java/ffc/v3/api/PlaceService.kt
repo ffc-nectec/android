@@ -19,9 +19,12 @@ package ffc.v3.api
 
 import ffc.v3.Address
 import me.piruin.geok.geometry.FeatureCollection
+import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface PlaceService {
@@ -31,5 +34,12 @@ interface PlaceService {
   fun listHouseGeoJson(@Path("orgId") orgId: Long): Call<FeatureCollection<Address>>
 
   @GET("org/{orgId}/place/house?haveLocation=false")
-  fun listHouseNoLocation(@Path("orgId") orgId: Long): Call<Address>
+  fun listHouseNoLocation(@Path("orgId") orgId: Long): Call<List<Address>>
+
+  @PUT("org/{orgId}/place/house/{houseId}")
+  fun updateHouse(
+    @Path("orgId") orgId: Long,
+    @Body house: Address,
+    @Path("houseId") houseId: Long = house.id
+  ): Call<ResponseBody>
 }

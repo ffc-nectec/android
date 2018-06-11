@@ -47,10 +47,11 @@
       android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"/>
 
     <activity
-      android:name=".location.AddLocationActivity"
+      android:name=".location.MarkLocationActivity"
       android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"/>
 
     <activity
+      android:theme="@style/AppTheme.NoActionBar.Search"
       android:name=".location.HouseNoLocationActivtiy"
       android:label="เลือกบ้านไม่มีพิกัด"/>
 

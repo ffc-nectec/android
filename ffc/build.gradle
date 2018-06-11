@@ -48,7 +48,7 @@ dependencies {
   implementation "android.arch.lifecycle:extensions:1.1.1"
   implementation "com.android.support:appcompat-v7:$appcompatVersion"
   implementation "com.android.support:design:$appcompatVersion"
-  implementation "com.android.support.constraint:constraint-layout:1.1.0"
+  implementation "com.android.support.constraint:constraint-layout:1.1.1"
   implementation "com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.6.0"
   implementation "com.google.android.gms:play-services-maps:$playVersion"
   implementation "com.google.code.gson:gson:2.8.2"
@@ -63,7 +63,7 @@ dependencies {
   implementation "me.piruin:geok-gson:1.0.0-alpha-2"
   implementation "me.piruin:spinney:0.2.2"
   implementation "joda-time:joda-time:2.9.9"
-  implementation "th.or.nectec.android:marlo:0.5.2" exclude group: 'com.android.support'
+  implementation "th.or.nectec.android:marlo:0.5.3" exclude group: 'com.android.support'
 
   testImplementation "junit:junit:4.12"
   testImplementation 'org.amshove.kluent:kluent-android:1.38'

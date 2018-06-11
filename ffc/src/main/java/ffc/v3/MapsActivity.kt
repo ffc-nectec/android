@@ -26,17 +26,15 @@ import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
-import ffc.v3.location.AddLocationActivity
+import ffc.v3.location.MarkLocationActivity
 import ffc.v3.util.animateCameraTo
 import ffc.v3.util.drawable
 import ffc.v3.util.find
-import ffc.v3.util.get
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
 import ffc.v3.util.toJson
 import kotlinx.android.synthetic.main.activity_maps.addLocationButton
 import me.piruin.geok.geometry.Point
-import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
@@ -64,16 +62,15 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
       setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
     }
     addLocationButton.setOnClickListener {
-      startActivityForResult<AddLocationActivity>(
+      startActivityForResult<MarkLocationActivity>(
         REQ_ADD_LOCATION,
         "target" to map.cameraPosition.target,
         "zoom" to map.cameraPosition.zoom
       )
     }
 
-    val org = defaultSharedPreferences.get<Org>("org")!!
     val placeService = FfcCentral().service<PlaceService>()
-    placeService.listHouseGeoJson(org.id).enqueue {
+    placeService.listHouseGeoJson(org!!.id).enqueue {
       onSuccess {
         val coordinates = (body()!!.features[0].geometry as Point).coordinates
         map.animateCameraTo(coordinates.latitude, coordinates.longitude, 10.0f)
@@ -105,7 +102,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
       }
     }
 
-    placeService.listHouseNoLocation(org.id).enqueue {
+    placeService.listHouseNoLocation(org!!.id).enqueue {
       onSuccess {
         addLocationButton.show()
       }

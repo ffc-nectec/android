@@ -22,7 +22,9 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import ffc.v3.util.get
 import org.jetbrains.anko.contentView
+import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.design.indefiniteSnackbar
 
 open class BaseActivity : AppCompatActivity() {
@@ -33,6 +35,10 @@ open class BaseActivity : AppCompatActivity() {
       field = value
       onConnectivityChanged(field)
     }
+
+  val org: Org?
+    get() = defaultSharedPreferences.get<Org>("org")
+
 
   private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
 
