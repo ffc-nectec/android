@@ -17,12 +17,12 @@
 
 package ffc.v3
 
-import org.joda.time.LocalDate
+import org.joda.time.DateTime
 
 data class Authorize(
   val token: String,
-  var expireDate: LocalDate? = LocalDate.now().plusDays(1)
+  var expireDate: DateTime? = DateTime.now().plusDays(1)
 ) {
   val isValid
-    get() = LocalDate.now() <= expireDate
+    get() = DateTime.now() <= expireDate
 }

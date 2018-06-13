@@ -33,6 +33,7 @@ import ffc.v3.api.PlaceService
 import ffc.v3.util.defaultGson
 import ffc.v3.util.find
 import ffc.v3.util.parseTo
+import ffc.v3.util.toJson
 import ffc.v3.util.toPoint
 import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
@@ -87,6 +88,7 @@ class MarkLocationActivity : BaseActivity() {
 
   private fun updateHouse() {
     val dialog = indeterminateProgressDialog("updating")
+//    toast("org/${org!!.id}/place/house/${targetPlace.id}")
     FfcCentral().service<PlaceService>().updateHouse(org!!.id, targetPlace).enqueue {
       always { dialog.dismiss() }
       onSuccess {
@@ -109,9 +111,10 @@ class MarkLocationActivity : BaseActivity() {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     when (resultCode) {
+
       Activity.RESULT_OK -> {
         targetPlace = data?.getExtra<Address>("house")!!
-        toast("targeting ${targetPlace.no}")
+        toast("targeting ${targetPlace.toJson()}")
       }
       Activity.RESULT_CANCELED -> finish()
     }

@@ -39,7 +39,7 @@ class AuthorizeTest {
 
     with(authorize!!) {
       token shouldBeEqualTo "123abcdef"
-      expireDate shouldEqual LocalDate(2019, 1, 1)
+      expireDate?.toLocalDate() shouldEqual LocalDate(2019, 1, 1)
       isValid shouldBe true
     }
   }

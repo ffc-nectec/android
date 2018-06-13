@@ -45,10 +45,11 @@ import okhttp3.Credentials
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.design.indefiniteSnackbar
+import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.progressDialog
 import org.jetbrains.anko.toast
-import org.joda.time.LocalDate
+import org.joda.time.DateTime
 import retrofit2.dsl.enqueue
 import retrofit2.dsl.then
 import java.nio.charset.Charset
@@ -132,7 +133,7 @@ class LoginActivity : BaseActivity() {
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))
     debug("Basic Auth = %s", basicToken)
 
-    val dialog = progressDialog(getString(string.checking_identity))
+    val dialog = indeterminateProgressDialog(getString(string.checking_identity))
     val org = viewModel.choosedOrg.value!!
     orgService.createAuthorize(org.id, basicToken).enqueue {
       always {
@@ -141,7 +142,7 @@ class LoginActivity : BaseActivity() {
       onSuccess {
         val authorize = body()!!
         if (authorize.expireDate == null)
-          authorize.expireDate = LocalDate.now().plusDays(1)
+          authorize.expireDate = DateTime.now().plusDays(1)
         debugToast("Authorize ${authorize.toJson()}")
         FfcCentral.TOKEN = authorize.token
         defaultSharedPreferences.edit()
@@ -150,7 +151,11 @@ class LoginActivity : BaseActivity() {
           .apply()
         startActivity(intentFor<MapsActivity>())
       }
+      onError {
+        snackbar(contentView!!, string.identification_error)
+      }
       onFailure {
+        it.printStackTrace()
         toast(it.message!!)
       }
     }
@@ -172,10 +177,9 @@ class LoginActivity : BaseActivity() {
       }
     } catch (offline: IllegalArgumentException) {
       contentView?.let {
-        indefiniteSnackbar(
-          it,
-          R.string.please_check_connectivity,
-          R.string.retry) { requestMyOrg() }
+        indefiniteSnackbar(it, R.string.please_check_connectivity, R.string.retry) {
+          requestMyOrg()
+        }
       }
     }
   }
@@ -183,7 +187,7 @@ class LoginActivity : BaseActivity() {
   private fun requestOrgList() {
     orgService.listOrgs().then {
       if (it.isEmpty()) {
-        toast(getString(string.not_found_org))
+        toast(string.not_found_org)
         viewModel.orgList.value = listOf()
       } else {
         viewModel.orgList.value = it
@@ -191,10 +195,9 @@ class LoginActivity : BaseActivity() {
     }.catch { res, t ->
       t?.let { toast(it.message ?: it.toString()) }
       contentView?.let {
-        indefiniteSnackbar(
-          it,
-          R.string.cannnot_load_organization,
-          R.string.retry) { requestOrgList() }
+        indefiniteSnackbar(it, R.string.cannnot_load_organization, R.string.retry) {
+          requestOrgList()
+        }
       }
     }
   }

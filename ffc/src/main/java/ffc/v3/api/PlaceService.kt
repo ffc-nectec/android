@@ -40,6 +40,6 @@ interface PlaceService {
   fun updateHouse(
     @Path("orgId") orgId: Long,
     @Body house: Address,
-    @Path("houseId") houseId: Long = house.id
+    @Path("houseId") houseId: String = house.id
   ): Call<ResponseBody>
 }

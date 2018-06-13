@@ -17,6 +17,7 @@
 
 package ffc.v3.util
 
+import com.fatboyindustrial.gsonjodatime.DateTimeConverter
 import com.fatboyindustrial.gsonjodatime.LocalDateConverter
 import com.fatboyindustrial.gsonjodatime.LocalDateTimeConverter
 import com.google.gson.Gson
@@ -34,6 +35,7 @@ import me.piruin.geok.LatLng
 import me.piruin.geok.geometry.Geometry
 import me.piruin.geok.gson.GeometrySerializer
 import me.piruin.geok.gson.LatLngSerializer
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import java.lang.reflect.Type
@@ -57,6 +59,7 @@ val defaultGson: Gson by lazy {
     .adapterFor<Identity>(IdentityDeserializer())
     .adapterFor<Geometry>(GeometrySerializer())
     .adapterFor<LatLng>(LatLngSerializer())
+    .adapterFor<DateTime>(DateTimeConverter())
     .adapterFor<LocalDate>(LocalDateConverter())
     .adapterFor<LocalDateTime>(LocalDateTimeConverter())
     .create()

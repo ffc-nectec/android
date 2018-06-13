@@ -28,4 +28,5 @@
   <string name="no_password">กรุณาระบุ password</string>
   <string name="checking_identity">ยืนยันตัวตน..</string>
   <string name="not_found_org">ไม่พบหน่วยงาน</string>
+  <string name="identification_error">การยืนยันตัวตนผิดพลาด</string>
 </resources>

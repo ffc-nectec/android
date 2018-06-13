@@ -51,11 +51,11 @@
       android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"/>
 
     <activity
+      android:theme="@style/AppTheme.NoActionBar"
       android:name=".location.HouseNoLocationActivtiy"
       android:label="เลือกบ้านไม่มีพิกัด"/>
 
     <activity android:name=".HouseActivity"/>
-
 
     <receiver
       android:name=".ConnectivityChangeReceiver"

@@ -17,12 +17,13 @@
 
 package ffc.v3
 
+import com.google.gson.annotations.SerializedName
 import me.piruin.geok.LatLng
 import me.piruin.geok.geometry.Point
 import org.joda.time.LocalDate
-import java.util.Random
+import java.util.UUID
 
-data class Person(val id: Long = Random().nextLong() * -1) {
+data class Person(@SerializedName("_id") val id: String = UUID.randomUUID().toString()) {
   var hospCode: String? = null
   var pid: Long? = null
   var prename: String = ""
@@ -37,7 +38,7 @@ data class Person(val id: Long = Random().nextLong() * -1) {
   var chronics: MutableList<Chronic> = mutableListOf()
 }
 
-data class Address(val id: Long = Random().nextLong() * -1) {
+data class Address(@SerializedName("_id") val id: String = UUID.randomUUID().toString()) {
   var identity: Identity? = null
   var type: Type = Type.House
   var no: String? = null

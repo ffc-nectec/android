@@ -31,10 +31,21 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textView"
     tools:text="1/120"
+    />
+  <TextView
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:text="บ้านเลขที่"
+    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     />
 </android.support.constraint.ConstraintLayout>
