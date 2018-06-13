@@ -21,6 +21,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.view.View
+import ffc.v3.R.string
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
 import ffc.v3.util.assertThat
@@ -79,7 +80,7 @@ class LoginActivity : BaseActivity() {
 
     submit.setOnClickListener {
       try {
-        assertThat(isOnline) { "กรุณาเชื่อมต่ออินเตอร์เน็ต" }
+        assertThat(isOnline) { getString(R.string.please_check_connectivity) }
         doLogin(username.text.toString(), password.text.toString())
       } catch (assert: IllegalArgumentException) {
         toast(assert.message ?: "Error")
@@ -124,14 +125,14 @@ class LoginActivity : BaseActivity() {
   }
 
   private fun doLogin(username: String?, password: String?) {
-    assertThat(username.notNullOrBlank()) { "กรุณาระบุ username" }
-    assertThat(password.notNullOrBlank()) { "กรุณาระบุ password" }
+    assertThat(username.notNullOrBlank()) { getString(string.no_username) }
+    assertThat(password.notNullOrBlank()) { getString(string.no_password) }
 
     val basicToken =
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))
     debug("Basic Auth = %s", basicToken)
 
-    val dialog = progressDialog("Checking Authorize..")
+    val dialog = progressDialog(getString(string.checking_identity))
     val org = viewModel.choosedOrg.value!!
     orgService.createAuthorize(org.id, basicToken).enqueue {
       always {
@@ -161,7 +162,7 @@ class LoginActivity : BaseActivity() {
 
   private fun requestMyOrg() {
     try {
-      assertThat(isOnline) { "Please connect internet" }
+      assertThat(isOnline) { getString(R.string.please_check_connectivity) }
 
       orgService.myOrg().then {
         viewModel.orgList.value = it
@@ -171,7 +172,10 @@ class LoginActivity : BaseActivity() {
       }
     } catch (offline: IllegalArgumentException) {
       contentView?.let {
-        indefiniteSnackbar(it, "Please connect internet!!", "retry") { requestMyOrg() }
+        indefiniteSnackbar(
+          it,
+          R.string.please_check_connectivity,
+          R.string.retry) { requestMyOrg() }
       }
     }
   }
@@ -179,15 +183,18 @@ class LoginActivity : BaseActivity() {
   private fun requestOrgList() {
     orgService.listOrgs().then {
       if (it.isEmpty()) {
-        toast("Not found Org List")
+        toast(getString(string.not_found_org))
         viewModel.orgList.value = listOf()
       } else {
         viewModel.orgList.value = it
       }
-    }.catch { _, t ->
+    }.catch { res, t ->
       t?.let { toast(it.message ?: it.toString()) }
       contentView?.let {
-        indefiniteSnackbar(it, "Can't load org", "retry") { requestMyOrg() }
+        indefiniteSnackbar(
+          it,
+          R.string.cannnot_load_organization,
+          R.string.retry) { requestOrgList() }
       }
     }
   }

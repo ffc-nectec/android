@@ -20,4 +20,12 @@
   <string name="app_fullname">Family Folder Collector</string>
   <string name="title_activity_maps">Map</string>
   <string name="search_hint">ชื่อผู้รับบริการ, เลขที่บ้าน</string>
+
+  <string name="retry">ลองอีกครั้ง</string>
+  <string name="please_check_connectivity">กรุณาตรวจสอบการเชื่อมต่อ</string>
+  <string name="cannnot_load_organization">ไม่สามารถโหลดข้อมูลหน่วยงานได้</string>
+  <string name="no_username">กรุณาระบุ username</string>
+  <string name="no_password">กรุณาระบุ password</string>
+  <string name="checking_identity">ยืนยันตัวตน..</string>
+  <string name="not_found_org">ไม่พบหน่วยงาน</string>
 </resources>
