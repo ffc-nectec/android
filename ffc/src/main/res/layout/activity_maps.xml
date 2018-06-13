@@ -60,7 +60,7 @@
         android:layout_width="?android:actionBarSize"
         android:layout_height="?android:actionBarSize"
         android:layout_marginStart="4dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@mipmap/ic_launcher"
         android:scaleType="centerCrop"
         android:cropToPadding="true"
         android:padding="2dp"
