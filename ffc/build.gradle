@@ -53,6 +53,7 @@ dependencies {
   implementation "com.google.android.gms:play-services-maps:$playVersion"
   implementation "com.google.code.gson:gson:2.8.2"
   implementation "com.google.firebase:firebase-core:$firebaseVersion"
+  implementation 'com.google.firebase:firebase-messaging:17.0.0'
   implementation 'com.google.maps.android:android-maps-utils:0.5'
   implementation "com.github.piruin:retrofit-dsl:1.2"
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

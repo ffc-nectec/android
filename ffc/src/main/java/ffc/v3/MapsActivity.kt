@@ -33,6 +33,7 @@ import ffc.v3.location.MarkLocationActivity
 import ffc.v3.util.animateCameraTo
 import ffc.v3.util.drawable
 import ffc.v3.util.find
+import ffc.v3.util.gone
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
 import ffc.v3.util.toJson
@@ -55,6 +56,8 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_maps)
 
+    addLocationButton.gone()
+
     supportFragmentManager.find<SupportMapFragment>(R.id.mapFragment).getMapAsync(this)
 
   }
@@ -70,7 +73,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         "zoom" to map.cameraPosition.zoom
       )
     }
-
     showGeoJson()
 
     checkHouseNoLocation()

@@ -111,7 +111,6 @@ class MarkLocationActivity : BaseActivity() {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     when (resultCode) {
-
       Activity.RESULT_OK -> {
         targetPlace = data?.getExtra<Address>("house")!!
         toast("targeting ${targetPlace.toJson()}")

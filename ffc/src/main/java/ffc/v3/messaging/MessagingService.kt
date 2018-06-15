@@ -14,28 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ffc.v3.util
 
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import ffc.v3.Org
+package ffc.v3.messaging
 
-inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = defaultGson): T? =
-  this.getString(key, null)?.parseTo<T>(gson)
+import android.util.Log
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 
-var SharedPreferences.org: Org?
-  set(value) = edit().put("org", value).apply()
-  get() = get("org")
+class MessagingService : FirebaseMessagingService() {
 
-var SharedPreferences.firebaseToken: String?
-  set(value) = edit().putString("firebaseToken", value).apply()
-  get() = getString("firebaseToken", null)
+  override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    Log.d(TAG, "From: " + remoteMessage!!.from!!)
 
-fun <T> SharedPreferences.Editor.put(
-  key: String,
-  value: T,
-  gson: Gson = defaultGson
-) = this.apply { putString(key, value!!.toJson(gson)) }
+    if (remoteMessage.data.size > 0) {
+      Log.d(TAG, "Message data payload: " + remoteMessage.data)
+    }
 
+    if (remoteMessage.notification != null) {
+      Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+    }
+  }
 
-
+  companion object {
+    private val TAG = "messaging"
+  }
+}

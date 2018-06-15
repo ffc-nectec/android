@@ -18,4 +18,7 @@
 
 <resources>
   <dimen name="maps_padding_top">86dp</dimen>
+
+  <dimen name="fab_screen_vertical_padding">24dp</dimen>
+  <dimen name="fab_screen_horizontal_padding">24dp</dimen>
 </resources>
