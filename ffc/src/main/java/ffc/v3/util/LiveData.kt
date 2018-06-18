@@ -15,14 +15,8 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import org.joda.time.DateTime
+import android.arch.lifecycle.MutableLiveData
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
-}
+inline fun <reified T> mutableLiveDataOf(): MutableLiveData<T> = MutableLiveData()

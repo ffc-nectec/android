@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.api
 
-import org.joda.time.DateTime
+import ffc.v3.Person
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Part
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+interface PersonService {
+
+  @GET("org/{orgId}/person")
+  fun listPerson(@Part("orgId") orgId: Long): Call<List<Person>>
 }

@@ -17,12 +17,21 @@
 
 package ffc.v3
 
-import org.joda.time.DateTime
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.net.ConnectivityManager
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+class ConnectivityChangeReceiver(val onConnectivityChange: ((isConnect: Boolean) -> Unit)? = null) :
+  BroadcastReceiver() {
+
+  override fun onReceive(context: Context, arg1: Intent) {
+    onConnectivityChange?.invoke(context.connectivityManager.isConnectedOrConnecting)
+  }
 }
+
+val ConnectivityManager.isConnectedOrConnecting
+  get() = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
+
+val Context.connectivityManager
+  get() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

@@ -15,14 +15,25 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.api
 
-import org.joda.time.DateTime
+import ffc.v3.Authorize
+import ffc.v3.Org
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+interface OrgService {
+
+  @GET("org") fun listOrgs(): Call<List<Org>>
+
+  @GET("org?my=true") fun myOrg(): Call<List<Org>>
+
+  @POST("org/{orgId}/authorize")
+  fun createAuthorize(
+    @Path("orgId") id: Long,
+    @Header("Authorization") authorize: String
+  ): Call<Authorize>
 }

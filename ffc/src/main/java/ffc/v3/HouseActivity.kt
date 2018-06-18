@@ -17,12 +17,16 @@
 
 package ffc.v3
 
-import org.joda.time.DateTime
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import org.jetbrains.anko.toast
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+class HouseActivity : AppCompatActivity() {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_house)
+
+    toast(intent.getStringExtra("houseId"))
+  }
 }

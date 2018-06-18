@@ -15,14 +15,8 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import org.joda.time.DateTime
+import android.support.v4.app.FragmentManager
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
-}
+inline fun <T> FragmentManager.find(id: Int) = findFragmentById(id) as T

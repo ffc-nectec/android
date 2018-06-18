@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import org.joda.time.DateTime
+import android.view.View
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+fun View.gone() {
+  this.visibility = View.GONE
+}
+
+fun View.visible() {
+  this.visibility = View.VISIBLE
 }

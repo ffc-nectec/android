@@ -15,14 +15,27 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.messaging
 
-import org.joda.time.DateTime
+import android.util.Log
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+class MessagingService : FirebaseMessagingService() {
+
+  override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    Log.d(TAG, "From: " + remoteMessage!!.from!!)
+
+    if (remoteMessage.data.size > 0) {
+      Log.d(TAG, "Message data payload: " + remoteMessage.data)
+    }
+
+    if (remoteMessage.notification != null) {
+      Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+    }
+  }
+
+  companion object {
+    private val TAG = "messaging"
+  }
 }

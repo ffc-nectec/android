@@ -14,15 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package ffc.v3.util
 
-package ffc.v3
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import ffc.v3.Org
 
-import org.joda.time.DateTime
+inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = defaultGson): T? =
+  this.getString(key, null)?.parseTo<T>(gson)
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
-}
+var SharedPreferences.org: Org?
+  set(value) = edit().put("org", value).apply()
+  get() = get("org")
+
+var SharedPreferences.firebaseToken: String?
+  set(value) = edit().putString("firebaseToken", value).apply()
+  get() = getString("firebaseToken", null)
+
+fun <T> SharedPreferences.Editor.put(
+  key: String,
+  value: T,
+  gson: Gson = defaultGson
+) = this.apply { putString(key, value!!.toJson(gson)) }
+
+
+

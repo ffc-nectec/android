@@ -20,8 +20,21 @@ package ffc.v3
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
+import android.view.View
+import ffc.v3.R.string
+import ffc.v3.api.FfcCentral
+import ffc.v3.api.OrgService
+import ffc.v3.util.assertThat
+import ffc.v3.util.debug
+import ffc.v3.util.debugToast
+import ffc.v3.util.get
+import ffc.v3.util.gone
+import ffc.v3.util.notNullOrBlank
+import ffc.v3.util.observe
+import ffc.v3.util.put
+import ffc.v3.util.toJson
+import ffc.v3.util.viewModel
+import ffc.v3.util.visible
 import kotlinx.android.synthetic.main.activity_login.password
 import kotlinx.android.synthetic.main.activity_login.password_layout
 import kotlinx.android.synthetic.main.activity_login.submit
@@ -29,115 +42,163 @@ import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_login.username_layout
 import me.piruin.spinney.Spinney
 import okhttp3.Credentials
+import org.jetbrains.anko.contentView
+import org.jetbrains.anko.defaultSharedPreferences
+import org.jetbrains.anko.design.indefiniteSnackbar
+import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
+import org.joda.time.DateTime
+import retrofit2.dsl.enqueue
+import retrofit2.dsl.then
 import java.nio.charset.Charset
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
-  val organization by lazy { findViewById<Spinney<Org>>(R.id.org) }
-
-  private val orgService = FfcCentral().call<OrgService>()
-
-  val model: LoginViewModel by lazy { viewModel<LoginViewModel>() }
+  private val organization by lazy { findViewById<Spinney<Org>>(R.id.org) }
+  private val orgService = FfcCentral().service<OrgService>()
+  private val viewModel: LoginViewModel by lazy { viewModel<LoginViewModel>() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
 
-    organization.gone()
-    organization.setItemPresenter { item, position -> (item as Org).name }
-    organization.setOnItemSelectedListener { _, selectedItem, _ ->
-      model.choosedOrg.value = selectedItem
+    val authorize = defaultSharedPreferences.get<Authorize>("token")
+    if (authorize?.isValid == true) {
+      debugToast("Use last token")
+      FfcCentral.TOKEN = authorize.token
+      startActivity(intentFor<MapsActivity>())
+      finish()
+      return
     }
 
-    if (model.orgList.value?.isEmpty() == true)
+    organization.gone()
+    organization.setItemPresenter { item, _ -> (item as Org).name }
+    organization.setOnItemSelectedListener { _, selectedItem, _ ->
+      viewModel.choosedOrg.value = selectedItem
+    }
+
+    submit.setOnClickListener {
+      try {
+        assertThat(isOnline) { getString(R.string.please_check_connectivity) }
+        doLogin(username.text.toString(), password.text.toString())
+      } catch (assert: IllegalArgumentException) {
+        toast(assert.message ?: "Error")
+      }
+    }
+    if (BuildConfig.DEBUG) {
+      submit.setOnLongClickListener {
+        username.setText("admin0")
+        password.setText("1234admin0")
+        true
+      }
+    }
+
+    if (viewModel.orgList.value?.isEmpty() == true)
       requestMyOrg()
     else {
-      organization.setItems(model.orgList.value!!)
+      organization.setItems(viewModel.orgList.value!!)
       organization.visible()
     }
 
-    model.orgList.observe(this) {
-      organization.setItems(it!!)
-      organization.visible()
-
-      if (it.size == 1) organization.selectedItem = it[0]
-    }
-
-    if (model.choosedOrg.value != null) {
-      organization.selectedItem = model.choosedOrg.value
+    if (viewModel.choosedOrg.value != null) {
+      organization.selectedItem = viewModel.choosedOrg.value
     } else {
       username_layout.gone()
       password_layout.gone()
       submit.gone()
     }
 
-    model.choosedOrg.observe(this) {
-      if (it != null) {
-        username_layout.visible()
-        password_layout.visible()
-        submit.visible()
-      } else {
-        username_layout.gone()
-        password_layout.gone()
-        submit.gone()
-      }
+    viewModel.orgList.observe(this) {
+      organization.setItems(it!!)
+      organization.visible()
+
+      if (it.size == 1) organization.selectedItem = it[0]
     }
 
-    submit.setOnClickListener {
-      try {
-        doLogin(username.text.toString(), password.text.toString())
-      } catch (assert: RuntimeException) {
-        Toast.makeText(this, assert.message, Toast.LENGTH_SHORT).show()
-      }
+    viewModel.choosedOrg.observe(this) {
+      val visible = if (it != null) View.VISIBLE else View.GONE
+      username_layout.visibility = visible
+      password_layout.visibility = visible
+      submit.visibility = visible
     }
   }
 
   private fun doLogin(username: String?, password: String?) {
-    assertThat(!username.isNullOrBlank()) { "กรุณาระบุ username" }
-    assertThat(!password.isNullOrBlank()) { "กรุณาระบุ password" }
+    assertThat(username.notNullOrBlank()) { getString(string.no_username) }
+    assertThat(password.notNullOrBlank()) { getString(string.no_password) }
 
     val basicToken =
       Credentials.basic(username!!.trim(), password!!.trim(), Charset.forName("UTF-8"))
     debug("Basic Auth = %s", basicToken)
 
-    orgService.createAuthorize(model.choosedOrg.value!!.id, basicToken)
-      .then { response, throwable ->
-      response?.let {
-        if (it.isSuccessful) {
-          Toast.makeText(this, "Token ${it.body()!!.token}", Toast.LENGTH_SHORT).show()
-        } else {
-          Toast.makeText(this, "Not Success", Toast.LENGTH_SHORT).show()
-        }
+    val dialog = indeterminateProgressDialog(getString(string.checking_identity))
+    val org = viewModel.choosedOrg.value!!
+    orgService.createAuthorize(org.id, basicToken).enqueue {
+      always {
+        dialog.dismiss()
+      }
+      onSuccess {
+        val authorize = body()!!
+        if (authorize.expireDate == null)
+          authorize.expireDate = DateTime.now().plusDays(1)
+        debugToast("Authorize ${authorize.toJson()}")
+        FfcCentral.TOKEN = authorize.token
+        defaultSharedPreferences.edit()
+          .put("token", authorize)
+          .put("org", org)
+          .apply()
+        startActivity(intentFor<MapsActivity>())
+      }
+      onError {
+        snackbar(contentView!!, string.identification_error)
+      }
+      onFailure {
+        it.printStackTrace()
+        toast(it.message!!)
       }
     }
   }
 
+  override fun onConnectivityChanged(isConnect: Boolean, message: String) {
+    //super.onConnectivityChanged(isConnect, "please check internet connection")
+  }
+
   private fun requestMyOrg() {
-    orgService.myOrg().then { res, t ->
-      res?.let {
-        if (it.isSuccessful) {
-          with(it.body()!!) {
-            model.orgList.value = this
-            model.choosedOrg.value = this[0]
-          }
-        } else {
-          requestOrgList()
+    try {
+      assertThat(isOnline) { getString(R.string.please_check_connectivity) }
+
+      orgService.myOrg().then {
+        viewModel.orgList.value = it
+      }.catch { _, t ->
+        requestOrgList()
+        t?.let { toast(it.message ?: it.toString()) }
+      }
+    } catch (offline: IllegalArgumentException) {
+      contentView?.let {
+        indefiniteSnackbar(it, R.string.please_check_connectivity, R.string.retry) {
+          requestMyOrg()
         }
       }
-      t?.let { }
     }
   }
 
   private fun requestOrgList() {
-    orgService.listOrgs().then { res, t ->
-      res?.let {
-        if (it.isSuccessful) {
-          if (it.body()!!.isNotEmpty()) model.orgList.value = it.body()!!
-        } else {
-          Toast.makeText(this, "Not found Org List", Toast.LENGTH_SHORT).show()
+    orgService.listOrgs().then {
+      if (it.isEmpty()) {
+        toast(string.not_found_org)
+        viewModel.orgList.value = listOf()
+      } else {
+        viewModel.orgList.value = it
+      }
+    }.catch { res, t ->
+      t?.let { toast(it.message ?: it.toString()) }
+      contentView?.let {
+        indefiniteSnackbar(it, R.string.cannnot_load_organization, R.string.retry) {
+          requestOrgList()
         }
       }
-      t?.let { }
     }
   }
 

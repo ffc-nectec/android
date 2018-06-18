@@ -15,14 +15,20 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.api
 
-import org.joda.time.DateTime
+import okhttp3.Interceptor
+import okhttp3.Response
+import java.io.IOException
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+class AuthTokenInterceptor(private val token: String) : Interceptor {
+
+  @Throws(IOException::class)
+  override fun intercept(chain: Interceptor.Chain): Response {
+    val original = chain.request()
+    val builder = original.newBuilder()
+    builder.addHeader("Authorization", "Bearer $token")
+
+    return chain.proceed(builder.build())
+  }
 }

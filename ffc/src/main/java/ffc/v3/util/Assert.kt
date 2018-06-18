@@ -15,14 +15,10 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import org.joda.time.DateTime
-
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+inline fun assertThat(value: Boolean, lazyMessage: () -> String) {
+  if (!value) throw IllegalArgumentException(lazyMessage())
 }
+
+fun String?.notNullOrBlank() = !this.isNullOrBlank()

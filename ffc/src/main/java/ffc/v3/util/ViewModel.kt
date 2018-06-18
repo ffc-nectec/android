@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import org.joda.time.DateTime
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
+import android.support.v4.app.FragmentActivity
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+inline fun <reified T : ViewModel> FragmentActivity.viewModel(): T =
+  ViewModelProviders.of(this).get(T::class.java)
+
+inline fun <T> LiveData<T>.observe(owner: FragmentActivity, crossinline task: (T?) -> Unit) {
+  this.observe(owner, Observer<T> { t -> task(t) })
 }

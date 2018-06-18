@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-package ffc.v3
+package ffc.v3.util
 
-import org.joda.time.DateTime
+import android.content.Context
+import android.support.annotation.StringRes
+import ffc.v3.BuildConfig
+import org.jetbrains.anko.toast
 
-data class Authorize(
-  val token: String,
-  var expireDate: DateTime? = DateTime.now().plusDays(1)
-) {
-  val isValid
-    get() = DateTime.now() <= expireDate
+fun Context.debugToast(msg: CharSequence) {
+  if (BuildConfig.DEBUG) toast(msg)
+}
+
+fun Context.debugToast(@StringRes msg: Int) {
+  if (BuildConfig.DEBUG) toast(msg)
 }
