@@ -48,12 +48,12 @@ class InstanceIDService : FirebaseInstanceIdService() {
 
   private fun unregisterToServer(firebaseToken: String) {
     FfcCentral().service<TokenService>()
-      .removeToken(defaultSharedPreferences.org!!.id, firebaseToken)
+      .removeToken(defaultSharedPreferences.org!!.id.toLong(), firebaseToken)
   }
 
   private fun sendRegistrationToServer(refreshedToken: String) {
     FfcCentral().service<TokenService>()
-      .updateToken(defaultSharedPreferences.org!!.id, Token(refreshedToken))
+      .updateToken(defaultSharedPreferences.org!!.id.toLong(), Token(refreshedToken))
 
   }
 
