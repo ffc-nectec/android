@@ -17,8 +17,8 @@
 
 package ffc.v3.api
 
+import ffc.entity.Organization
 import ffc.v3.Authorize
-import ffc.v3.Org
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -27,9 +27,9 @@ import retrofit2.http.Path
 
 interface OrgService {
 
-  @GET("org") fun listOrgs(): Call<List<Org>>
+  @GET("org") fun listOrgs(): Call<List<Organization>>
 
-  @GET("org?my=true") fun myOrg(): Call<List<Org>>
+  @GET("org?my=true") fun myOrg(): Call<List<Organization>>
 
   @POST("org/{orgId}/authorize")
   fun createAuthorize(

@@ -89,7 +89,7 @@ class MarkLocationActivity : BaseActivity() {
   private fun updateHouse() {
     val dialog = indeterminateProgressDialog("updating")
 //    toast("org/${org!!.id}/place/house/${targetPlace.id}")
-    FfcCentral().service<PlaceService>().updateHouse(org!!.id, targetPlace).enqueue {
+    FfcCentral().service<PlaceService>().updateHouse(org!!.id.toLong(), targetPlace).enqueue {
       always { dialog.dismiss() }
       onSuccess {
         setResult(Activity.RESULT_OK)

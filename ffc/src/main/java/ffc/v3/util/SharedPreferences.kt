@@ -18,12 +18,12 @@ package ffc.v3.util
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import ffc.v3.Org
+import ffc.entity.Organization
 
 inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = defaultGson): T? =
   this.getString(key, null)?.parseTo<T>(gson)
 
-var SharedPreferences.org: Org?
+var SharedPreferences.org: Organization?
   set(value) = edit().put("org", value).apply()
   get() = get("org")
 

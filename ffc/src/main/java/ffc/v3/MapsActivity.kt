@@ -59,7 +59,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     addLocationButton.gone()
 
     supportFragmentManager.find<SupportMapFragment>(R.id.mapFragment).getMapAsync(this)
-
   }
 
   override fun onMapReady(googleMap: GoogleMap) {
@@ -81,7 +80,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
   private fun checkHouseNoLocation() {
     val placeService = FfcCentral().service<PlaceService>()
-    placeService.listHouseNoLocation(org!!.id).enqueue {
+    placeService.listHouseNoLocation(org.id.toLong()).enqueue {
       onSuccess {
         addLocationButton.show()
       }
@@ -95,7 +94,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
   private fun showGeoJson() {
     val placeService = FfcCentral().service<PlaceService>()
-    placeService.listHouseGeoJson(org!!.id).enqueue {
+    placeService.listHouseGeoJson(org.id.toLong()).enqueue {
 
       onSuccess {
         val coordinates = (body()!!.features[0].geometry as Point).coordinates

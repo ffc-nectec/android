@@ -21,6 +21,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.view.View
+import ffc.entity.Organization
 import ffc.v3.R.string
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
@@ -56,7 +57,7 @@ import java.nio.charset.Charset
 
 class LoginActivity : BaseActivity() {
 
-  private val organization by lazy { findViewById<Spinney<Org>>(R.id.org) }
+  private val organization by lazy { findViewById<Spinney<Organization>>(R.id.org) }
   private val orgService = FfcCentral().service<OrgService>()
   private val viewModel: LoginViewModel by lazy { viewModel<LoginViewModel>() }
 
@@ -74,7 +75,7 @@ class LoginActivity : BaseActivity() {
     }
 
     organization.gone()
-    organization.setItemPresenter { item, _ -> (item as Org).name }
+    organization.setItemPresenter { item, _ -> (item as ffc.entity.Organization).name }
     organization.setOnItemSelectedListener { _, selectedItem, _ ->
       viewModel.choosedOrg.value = selectedItem
     }
@@ -135,7 +136,7 @@ class LoginActivity : BaseActivity() {
 
     val dialog = indeterminateProgressDialog(getString(string.checking_identity))
     val org = viewModel.choosedOrg.value!!
-    orgService.createAuthorize(org.id, basicToken).enqueue {
+    orgService.createAuthorize(org.id.toLong(), basicToken).enqueue {
       always {
         dialog.dismiss()
       }
@@ -203,11 +204,11 @@ class LoginActivity : BaseActivity() {
   }
 
   class LoginViewModel : ViewModel() {
-    val orgList: MutableLiveData<List<Org>> by lazy {
-      MutableLiveData<List<Org>>().apply {
+    val orgList: MutableLiveData<List<Organization>> by lazy {
+      MutableLiveData<List<Organization>>().apply {
         value = listOf()
       }
     }
-    val choosedOrg: MutableLiveData<Org> by lazy { MutableLiveData<Org>() }
+    val choosedOrg: MutableLiveData<Organization> by lazy { MutableLiveData<Organization>() }
   }
 }
