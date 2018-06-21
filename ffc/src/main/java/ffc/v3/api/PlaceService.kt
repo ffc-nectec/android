@@ -17,7 +17,7 @@
 
 package ffc.v3.api
 
-import ffc.v3.Address
+import ffc.entity.Address
 import me.piruin.geok.geometry.FeatureCollection
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -40,6 +40,6 @@ interface PlaceService {
   fun updateHouse(
     @Path("orgId") orgId: Long,
     @Body house: Address,
-    @Path("houseId") houseId: String = house.id
+    @Path("houseId") houseId: String = house._id
   ): Call<ResponseBody>
 }

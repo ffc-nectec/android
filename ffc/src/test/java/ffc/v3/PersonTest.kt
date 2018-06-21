@@ -17,6 +17,11 @@
 
 package ffc.v3
 
+import ffc.entity.Address
+import ffc.entity.Chronic
+import ffc.entity.Person
+import ffc.entity.ThaiCitizenId
+import ffc.entity.ThaiHouseholdId
 import ffc.v3.util.defaultGson
 import ffc.v3.util.parseTo
 import me.piruin.geok.LatLng
@@ -36,7 +41,6 @@ class PersonTest {
       prename = "นาย"
       firstname = "พิรุณ"
       lastname = "พานิชผล"
-      birthData = LocalDate(1950, 9, 21)
 
       house = Address().apply {
         identity = ThaiHouseholdId("54520015001")
@@ -47,8 +51,8 @@ class PersonTest {
         changwat = "ปุทมธานี"
         coordinates = LatLng(10.0, 120.0)
       }
-      chronics.add(Chronic("N18.3", LocalDate(2015, 5, 21)))
-      chronics.add(Chronic("I10", LocalDate(2016, 5, 21)))
+      chronics?.add(Chronic("N18.3", LocalDate(2015, 5, 21)))
+      chronics?.add(Chronic("I10", LocalDate(2016, 5, 21)))
     }
 
     print(gson.toJson(person))

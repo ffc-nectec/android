@@ -17,7 +17,7 @@
 
 package ffc.v3.api
 
-import ffc.v3.Person
+import ffc.entity.Person
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Part

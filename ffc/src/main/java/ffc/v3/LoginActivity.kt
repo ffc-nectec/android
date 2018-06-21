@@ -22,6 +22,7 @@ import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.view.View
 import ffc.entity.Organization
+import ffc.entity.TokenMessage
 import ffc.v3.R.string
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
@@ -65,10 +66,10 @@ class LoginActivity : BaseActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
 
-    val authorize = defaultSharedPreferences.get<Authorize>("token")
-    if (authorize?.isValid == true) {
+    val authorize = defaultSharedPreferences.get<TokenMessage>("token")
+    if (authorize?.checkExpireTokem() == true) {
       debugToast("Use last token")
-      FfcCentral.TOKEN = authorize.token
+      FfcCentral.TOKEN = authorize.token.toString()
       startActivity(intentFor<MapsActivity>())
       finish()
       return
@@ -145,7 +146,7 @@ class LoginActivity : BaseActivity() {
         if (authorize.expireDate == null)
           authorize.expireDate = DateTime.now().plusDays(1)
         debugToast("Authorize ${authorize.toJson()}")
-        FfcCentral.TOKEN = authorize.token
+        FfcCentral.TOKEN = authorize.token.toString()
         defaultSharedPreferences.edit()
           .put("token", authorize)
           .put("org", org)

@@ -22,15 +22,9 @@ import com.fatboyindustrial.gsonjodatime.LocalDateConverter
 import com.fatboyindustrial.gsonjodatime.LocalDateTimeConverter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
-import ffc.v3.Identity
-import ffc.v3.ThaiCitizenId
-import ffc.v3.ThaiHouseholdId
+import ffc.entity.Identity
+import ffc.entity.IdentityDeserializer
 import me.piruin.geok.LatLng
 import me.piruin.geok.geometry.Geometry
 import me.piruin.geok.gson.GeometrySerializer
@@ -63,27 +57,4 @@ val defaultGson: Gson by lazy {
     .adapterFor<LocalDate>(LocalDateConverter())
     .adapterFor<LocalDateTime>(LocalDateTimeConverter())
     .create()
-}
-
-class IdentityDeserializer : JsonDeserializer<Identity>, JsonSerializer<Identity> {
-  override fun serialize(
-    src: Identity,
-    typeOfSrc: Type,
-    context: JsonSerializationContext
-  ): JsonElement {
-    return context.serialize(src)
-  }
-
-  override fun deserialize(
-    json: JsonElement,
-    typeOfT: Type,
-    context: JsonDeserializationContext
-  ): Identity {
-    val jsonObj = json.asJsonObject
-    return when (jsonObj.get("type").asString) {
-      "thailand-citizen-id" -> ThaiCitizenId(jsonObj.get("id").asString)
-      "thailand-household-id" -> ThaiHouseholdId(jsonObj.get("id").asString)
-      else -> throw IllegalArgumentException("Not support Identity type")
-    }
-  }
 }
