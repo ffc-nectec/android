@@ -18,7 +18,7 @@
 package ffc.v3.api
 
 import ffc.entity.Organization
-import ffc.v3.Authorize
+import ffc.entity.TokenMessage
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -35,5 +35,5 @@ interface OrgService {
   fun createAuthorize(
     @Path("orgId") id: Long,
     @Header("Authorization") authorize: String
-  ): Call<Authorize>
+  ): Call<TokenMessage>
 }

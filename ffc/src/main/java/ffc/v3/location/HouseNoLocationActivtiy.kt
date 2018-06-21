@@ -27,7 +27,7 @@ import android.support.v7.widget.SearchView.OnQueryTextListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ffc.v3.Address
+import ffc.entity.Address
 import ffc.v3.BaseActivity
 import ffc.v3.BuildConfig
 import ffc.v3.R

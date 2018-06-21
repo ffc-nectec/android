@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
-import ffc.v3.Address
+import ffc.entity.Address
 import ffc.v3.BaseActivity
 import ffc.v3.R
 import ffc.v3.R.id
