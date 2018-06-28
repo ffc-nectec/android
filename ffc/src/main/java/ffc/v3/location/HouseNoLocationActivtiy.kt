@@ -28,13 +28,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ffc.entity.Address
+import ffc.entity.gson.toJson
 import ffc.v3.BaseActivity
 import ffc.v3.BuildConfig
 import ffc.v3.R
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
 import ffc.v3.util.org
-import ffc.v3.util.toJson
 import kotlinx.android.synthetic.main.activity_house_no_location.houseList
 import kotlinx.android.synthetic.main.item_house.view.houseNo
 import org.jetbrains.anko.bundleOf
@@ -82,7 +82,6 @@ class HouseNoLocationActivtiy : BaseActivity() {
           for (i in 1..100) {
             houses.add(Address().apply {
               no = "100/$i"
-              changwat = "ปทุมธานี"
             })
           }
           toast("mocked ${houses.size} house")

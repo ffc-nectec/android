@@ -22,7 +22,8 @@ import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.view.View
 import ffc.entity.Organization
-import ffc.entity.TokenMessage
+import ffc.entity.Token
+import ffc.entity.gson.toJson
 import ffc.v3.R.string
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.OrgService
@@ -34,7 +35,6 @@ import ffc.v3.util.gone
 import ffc.v3.util.notNullOrBlank
 import ffc.v3.util.observe
 import ffc.v3.util.put
-import ffc.v3.util.toJson
 import ffc.v3.util.viewModel
 import ffc.v3.util.visible
 import kotlinx.android.synthetic.main.activity_login.password
@@ -66,8 +66,8 @@ class LoginActivity : BaseActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
 
-    val authorize = defaultSharedPreferences.get<TokenMessage>("token")
-    if (authorize?.checkExpireTokem() == true) {
+    val authorize = defaultSharedPreferences.get<Token>("token")
+    if (authorize?.isNotExpire == true) {
       debugToast("Use last token")
       FfcCentral.TOKEN = authorize.token.toString()
       startActivity(intentFor<MapsActivity>())

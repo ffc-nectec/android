@@ -17,7 +17,7 @@
 
 package ffc.v3.api
 
-import ffc.v3.util.defaultGson
+import ffc.entity.gson.ffcGson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,7 +40,7 @@ class FfcCentral(url: String = "https://ffc-nectec.herokuapp.com/v0/") {
 
     var client = httpBuilder.build()
     return retrofitBuilder
-      .addConverterFactory(GsonConverterFactory.create(defaultGson))
+      .addConverterFactory(GsonConverterFactory.create(ffcGson))
       .client(client)
       .build()
       .create(T::class.java)

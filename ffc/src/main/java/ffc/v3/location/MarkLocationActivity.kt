@@ -24,16 +24,16 @@ import android.view.View
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import ffc.entity.Address
+import ffc.entity.gson.ffcGson
+import ffc.entity.gson.parseTo
+import ffc.entity.gson.toJson
 import ffc.v3.BaseActivity
 import ffc.v3.R
 import ffc.v3.R.id
 import ffc.v3.R.layout
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
-import ffc.v3.util.defaultGson
 import ffc.v3.util.find
-import ffc.v3.util.parseTo
-import ffc.v3.util.toJson
 import ffc.v3.util.toPoint
 import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
@@ -120,6 +120,6 @@ class MarkLocationActivity : BaseActivity() {
   }
 }
 
-inline fun <reified T> Intent.getExtra(key: String, gson: Gson = defaultGson): T? {
+inline fun <reified T> Intent.getExtra(key: String, gson: Gson = ffcGson): T? {
   return getStringExtra(key).parseTo<T>(gson)
 }
