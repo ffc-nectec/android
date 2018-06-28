@@ -26,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
+import ffc.entity.gson.toJson
 import ffc.v3.R.raw
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
@@ -36,7 +37,6 @@ import ffc.v3.util.find
 import ffc.v3.util.gone
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
-import ffc.v3.util.toJson
 import kotlinx.android.synthetic.main.activity_maps.addLocationButton
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.dimen

@@ -18,10 +18,11 @@
 package ffc.v3
 
 import ffc.entity.Address
+import ffc.entity.House
 import ffc.entity.ThaiHouseholdId
-import ffc.v3.util.parseTo
-import me.piruin.geok.LatLng
+import ffc.entity.gson.parseTo
 import me.piruin.geok.geometry.FeatureCollection
+import me.piruin.geok.geometry.Point
 import org.amshove.kluent.shouldEqual
 import org.junit.Test
 
@@ -115,11 +116,11 @@ class GeokTest {
     val collection = json.parseTo<FeatureCollection<Address>>()
     val address = collection?.features!![0].properties
 
-    with(address!!) {
-      _id shouldEqual 10000124
+    with(address!! as House) {
+      id shouldEqual 10000124
       identity shouldEqual ThaiHouseholdId("54520015001")
       no shouldEqual "510/45"
-      coordinates shouldEqual LatLng(13.0, 102.0)
+      location shouldEqual Point(13.0, 102.0)
     }
 
   }
