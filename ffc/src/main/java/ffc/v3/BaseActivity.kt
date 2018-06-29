@@ -39,7 +39,6 @@ open class BaseActivity : AppCompatActivity() {
 
   val org: Organization get() = defaultSharedPreferences.org!!
 
-
   private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
 
   override fun onCreate(savedInstanceState: Bundle?) {

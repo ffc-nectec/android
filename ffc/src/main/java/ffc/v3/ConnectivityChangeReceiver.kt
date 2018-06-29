@@ -22,10 +22,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 
-class ConnectivityChangeReceiver(val onConnectivityChange: ((isConnect: Boolean) -> Unit)? = null) :
-  BroadcastReceiver() {
+class ConnectivityChangeReceiver(
+  val onConnectivityChange: ((isConnect: Boolean) -> Unit)? = null
+) : BroadcastReceiver() {
 
-  override fun onReceive(context: Context, arg1: Intent) {
+  override fun onReceive(context: Context, intent: Intent) {
     onConnectivityChange?.invoke(context.connectivityManager.isConnectedOrConnecting)
   }
 }

@@ -20,12 +20,13 @@ package ffc.v3.messaging
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
+import ffc.entity.firebase.FirebaseToken
 import ffc.v3.api.FfcCentral
 import ffc.v3.util.firebaseToken
 import ffc.v3.util.org
-import okhttp3.ResponseBody
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -53,20 +54,22 @@ class InstanceIDService : FirebaseInstanceIdService() {
 
   private fun sendRegistrationToServer(refreshedToken: String) {
     FfcCentral().service<TokenService>()
-      .updateToken(defaultSharedPreferences.org!!.id.toLong(), Token(refreshedToken))
+      .updateToken(defaultSharedPreferences.org!!.id.toLong(), FirebaseToken(refreshedToken))
 
   }
 
   interface TokenService {
 
     @POST("org/{orgId}/mobileFirebaseToken")
-    fun updateToken(@Path("orgId") orgId: Long, token: Token)
-      : Call<ResponseBody>
+    fun updateToken(
+      @Path("orgId") orgId: Long,
+      @Body token: FirebaseToken
+    ): Call<Unit>
 
     @DELETE("org/{orgId}/mobileFirebaseToken/{token}")
-    fun removeToken(@Path("orgId") orgId: Long, @Path("token") token: String)
-      : Call<ResponseBody>
+    fun removeToken(
+      @Path("orgId") orgId: Long,
+      @Path("token") token: String
+    ): Call<Unit>
   }
-
-  class Token(val firebaseToken: String)
 }
