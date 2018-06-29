@@ -27,7 +27,7 @@ import android.support.v7.widget.SearchView.OnQueryTextListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ffc.entity.Address
+import ffc.entity.House
 import ffc.entity.gson.toJson
 import ffc.v3.BaseActivity
 import ffc.v3.BuildConfig
@@ -78,9 +78,9 @@ class HouseNoLocationActivtiy : BaseActivity() {
       onError {
         //        toast("onError ${code()}")
         if (BuildConfig.DEBUG) {
-          var houses: MutableList<Address> = mutableListOf()
+          var houses: MutableList<House> = mutableListOf()
           for (i in 1..100) {
-            houses.add(Address().apply {
+            houses.add(House().apply {
               no = "100/$i"
             })
           }
@@ -95,7 +95,7 @@ class HouseNoLocationActivtiy : BaseActivity() {
     }
   }
 
-  fun setupListOf(houses: List<Address>) {
+  fun setupListOf(houses: List<House>) {
     houseAdapter = HouseAdapter(houses) {
       val bundle = bundleOf("house" to it.toJson())
       setResult(Activity.RESULT_OK, Intent().apply { putExtras(bundle) })
@@ -118,10 +118,10 @@ class HouseNoLocationActivtiy : BaseActivity() {
     super.onBackPressed()
   }
 
-  class HouseViewHolder(view: View, val onItemClick: (Address) -> Unit) : RecyclerView.ViewHolder(
+  class HouseViewHolder(view: View, val onItemClick: (House) -> Unit) : RecyclerView.ViewHolder(
     view) {
 
-    fun bind(address: Address) {
+    fun bind(address: House) {
       with(address) {
         itemView.houseNo.text = address.no
         itemView.setOnClickListener { onItemClick(address) }
@@ -130,13 +130,13 @@ class HouseNoLocationActivtiy : BaseActivity() {
   }
 
   class HouseAdapter(
-    val houses: List<Address>,
-    val onItemClick: (Address) -> Unit
+    val houses: List<House>,
+    val onItemClick: (House) -> Unit
   ) : RecyclerView.Adapter<HouseViewHolder>() {
 
     var onEmptyHouse: (() -> Unit)? = null
 
-    var filteredHouse: List<Address> = ArrayList()
+    var filteredHouse: List<House> = ArrayList()
 
     var filter: String? = null
       set(value) {
