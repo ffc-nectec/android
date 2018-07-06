@@ -24,21 +24,19 @@ import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 
 inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = ffcGson): T? =
-  this.getString(key, null)?.parseTo<T>(gson)
+    this.getString(key, null)?.parseTo<T>(gson)
 
 var SharedPreferences.org: Organization?
-  set(value) = edit().put("org", value).apply()
-  get() = get("org")
+    set(value) = edit().put("org", value).apply()
+    get() = get("org")
 
 var SharedPreferences.firebaseToken: String?
-  set(value) = edit().putString("firebaseToken", value).apply()
-  get() = getString("firebaseToken", null)
+    set(value) = edit().putString("firebaseToken", value).apply()
+    get() = getString("firebaseToken", null)
 
 inline fun <T> SharedPreferences.Editor.put(
-  key: String,
-  value: T,
-  gson: Gson = ffcGson
+    key: String,
+    value: T,
+    gson: Gson = ffcGson
 ) = this.apply { putString(key, value!!.toJson(gson)) }
-
-
 

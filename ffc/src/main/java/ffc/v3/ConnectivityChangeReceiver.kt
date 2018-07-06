@@ -23,16 +23,16 @@ import android.content.Intent
 import android.net.ConnectivityManager
 
 class ConnectivityChangeReceiver(
-  val onConnectivityChange: ((isConnect: Boolean) -> Unit)? = null
+    val onConnectivityChange: ((isConnect: Boolean) -> Unit)? = null
 ) : BroadcastReceiver() {
 
-  override fun onReceive(context: Context, intent: Intent) {
-    onConnectivityChange?.invoke(context.connectivityManager.isConnectedOrConnecting)
-  }
+    override fun onReceive(context: Context, intent: Intent) {
+        onConnectivityChange?.invoke(context.connectivityManager.isConnectedOrConnecting)
+    }
 }
 
 val ConnectivityManager.isConnectedOrConnecting
-  get() = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
+    get() = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
 
 val Context.connectivityManager
-  get() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    get() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

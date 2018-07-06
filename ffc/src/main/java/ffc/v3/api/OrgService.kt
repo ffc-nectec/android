@@ -27,13 +27,15 @@ import retrofit2.http.Path
 
 interface OrgService {
 
-  @GET("org") fun listOrgs(): Call<List<Organization>>
+    @GET("org")
+    fun listOrgs(): Call<List<Organization>>
 
-  @GET("org?my=true") fun myOrg(): Call<List<Organization>>
+    @GET("org?my=true")
+    fun myOrg(): Call<List<Organization>>
 
-  @POST("org/{orgId}/authorize")
-  fun createAuthorize(
-    @Path("orgId") id: Long,
-    @Header("Authorization") authorize: String
-  ): Call<Token>
+    @POST("org/{orgId}/authorize")
+    fun createAuthorize(
+        @Path("orgId") id: Long,
+        @Header("Authorization") authorize: String
+    ): Call<Token>
 }

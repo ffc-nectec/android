@@ -24,6 +24,6 @@ import retrofit2.http.Part
 
 interface PersonService {
 
-  @GET("org/{orgId}/person")
-  fun listPerson(@Part("orgId") orgId: Long): Call<List<Person>>
+    @GET("org/{orgId}/person")
+    fun listPerson(@Part("orgId") orgId: Long): Call<List<Person>>
 }

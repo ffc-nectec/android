@@ -37,7 +37,7 @@ import ffc.v3.util.find
 import ffc.v3.util.gone
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
-import kotlinx.android.synthetic.main.activity_maps.addLocationButton
+import kotlinx.android.synthetic.main.activity_maps.*
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.startActivityForResult
@@ -50,98 +50,98 @@ const val REQ_ADD_LOCATION = 10214
 
 class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
-  private lateinit var map: GoogleMap
+    private lateinit var map: GoogleMap
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_maps)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_maps)
 
-    addLocationButton.gone()
+        addLocationButton.gone()
 
-    supportFragmentManager.find<SupportMapFragment>(R.id.mapFragment).getMapAsync(this)
-  }
-
-  override fun onMapReady(googleMap: GoogleMap) {
-    map = googleMap.apply {
-      setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
+        supportFragmentManager.find<SupportMapFragment>(R.id.mapFragment).getMapAsync(this)
     }
-    addLocationButton.setOnClickListener {
-      startActivityForResult<MarkLocationActivity>(
-        REQ_ADD_LOCATION,
-        "target" to map.cameraPosition.target,
-        "zoom" to map.cameraPosition.zoom
-      )
-    }
-    showGeoJson()
 
-    checkHouseNoLocation()
-
-  }
-
-  private fun checkHouseNoLocation() {
-    val placeService = FfcCentral().service<PlaceService>()
-    placeService.listHouseNoLocation(org.id.toLong()).enqueue {
-      onSuccess {
-        addLocationButton.show()
-      }
-      onClientError {
-        when {
-          isNotFound -> addLocationButton.hide()
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap.apply {
+            setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
         }
-      }
+        addLocationButton.setOnClickListener {
+            startActivityForResult<MarkLocationActivity>(
+                REQ_ADD_LOCATION,
+                "target" to map.cameraPosition.target,
+                "zoom" to map.cameraPosition.zoom
+            )
+        }
+        showGeoJson()
+
+        checkHouseNoLocation()
     }
-  }
 
-  private fun showGeoJson() {
-    val placeService = FfcCentral().service<PlaceService>()
-    placeService.listHouseGeoJson(org.id.toLong()).enqueue {
-
-      onSuccess {
-        val coordinates = (body()!!.features[0].geometry as Point).coordinates
-        map.animateCameraTo(coordinates.latitude, coordinates.longitude, 10.0f)
-        with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
-          features.forEach {
-            it.pointStyle = GeoJsonPointStyle().apply {
-              icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
-              title = "บ้านเลขที่ ${it.getProperty("no")}"
-              snippet = it.getProperty("coordinates").trimMargin()
+    private fun checkHouseNoLocation() {
+        val placeService = FfcCentral().service<PlaceService>()
+        placeService.listHouseNoLocation(org.id.toLong()).enqueue {
+            onSuccess {
+                addLocationButton.show()
             }
-          }
-          setOnFeatureClickListener {
-            startActivityForResult<HouseActivity>(
-              REQ_ADD_LOCATION,
-              "houseId" to it.getProperty("_id"))
-          }
-          addLayerToMap()
+            onClientError {
+                when {
+                    isNotFound -> addLocationButton.hide()
+                }
+            }
         }
-      }
-
-      onError {
-        toast("Not success get geoJson ${code()} ")
-        if (BuildConfig.DEBUG) {
-          map.moveCameraTo(13.0, 102.1, 10.0f)
-          GeoJsonLayer(map, raw.place, this@MapsActivity)
-        }
-      }
-
-      onFailure {
-        toast("${it.message}")
-      }
     }
-  }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    when (requestCode) {
-      REQ_ADD_LOCATION -> {
-        if (resultCode == Activity.RESULT_OK) {
-          map.clear()
-          showGeoJson()
+    private fun showGeoJson() {
+        val placeService = FfcCentral().service<PlaceService>()
+        placeService.listHouseGeoJson(org.id.toLong()).enqueue {
+
+            onSuccess {
+                val coordinates = (body()!!.features[0].geometry as Point).coordinates
+                map.animateCameraTo(coordinates.latitude, coordinates.longitude, 10.0f)
+                with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
+                    features.forEach {
+                        it.pointStyle = GeoJsonPointStyle().apply {
+                            icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
+                            title = "บ้านเลขที่ ${it.getProperty("no")}"
+                            snippet = it.getProperty("coordinates").trimMargin()
+                        }
+                    }
+                    setOnFeatureClickListener {
+                        startActivityForResult<HouseActivity>(
+                            REQ_ADD_LOCATION,
+                            "houseId" to it.getProperty("_id")
+                        )
+                    }
+                    addLayerToMap()
+                }
+            }
+
+            onError {
+                toast("Not success get geoJson ${code()} ")
+                if (BuildConfig.DEBUG) {
+                    map.moveCameraTo(13.0, 102.1, 10.0f)
+                    GeoJsonLayer(map, raw.place, this@MapsActivity)
+                }
+            }
+
+            onFailure {
+                toast("${it.message}")
+            }
         }
-      }
     }
-  }
 
-  private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }
-  private val chronicHomeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap()) }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQ_ADD_LOCATION -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    map.clear()
+                    showGeoJson()
+                }
+            }
+        }
+    }
+
+    private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }
+    private val chronicHomeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap()) }
 }

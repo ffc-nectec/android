@@ -23,12 +23,12 @@ import java.io.IOException
 
 class AuthTokenInterceptor(private val token: String) : Interceptor {
 
-  @Throws(IOException::class)
-  override fun intercept(chain: Interceptor.Chain): Response {
-    val original = chain.request()
-    val builder = original.newBuilder()
-    builder.addHeader("Authorization", "Bearer $token")
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val original = chain.request()
+        val builder = original.newBuilder()
+        builder.addHeader("Authorization", "Bearer $token")
 
-    return chain.proceed(builder.build())
-  }
+        return chain.proceed(builder.build())
+    }
 }

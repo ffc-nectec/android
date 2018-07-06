@@ -22,17 +22,17 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 
 fun GoogleMap.animateCameraTo(lat: Double, lng: Double, zoom: Float? = null) {
-  val latLng = LatLng(lat, lng)
-  if (zoom != null)
-    animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
-  else
-    animateCamera(CameraUpdateFactory.newLatLng(latLng))
+    val latLng = LatLng(lat, lng)
+    if (zoom != null)
+        animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
+    else
+        animateCamera(CameraUpdateFactory.newLatLng(latLng))
 }
 
 fun GoogleMap.moveCameraTo(lat: Double, lng: Double, zoom: Float? = null) {
-  val latLng = LatLng(lat, lng)
-  if (zoom != null)
-    moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
-  else
-    moveCamera(CameraUpdateFactory.newLatLng(latLng))
+    val latLng = LatLng(lat, lng)
+    if (zoom != null)
+        moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
+    else
+        moveCamera(CameraUpdateFactory.newLatLng(latLng))
 }

@@ -23,19 +23,21 @@ import com.google.firebase.messaging.RemoteMessage
 
 class MessagingService : FirebaseMessagingService() {
 
-  override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-    Log.d(TAG, "From: " + remoteMessage!!.from!!)
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        if (remoteMessage == null) {
+            return
+        }
+        Log.d(TAG, "From: " + remoteMessage.from!!)
+        if (remoteMessage.data.isNotEmpty()) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.data)
+        }
 
-    if (remoteMessage.data.size > 0) {
-      Log.d(TAG, "Message data payload: " + remoteMessage.data)
+        if (remoteMessage.notification != null) {
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+        }
     }
 
-    if (remoteMessage.notification != null) {
-      Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+    companion object {
+        private val TAG = "messaging"
     }
-  }
-
-  companion object {
-    private val TAG = "messaging"
-  }
 }

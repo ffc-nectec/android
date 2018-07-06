@@ -25,30 +25,29 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 class FfcCentral(url: String = "https://ffc-nectec.herokuapp.com/v0/") {
 
-  val retrofitBuilder = Retrofit.Builder().baseUrl(url)
+    val retrofitBuilder = Retrofit.Builder().baseUrl(url)
 
-  inline fun <reified T> service(): T {
-    val httpBuilder: OkHttpClient.Builder =
-      OkHttpClient.Builder()
-        .readTimeout(60, SECONDS)
-        .writeTimeout(60, SECONDS)
-        .connectTimeout(30, SECONDS)
-    httpBuilder.addInterceptor(DefaultInterceptor())
-    val token = TOKEN
-    if (token != null)
-      httpBuilder.addInterceptor(AuthTokenInterceptor(token))
+    inline fun <reified T> service(): T {
+        val httpBuilder: OkHttpClient.Builder =
+            OkHttpClient.Builder()
+                .readTimeout(60, SECONDS)
+                .writeTimeout(60, SECONDS)
+                .connectTimeout(30, SECONDS)
+        httpBuilder.addInterceptor(DefaultInterceptor())
+        val token = TOKEN
+        if (token != null)
+            httpBuilder.addInterceptor(AuthTokenInterceptor(token))
 
-    var client = httpBuilder.build()
-    return retrofitBuilder
-      .addConverterFactory(GsonConverterFactory.create(ffcGson))
-      .client(client)
-      .build()
-      .create(T::class.java)
-  }
+        var client = httpBuilder.build()
+        return retrofitBuilder
+            .addConverterFactory(GsonConverterFactory.create(ffcGson))
+            .client(client)
+            .build()
+            .create(T::class.java)
+    }
 
-  companion object {
-    var TOKEN: String? = null
-  }
+    companion object {
+        var TOKEN: String? = null
+    }
 }
-
 
