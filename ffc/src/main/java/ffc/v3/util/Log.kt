@@ -21,7 +21,7 @@ import android.util.Log
 import ffc.v3.BuildConfig
 
 fun debug(message: String, vararg args: Any?, throwable: Throwable? = null) {
-  if (BuildConfig.DEBUG) {
-    Log.d("FFC", String.format(message, *args), throwable)
-  }
+    if (BuildConfig.DEBUG) {
+        Log.d("FFC", String.format(message, *args), throwable)
+    }
 }

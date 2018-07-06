@@ -33,43 +33,42 @@ import retrofit2.http.Path
 
 class InstanceIDService : FirebaseInstanceIdService() {
 
-  override fun onTokenRefresh() {
-    super.onTokenRefresh()
-    val refreshedToken = FirebaseInstanceId.getInstance().token
-    Log.d("FBIdService", "Refreshed token: " + refreshedToken!!)
+    override fun onTokenRefresh() {
+        super.onTokenRefresh()
+        val refreshedToken = FirebaseInstanceId.getInstance().token
+        Log.d("FBIdService", "Refreshed token: " + refreshedToken!!)
 
-    val lastToken = defaultSharedPreferences.firebaseToken
-    if (lastToken != null) {
-      unregisterToServer(lastToken)
+        val lastToken = defaultSharedPreferences.firebaseToken
+        if (lastToken != null) {
+            unregisterToServer(lastToken)
+        }
+
+        sendRegistrationToServer(refreshedToken)
+        defaultSharedPreferences.firebaseToken = refreshedToken
     }
 
-    sendRegistrationToServer(refreshedToken)
-    defaultSharedPreferences.firebaseToken = refreshedToken
-  }
+    private fun unregisterToServer(firebaseToken: String) {
+        FfcCentral().service<TokenService>()
+            .removeToken(defaultSharedPreferences.org!!.id.toLong(), firebaseToken)
+    }
 
-  private fun unregisterToServer(firebaseToken: String) {
-    FfcCentral().service<TokenService>()
-      .removeToken(defaultSharedPreferences.org!!.id.toLong(), firebaseToken)
-  }
+    private fun sendRegistrationToServer(refreshedToken: String) {
+        FfcCentral().service<TokenService>()
+            .updateToken(defaultSharedPreferences.org!!.id.toLong(), FirebaseToken(refreshedToken))
+    }
 
-  private fun sendRegistrationToServer(refreshedToken: String) {
-    FfcCentral().service<TokenService>()
-      .updateToken(defaultSharedPreferences.org!!.id.toLong(), FirebaseToken(refreshedToken))
+    interface TokenService {
 
-  }
+        @POST("org/{orgId}/mobileFirebaseToken")
+        fun updateToken(
+            @Path("orgId") orgId: Long,
+            @Body token: FirebaseToken
+        ): Call<Unit>
 
-  interface TokenService {
-
-    @POST("org/{orgId}/mobileFirebaseToken")
-    fun updateToken(
-      @Path("orgId") orgId: Long,
-      @Body token: FirebaseToken
-    ): Call<Unit>
-
-    @DELETE("org/{orgId}/mobileFirebaseToken/{token}")
-    fun removeToken(
-      @Path("orgId") orgId: Long,
-      @Path("token") token: String
-    ): Call<Unit>
-  }
+        @DELETE("org/{orgId}/mobileFirebaseToken/{token}")
+        fun removeToken(
+            @Path("orgId") orgId: Long,
+            @Path("token") token: String
+        ): Call<Unit>
+    }
 }

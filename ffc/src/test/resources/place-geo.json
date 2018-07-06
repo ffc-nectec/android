@@ -16,24 +16,13 @@
         "tambon": "คลองหนึ่ง",
         "ampur": "คลองหลวง",
         "changwat": "ปุทมธานี",
-        "coordinates": [
-          102.0,
-          13.0
-        ],
-        "people": [
-          {
-            "id": 3000214,
-            "name": "นายพิรุณ พานิชผล"
-          },
-          {
-            "id": 3000215,
-            "name": "นางสาวพรทิพา โชคสูงเนิน"
-          },
-          {
-            "id": 3000216,
-            "name": "นายธนชัย ทองคุ้ม"
-          }
-        ]
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            102.0,
+            13.0
+          ]
+        }
       },
       "geometry": {
         "type": "Point",
@@ -58,16 +47,13 @@
         "tambon": "คลองหนึ่ง",
         "ampur": "คลองหลวง",
         "changwat": "ปุทมธานี",
-        "coordinates": [
-          102.0,
-          13.1
-        ],
-        "people": [
-          {
-            "id": 2000117,
-            "name": "นายวัชรากร หนูทอง"
-          }
-        ]
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            102.0,
+            13.1
+          ]
+        }
       },
       "geometry": {
         "type": "Point",

@@ -26,22 +26,22 @@ import java.lang.String.format
 
 class DefaultInterceptor : Interceptor {
 
-  @Throws(IOException::class)
-  override fun intercept(chain: Interceptor.Chain): Response {
-    val original = chain.request()
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val original = chain.request()
 
-    val builder = original.newBuilder()
-      .addHeader("User-Agent", USER_AGENT)
-      .addHeader("Accept", "application/json; charset=utf-8")
-      .addHeader("Accept-Charset", "utf-8")
-      .addHeader("X-Requested-By", "ffc-v3")
+        val builder = original.newBuilder()
+            .addHeader("User-Agent", USER_AGENT)
+            .addHeader("Accept", "application/json; charset=utf-8")
+            .addHeader("Accept-Charset", "utf-8")
+            .addHeader("X-Requested-By", "ffc-v3")
 
-    return chain.proceed(builder.build())
-  }
+        return chain.proceed(builder.build())
+    }
 
-  companion object {
-    private val ANDROID = format("Android ${Build.VERSION.RELEASE} (${Build.VERSION.SDK_INT})")
-    private val DEVICE = format("%s %s", Build.BRAND, Build.MODEL)
-    private val USER_AGENT = "FFC/${BuildConfig.VERSION_NAME} (${ANDROID}; ${DEVICE})"
-  }
+    companion object {
+        private val ANDROID = format("Android ${Build.VERSION.RELEASE} (${Build.VERSION.SDK_INT})")
+        private val DEVICE = format("%s %s", Build.BRAND, Build.MODEL)
+        private val USER_AGENT = "FFC/${BuildConfig.VERSION_NAME} ($ANDROID; $DEVICE)"
+    }
 }

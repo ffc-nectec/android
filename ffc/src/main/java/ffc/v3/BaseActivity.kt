@@ -30,42 +30,42 @@ import org.jetbrains.anko.design.indefiniteSnackbar
 
 open class BaseActivity : AppCompatActivity() {
 
-  var offlineSnackbar: Snackbar? = null
-  var isOnline = false
-    private set(value) {
-      field = value
-      onConnectivityChanged(field)
+    var offlineSnackbar: Snackbar? = null
+    var isOnline = false
+        private set(value) {
+            field = value
+            onConnectivityChanged(field)
+        }
+
+    val org: Organization get() = defaultSharedPreferences.org!!
+
+    private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isOnline = connectivityManager.isConnectedOrConnecting
     }
 
-  val org: Organization get() = defaultSharedPreferences.org!!
-
-  private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    isOnline = connectivityManager.isConnectedOrConnecting
-  }
-
-  override fun onResume() {
-    super.onResume()
-    registerReceiver(connectivityChange, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-  }
-
-  override fun onPause() {
-    super.onPause()
-    unregisterReceiver(connectivityChange)
-  }
-
-  open protected fun onConnectivityChanged(
-    isConnect: Boolean,
-    message: String = "You are offline"
-  ) {
-    if (isConnect) {
-      offlineSnackbar?.dismiss()
-    } else {
-      contentView?.let {
-        offlineSnackbar = indefiniteSnackbar(it, message)
-      }
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(connectivityChange, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
-  }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(connectivityChange)
+    }
+
+    protected open fun onConnectivityChanged(
+        isConnect: Boolean,
+        message: String = "You are offline"
+    ) {
+        if (isConnect) {
+            offlineSnackbar?.dismiss()
+        } else {
+            contentView?.let {
+                offlineSnackbar = indefiniteSnackbar(it, message)
+            }
+        }
+    }
 }

@@ -18,7 +18,7 @@
 package ffc.v3.util
 
 inline fun assertThat(value: Boolean, lazyMessage: () -> String) {
-  if (!value) throw IllegalArgumentException(lazyMessage())
+    if (!value) throw IllegalArgumentException(lazyMessage())
 }
 
 fun String?.notNullOrBlank() = !this.isNullOrBlank()

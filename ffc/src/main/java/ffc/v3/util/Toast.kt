@@ -23,9 +23,9 @@ import ffc.v3.BuildConfig
 import org.jetbrains.anko.toast
 
 fun Context.debugToast(msg: CharSequence) {
-  if (BuildConfig.DEBUG) toast(msg)
+    if (BuildConfig.DEBUG) toast(msg)
 }
 
 fun Context.debugToast(@StringRes msg: Int) {
-  if (BuildConfig.DEBUG) toast(msg)
+    if (BuildConfig.DEBUG) toast(msg)
 }

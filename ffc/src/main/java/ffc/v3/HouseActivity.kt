@@ -23,10 +23,10 @@ import org.jetbrains.anko.toast
 
 class HouseActivity : AppCompatActivity() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_house)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_house)
 
-    toast(intent.getStringExtra("houseId"))
-  }
+        toast(intent.getStringExtra("houseId"))
+    }
 }

@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
-import ffc.entity.Address
+import ffc.entity.Place
 import ffc.entity.gson.ffcGson
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
@@ -35,7 +35,7 @@ import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
 import ffc.v3.util.find
 import ffc.v3.util.toPoint
-import kotlinx.android.synthetic.main.activity_add_location.done
+import kotlinx.android.synthetic.main.activity_add_location.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.startActivityForResult
@@ -47,79 +47,78 @@ import th.or.nectec.marlo.PointMarloFragment
 
 class MarkLocationActivity : BaseActivity() {
 
-  val REQ_TARGET = 10293
+    val REQ_TARGET = 10293
 
-  lateinit var targetPlace: Address
+    lateinit var targetPlace: Place
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    setContentView(layout.activity_add_location)
+        setContentView(layout.activity_add_location)
 
-    val mapFragment = supportFragmentManager.find<PointMarloFragment>(id.mapFragment)
-    with(mapFragment) {
-      setPaddingTop(dimen(R.dimen.maps_padding_top))
-      setMaxPoint(1)
-      setStartLocation(
-        intent.getParcelableExtra("target") as LatLng,
-        intent.getFloatExtra("zoom", 15.0f)
-      )
-      onMapReady {
-        findViewById(R.id.marlo_undo).visibility = View.GONE
-      }
-      setOnPointChange {
-        if (it.isEmpty())
-          toast("Please Mark location")
-        else {
-          this@MarkLocationActivity.done.show()
-          with(it[0].position) {
-            targetPlace.coordinates = me.piruin.geok.LatLng(latitude, longitude)
-            targetPlace.location = toPoint()
-          }
+        val mapFragment = supportFragmentManager.find<PointMarloFragment>(id.mapFragment)
+        with(mapFragment) {
+            setPaddingTop(dimen(R.dimen.maps_padding_top))
+            setMaxPoint(1)
+            setStartLocation(
+                intent.getParcelableExtra("target") as LatLng,
+                intent.getFloatExtra("zoom", 15.0f)
+            )
+            onMapReady {
+                findViewById(R.id.marlo_undo).visibility = View.GONE
+            }
+            setOnPointChange {
+                if (it.isEmpty())
+                    toast("Please Mark location")
+                else {
+                    this@MarkLocationActivity.done.show()
+                    with(it[0].position) {
+                        targetPlace.location = toPoint()
+                    }
+                }
+            }
         }
-      }
+        done.setOnClickListener {
+            updateHouse()
+        }
+        done.hide()
+        startActivityForResult<HouseNoLocationActivtiy>(REQ_TARGET)
     }
-    done.setOnClickListener {
-      updateHouse()
-    }
-    done.hide()
-    startActivityForResult<HouseNoLocationActivtiy>(REQ_TARGET)
-  }
 
-  private fun updateHouse() {
-    val dialog = indeterminateProgressDialog("updating")
-//    toast("org/${org!!.id}/place/house/${targetPlace.id}")
-    FfcCentral().service<PlaceService>().updateHouse(org!!.id.toLong(), targetPlace).enqueue {
-      always { dialog.dismiss() }
-      onSuccess {
-        setResult(Activity.RESULT_OK)
-        finish()
-      }
-      onError {
-        alert("error ${code()}") {
-          positiveButton("try again") { updateHouse() }
-        }.show()
-      }
-      onFailure {
-        alert("${it.message}") {
-          positiveButton("try again") { updateHouse() }
-        }.show()
-      }
-    }
-  }
+    private fun updateHouse() {
+        val dialog = indeterminateProgressDialog("updating")
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    when (resultCode) {
-      Activity.RESULT_OK -> {
-        targetPlace = data?.getExtra<Address>("house")!!
-        toast("targeting ${targetPlace.toJson()}")
-      }
-      Activity.RESULT_CANCELED -> finish()
+        FfcCentral().service<PlaceService>().updateHouse(org.id.toLong(), targetPlace).enqueue {
+            always { dialog.dismiss() }
+            onSuccess {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+            onError {
+                alert("error ${code()}") {
+                    positiveButton("try again") { updateHouse() }
+                }.show()
+            }
+            onFailure {
+                alert("${it.message}") {
+                    positiveButton("try again") { updateHouse() }
+                }.show()
+            }
+        }
     }
-  }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (resultCode) {
+            Activity.RESULT_OK -> {
+                targetPlace = data?.getExtra<Place>("house")!!
+                toast("targeting ${targetPlace.toJson()}")
+            }
+            Activity.RESULT_CANCELED -> finish()
+        }
+    }
 }
 
 inline fun <reified T> Intent.getExtra(key: String, gson: Gson = ffcGson): T? {
-  return getStringExtra(key).parseTo<T>(gson)
+    return getStringExtra(key).parseTo<T>(gson)
 }

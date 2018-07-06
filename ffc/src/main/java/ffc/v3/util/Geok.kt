@@ -17,8 +17,9 @@
 
 package ffc.v3.util
 
+import com.google.android.gms.maps.model.LatLng
 import me.piruin.geok.geometry.Point
 
-fun com.google.android.gms.maps.model.LatLng.toPoint(): Point {
-  return Point(latitude, longitude)
+fun LatLng.toPoint(): Point {
+    return Point(latitude, longitude)
 }

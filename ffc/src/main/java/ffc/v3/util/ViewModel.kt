@@ -24,8 +24,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.FragmentActivity
 
 inline fun <reified T : ViewModel> FragmentActivity.viewModel(): T =
-  ViewModelProviders.of(this).get(T::class.java)
+    ViewModelProviders.of(this).get(T::class.java)
 
 inline fun <T> LiveData<T>.observe(owner: FragmentActivity, crossinline task: (T?) -> Unit) {
-  this.observe(owner, Observer<T> { t -> task(t) })
+    this.observe(owner, Observer<T> { t -> task(t) })
 }

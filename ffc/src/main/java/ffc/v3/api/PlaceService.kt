@@ -17,8 +17,8 @@
 
 package ffc.v3.api
 
-import ffc.entity.Address
 import ffc.entity.House
+import ffc.entity.Place
 import me.piruin.geok.geometry.FeatureCollection
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -30,17 +30,17 @@ import retrofit2.http.Path
 
 interface PlaceService {
 
-  @Headers("accept: application/vnd.geo+json")
-  @GET("org/{orgId}/place/house")
-  fun listHouseGeoJson(@Path("orgId") orgId: Long): Call<FeatureCollection<House>>
+    @Headers("accept: application/vnd.geo+json")
+    @GET("org/{orgId}/place/house")
+    fun listHouseGeoJson(@Path("orgId") orgId: Long): Call<FeatureCollection<House>>
 
-  @GET("org/{orgId}/place/house?haveLocation=false")
-  fun listHouseNoLocation(@Path("orgId") orgId: Long): Call<List<House>>
+    @GET("org/{orgId}/place/house?haveLocation=false")
+    fun listHouseNoLocation(@Path("orgId") orgId: Long): Call<List<House>>
 
-  @PUT("org/{orgId}/place/house/{houseId}")
-  fun updateHouse(
-    @Path("orgId") orgId: Long,
-    @Body house: Address,
-    @Path("houseId") houseId: String = house._id
-  ): Call<ResponseBody>
+    @PUT("org/{orgId}/place/house/{houseId}")
+    fun updateHouse(
+        @Path("orgId") orgId: Long,
+        @Body place: Place,
+        @Path("houseId") houseId: String = place.id
+    ): Call<ResponseBody>
 }
