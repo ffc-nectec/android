@@ -14,25 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ffc.v3.util
 
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import ffc.entity.Organization
-import ffc.entity.gson.ffcGson
-import ffc.entity.gson.parseTo
-import ffc.entity.gson.toJson
+package ffc.v3.messaging
 
-inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = ffcGson): T? =
-    this.getString(key, null)?.parseTo<T>(gson)
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.FirebaseInstanceIdService
 
-var SharedPreferences.org: Organization?
-    set(value) = edit().put("org", value).apply()
-    get() = get("org")
+class InstanceIdService : FirebaseInstanceIdService() {
 
-fun <T> SharedPreferences.Editor.put(
-    key: String,
-    value: T,
-    gson: Gson = ffcGson
-) = this.apply { putString(key, value!!.toJson(gson)) }
+    override fun onTokenRefresh() {
+        super.onTokenRefresh()
+        val refreshedToken = FirebaseInstanceId.getInstance().token
 
+        val messaging = messagingModule(application)
+        messaging.subscripbe(refreshedToken)
+    }
+}
