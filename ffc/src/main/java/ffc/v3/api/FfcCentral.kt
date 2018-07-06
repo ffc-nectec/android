@@ -23,16 +23,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
-class FfcCentral(url: String = "https://ffc-nectec.herokuapp.com/v0/") {
+class FfcCentral(url: String = "https://ffc-api-test.herokuapp.com/v0/") {
 
     val retrofitBuilder = Retrofit.Builder().baseUrl(url)
 
     inline fun <reified T> service(): T {
-        val httpBuilder: OkHttpClient.Builder =
-            OkHttpClient.Builder()
-                .readTimeout(60, SECONDS)
-                .writeTimeout(60, SECONDS)
-                .connectTimeout(30, SECONDS)
+        val httpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
+            .readTimeout(60, SECONDS)
+            .writeTimeout(60, SECONDS)
+            .connectTimeout(30, SECONDS)
         httpBuilder.addInterceptor(DefaultInterceptor())
         val token = TOKEN
         if (token != null)

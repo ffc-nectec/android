@@ -101,7 +101,7 @@ class GeokTest {
         val collection = json.parseTo<FeatureCollection<House>>()
         val address = collection.features[0].properties
 
-        with(address!! as House) {
+        with(address!!) {
             id shouldEqual "10000124"
             identity shouldEqual ThaiHouseholdId("54520015001")
             no shouldEqual "510/45"
