@@ -37,7 +37,7 @@ class LoginActivity : BaseActivity(), LoginPresenter {
     private val organization by lazy { findViewById<Spinney<Organization>>(R.id.org) }
     private val orgService = FfcCentral().service<OrgService>()
 
-    lateinit var controller: LoginController
+    lateinit var interactor: LoginInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class LoginActivity : BaseActivity(), LoginPresenter {
             return
         }
 
-        var controller = LoginController(this)
+        val controller = LoginInteractor(this)
         controller.presenter = this
 
         supportFragmentManager.beginTransaction()
@@ -68,7 +68,7 @@ class LoginActivity : BaseActivity(), LoginPresenter {
     private fun getOrgFragmentt(): Fragment {
         return OrgSelectFragment().apply {
             onNext = {
-                controller.org = it
+                interactor.org = it
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, getUserPassFragment(org))
                     .addToBackStack(null)
@@ -81,15 +81,15 @@ class LoginActivity : BaseActivity(), LoginPresenter {
         return UserPassFragment().apply {
             organization = org
             onLoginRequest = { user, pass ->
-                controller.doLogin(user, pass)
+                interactor.doLogin(user, pass)
             }
         }
     }
 
-    override fun onLoginSuccess(callback: () -> Unit) {
+    override fun onLoginSuccess() {
         startActivity(intentFor<MapsActivity>())
     }
 
-    override fun error(message: String) {
+    override fun onError(message: String) {
     }
 }

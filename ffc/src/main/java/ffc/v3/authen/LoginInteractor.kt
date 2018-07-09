@@ -10,7 +10,7 @@ import retrofit2.dsl.enqueue
 import retrofit2.dsl.then
 import java.nio.charset.Charset
 
-class LoginController(val context: Context) {
+class LoginInteractor(val context: Context) {
 
     var idRepo = getIdentityRepo(context)
     private val orgService = FfcCentral().service<OrgService>()
@@ -25,17 +25,17 @@ class LoginController(val context: Context) {
 
         orgService.createAuthorize(org!!.id.toLong(), basicToken).enqueue {
             onSuccess {
-                presenter.onLoginSuccess {}
+                presenter.onLoginSuccess()
                 val authorize = body()!!
                 FfcCentral.TOKEN = authorize.token
                 idRepo.org = org
                 idRepo.token = authorize.token
             }
             onError {
-                presenter.error(context.getString(R.string.identification_error))
+                presenter.onError(context.getString(R.string.identification_error))
             }
             onFailure {
-                presenter.error(it.message ?: "Something wrong")
+                presenter.onError(it.message ?: "Something wrong")
             }
         }
     }
@@ -44,8 +44,8 @@ class LoginController(val context: Context) {
         orgService.myOrg().then {
             callback(it[0])
         }.catch { res, t ->
-            res?.let { presenter.error("Error") }
-            t?.let { presenter.error(it.message ?: "Something wrong") }
+            res?.let { presenter.onError("Error") }
+            t?.let { presenter.onError(it.message ?: "Something wrong") }
         }
     }
 }

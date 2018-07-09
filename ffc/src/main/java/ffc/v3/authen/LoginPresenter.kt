@@ -2,7 +2,7 @@ package ffc.v3.authen
 
 interface LoginPresenter {
 
-    fun onLoginSuccess(callback: () -> Unit)
+    fun onLoginSuccess()
 
-    fun error(message: String)
+    fun onError(message: String)
 }
