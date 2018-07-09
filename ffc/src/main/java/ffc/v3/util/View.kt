@@ -18,6 +18,7 @@
 package ffc.v3.util
 
 import android.view.View
+import android.widget.EditText
 
 fun View.gone() {
     this.visibility = View.GONE
@@ -26,3 +27,5 @@ fun View.gone() {
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
+
+fun EditText.notNullOrBlank() = !text.isNullOrBlank()
