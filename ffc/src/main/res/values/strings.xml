@@ -40,4 +40,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hospital_name">รพ.สต. ลำพูน</string>
+    <string name="username">ชื่อผู้ใช้งาน</string>
+    <string name="password">รหัสผ่าน</string>
+    <string name="login">เข้่าสู่ระบบ</string>
+    <string name="back">ย้อนกลับ</string>
 </resources>

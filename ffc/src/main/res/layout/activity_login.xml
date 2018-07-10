@@ -9,20 +9,27 @@
         android:id="@+id/ivCommunity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/community_image"
         android:scaleType="centerCrop"
-        android:src="@drawable/community"
-        android:contentDescription="@string/community_image" />
+        android:src="@drawable/community" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.3"
+        android:alpha="0.4"
         android:background="@android:color/black"
         android:contentDescription="@string/overlay_background" />
 
-    <FrameLayout
-        android:id="@+id/contentContainer"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <FrameLayout
+            android:id="@+id/contentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>
