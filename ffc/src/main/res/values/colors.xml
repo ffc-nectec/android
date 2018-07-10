@@ -42,8 +42,6 @@
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#BDBDBD</color>
     <color name="colorAccent">#FF4081</color>
-
-    <!-- Amber -->
-    <color name="amber300">#FFD54F</color>
+    <color name="overlay_black">#79000000</color>
 
 </resources>

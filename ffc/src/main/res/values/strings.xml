@@ -37,4 +37,7 @@
     <string name="application_logo">Application Logo</string>
     <string name="version_4_0">Version 4.0</string>
     <string name="overlay_background">Overlay Background</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
