@@ -41,7 +41,7 @@
             android:freezesText="true"
             android:hint="@string/organization"
             android:inputType="text"
-            android:textColor="@color/teal_200"/>
+            android:textColor="@color/hint_login"/>
 
     </android.support.design.widget.TextInputLayout>
 

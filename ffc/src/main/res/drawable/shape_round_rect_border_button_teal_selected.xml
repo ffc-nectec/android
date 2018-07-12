@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <solid android:color="@color/overlay_black" />
-    <stroke android:width="2dp" android:color="@color/teal_800"/>
+    <stroke android:width="2dp" android:color="@color/button_login_back_selected"/>
     <corners android:radius="23dp" />
     <padding
         android:bottom="16dp"

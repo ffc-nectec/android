@@ -77,6 +77,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_round_rect_border_button_teal"
         android:text="@string/back"
-        android:textColor="@color/teal_300" />
+        android:textColor="@color/text_button_login_back" />
 
 </LinearLayout>

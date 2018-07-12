@@ -47,11 +47,11 @@
     </style>
 
     <style name="TextLabel" parent="TextAppearance.AppCompat">
-        <item name="android:textColorHint">@color/teal_300</item>
+        <item name="android:textColorHint">@color/hint_login_no_activated</item>
         <item name="android:textSize">20sp</item>
-        <item name="colorAccent">@color/teal_200</item>
-        <item name="colorControlNormal">@color/teal_300</item>
-        <item name="colorControlActivated">@color/teal_200</item>
+        <item name="colorAccent">@color/hint_login</item>
+        <item name="colorControlNormal">@color/hint_login_no_activated</item>
+        <item name="colorControlActivated">@color/hint_login</item>
     </style>
 
 </resources>
