@@ -8,16 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
+import ffc.entity.Token
 
 import ffc.v3.R
-import kotlinx.android.synthetic.main.fragment_login_org.*
+import ffc.v3.baseActivity
 
 class LoginOrgFragment : Fragment(), View.OnClickListener {
 
     lateinit var etOrganization: EditText
     lateinit var btnNext: View
     lateinit var organization: String
+
+    lateinit var hospitalAuthorization: Token
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -34,14 +36,20 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
 
         btnNext = rootView.findViewById(R.id.btnNext)
         btnNext.setOnClickListener(this)
+
+        // Assert the Internet connection
+        if (baseActivity.isOnline) {
+            btnNext.visibility = View.VISIBLE
+        }
+
     }
 
     @SuppressLint("CommitTransaction")
     override fun onClick(view: View?) {
-        when(view!!.id) {
+        when (view!!.id) {
             R.id.btnNext -> {
                 // TODO: Check Organization Unit
-                
+
                 val fragment = LoginUserFragment()
                 val fragmentManager = activity!!.supportFragmentManager
                 val fragmentTransaction = fragmentManager!!.beginTransaction()
