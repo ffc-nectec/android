@@ -44,7 +44,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="overlay_black">#79000000</color>
 
-    <!-- Button -->
+    <!-- Login -->
     <color name="button_login">@color/teal_500</color>
     <color name="button_login_pressed">@color/teal_700</color>
     <color name="button_login_selected">@color/teal_800</color>
@@ -52,9 +52,10 @@
     <color name="button_login_back_pressed">@color/teal_900</color>
     <color name="button_login_back_selected">@color/teal_800</color>
     <color name="text_button_login_back">@color/teal_300</color>
-
-    <!-- Hint Login -->
     <color name="hint_login">@color/teal_200</color>
     <color name="hint_login_no_activated">@color/teal_300</color>
+    <color name="hint_error">@color/yellow_500</color>
+
+
 
 </resources>

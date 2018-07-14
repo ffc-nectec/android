@@ -49,6 +49,7 @@
         android:id="@+id/btnNext"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@drawable/selector_round_rect_button_teal"
         android:text="@string/next"
         android:textColor="@android:color/white" />

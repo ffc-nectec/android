@@ -46,12 +46,22 @@
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
     </style>
 
-    <style name="TextLabel" parent="TextAppearance.AppCompat">
+    <style name="TextLabel" parent="Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/hint_login_no_activated</item>
         <item name="android:textSize">20sp</item>
         <item name="colorAccent">@color/hint_login</item>
         <item name="colorControlNormal">@color/hint_login_no_activated</item>
         <item name="colorControlActivated">@color/hint_login</item>
+    </style>
+
+    <style name="error_appearance" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColor">@color/hint_error</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="InputError" parent="Widget.Design.TextInputLayout"/>
+    <style name="InputError.Purple">
+        <item name="android:textColor">@color/purple_500</item>
     </style>
 
 </resources>

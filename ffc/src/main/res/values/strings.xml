@@ -43,6 +43,6 @@
     <string name="hospital_name">รพ.สต. ลำพูน</string>
     <string name="username">ชื่อผู้ใช้งาน</string>
     <string name="password">รหัสผ่าน</string>
-    <string name="login">เข้่าสู่ระบบ</string>
+    <string name="login">เข้าสู่ระบบ</string>
     <string name="back">ย้อนกลับ</string>
 </resources>
