@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ffc.v3.BaseActivity
 import ffc.v3.MapsActivity
 import ffc.v3.R
 import ffc.v3.authen.LoginPresenter
@@ -29,7 +30,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.intentFor
 
-class LoginActivity : AppCompatActivity(), LoginPresenter {
+class LoginActivity : BaseActivity(), LoginPresenter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
