@@ -4,7 +4,5 @@ interface LoginPresenter {
 
     fun onLoginSuccess()
 
-    fun onError(message: String)
-
-    fun onError(message: Int)
+    fun onError(throwable: Throwable)
 }

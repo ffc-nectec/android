@@ -1,4 +1,4 @@
-package ffc.v3.fragment
+package ffc.v3.authen.fragment
 
 
 import android.os.Bundle
@@ -9,13 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import ffc.entity.Organization
-import ffc.entity.Token
 import ffc.entity.gson.toJson
 import ffc.v3.BuildConfig
 
 import ffc.v3.R
 import ffc.v3.authen.LoginInteractor
-import ffc.v3.authen.LoginPresenter
 import ffc.v3.baseActivity
 import ffc.v3.util.EventListener
 import ffc.v3.util.inputAssertion
@@ -26,16 +24,14 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
 
     lateinit var etOrganization: EditText
     lateinit var btnNext: View
-    private lateinit var organizationName: String
+
+    private val MY_ORG = 0
+    private val ALL_ORG = 1
+
     lateinit var inputLayoutOrganization: TextInputLayout
-
-    lateinit var organization: Organization
+    private lateinit var organizationName: String
+    private lateinit var organization: Organization
     private lateinit var interactor: LoginInteractor
-    lateinit var presenter: LoginPresenter
-
-    lateinit var hospitalAuthorization: Token
-    lateinit var onNext: ((Organization) -> Unit)
-
     private lateinit var eventListener: EventListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,11 +41,6 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
         initInstances(rootView, savedInstanceState)
 
         return rootView
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-//        onNext = (activity as LoginActivity).onNext
     }
 
     private fun initInstances(rootView: View, savedInstanceState: Bundle?) {
@@ -98,15 +89,25 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
         interactor.requestMyOrg {
             // User connects to the network's hospital
             if (it[0] == "Success") {
-                eventListener.onShowProgressBar(false)
-                val org = findOrgWithId(it[1] as List<Organization>, userNetwork)
-                if (org != null)
-                    goLoginUserFragment(org)
+                checkOrganization(it, userNetwork, MY_ORG)
 
                 // User doesn't connect to the hospital's network
-            } else if (it[0] == 404)
-                findAllOrganization()
+            } else if (it[0] == 404) {
+                interactor.requestAllOrg {
+                    checkOrganization(it, userNetwork, ALL_ORG)
+                }
+            }
         }
+    }
+
+    private fun checkOrganization(it: MutableList<Any>, userNetwork: String, type: Int) {
+        eventListener.onShowProgressBar(false)
+        val org = findOrgWithId(it[1] as List<Organization>, userNetwork)
+
+        if (org != null)
+            goLoginUserFragment(org)
+        else if (type == ALL_ORG)
+            longToast(R.string.not_found_org)
     }
 
     private fun findOrgWithId(organizationList: List<Organization>, networkName: String): Organization? {
@@ -118,25 +119,6 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
         return null
     }
 
-    private fun findAllOrganization() {
-        // TODO: Find Org All
-        longToast(R.string.not_found_org)
-
-//        val organizationList: List<Organization> = it[1] as List<Organization>
-//        var result: Boolean = false
-
-        /*for (i in 0 until organizationList.size)
-            if (organizationList[i].name.equals(userNetwork, true)) {
-                result = true
-                break
-            }*/
-
-        /*if (result) {
-            eventListener.onShowProgressBar(false)
-            goLoginUserFragment(userNetwork)
-        }*/
-    }
-
     override fun onClick(view: View?) {
         when (view!!.id) {
             R.id.btnNext -> {
@@ -144,6 +126,7 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
                 organizationName = etOrganization.text.toString()
                 val checkOrgName = inputAssertion(inputLayoutOrganization, organizationName,
                     getString(R.string.please_type_org))
+
                 if (checkOrgName) {
                     // Whether the user connects to the hospital's network
                     eventListener.onShowProgressBar(true)

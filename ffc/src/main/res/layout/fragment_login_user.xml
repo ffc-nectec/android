@@ -8,7 +8,7 @@
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".fragment.LoginUserFragment">
+    tools:context=".authen.fragment.LoginUserFragment">
 
     <ImageView
         android:layout_width="140dp"

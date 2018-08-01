@@ -15,63 +15,38 @@
  * limitations under the License.
  */
 
-package ffc.v3.activity
+package ffc.v3.authen.activity
 
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.v3.BaseActivity
-import ffc.v3.MapsActivity
 import ffc.v3.R
-import ffc.v3.authen.LoginInteractor
-import ffc.v3.authen.LoginPresenter
-import ffc.v3.fragment.LoginOrgFragment
+import ffc.v3.authen.fragment.LoginOrgFragment
 import ffc.v3.util.EventListener
 import ffc.v3.util.gone
 import ffc.v3.util.visible
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.intentFor
 
-class LoginActivity : BaseActivity(), LoginPresenter, EventListener {
-
-    //    lateinit var ivOverlayBackground: ImageView
-//    lateinit var pbLoading: ProgressBar
-    lateinit var interactor: LoginInteractor
-//    lateinit var onLoginRequest: (username: String, password: String) -> Unit
-//    lateinit var onNext: ((Organization) -> Unit)
+class LoginActivity : BaseActivity(), EventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Blur background image
-        blurImage()
         initInstances()
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-//                .add(R.id.contentContainer, getOrgFragment(), "LoginOrg")
                 .add(R.id.contentContainer, LoginOrgFragment(), "LoginOrg")
                 .commit()
         }
-
-//        interactor = LoginInteractor(this)
-//        onLoginRequest = { username, password ->
-//            interactor.doLogin(username, password)
-//        }
-//
-//        onNext = {
-//            interactor.org = it
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, getUserPassFragment(org))
-//                .addToBackStack(null)
-//                .commit()
-//        }
     }
 
     private fun initInstances() {
-
+        // Blur background image
+        blurImage()
     }
 
     private fun blurImage() {
@@ -81,18 +56,6 @@ class LoginActivity : BaseActivity(), LoginPresenter, EventListener {
             .into(ivCommunity)
     }
 
-//    private fun getOrgFragment(): Fragment {
-//        return LoginOrgFragment().apply {
-//
-//        }
-//    }
-
-//    private fun getUserPassFragment(org: Organization): Fragment {
-//        return LoginUserFragment().apply{
-//            organization = org
-//        }
-//    }
-
     override fun onShowProgressBar(state: Boolean) {
         if (state) {
             ivOverlayBackground.visible()
@@ -101,16 +64,6 @@ class LoginActivity : BaseActivity(), LoginPresenter, EventListener {
             ivOverlayBackground.gone()
             pbLoading.gone()
         }
-    }
-
-    override fun onLoginSuccess() {
-        startActivity(intentFor<MapsActivity>())
-    }
-
-    override fun onError(message: Int) {
-    }
-
-    override fun onError(message: String) {
     }
 
 }

@@ -10,7 +10,7 @@ import okhttp3.Credentials
 import retrofit2.dsl.enqueue
 import retrofit2.dsl.then
 import java.nio.charset.Charset
-import ffc.v3.authen.LoginPresenter
+import retrofit2.Response
 
 class LoginInteractor() {
 
@@ -35,27 +35,57 @@ class LoginInteractor() {
                 idRepo.token = authorize.token
             }
             onError {
-                loginPresenter.onError(R.string.identification_error)
+                loginPresenter.onError(LoginErrorException())
             }
             onFailure {
-                loginPresenter.onError(it.message ?: "Something wrong")
+                loginPresenter.onError(LoginFailureException(it.message ?: "Something wrong"))
             }
         }
     }
 
     fun requestMyOrg(callback: (MutableList<Any>) -> Unit) {
-        val myList: MutableList<Any> = mutableListOf<Any>()
+        var myList: MutableList<Any> = mutableListOf()
 
         orgService.myOrg().then {
-            myList.add(0, "Success")
-            myList.add(1, it)
+            myList = setOrgList(it)
             callback(myList)
         }.catch { res, t ->
-            if (res!!.code() == 404)
-                myList.add(0, 404)
-            callback(myList)
-//            res?.let { presenter.onError("Error") }
-//            t?.let { presenter.onError(it.message ?: "Something wrong") }
+            res?.let {
+                setOrgError(it, myList)
+                callback(myList)
+            }
+            t?.let { loginPresenter.onError(LoginFailureException(it.message ?: "Something wrong")) }
         }
     }
+
+    fun requestAllOrg(callback: (MutableList<Any>) -> Unit) {
+        var myList: MutableList<Any> = mutableListOf()
+
+        orgService.listOrgs().then {
+            myList = setOrgList(it)
+            callback(myList)
+        }.catch { res, t ->
+            res?.let {
+                setOrgError(it, myList)
+                callback(myList)
+            }
+            t?.let { loginPresenter.onError(LoginFailureException(it.message ?: "Something wrong")) }
+        }
+    }
+
+    private fun setOrgList(it: List<Organization>): MutableList<Any> {
+        val myList: MutableList<Any> = mutableListOf<Any>()
+        myList.add(0, "Success")
+        myList.add(1, it)
+
+        return myList
+    }
+
+    private fun setOrgError(it: Response<List<Organization>>, myList: MutableList<Any>) {
+        if (it.code() == 404)
+            myList.add(0, 404)
+        loginPresenter.onError(LoginErrorException())
+    }
+
 }
+
