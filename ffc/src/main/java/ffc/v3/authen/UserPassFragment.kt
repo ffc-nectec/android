@@ -27,8 +27,8 @@ class UserPassFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         if (BuildConfig.DEBUG) {
             submitView.setOnLongClickListener {
-                usernameView.setText("admin0")
-                passwordView.setText("1234admin0")
+                usernameView.setText("ploy")
+                passwordView.setText("n")
                 true
             }
         }

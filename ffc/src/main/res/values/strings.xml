@@ -27,7 +27,8 @@
     <string name="no_username">กรุณาระบุ username</string>
     <string name="no_password">กรุณาระบุ password</string>
     <string name="checking_identity">ยืนยันตัวตน..</string>
-    <string name="not_found_org">ไม่พบหน่วยงาน</string>
+    <string name="not_found_org">ไม่พบหน่วยงานที่่ท่านเลือก</string>
+    <string name="please_type_org">กรุณากรอกชื่อหน่วยงาน</string>
     <string name="identification_error">การยืนยันตัวตนผิดพลาด</string>
     <string name="transition_org_name">transition_org_name</string>
     <string name="organization">หน่วยงาน</string>

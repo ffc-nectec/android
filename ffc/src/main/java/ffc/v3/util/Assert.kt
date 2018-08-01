@@ -27,9 +27,9 @@ inline fun assertThat(value: Boolean, lazyMessage: () -> String) {
 
 fun String?.notNullOrBlank() = !this.isNullOrBlank()
 
-fun inputAssertion(textInputLayout: TextInputLayout, editText: EditText,
+fun inputAssertion(textInputLayout: TextInputLayout, textInput: String,
                    text: String): Boolean {
-    return if (TextUtils.isEmpty(editText.text.toString().trim())) {
+    return if (TextUtils.isEmpty(textInput.trim())) {
         textInputLayout.isErrorEnabled = true
         textInputLayout.error = text
         false

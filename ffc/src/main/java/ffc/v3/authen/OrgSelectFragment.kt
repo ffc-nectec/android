@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ffc.entity.Organization
+import ffc.v3.BuildConfig
 import ffc.v3.R
 import kotlinx.android.synthetic.main.auth_fragment_org_select.*
 
@@ -23,6 +24,14 @@ class OrgSelectFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        // Debug User Login
+        if (BuildConfig.DEBUG) {
+            nextView.setOnLongClickListener {
+                orgView.setText("รพ.สต. เนคเทค")
+                true
+            }
+        }
 
         nextView.setOnClickListener {
             onNext(getOrg())

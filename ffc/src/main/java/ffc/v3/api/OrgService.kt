@@ -35,7 +35,7 @@ interface OrgService {
 
     @POST("org/{orgId}/authorize")
     fun createAuthorize(
-        @Path("orgId") id: Long,
+        @Path("orgId") id: String,
         @Header("Authorization") authorize: String
     ): Call<Token>
 }

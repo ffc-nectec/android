@@ -64,4 +64,8 @@
         <item name="android:textColor">@color/purple_500</item>
     </style>
 
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/light_green_500</item>
+    </style>
+
 </resources>

@@ -23,7 +23,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
-class FfcCentral(url: String = "https://ffc-api-test.herokuapp.com/v0/") {
+var url_ploy = "https://ffc-test.herokuapp.com/v0/"
+var url_old = "https://ffc-api-test.herokuapp.com/v0/"
+var url_test = "https://google.com"
+
+class FfcCentral(url: String = url_ploy) {
 
     val retrofitBuilder = Retrofit.Builder().baseUrl(url)
 
