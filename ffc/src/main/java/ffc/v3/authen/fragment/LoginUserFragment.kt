@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,13 @@ import android.widget.TextView
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.v3.BuildConfig
+import ffc.v3.MapsActivity
 
 import ffc.v3.R
 import ffc.v3.authen.*
-import ffc.v3.util.inputAssertion
+import ffc.v3.util.assertionNotEmpty
 import ffc.v3.util.EventListener
+import org.jetbrains.anko.support.v4.intentFor
 import org.jetbrains.anko.support.v4.longToast
 
 class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
@@ -27,7 +30,6 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
 
     lateinit var inputLayoutUsername: TextInputLayout
     lateinit var inputLayoutPassword: TextInputLayout
-    lateinit var tvHospitalName: TextView
     lateinit var etUsername: TextInputEditText
     lateinit var etPwd: TextInputEditText
     lateinit var btnLogin: Button
@@ -56,7 +58,8 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
         orgIdBundle = arguments!!
         org = orgIdBundle.getString("organization").parseTo()
 
-        inputLayoutUsername = rootView!!.findViewById(R.id.inputLayoutUsername)
+        val tvHospitalName = rootView!!.findViewById<TextView>(R.id.tvHospitalName)
+        inputLayoutUsername = rootView.findViewById(R.id.inputLayoutUsername)
         inputLayoutPassword = rootView.findViewById(R.id.inputLayoutPassword)
         etUsername = rootView.findViewById(R.id.etUsername)
         etPwd = rootView.findViewById(R.id.etPwd)
@@ -64,12 +67,16 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
         btnBack = rootView.findViewById(R.id.btnBack)
         btnLogin.setOnClickListener(this)
         btnBack.setOnClickListener(this)
+        eventListener = activity as EventListener
+
+        tvHospitalName.text = org.name
 
         interactor = LoginInteractor()
         interactor.loginPresenter = this
         interactor.idRepo = getIdentityRepo(context!!)
 
-        eventListener = activity as EventListener
+        if (interactor.idRepo.token != null)
+            onLoginSuccess()
 
         // Debug User Login
         if (BuildConfig.DEBUG) {
@@ -87,9 +94,9 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
                 // Assert username and password
                 val username = etUsername.text.toString()
                 val password = etPwd.text.toString()
-                val checkUsername = inputAssertion(inputLayoutUsername, username,
+                val checkUsername = assertionNotEmpty(inputLayoutUsername, username,
                     getString(R.string.no_username))
-                val checkPwd = inputAssertion(inputLayoutPassword, password,
+                val checkPwd = assertionNotEmpty(inputLayoutPassword, password,
                     getString(R.string.no_password))
 
                 // Login
@@ -108,7 +115,8 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
     override fun onLoginSuccess() {
         // Start MapActivity
         eventListener.onShowProgressBar(false)
-        //startActivity(intentFor<MapsActivity>())
+        Log.d("test", "Token is  ${interactor.idRepo.token}")
+        // startActivity(intentFor<MapsActivity>())
     }
 
     override fun onError(throwable: Throwable) {
