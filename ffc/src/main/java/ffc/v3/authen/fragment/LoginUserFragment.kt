@@ -14,13 +14,11 @@ import android.widget.TextView
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.v3.BuildConfig
-import ffc.v3.MapsActivity
 
 import ffc.v3.R
 import ffc.v3.authen.*
 import ffc.v3.util.assertionNotEmpty
-import ffc.v3.util.EventListener
-import org.jetbrains.anko.support.v4.intentFor
+import ffc.v3.util.LoginEventListener
 import org.jetbrains.anko.support.v4.longToast
 
 class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
@@ -37,7 +35,8 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
 
     lateinit var organization: Organization
     private lateinit var interactor: LoginInteractor
-    private lateinit var eventListener: EventListener
+    private lateinit var loginEventListener: LoginEventListener
+    private lateinit var loginPresenter : LoginPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -67,16 +66,13 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
         btnBack = rootView.findViewById(R.id.btnBack)
         btnLogin.setOnClickListener(this)
         btnBack.setOnClickListener(this)
-        eventListener = activity as EventListener
+        loginEventListener = activity as LoginEventListener
 
         tvHospitalName.text = org.name
 
         interactor = LoginInteractor()
         interactor.loginPresenter = this
         interactor.idRepo = getIdentityRepo(context!!)
-
-        if (interactor.idRepo.token != null)
-            onLoginSuccess()
 
         // Debug User Login
         if (BuildConfig.DEBUG) {
@@ -101,7 +97,7 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
 
                 // Login
                 if (checkUsername && checkPwd) {
-                    eventListener.onShowProgressBar(true)
+                    loginEventListener.onShowProgressBar(true)
                     interactor.org = org
                     interactor.doLogin(username, password)
                 }
@@ -114,13 +110,12 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
 
     override fun onLoginSuccess() {
         // Start MapActivity
-        eventListener.onShowProgressBar(false)
-        Log.d("test", "Token is  ${interactor.idRepo.token}")
-        // startActivity(intentFor<MapsActivity>())
+        loginEventListener.onShowProgressBar(false)
+        loginEventListener.onLoginActivity()
     }
 
     override fun onError(throwable: Throwable) {
-        eventListener.onShowProgressBar(false)
+        loginEventListener.onShowProgressBar(false)
         val message = when (throwable) {
             is LoginErrorException -> getString(R.string.identification_error)
             is LoginFailureException -> throwable.message

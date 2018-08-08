@@ -4,6 +4,7 @@ package ffc.v3.authen.fragment
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +15,10 @@ import ffc.v3.BuildConfig
 
 import ffc.v3.R
 import ffc.v3.authen.LoginInteractor
+import ffc.v3.authen.LoginPresenter
+import ffc.v3.authen.getIdentityRepo
 import ffc.v3.baseActivity
-import ffc.v3.util.EventListener
+import ffc.v3.util.LoginEventListener
 import ffc.v3.util.assertionNotEmpty
 import org.jetbrains.anko.support.v4.longToast
 
@@ -28,8 +31,9 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
     lateinit var inputLayoutOrganization: TextInputLayout
     private lateinit var organizationName: String
     private lateinit var organization: Organization
+    private lateinit var loginEventListener: LoginEventListener
     private lateinit var interactor: LoginInteractor
-    private lateinit var eventListener: EventListener
+    private lateinit var loginPresenter : LoginPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,13 +48,18 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
         inputLayoutOrganization = rootView.findViewById(R.id.inputLayoutOrganization)
         etOrganization = rootView.findViewById(R.id.etOrganization)
 
+        loginEventListener = activity as LoginEventListener
+
         btnNext = rootView.findViewById(R.id.btnNext)
         btnNext.setOnClickListener(this)
 
-        interactor = LoginInteractor()
         organization = Organization()
+        interactor = LoginInteractor()
+        interactor.idRepo = getIdentityRepo(context!!)
 
-        eventListener = activity as EventListener
+        if (interactor.idRepo.token != null)
+            loginEventListener.onLoginActivity()
+
 
         // Assert the Internet connection
         if (baseActivity.isOnline) {
@@ -71,7 +80,7 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
         val fragment = LoginUserFragment()
         val fragmentManager = activity!!.supportFragmentManager
 
-        // Pass Organization object to LoginUserFragment for login
+        // Pass Organization object to LoginUserFragme
         val bundle = Bundle()
         bundle.putString("organization", orgObject.toJson())
 
@@ -87,7 +96,7 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
             orgList.find { it.name == userNetwork }?.let {
                 // User connects to the network's hospital or
                 // enters the organization name correctly
-                eventListener.onShowProgressBar(false)
+                loginEventListener.onShowProgressBar(false)
                 goLoginUserFragment(it)
             }
             t?.let {
@@ -108,7 +117,7 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
 
                 if (isOrgNameEmpty) {
                     // Check whether the user connects to the hospital's network
-                    eventListener.onShowProgressBar(true)
+                    loginEventListener.onShowProgressBar(true)
                     checkOrganizationName(organizationName)
                 }
             }

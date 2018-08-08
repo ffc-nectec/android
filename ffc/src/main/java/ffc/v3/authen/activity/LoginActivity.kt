@@ -17,19 +17,21 @@
 
 package ffc.v3.authen.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.v3.BaseActivity
 import ffc.v3.R
 import ffc.v3.authen.fragment.LoginOrgFragment
-import ffc.v3.util.EventListener
+import ffc.v3.util.LoginEventListener
 import ffc.v3.util.gone
 import ffc.v3.util.visible
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity(), EventListener {
+class LoginActivity : BaseActivity(), LoginEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +66,12 @@ class LoginActivity : BaseActivity(), EventListener {
             ivOverlayBackground.gone()
             pbLoading.gone()
         }
+    }
+
+    override fun onLoginActivity() {
+        // Start MapActivity
+        val intent = Intent(this, MapActivity::class.java)
+        startActivity(intent)
     }
 
 }

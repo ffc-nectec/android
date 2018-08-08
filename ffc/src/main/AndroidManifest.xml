@@ -13,7 +13,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ffc.v3">
 
@@ -34,31 +34,26 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="ffc.v3.authen.activity.LoginActivity"
+            android:name=".authen.activity.LoginActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="stateHidden">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
-
         <activity
             android:name=".location.MarkLocationActivity"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
-
         <activity
             android:name=".location.HouseNoLocationActivtiy"
             android:label="เลือกบ้านไม่มีพิกัด"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".HouseActivity" />
 
         <receiver
@@ -74,7 +69,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".messaging.InstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -84,6 +78,8 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/accent" />
+
+        <activity android:name=".authen.activity.MapActivity"></activity>
     </application>
 
 </manifest>
