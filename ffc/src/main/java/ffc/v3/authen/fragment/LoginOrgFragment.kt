@@ -58,7 +58,6 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
                 true
             }
         }
-
     }
 
     private fun goLoginUserFragment(orgObject: Organization) {
