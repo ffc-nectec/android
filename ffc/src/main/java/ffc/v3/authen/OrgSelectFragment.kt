@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import ffc.entity.Organization
 import ffc.v3.BuildConfig
 import ffc.v3.R
-import kotlinx.android.synthetic.main.auth_fragment_org_select.*
+import kotlinx.android.synthetic.main.auth_fragment_org_select.nextView
+import kotlinx.android.synthetic.main.auth_fragment_org_select.orgView
 
 class OrgSelectFragment : Fragment() {
 

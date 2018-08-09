@@ -1,10 +1,8 @@
 package ffc.v3.authen.fragment
 
-
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import android.widget.EditText
 import ffc.entity.Organization
 import ffc.entity.gson.toJson
 import ffc.v3.BuildConfig
-
 import ffc.v3.R
 import ffc.v3.authen.LoginInteractor
 import ffc.v3.authen.LoginPresenter
@@ -21,7 +18,6 @@ import ffc.v3.baseActivity
 import ffc.v3.util.LoginEventListener
 import ffc.v3.util.assertionNotEmpty
 import org.jetbrains.anko.support.v4.longToast
-
 
 class LoginOrgFragment : Fragment(), View.OnClickListener {
 
@@ -33,10 +29,13 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
     private lateinit var organization: Organization
     private lateinit var loginEventListener: LoginEventListener
     private lateinit var interactor: LoginInteractor
-    private lateinit var loginPresenter : LoginPresenter
+    private lateinit var loginPresenter: LoginPresenter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_login_org, container, false)
         initInstances(rootView, savedInstanceState)
@@ -59,7 +58,6 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
 
         if (interactor.idRepo.token != null)
             loginEventListener.onLoginActivity()
-
 
         // Assert the Internet connection
         if (baseActivity.isOnline) {

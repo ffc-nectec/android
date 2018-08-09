@@ -5,5 +5,4 @@ interface LoginEventListener {
     fun onShowProgressBar(state: Boolean)
 
     fun onLoginActivity()
-
 }

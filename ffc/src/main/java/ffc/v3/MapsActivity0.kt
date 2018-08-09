@@ -37,7 +37,7 @@ import ffc.v3.util.find
 import ffc.v3.util.gone
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
-import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.activity_maps.addLocationButton
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.startActivityForResult
@@ -101,7 +101,8 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
                     features.forEach {
                         it.pointStyle = GeoJsonPointStyle().apply {
-                            icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
+                            icon = if (it.getProperty("haveChronics") == "true")
+                                chronicHomeIcon else homeIcon
                             title = "บ้านเลขที่ ${it.getProperty("no")}"
                             snippet = it.getProperty("coordinates").trimMargin()
                         }
@@ -142,6 +143,10 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }
-    private val chronicHomeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap()) }
+    private val homeIcon by lazy {
+        fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap())
+    }
+    private val chronicHomeIcon by lazy {
+        fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap())
+    }
 }

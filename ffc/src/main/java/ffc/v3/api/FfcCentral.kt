@@ -52,4 +52,3 @@ class FfcCentral(url: String = url_ploy) {
         var TOKEN: String? = null
     }
 }
-

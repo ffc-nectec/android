@@ -10,7 +10,7 @@ import java.nio.charset.Charset
 
 class LoginInteractor() {
 
-    lateinit var loginPresenter : LoginPresenter
+    lateinit var loginPresenter: LoginPresenter
     lateinit var idRepo: IdentityRepo
     private val orgService = FfcCentral().service<OrgService>()
 
@@ -43,7 +43,7 @@ class LoginInteractor() {
         }.catch { res, t ->
             res?.let {
                 if (it.code() == 404)
-                    // User doesn't connect to the hospital's network
+                // User doesn't connect to the hospital's network
                     requestAllOrg(callback)
             }
             t?.let {
@@ -59,8 +59,11 @@ class LoginInteractor() {
             res?.let {
                 callback(listOf(), null)
             }
-            t?.let { loginPresenter.onError(LoginFailureException(it.message ?: "Something wrong")) }
+            t?.let {
+                loginPresenter.onError(
+                    LoginFailureException(it.message ?: "Something wrong")
+                )
+            }
         }
     }
 }
-
