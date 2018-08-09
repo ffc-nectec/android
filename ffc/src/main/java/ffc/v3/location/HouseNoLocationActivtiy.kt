@@ -68,7 +68,7 @@ class HouseNoLocationActivtiy : BaseActivity() {
         })
 
         val org = defaultSharedPreferences.org!!
-        FfcCentral().service<PlaceService>().listHouseNoLocation(org.id.toLong()).enqueue {
+        FfcCentral().service<PlaceService>().listHouseNoLocation(org.id).enqueue {
             onSuccess {
                 if (BuildConfig.DEBUG) {
                     toast("Loaded ${body()?.size}")
