@@ -20,8 +20,12 @@ android:
   - extra-android-support
   - extra-android-m2repository
 
+licenses:
+    - 'android-sdk-license-.+'
+
 before_script:
   - echo y | android update sdk --no-ui --filter platform-tool
+  - yes | sdkmanager "platforms;android-28"
 
 script:
   - ./gradlew build
