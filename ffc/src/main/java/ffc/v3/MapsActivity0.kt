@@ -40,7 +40,7 @@ import ffc.v3.util.toBitmap
 import kotlinx.android.synthetic.main.activity_maps.addLocationButton
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.dimen
-import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import retrofit2.dsl.enqueue
@@ -66,11 +66,11 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
         }
         addLocationButton.setOnClickListener {
-            startActivityForResult<MarkLocationActivity>(
-                REQ_ADD_LOCATION,
+            val intent = intentFor<MarkLocationActivity>(
                 "target" to map.cameraPosition.target,
                 "zoom" to map.cameraPosition.zoom
             )
+            startActivityForResult( intent, REQ_ADD_LOCATION)
         }
         showGeoJson()
 
@@ -108,10 +108,9 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                         }
                     }
                     setOnFeatureClickListener {
-                        startActivityForResult<HouseActivity>(
-                            REQ_ADD_LOCATION,
-                            "houseId" to it.getProperty("_id")
-                        )
+                        startActivityForResult(
+                            intentFor<HouseActivity>("houseId" to it.getProperty("_id")),
+                            REQ_ADD_LOCATION)
                     }
                     addLayerToMap()
                 }
