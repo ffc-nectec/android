@@ -28,9 +28,7 @@ import ffc.v3.util.LoginEventListener
 import ffc.v3.util.gone
 import ffc.v3.util.visible
 import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.activity_login.ivCommunity
-import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground
-import kotlinx.android.synthetic.main.activity_login.pbLoading
+import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
 
 class LoginActivity : BaseActivity(), LoginEventListener {

@@ -1,55 +1,41 @@
 package ffc.v3.authen.fragment
 
 import android.os.Bundle
-import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import ffc.entity.Organization
 import ffc.entity.gson.toJson
 import ffc.v3.BuildConfig
 import ffc.v3.R
 import ffc.v3.authen.LoginInteractor
-import ffc.v3.authen.LoginPresenter
 import ffc.v3.authen.getIdentityRepo
 import ffc.v3.baseActivity
 import ffc.v3.util.LoginEventListener
 import ffc.v3.util.assertionNotEmpty
+import kotlinx.android.synthetic.main.fragment_login_org.*
 import org.jetbrains.anko.support.v4.longToast
 
 class LoginOrgFragment : Fragment(), View.OnClickListener {
 
-    lateinit var etOrganization: EditText
-    lateinit var btnNext: View
-
-    lateinit var inputLayoutOrganization: TextInputLayout
     private lateinit var organizationName: String
     private lateinit var organization: Organization
     private lateinit var loginEventListener: LoginEventListener
     private lateinit var interactor: LoginInteractor
-    private lateinit var loginPresenter: LoginPresenter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_login_org, container, false)
-        initInstances(rootView, savedInstanceState)
-
-        return rootView
+        return inflater.inflate(R.layout.fragment_login_org, container, false)
     }
 
-    private fun initInstances(rootView: View, savedInstanceState: Bundle?) {
-        inputLayoutOrganization = rootView.findViewById(R.id.inputLayoutOrganization)
-        etOrganization = rootView.findViewById(R.id.etOrganization)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         loginEventListener = activity as LoginEventListener
-
-        btnNext = rootView.findViewById(R.id.btnNext)
         btnNext.setOnClickListener(this)
 
         organization = Organization()
@@ -72,6 +58,7 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
                 true
             }
         }
+
     }
 
     private fun goLoginUserFragment(orgObject: Organization) {
