@@ -32,14 +32,14 @@ interface PlaceService {
 
     @Headers("accept: application/vnd.geo+json")
     @GET("org/{orgId}/place/house")
-    fun listHouseGeoJson(@Path("orgId") orgId: Long): Call<FeatureCollection<House>>
+    fun listHouseGeoJson(@Path("orgId") orgId: String): Call<FeatureCollection<House>>
 
     @GET("org/{orgId}/place/house?haveLocation=false")
-    fun listHouseNoLocation(@Path("orgId") orgId: Long): Call<List<House>>
+    fun listHouseNoLocation(@Path("orgId") orgId: String): Call<List<House>>
 
     @PUT("org/{orgId}/place/house/{houseId}")
     fun updateHouse(
-        @Path("orgId") orgId: Long,
+        @Path("orgId") orgId: String,
         @Body place: Place,
         @Path("houseId") houseId: String = place.id
     ): Call<ResponseBody>

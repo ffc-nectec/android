@@ -17,7 +17,10 @@
 
 package ffc.v3.util
 
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.EditText
 
 fun View.gone() {
     this.visibility = View.GONE
@@ -26,3 +29,11 @@ fun View.gone() {
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
+
+fun EditText.notNullOrBlank() = !text.isNullOrBlank()
+
+fun setStatusBarColor (context: Context, color: Int): Int = ContextCompat.getColor(context, color)
+/* Use:
+    if (Build.VERSION.SDK_INT >= 21)
+        window.statusBarColor = setStatusBarColor(this, R.color.overlay_black)
+ */

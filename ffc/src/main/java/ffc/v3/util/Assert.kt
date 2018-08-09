@@ -17,8 +17,26 @@
 
 package ffc.v3.util
 
+import android.support.design.widget.TextInputLayout
+import android.text.TextUtils
+
 inline fun assertThat(value: Boolean, lazyMessage: () -> String) {
     if (!value) throw IllegalArgumentException(lazyMessage())
 }
 
 fun String?.notNullOrBlank() = !this.isNullOrBlank()
+
+fun assertionNotEmpty(
+    textInputLayout: TextInputLayout,
+    textInput: String,
+    text: String
+): Boolean {
+    return if (TextUtils.isEmpty(textInput.trim())) {
+        textInputLayout.isErrorEnabled = true
+        textInputLayout.error = text
+        false
+    } else {
+        textInputLayout.isErrorEnabled = false
+        true
+    }
+}

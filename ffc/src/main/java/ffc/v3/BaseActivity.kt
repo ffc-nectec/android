@@ -21,6 +21,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import ffc.entity.Organization
 import ffc.v3.util.org
@@ -48,7 +49,10 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(connectivityChange, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        registerReceiver(
+            connectivityChange,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
     }
 
     override fun onPause() {
@@ -58,7 +62,7 @@ open class BaseActivity : AppCompatActivity() {
 
     protected open fun onConnectivityChanged(
         isConnect: Boolean,
-        message: String = "You are offline"
+        message: String = getString(R.string.you_offline)
     ) {
         if (isConnect) {
             offlineSnackbar?.dismiss()
@@ -69,3 +73,6 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 }
+
+val Fragment.baseActivity: BaseActivity
+    get() = activity as BaseActivity

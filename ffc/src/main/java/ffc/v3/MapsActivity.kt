@@ -37,10 +37,10 @@ import ffc.v3.util.find
 import ffc.v3.util.gone
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
-import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.activity_maps.addLocationButton
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.dimen
-import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import retrofit2.dsl.enqueue
@@ -66,11 +66,11 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
         }
         addLocationButton.setOnClickListener {
-            startActivityForResult<MarkLocationActivity>(
-                REQ_ADD_LOCATION,
+            val intent = intentFor<MarkLocationActivity>(
                 "target" to map.cameraPosition.target,
                 "zoom" to map.cameraPosition.zoom
             )
+            startActivityForResult( intent, REQ_ADD_LOCATION)
         }
         showGeoJson()
 
@@ -79,7 +79,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun checkHouseNoLocation() {
         val placeService = FfcCentral().service<PlaceService>()
-        placeService.listHouseNoLocation(org.id.toLong()).enqueue {
+        placeService.listHouseNoLocation(org.id).enqueue {
             onSuccess {
                 addLocationButton.show()
             }
@@ -93,7 +93,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun showGeoJson() {
         val placeService = FfcCentral().service<PlaceService>()
-        placeService.listHouseGeoJson(org.id.toLong()).enqueue {
+        placeService.listHouseGeoJson(org.id).enqueue {
 
             onSuccess {
                 val coordinates = (body()!!.features[0].geometry as Point).coordinates
@@ -101,16 +101,16 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
                     features.forEach {
                         it.pointStyle = GeoJsonPointStyle().apply {
-                            icon = if (it.getProperty("haveChronics") == "true") chronicHomeIcon else homeIcon
+                            icon = if (it.getProperty("haveChronics") == "true")
+                                chronicHomeIcon else homeIcon
                             title = "บ้านเลขที่ ${it.getProperty("no")}"
                             snippet = it.getProperty("coordinates").trimMargin()
                         }
                     }
                     setOnFeatureClickListener {
-                        startActivityForResult<HouseActivity>(
-                            REQ_ADD_LOCATION,
-                            "houseId" to it.getProperty("_id")
-                        )
+                        startActivityForResult(
+                            intentFor<HouseActivity>("houseId" to it.getProperty("_id")),
+                            REQ_ADD_LOCATION)
                     }
                     addLayerToMap()
                 }
@@ -142,6 +142,10 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }
-    private val chronicHomeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap()) }
+    private val homeIcon by lazy {
+        fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap())
+    }
+    private val chronicHomeIcon by lazy {
+        fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap())
+    }
 }

@@ -18,6 +18,7 @@
 package ffc.v3.util
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
@@ -28,4 +29,8 @@ inline fun <reified T : ViewModel> FragmentActivity.viewModel(): T =
 
 inline fun <T> LiveData<T>.observe(owner: FragmentActivity, crossinline task: (T?) -> Unit) {
     this.observe(owner, Observer<T> { t -> task(t) })
+}
+
+inline fun <reified T> mutableLiveDataOf(value: T? = null): MutableLiveData<T> {
+    return MutableLiveData<T>().apply { postValue(value) }
 }

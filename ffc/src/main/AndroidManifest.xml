@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 NECTEC
   ~   National Electronics and Computer Technology Center, Thailand
   ~
@@ -14,74 +13,73 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="ffc.v3">
+    package="ffc.v3">
 
-  <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-  <application
-    android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher"
-    android:supportsRtl="true"
-    android:theme="@style/AppTheme">
-    <meta-data
-      android:name="com.google.android.geo.API_KEY"
-      android:value="@string/google_maps_key"/>
+    <application
+        android:name=".MainApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
-    <activity android:name=".LoginActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
+        <activity
+            android:name=".authen.activity.LoginActivity"
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name=".location.MarkLocationActivity"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name=".location.HouseNoLocationActivtiy"
+            android:label="เลือกบ้านไม่มีพิกัด"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HouseActivity" />
 
-    <activity
-      android:name=".MapsActivity"
-      android:label="@string/title_activity_maps"
-      android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"/>
+        <receiver
+            android:name=".ConnectivityChangeReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
 
-    <activity
-      android:name=".location.MarkLocationActivity"
-      android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"/>
+        <service android:name=".messaging.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".messaging.InstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
-    <activity
-      android:theme="@style/AppTheme.NoActionBar"
-      android:name=".location.HouseNoLocationActivtiy"
-      android:label="เลือกบ้านไม่มีพิกัด"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/accent" />
 
-    <activity android:name=".HouseActivity"/>
-
-    <receiver
-      android:name=".ConnectivityChangeReceiver"
-      android:enabled="true">
-      <intent-filter>
-        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-      </intent-filter>
-    </receiver>
-
-    <service
-      android:name=".messaging.MessagingService">
-      <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-      </intent-filter>
-    </service>
-
-    <service
-        android:name=".messaging.InstanceIdService">
-      <intent-filter>
-        <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-      </intent-filter>
-    </service>
-
-    <meta-data
-      android:name="com.google.firebase.messaging.default_notification_color"
-      android:resource="@color/accent"/>
-  </application>
+        <activity android:name=".authen.activity.MapActivity"></activity>
+    </application>
 
 </manifest>

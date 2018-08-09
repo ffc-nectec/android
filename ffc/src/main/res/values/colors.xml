@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 NECTEC
   ~   National Electronics and Computer Technology Center, Thailand
   ~
@@ -17,28 +16,46 @@
   -->
 
 <resources>
-  <color name="primay">#fffcfcfc</color>
-  <color name="primaryDark">#ececec</color>
-  <color name="accent">#9ccc65</color>
-  <color name="accentDark">#6b9b36</color>
-  <color name="accentLight">#cfff94</color>
-  <color name="complementary">#9565cc</color>
-  <color name="complementaryDark">#64399a</color>
-  <color name="complementaryLight">#c894ff</color>
+    <color name="primay">#fffcfcfc</color>
+    <color name="primaryDark">#ececec</color>
+    <color name="accent">#9ccc65</color>
+    <color name="accentDark">#6b9b36</color>
+    <color name="accentLight">#cfff94</color>
+    <color name="complementary">#9565cc</color>
+    <color name="complementaryDark">#64399a</color>
+    <color name="complementaryLight">#c894ff</color>
 
-  <color name="white">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
 
-  <!--Light Background Dark Text-->
-  <color name="text_primary">#de000000</color>
-  <color name="text_secondary">#8A000000</color>
-  <color name="text_disabled">#61000000</color>
-  <color name="text_hint">#61000000</color>
+    <!--Light Background Dark Text-->
+    <color name="text_primary">#de000000</color>
+    <color name="text_secondary">#8A000000</color>
+    <color name="text_disabled">#61000000</color>
+    <color name="text_hint">#61000000</color>
 
-  <!--Dark Background Light Text-->
-  <color name="text_primary_inverse">#FFFFFFFF</color>
-  <color name="text_secondary_inverse">#B3FFFFFF</color>
-  <color name="text_disabled_inverse">#80FFFFFF</color>
-  <color name="text_hint_inverse">#80FFFFFF</color>
+    <!--Dark Background Light Text-->
+    <color name="text_primary_inverse">#FFFFFFFF</color>
+    <color name="text_secondary_inverse">#B3FFFFFF</color>
+    <color name="text_disabled_inverse">#80FFFFFF</color>
+    <color name="text_hint_inverse">#80FFFFFF</color>
+
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#BDBDBD</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="overlay_black">#79000000</color>
+
+    <!-- Login -->
+    <color name="button_login">@color/teal_500</color>
+    <color name="button_login_pressed">@color/teal_700</color>
+    <color name="button_login_selected">@color/teal_800</color>
+    <color name="button_login_back">@color/teal_500</color>
+    <color name="button_login_back_pressed">@color/teal_900</color>
+    <color name="button_login_back_selected">@color/teal_800</color>
+    <color name="text_button_login_back">@color/teal_300</color>
+    <color name="hint_login">@color/teal_200</color>
+    <color name="hint_login_no_activated">@color/teal_300</color>
+    <color name="hint_error">@color/yellow_500</color>
+
 
 
 </resources>

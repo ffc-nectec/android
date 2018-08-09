@@ -23,9 +23,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
-class FfcCentral(url: String = "https://ffc-api-test.herokuapp.com/v0/") {
+var url_ploy = "https://ffc-test.herokuapp.com/v0/"
+var url_old = "https://ffc-api-test.herokuapp.com/v0/"
 
-    val retrofitBuilder = Retrofit.Builder().baseUrl(url)
+class FfcCentral(url: String = url_ploy) {
+
+    val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
 
     inline fun <reified T> service(): T {
         val httpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
@@ -37,7 +40,7 @@ class FfcCentral(url: String = "https://ffc-api-test.herokuapp.com/v0/") {
         if (token != null)
             httpBuilder.addInterceptor(AuthTokenInterceptor(token))
 
-        var client = httpBuilder.build()
+        val client = httpBuilder.build()
         return retrofitBuilder
             .addConverterFactory(GsonConverterFactory.create(ffcGson))
             .client(client)
@@ -49,4 +52,3 @@ class FfcCentral(url: String = "https://ffc-api-test.herokuapp.com/v0/") {
         var TOKEN: String? = null
     }
 }
-

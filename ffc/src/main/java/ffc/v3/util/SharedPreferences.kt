@@ -35,4 +35,3 @@ fun <T> SharedPreferences.Editor.put(
     value: T,
     gson: Gson = ffcGson
 ) = this.apply { putString(key, value!!.toJson(gson)) }
-

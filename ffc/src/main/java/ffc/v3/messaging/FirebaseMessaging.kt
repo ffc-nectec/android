@@ -57,5 +57,3 @@ private var SharedPreferences.lastToken: String?
 private var SharedPreferences.tempToken: String?
     set(value) = edit().putString("tempToken", value).apply()
     get() = getString("tempToken", null)
-
-

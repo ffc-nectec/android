@@ -35,8 +35,8 @@ import ffc.v3.R
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
 import ffc.v3.util.org
-import kotlinx.android.synthetic.main.activity_house_no_location.*
-import kotlinx.android.synthetic.main.item_house.view.*
+import kotlinx.android.synthetic.main.activity_house_no_location.houseList
+import kotlinx.android.synthetic.main.item_house.view.houseNo
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.find
@@ -68,7 +68,7 @@ class HouseNoLocationActivtiy : BaseActivity() {
         })
 
         val org = defaultSharedPreferences.org!!
-        FfcCentral().service<PlaceService>().listHouseNoLocation(org.id.toLong()).enqueue {
+        FfcCentral().service<PlaceService>().listHouseNoLocation(org.id).enqueue {
             onSuccess {
                 if (BuildConfig.DEBUG) {
                     toast("Loaded ${body()?.size}")
@@ -150,7 +150,8 @@ class HouseNoLocationActivtiy : BaseActivity() {
             }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_house, parent, false)
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_house, parent, false)
             return HouseViewHolder(view, onItemClick)
         }
 
