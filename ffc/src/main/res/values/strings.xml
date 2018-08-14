@@ -24,8 +24,8 @@
     <string name="retry">ลองอีกครั้ง</string>
     <string name="please_check_connectivity">กรุณาตรวจสอบการเชื่อมต่อ</string>
     <string name="cannnot_load_organization">ไม่สามารถโหลดข้อมูลหน่วยงานได้</string>
-    <string name="no_username">กรุณาระบุ username</string>
-    <string name="no_password">กรุณาระบุ password</string>
+    <string name="no_username">กรุณาระบุชื่อผู้ใช้งาน</string>
+    <string name="no_password">กรุณาระบุรหัสผ่าน</string>
     <string name="checking_identity">ยืนยันตัวตน..</string>
     <string name="not_found_org">ไม่พบหน่วยงานที่่ท่านเลือก</string>
     <string name="please_type_org">กรุณากรอกชื่อหน่วยงาน</string>

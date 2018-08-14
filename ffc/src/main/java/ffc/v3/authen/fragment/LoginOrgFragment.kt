@@ -51,6 +51,9 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
             btnNext.visibility = View.VISIBLE
         }
 
+        // Whether the user login with organization's network
+        checkUserNetwork()
+
         // Debug User Login
         if (BuildConfig.DEBUG) {
             btnNext.setOnLongClickListener {
@@ -61,7 +64,7 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun goLoginUserFragment(orgObject: Organization) {
+    private fun goLoginUserFragment(orgObject: Organization, orgNetwork: Boolean) {
         val fragment = LoginUserFragment()
         val fragmentManager = activity!!.supportFragmentManager
 
@@ -70,24 +73,38 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
         bundle.putString("organization", orgObject.toJson())
 
         fragment.arguments = bundle
-        fragmentManager.beginTransaction()
-            .replace(R.id.contentContainer, fragment)
-            .addToBackStack(null)
-            .commit()
+        if (orgNetwork)
+            fragmentManager.beginTransaction()
+                .replace(R.id.contentContainer, fragment)
+                .commit()
+        else
+            fragmentManager.beginTransaction()
+                .replace(R.id.contentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    private fun checkUserNetwork() {
+        interactor.requestMyOrg { orgList, t ->
+            loginEventListener.onShowProgressBar(false)
+            if (!orgList.isEmpty())
+                goLoginUserFragment(orgList[0], true)
+        }
     }
 
     private fun checkOrganizationName(userNetwork: String) {
-        interactor.requestMyOrg { orgList, t ->
+        interactor.requestAllOrg { orgList, t ->
             loginEventListener.onShowProgressBar(false)
 
             orgList.find { it.name == userNetwork }?.let {
-                // User connects to the network's hospital or
-                // enters the organization name correctly
-                goLoginUserFragment(it)
-            }?: run {
-                warnTextInput(inputLayoutOrganization,
+                // User enters the organization name correctly
+                goLoginUserFragment(it, false)
+            } ?: run {
+                warnTextInput(
+                    inputLayoutOrganization,
                     getString(R.string.not_found_org),
-                    true)
+                    true
+                )
             }
             t?.let {
                 longToast(it.message ?: "message")
@@ -101,9 +118,11 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
                 organizationName = etOrganization.text.toString()
 
                 // Check whether the organization name is entered
-                val isOrgNameEmpty = assertionNotEmpty(inputLayoutOrganization,
+                val isOrgNameEmpty = assertionNotEmpty(
+                    inputLayoutOrganization,
                     organizationName,
-                    getString(R.string.please_type_org))
+                    getString(R.string.please_type_org)
+                )
 
                 if (isOrgNameEmpty) {
                     // Check whether the user connects to the hospital's network
