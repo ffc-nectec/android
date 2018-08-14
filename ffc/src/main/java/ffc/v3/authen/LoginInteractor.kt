@@ -44,7 +44,7 @@ class LoginInteractor() {
             res?.let {
                 if (it.code() == 404)
                     // User doesn't connect to the hospital's network
-                    requestAllOrg(callback)
+                    callback(listOf(), null)
             }
             t?.let {
                 callback(listOf(), LoginFailureException(it.message ?: "Something wrong"))
@@ -52,7 +52,7 @@ class LoginInteractor() {
         }
     }
 
-    private fun requestAllOrg(callback: (List<Organization>, Throwable?) -> Unit) {
+    fun requestAllOrg(callback: (List<Organization>, Throwable?) -> Unit) {
         orgService.listOrgs().then {
             callback(it, null)
         }.catch { res, t ->

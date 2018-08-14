@@ -21,7 +21,6 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.v3.BaseActivity
-import ffc.v3.MapsActivity
 import ffc.v3.R
 import ffc.v3.authen.fragment.LoginOrgFragment
 import ffc.v3.util.LoginEventListener
@@ -29,7 +28,6 @@ import ffc.v3.util.gone
 import ffc.v3.util.visible
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.startActivity
 
 class LoginActivity : BaseActivity(), LoginEventListener {
 
@@ -49,6 +47,7 @@ class LoginActivity : BaseActivity(), LoginEventListener {
     private fun initInstances() {
         // Blur background image
         blurImage()
+        onShowProgressBar(true)
     }
 
     private fun blurImage() {
@@ -69,6 +68,6 @@ class LoginActivity : BaseActivity(), LoginEventListener {
     }
 
     override fun onLoginActivity() {
-        startActivity<MapsActivity>()
+        //startActivity<MapsActivity>()
     }
 }
