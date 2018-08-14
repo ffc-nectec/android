@@ -40,3 +40,15 @@ fun assertionNotEmpty(
         true
     }
 }
+
+fun warnTextInput(
+    textInputLayout: TextInputLayout,
+    text: String,
+    warning: Boolean
+) {
+    if (warning) {
+        textInputLayout.isErrorEnabled = true
+        textInputLayout.error = text
+    } else
+        textInputLayout.isErrorEnabled = false
+}
