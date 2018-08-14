@@ -14,6 +14,7 @@ import ffc.v3.authen.getIdentityRepo
 import ffc.v3.baseActivity
 import ffc.v3.util.LoginEventListener
 import ffc.v3.util.assertionNotEmpty
+import ffc.v3.util.warnTextInput
 import kotlinx.android.synthetic.main.fragment_login_org.*
 import org.jetbrains.anko.support.v4.longToast
 
@@ -77,11 +78,16 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
 
     private fun checkOrganizationName(userNetwork: String) {
         interactor.requestMyOrg { orgList, t ->
+            loginEventListener.onShowProgressBar(false)
+
             orgList.find { it.name == userNetwork }?.let {
                 // User connects to the network's hospital or
                 // enters the organization name correctly
-                loginEventListener.onShowProgressBar(false)
                 goLoginUserFragment(it)
+            }?: run {
+                warnTextInput(inputLayoutOrganization,
+                    getString(R.string.not_found_org),
+                    true)
             }
             t?.let {
                 longToast(it.message ?: "message")
