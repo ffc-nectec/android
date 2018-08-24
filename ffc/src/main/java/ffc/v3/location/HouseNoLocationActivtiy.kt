@@ -34,11 +34,9 @@ import ffc.v3.BuildConfig
 import ffc.v3.R
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
-import ffc.v3.util.org
 import kotlinx.android.synthetic.main.activity_house_no_location.houseList
 import kotlinx.android.synthetic.main.item_house.view.houseNo
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
@@ -67,8 +65,7 @@ class HouseNoLocationActivtiy : BaseActivity() {
             }
         })
 
-        val org = defaultSharedPreferences.org!!
-        FfcCentral().service<PlaceService>().listHouseNoLocation(org.id).enqueue {
+        FfcCentral().service<PlaceService>().listHouseNoLocation(org!!.id).enqueue {
             onSuccess {
                 if (BuildConfig.DEBUG) {
                     toast("Loaded ${body()?.size}")

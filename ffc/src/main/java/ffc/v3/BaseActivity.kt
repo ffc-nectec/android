@@ -24,9 +24,8 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import ffc.entity.Organization
-import ffc.v3.util.org
+import ffc.v3.authen.getIdentityRepo
 import org.jetbrains.anko.contentView
-import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.design.indefiniteSnackbar
 
 open class BaseActivity : AppCompatActivity() {
@@ -38,7 +37,7 @@ open class BaseActivity : AppCompatActivity() {
             onConnectivityChanged(field)
         }
 
-    val org: Organization get() = defaultSharedPreferences.org!!
+    val org: Organization? get() = getIdentityRepo(this).org
 
     private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
 
