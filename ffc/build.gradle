@@ -61,13 +61,13 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.6.0'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.github.ffc-nectec:entities:1.0.0-alpha2'
+    implementation 'com.github.ffc-nectec:entities:1.0.0-alpha4'
     implementation 'com.github.piruin.geok:geok-gson:1.0.0-alpha-2'
     implementation 'com.github.piruin:retrofit-dsl:1.2'
     implementation "com.google.android.gms:play-services-maps:$playVersion"
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation "com.google.firebase:firebase-core:$firebaseVersion"
-    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.3.0'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import ffc.v3.android.tag
 import ffc.v3.api.FfcCentral
-import ffc.v3.util.org
+import ffc.v3.authen.getIdentityRepo
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.dsl.enqueue
 
@@ -15,6 +15,8 @@ internal class FirebaseMessaging(val application: Application) : Messaging {
 
     private val preferences by lazy { application.defaultSharedPreferences }
 
+    private val org by lazy { getIdentityRepo(application).org }
+
     override fun subscripbe(token: String?) {
         try {
             val newToken = if (token == null) preferences.tempToken else token
@@ -22,8 +24,8 @@ internal class FirebaseMessaging(val application: Application) : Messaging {
             if (preferences.lastToken != null) {
                 unsubscribe()
             }
-            require(preferences.org != null)
-            service.updateToken(preferences.org!!.id, mapOf("firebaseToken" to token!!)).enqueue {
+            require(org != null)
+            service.updateToken(org!!.id, mapOf("firebaseToken" to token!!)).enqueue {
                 always { Log.d(tag, "Register token $token") }
                 onSuccess { preferences.lastToken = token }
             }
@@ -35,7 +37,6 @@ internal class FirebaseMessaging(val application: Application) : Messaging {
     override fun unsubscribe() {
         try {
             val preferences = application.defaultSharedPreferences
-            val org = preferences.org
             val token = preferences.lastToken
             require(org != null)
             require(token != null)
