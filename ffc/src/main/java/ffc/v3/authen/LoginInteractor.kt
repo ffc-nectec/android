@@ -26,7 +26,15 @@ class LoginInteractor() {
                 FfcCentral.TOKEN = authorize.token
                 idRepo.org = org
                 idRepo.token = authorize.token
-                loginPresenter.onLoginSuccess()
+                users().user(username) { user, t ->
+                    if (user != null) {
+                        idRepo.user = user
+                        loginPresenter.onLoginSuccess()
+                    } else {
+                        loginPresenter.onError(t ?: IllegalStateException("Something wrong"))
+                    }
+                }
+
             }
             onError {
                 loginPresenter.onError(LoginErrorException())
