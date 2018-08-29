@@ -46,3 +46,7 @@ val View.layoutInflater: LayoutInflater
 
 fun ViewGroup.inflate(@LayoutRes resource: Int, attach: Boolean = false) =
     LayoutInflater.from(this.context).inflate(resource, this, attach)
+
+fun notEmpty(vararg views: EditText): Boolean {
+    return views.firstOrNull { it.text.isNullOrBlank() } == null
+}
