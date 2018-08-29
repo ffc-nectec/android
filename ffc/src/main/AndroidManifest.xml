@@ -79,7 +79,9 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/accent" />
 
-        <activity android:name=".authen.activity.MapActivity"></activity>
+        <activity
+            android:name=".healthservice.HomeVisitActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
