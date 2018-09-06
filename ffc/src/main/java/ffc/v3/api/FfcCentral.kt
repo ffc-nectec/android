@@ -18,37 +18,39 @@
 package ffc.v3.api
 
 import ffc.entity.gson.ffcGson
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
 var url_ploy = "https://ffc-test.herokuapp.com/v0/"
+var url_max = "https://ffc-nectec.herokuapp.com/v0/"
 var url_old = "https://ffc-api-test.herokuapp.com/v0/"
 
-class FfcCentral(url: String = url_ploy) {
+class FfcCentral(url: String = url_max) {
 
     val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
 
     inline fun <reified T> service(): T {
-        val httpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
-            .readTimeout(60, SECONDS)
-            .writeTimeout(60, SECONDS)
-            .connectTimeout(30, SECONDS)
-        httpBuilder.addInterceptor(DefaultInterceptor())
-        val token = TOKEN
-        if (token != null)
-            httpBuilder.addInterceptor(AuthTokenInterceptor(token))
+        val httpBuilder: OkHttpClient.Builder = OkHttpClient.Builder().apply {
+            readTimeout(60, SECONDS)
+            writeTimeout(60, SECONDS)
+            connectTimeout(30, SECONDS)
+            cache?.let { cache(it) }
+            addInterceptor(DefaultInterceptor())
+            TOKEN?.let { addInterceptor(AuthTokenInterceptor(it)) }
+        }
 
-        val client = httpBuilder.build()
         return retrofitBuilder
             .addConverterFactory(GsonConverterFactory.create(ffcGson))
-            .client(client)
+            .client(httpBuilder.build())
             .build()
             .create(T::class.java)
     }
 
     companion object {
         var TOKEN: String? = null
+        var cache: Cache? = null
     }
 }

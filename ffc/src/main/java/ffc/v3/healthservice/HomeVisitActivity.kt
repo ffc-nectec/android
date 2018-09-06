@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018 NECTEC
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ffc.v3.healthservice
 
 import android.os.Bundle
@@ -21,6 +38,13 @@ import org.jetbrains.anko.toast
 
 class HomeVisitActivity : BaseActivity() {
 
+    internal val homeVisit by lazy { supportFragmentManager.find<HomeServiceFormFragment>(R.id.homeVisit) }
+    internal val vitalSign by lazy { supportFragmentManager.find<VitalSignFormFragment>(R.id.vitalSign) }
+    internal val diagnosis by lazy { supportFragmentManager.find<DiagnosisFormFragment>(R.id.diagnosis) }
+
+    val providerId by lazy { getIdentityRepo(this).user!!.id }
+    val personId get() = intent.getStringExtra("personId")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_visit)
@@ -34,18 +58,16 @@ class HomeVisitActivity : BaseActivity() {
             intent.putExtra("personId", mockPerson.id)
         }
 
-        val homeVisit = supportFragmentManager.find<HomeServiceFormFragment>(R.id.homeVisit)
-        val vitalSign = supportFragmentManager.find<VitalSignFormFragment>(R.id.vitalSign)
-
-        done.onClick {
+        done.onClick { _ ->
             try {
                 val visit = HomeVisit(providerId, personId, notDefineCommunityService)
                 homeVisit.dataInto(visit)
                 vitalSign.dataInto(visit)
+                diagnosis.dataInto(visit)
 
                 persons().person(personId) { p, _ ->
                     p!!.healthCareServices().add(visit) { s, t ->
-                        t?.let { throw t }
+                        t?.let { throw it }
                         s?.let {
                             Log.d(tag, it.toJson())
                             toast("Services save")
@@ -61,7 +83,5 @@ class HomeVisitActivity : BaseActivity() {
         }
     }
 
-    val providerId by lazy { getIdentityRepo(this).user!!.id }
 
-    val personId get() = intent.getStringExtra("personId")
 }

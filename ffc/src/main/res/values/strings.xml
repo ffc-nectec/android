@@ -46,4 +46,7 @@
     <string name="password">รหัสผ่าน</string>
     <string name="login">เข้าสู่ระบบ</string>
     <string name="back">ย้อนกลับ</string>
+    <string name="diagnosis">วินิจฉัย</string>
+    <string name="vital_sign">สัญญาณชีพ</string>
+    <string name="home_visit">เยี่ยมบ้าน</string>
 </resources>

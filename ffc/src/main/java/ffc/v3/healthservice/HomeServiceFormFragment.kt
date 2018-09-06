@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018 NECTEC
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ffc.v3.healthservice
 
 import android.os.Bundle
@@ -14,6 +31,7 @@ import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.resultField
 import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.syntomField
 import me.piruin.spinney.Spinney
 import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.support.v4.toast
 
 internal class HomeServiceFormFragment : Fragment() {
 
@@ -26,9 +44,9 @@ internal class HomeServiceFormFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        communityServices().all { list, throwable ->
+        homeVisitType(context!!).all { list, throwable ->
             if (throwable != null) {
-
+                toast(throwable.message ?: "What happend")
             } else {
                 communityServicesField.setItemPresenter { item, position ->
                     if (item is CommunityServiceType) {
@@ -43,7 +61,7 @@ internal class HomeServiceFormFragment : Fragment() {
     }
 
     fun dataInto(visit: HomeVisit) {
-        require(communityServicesField.selectedItem != null)
+        check(communityServicesField.selectedItem != null) { "กรุณาระบุ" }
 
         visit.apply {
             serviceType = communityServicesField.selectedItem!!
