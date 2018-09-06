@@ -17,6 +17,7 @@
 
 package ffc.v3
 
+import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -28,6 +29,7 @@ import ffc.v3.authen.getIdentityRepo
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
 
+@SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
 
     var offlineSnackbar: Snackbar? = null
@@ -43,15 +45,12 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isOnline = connectivityManager.isConnectedOrConnecting
+        isOnline = connectivityManager.isConnected
     }
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(
-            connectivityChange,
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
+        registerReceiver(connectivityChange, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
     override fun onPause() {

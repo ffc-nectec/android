@@ -27,12 +27,13 @@ class ConnectivityChangeReceiver(
 ) : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        onConnectivityChange?.invoke(context.connectivityManager.isConnectedOrConnecting)
+        if (intent.action == ConnectivityManager.CONNECTIVITY_ACTION)
+            onConnectivityChange?.invoke(context.connectivityManager.isConnected)
     }
 }
 
-val ConnectivityManager.isConnectedOrConnecting
-    get() = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
+val ConnectivityManager.isConnected
+    get() = activeNetworkInfo?.isConnected == true
 
 val Context.connectivityManager
     get() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
