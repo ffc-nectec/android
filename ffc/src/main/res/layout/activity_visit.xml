@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 NECTEC
   ~   National Electronics and Computer Technology Center, Thailand
   ~
@@ -22,66 +21,72 @@
     android:orientation="vertical">
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingEnd="42dp"
+            android:paddingStart="42dp">
 
             <TextView
+                android:drawableStart="@drawable/ic_home_black_24px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:drawablePadding="8dp"
                 android:text="@string/home_visit"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             <fragment
                 android:id="@+id/homeVisit"
                 class="ffc.v3.healthservice.HomeServiceFormFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="8dp" />
 
             <TextView
+                android:drawableStart="@drawable/ic_vital_sign_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:drawablePadding="8dp"
                 android:text="@string/vital_sign"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             <fragment
                 android:id="@+id/vitalSign"
                 class="ffc.v3.healthservice.VitalSignFormFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="8dp" />
 
             <TextView
+                android:drawableStart="@drawable/ic_diagnosis_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:drawablePadding="8dp"
                 android:text="@string/diagnosis"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             <fragment
                 android:id="@+id/diagnosis"
                 class="ffc.v3.healthservice.DiagnosisFormFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="8dp" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
     <Button
-        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/done"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Done" />
