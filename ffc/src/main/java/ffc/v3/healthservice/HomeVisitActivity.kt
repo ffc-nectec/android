@@ -41,6 +41,7 @@ class HomeVisitActivity : BaseActivity() {
     internal val homeVisit by lazy { supportFragmentManager.find<HomeServiceFormFragment>(R.id.homeVisit) }
     internal val vitalSign by lazy { supportFragmentManager.find<VitalSignFormFragment>(R.id.vitalSign) }
     internal val diagnosis by lazy { supportFragmentManager.find<DiagnosisFormFragment>(R.id.diagnosis) }
+    internal val body by lazy { supportFragmentManager.find<BodyFormFragment>(R.id.body) }
 
     val providerId by lazy { getIdentityRepo(this).user!!.id }
     val personId get() = intent.getStringExtra("personId")
@@ -64,6 +65,7 @@ class HomeVisitActivity : BaseActivity() {
                 homeVisit.dataInto(visit)
                 vitalSign.dataInto(visit)
                 diagnosis.dataInto(visit)
+                body.dataInto(visit)
 
                 persons().person(personId) { p, _ ->
                     p!!.healthCareServices().add(visit) { s, t ->
