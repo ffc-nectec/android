@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018 NECTEC
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ffc.v3.authen.fragment
 
 import android.os.Bundle
@@ -9,14 +26,20 @@ import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.v3.BuildConfig
 import ffc.v3.R
-import ffc.v3.authen.LoginErrorException
-import ffc.v3.authen.LoginFailureException
 import ffc.v3.authen.LoginInteractor
 import ffc.v3.authen.LoginPresenter
+import ffc.v3.authen.exception.LoginErrorException
+import ffc.v3.authen.exception.LoginFailureException
 import ffc.v3.authen.getIdentityRepo
 import ffc.v3.util.LoginEventListener
 import ffc.v3.util.assertionNotEmpty
-import kotlinx.android.synthetic.main.fragment_login_user.*
+import kotlinx.android.synthetic.main.fragment_login_user.btnBack
+import kotlinx.android.synthetic.main.fragment_login_user.btnLogin
+import kotlinx.android.synthetic.main.fragment_login_user.etPwd
+import kotlinx.android.synthetic.main.fragment_login_user.etUsername
+import kotlinx.android.synthetic.main.fragment_login_user.inputLayoutPassword
+import kotlinx.android.synthetic.main.fragment_login_user.inputLayoutUsername
+import kotlinx.android.synthetic.main.fragment_login_user.tvHospitalName
 import org.jetbrains.anko.support.v4.longToast
 
 class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
@@ -27,12 +50,7 @@ class LoginUserFragment : Fragment(), View.OnClickListener, LoginPresenter {
     private lateinit var interactor: LoginInteractor
     private lateinit var loginEventListener: LoginEventListener
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login_user, container, false)
     }
 

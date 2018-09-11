@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018 NECTEC
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ffc.v3.authen.fragment
 
 import android.os.Bundle
@@ -15,7 +32,9 @@ import ffc.v3.baseActivity
 import ffc.v3.util.LoginEventListener
 import ffc.v3.util.assertionNotEmpty
 import ffc.v3.util.warnTextInput
-import kotlinx.android.synthetic.main.fragment_login_org.*
+import kotlinx.android.synthetic.main.fragment_login_org.btnNext
+import kotlinx.android.synthetic.main.fragment_login_org.etOrganization
+import kotlinx.android.synthetic.main.fragment_login_org.inputLayoutOrganization
 import org.jetbrains.anko.support.v4.longToast
 
 class LoginOrgFragment : Fragment(), View.OnClickListener {
@@ -74,10 +93,6 @@ class LoginOrgFragment : Fragment(), View.OnClickListener {
 
         fragment.arguments = bundle
         if (orgNetwork)
-            fragmentManager.beginTransaction()
-                .replace(R.id.contentContainer, fragment)
-                .commit()
-        else
             fragmentManager.beginTransaction()
                 .replace(R.id.contentContainer, fragment)
                 .addToBackStack(null)
