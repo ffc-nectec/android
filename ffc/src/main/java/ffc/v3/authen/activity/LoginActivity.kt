@@ -21,15 +21,28 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.v3.BaseActivity
+import ffc.v3.MapsActivity
 import ffc.v3.R
+import ffc.v3.authen.LoginInteractor
 import ffc.v3.authen.fragment.LoginOrgFragment
+import ffc.v3.authen.getIdentityRepo
 import ffc.v3.util.LoginEventListener
+import ffc.v3.util.debug
 import ffc.v3.util.gone
 import ffc.v3.util.visible
 import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.ivCommunity
+import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground
+import kotlinx.android.synthetic.main.activity_login.pbLoading
+import org.jetbrains.anko.startActivity
 
 class LoginActivity : BaseActivity(), LoginEventListener {
+
+    val interactor: LoginInteractor by lazy {
+        LoginInteractor().apply {
+            idRepo = getIdentityRepo(this@LoginActivity)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +51,15 @@ class LoginActivity : BaseActivity(), LoginEventListener {
         initInstances()
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.contentContainer, LoginOrgFragment(), "LoginOrg")
-                .commit()
+            debug(interactor.idRepo.toString())
+            if (interactor.isLoggedIn) {
+                startActivity<MapsActivity>()
+                finish()
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.contentContainer, LoginOrgFragment(), "LoginOrg")
+                    .commit()
+            }
         }
     }
 
@@ -68,6 +87,6 @@ class LoginActivity : BaseActivity(), LoginEventListener {
     }
 
     override fun onLoginActivity() {
-        //startActivity<MapsActivity>()
+
     }
 }
