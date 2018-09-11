@@ -104,7 +104,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                             icon = if (it.getProperty("haveChronics") == "true")
                                 chronicHomeIcon else homeIcon
                             title = "บ้านเลขที่ ${it.getProperty("no")}"
-                            snippet = it.getProperty("coordinates").trimMargin()
+                            snippet = it.getProperty("coordinates")?.trimMargin()
                         }
                     }
                     setOnFeatureClickListener {
