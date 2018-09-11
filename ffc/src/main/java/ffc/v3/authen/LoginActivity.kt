@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 
-package ffc.v3.authen.activity
+package ffc.v3.authen
 
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ffc.entity.Organization
+import ffc.entity.gson.toJson
 import ffc.v3.BaseActivity
 import ffc.v3.MapsActivity
 import ffc.v3.R
-import ffc.v3.authen.LoginInteractor
+import ffc.v3.authen.exception.LoginErrorException
+import ffc.v3.authen.exception.LoginFailureException
+import ffc.v3.authen.fragment.LoginActivityListener
 import ffc.v3.authen.fragment.LoginOrgFragment
-import ffc.v3.authen.getIdentityRepo
-import ffc.v3.util.LoginEventListener
+import ffc.v3.authen.fragment.LoginUserFragment
 import ffc.v3.util.debug
 import ffc.v3.util.gone
 import ffc.v3.util.visible
@@ -34,12 +37,16 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.ivCommunity
 import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground
 import kotlinx.android.synthetic.main.activity_login.pbLoading
+import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 
-class LoginActivity : BaseActivity(), LoginEventListener {
+class LoginActivity : BaseActivity(), LoginActivityListener, LoginPresenter {
 
-    val interactor: LoginInteractor by lazy {
+
+    private val interactor: LoginInteractor by lazy {
         LoginInteractor().apply {
+            loginPresenter = this@LoginActivity
             idRepo = getIdentityRepo(this@LoginActivity)
         }
     }
@@ -53,18 +60,18 @@ class LoginActivity : BaseActivity(), LoginEventListener {
         if (savedInstanceState == null) {
             debug(interactor.idRepo.toString())
             if (interactor.isLoggedIn) {
-                startActivity<MapsActivity>()
-                finish()
+                onLoginSuccess()
             } else {
+                val fragment = LoginOrgFragment()
+                fragment.orgSelected = { interactor.org = it }
                 supportFragmentManager.beginTransaction()
-                    .add(R.id.contentContainer, LoginOrgFragment(), "LoginOrg")
+                    .add(R.id.contentContainer, fragment, "LoginOrg")
                     .commit()
             }
         }
     }
 
     private fun initInstances() {
-        // Blur background image
         blurImage()
         onShowProgressBar(true)
     }
@@ -86,7 +93,31 @@ class LoginActivity : BaseActivity(), LoginEventListener {
         }
     }
 
-    override fun onLoginActivity() {
-
+    override fun onLoginSuccess() {
+        onShowProgressBar(false)
+        startActivity<MapsActivity>()
+        finish()
     }
+
+    override fun onError(throwable: Throwable) {
+        onShowProgressBar(false)
+        val message = when (throwable) {
+            is LoginErrorException -> getString(R.string.identification_error)
+            is LoginFailureException -> throwable.message
+            else -> "Something wrong"
+        }
+        message?.let { longToast(it) }
+    }
+
+    override fun onOrgSelected(org: Organization) {
+        val fragment = LoginUserFragment()
+        fragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
+        fragment.arguments = bundleOf("organization" to org.toJson())
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.contentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }

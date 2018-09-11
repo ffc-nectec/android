@@ -24,20 +24,24 @@ import ffc.v3.authen.exception.LoginErrorException
 import ffc.v3.authen.exception.LoginFailureException
 import okhttp3.Credentials
 import retrofit2.dsl.enqueue
-import retrofit2.dsl.then
 import java.nio.charset.Charset
 
-class LoginInteractor() {
+internal class LoginInteractor() {
 
     lateinit var loginPresenter: LoginPresenter
     lateinit var idRepo: IdentityRepo
     private val orgService = FfcCentral().service<OrgService>()
 
     var org: Organization? = null
+        set(value) {
+            field = value
+            if (value != null) loginPresenter.onOrgSelected(value)
+        }
 
     private val utf8 = Charset.forName("UTF-8")
 
     fun doLogin(username: String, password: String) {
+        check(org != null) { "Must set org before" }
         val basicToken = Credentials.basic(username.trim(), password.trim(), utf8)
         orgService.createAuthorize(org!!.id, basicToken).enqueue {
             onSuccess {
@@ -59,43 +63,19 @@ class LoginInteractor() {
                 loginPresenter.onError(LoginErrorException())
             }
             onFailure {
-                loginPresenter.onError(LoginFailureException(it.message
-                    ?: "Something wrong"))
+                loginPresenter.onError(LoginFailureException(it.message ?: "Something wrong"))
             }
         }
     }
 
     val isLoggedIn: Boolean
-        get() = idRepo.user != null
-
-    fun requestMyOrg(callback: (List<Organization>, Throwable?) -> Unit) {
-        orgService.myOrg().then {
-            callback(it, null)
-        }.catch { res, t ->
-            res?.let {
-                if (it.code() == 404)
-                    // User doesn't connect to the hospital's network
-                    callback(listOf(), null)
-            }
-            t?.let {
-                callback(listOf(), LoginFailureException(it.message
-                    ?: "Something wrong"))
-            }
+        get() {
+            return false
+            if (idRepo.user != null) {
+                FfcCentral.TOKEN = idRepo.token
+                return true
+            } else
+                return false
         }
-    }
 
-    fun requestAllOrg(callback: (List<Organization>, Throwable?) -> Unit) {
-        orgService.listOrgs().then {
-            callback(it, null)
-        }.catch { res, t ->
-            res?.let {
-                callback(listOf(), null)
-            }
-            t?.let {
-                loginPresenter.onError(
-                    LoginFailureException(it.message ?: "Something wrong")
-                )
-            }
-        }
-    }
 }
