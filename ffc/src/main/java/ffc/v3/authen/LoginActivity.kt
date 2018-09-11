@@ -43,7 +43,6 @@ import org.jetbrains.anko.startActivity
 
 class LoginActivity : BaseActivity(), LoginActivityListener, LoginPresenter {
 
-
     private val interactor: LoginInteractor by lazy {
         LoginInteractor().apply {
             loginPresenter = this@LoginActivity
@@ -119,5 +118,4 @@ class LoginActivity : BaseActivity(), LoginActivityListener, LoginPresenter {
             .addToBackStack(null)
             .commit()
     }
-
 }

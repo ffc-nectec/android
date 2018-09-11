@@ -84,6 +84,4 @@ class HomeVisitActivity : BaseActivity() {
             }
         }
     }
-
-
 }
