@@ -51,7 +51,6 @@ class HomeVisitActivityTest {
     @Test
     fun bindData() {
         val activity = testRule.activity
-
     }
 
     class Robot(val testRule: ActivityTestRule<HomeVisitActivity>) {
@@ -76,6 +75,4 @@ class HomeVisitActivityTest {
             }
         }
     }
-
-
 }

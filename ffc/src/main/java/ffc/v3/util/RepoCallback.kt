@@ -15,15 +15,23 @@
  * limitations under the License.
  */
 
-package ffc.v3.authen
+package ffc.v3.util
 
-import ffc.entity.Organization
+class RepoCallback<T> {
 
-internal interface LoginPresenter {
+    var onFound: ((T) -> Unit)? = null
+    var onNotFound: (() -> Unit)? = null
+    var onFail: ((Throwable) -> Unit)? = null
 
-    fun onLoginSuccess()
+    fun onFound(onFound: ((T) -> Unit)) {
+        this.onFound = onFound
+    }
 
-    fun onOrgSelected(org: Organization)
+    fun onNotFound(onNotFound: (() -> Unit)) {
+        this.onNotFound = onNotFound
+    }
 
-    fun onError(throwable: Throwable)
+    fun onFail(onFail: ((Throwable) -> Unit)) {
+        this.onFail = onFail
+    }
 }

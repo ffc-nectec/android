@@ -15,15 +15,9 @@
  * limitations under the License.
  */
 
-package ffc.v3.authen
+package ffc.v3.authen.fragment
 
-import ffc.entity.Organization
+internal interface LoginActivityListener {
 
-internal interface LoginPresenter {
-
-    fun onLoginSuccess()
-
-    fun onOrgSelected(org: Organization)
-
-    fun onError(throwable: Throwable)
+    fun onShowProgressBar(state: Boolean)
 }
