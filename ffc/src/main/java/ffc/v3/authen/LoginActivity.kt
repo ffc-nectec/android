@@ -21,7 +21,6 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.entity.Organization
-import ffc.entity.gson.toJson
 import ffc.v3.BaseActivity
 import ffc.v3.MapsActivity
 import ffc.v3.R
@@ -37,7 +36,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.ivCommunity
 import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground
 import kotlinx.android.synthetic.main.activity_login.pbLoading
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 
@@ -111,7 +109,7 @@ class LoginActivity : BaseActivity(), LoginActivityListener, LoginPresenter {
     override fun onOrgSelected(org: Organization) {
         val fragment = LoginUserFragment()
         fragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
-        fragment.arguments = bundleOf("organization" to org.toJson())
+        fragment.org = org
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.contentContainer, fragment)
