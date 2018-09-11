@@ -24,8 +24,11 @@ import android.view.View
 import android.view.ViewGroup
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
+import ffc.entity.gson.toJson
 import ffc.v3.BuildConfig
 import ffc.v3.R
+import ffc.v3.android.onClick
+import ffc.v3.android.onLongClick
 import ffc.v3.util.assertionNotEmpty
 import kotlinx.android.synthetic.main.fragment_login_user.btnBack
 import kotlinx.android.synthetic.main.fragment_login_user.btnLogin
@@ -34,14 +37,18 @@ import kotlinx.android.synthetic.main.fragment_login_user.etUsername
 import kotlinx.android.synthetic.main.fragment_login_user.inputLayoutPassword
 import kotlinx.android.synthetic.main.fragment_login_user.inputLayoutUsername
 import kotlinx.android.synthetic.main.fragment_login_user.tvHospitalName
+import org.jetbrains.anko.bundleOf
 
-internal class LoginUserFragment : Fragment(), View.OnClickListener {
+internal class LoginUserFragment : Fragment() {
 
-    lateinit var org: Organization
-    lateinit var organization: Organization
-    private lateinit var loginActivityListener: LoginActivityListener
+    private val loginActivityListener: LoginActivityListener by lazy { activity as LoginActivityListener }
 
-    internal lateinit var onLogin: (username: String, password: String) -> Unit
+    lateinit var onLogin: (username: String, password: String) -> Unit
+    var org: Organization?
+        set(value) {
+            arguments = bundleOf("organization" to value?.toJson())
+        }
+        get() = arguments?.getString("organization")?.parseTo()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login_user, container, false)
@@ -50,42 +57,32 @@ internal class LoginUserFragment : Fragment(), View.OnClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        org = arguments!!.getString("organization")!!.parseTo()
+        btnLogin.onClick {
+            // Assert username and password
+            val username = etUsername.text.toString()
+            val password = etPwd.text.toString()
+            val checkUsername = assertionNotEmpty(inputLayoutUsername, username,
+                getString(R.string.no_username))
+            val checkPwd = assertionNotEmpty(inputLayoutPassword, password,
+                getString(R.string.no_password))
+            // Login
+            if (checkUsername && checkPwd) {
+                loginActivityListener.onShowProgressBar(true)
+                onLogin(username, password)
+            }
+        }
+        btnBack.onClick { fragmentManager!!.popBackStack() }
 
-        loginActivityListener = activity as LoginActivityListener
-
-        btnLogin.setOnClickListener(this)
-        btnBack.setOnClickListener(this)
-
-        tvHospitalName.text = org.name
+        org!!.let {
+            tvHospitalName.text = it.name
+        }
 
         if (BuildConfig.DEBUG) {
-            btnLogin.setOnLongClickListener {
+            btnLogin.onLongClick {
                 etUsername.setText("ploy")
                 etPwd.setText("n")
                 true
             }
-        }
-    }
-
-    override fun onClick(view: View?) {
-        when (view!!.id) {
-            R.id.btnLogin -> {
-                // Assert username and password
-                val username = etUsername.text.toString()
-                val password = etPwd.text.toString()
-                val checkUsername = assertionNotEmpty(inputLayoutUsername, username,
-                    getString(R.string.no_username))
-                val checkPwd = assertionNotEmpty(inputLayoutPassword, password,
-                    getString(R.string.no_password))
-
-                // Login
-                if (checkUsername && checkPwd) {
-                    loginActivityListener.onShowProgressBar(true)
-                    onLogin(username, password)
-                }
-            }
-            R.id.btnBack -> fragmentManager!!.popBackStack()
         }
     }
 }
