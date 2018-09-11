@@ -57,7 +57,6 @@ internal class LoginInteractor() {
                         loginPresenter.onError(t ?: IllegalStateException("Something wrong"))
                     }
                 }
-
             }
             onError {
                 loginPresenter.onError(LoginErrorException())
@@ -70,12 +69,10 @@ internal class LoginInteractor() {
 
     val isLoggedIn: Boolean
         get() {
-            return false
             if (idRepo.user != null) {
                 FfcCentral.TOKEN = idRepo.token
                 return true
             } else
                 return false
         }
-
 }

@@ -76,7 +76,6 @@ internal class LoginOrgFragment : Fragment(), View.OnClickListener {
         }
     }
 
-
     override fun onClick(view: View?) {
         when (view!!.id) {
             R.id.btnNext -> {
