@@ -21,8 +21,8 @@ import android.content.Context
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.CommunityServiceType
+import ffc.v3.android.connectivityManager
 import ffc.v3.api.FfcCentral
-import ffc.v3.connectivityManager
 import ffc.v3.isConnected
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue

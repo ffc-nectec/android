@@ -29,6 +29,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="android.app.searchable"
+            android:resource="@xml/searchable" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -46,7 +51,11 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultActivity" />
+        </activity>
         <activity
             android:name=".location.MarkLocationActivity"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
@@ -82,6 +91,31 @@
         <activity
             android:name=".healthservice.HomeVisitActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".search.SearchActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".search.SearchResultActivity" />
+        </activity>
+
+        <activity
+            android:name=".search.SearchResultActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".search.SearchResultActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+
     </application>
 
 </manifest>

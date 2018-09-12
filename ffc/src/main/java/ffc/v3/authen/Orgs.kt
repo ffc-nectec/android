@@ -47,6 +47,8 @@ internal class OrgsImpl : Orgs {
             t?.let {
                 callback.onFail?.invoke(LoginFailureException(it.message ?: "Something wrong"))
             }
+        }.always {
+            callback.always?.invoke()
         }
     }
 
@@ -65,6 +67,8 @@ internal class OrgsImpl : Orgs {
             t?.let {
                 callback.onFail?.invoke(LoginFailureException(it.message ?: "Something wrong"))
             }
+        }.always {
+            callback.always?.invoke()
         }
     }
 }

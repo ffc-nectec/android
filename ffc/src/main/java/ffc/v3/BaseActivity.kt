@@ -21,10 +21,15 @@ import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.View
 import ffc.entity.Organization
+import ffc.v3.android.connectivityManager
+import ffc.v3.android.onClick
 import ffc.v3.authen.getIdentityRepo
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
@@ -42,6 +47,22 @@ open class BaseActivity : AppCompatActivity() {
     val org: Organization? get() = getIdentityRepo(this).org
 
     private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
+
+    override fun setContentView(@LayoutRes layoutResID: Int) {
+        super.setContentView(layoutResID)
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        val toolbar = findViewById<View>(R.id.toolbar)
+        if (toolbar != null && toolbar is Toolbar) {
+            setSupportActionBar(toolbar)
+        }
+    }
+
+    fun onToolbarClick(block: (Toolbar) -> Unit) {
+        findViewById<Toolbar>(R.id.toolbar).onClick(block)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

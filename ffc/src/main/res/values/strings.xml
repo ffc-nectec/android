@@ -49,4 +49,5 @@
     <string name="diagnosis">วินิจฉัย</string>
     <string name="vital_sign">สัญญาณชีพ</string>
     <string name="home_visit">เยี่ยมบ้าน</string>
+    <string name="search">search</string>
 </resources>
