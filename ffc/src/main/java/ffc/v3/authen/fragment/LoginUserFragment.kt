@@ -27,15 +27,13 @@ import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import ffc.v3.BuildConfig
 import ffc.v3.R
+import ffc.v3.android.check
 import ffc.v3.android.onClick
 import ffc.v3.android.onLongClick
-import ffc.v3.util.assertionNotEmpty
 import kotlinx.android.synthetic.main.fragment_login_user.btnBack
 import kotlinx.android.synthetic.main.fragment_login_user.btnLogin
 import kotlinx.android.synthetic.main.fragment_login_user.etPwd
 import kotlinx.android.synthetic.main.fragment_login_user.etUsername
-import kotlinx.android.synthetic.main.fragment_login_user.inputLayoutPassword
-import kotlinx.android.synthetic.main.fragment_login_user.inputLayoutUsername
 import kotlinx.android.synthetic.main.fragment_login_user.tvHospitalName
 import org.jetbrains.anko.bundleOf
 
@@ -58,17 +56,22 @@ internal class LoginUserFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         btnLogin.onClick {
-            // Assert username and password
-            val username = etUsername.text.toString()
-            val password = etPwd.text.toString()
-            val checkUsername = assertionNotEmpty(inputLayoutUsername, username,
-                getString(R.string.no_username))
-            val checkPwd = assertionNotEmpty(inputLayoutPassword, password,
-                getString(R.string.no_password))
-            // Login
-            if (checkUsername && checkPwd) {
+            try {
+                etUsername.check {
+                    that { text.isNotBlank() }
+                    message = getString(R.string.no_username)
+                }
+                etPwd.check {
+                    that { text.isNotEmpty() }
+                    message = getString(R.string.no_password)
+                }
+
+                val username = etUsername.text.toString()
+                val password = etPwd.text.toString()
+
                 loginActivityListener.onShowProgressBar(true)
                 onLogin(username, password)
+            } catch (handled: IllegalStateException) {
             }
         }
         btnBack.onClick { fragmentManager!!.popBackStack() }
