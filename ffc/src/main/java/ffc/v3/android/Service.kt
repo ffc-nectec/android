@@ -25,20 +25,12 @@
 
 package ffc.v3.android
 
+import android.app.SearchManager
 import android.content.Context
-import com.google.gson.Gson
-import ffc.entity.gson.ffcGson
-import ffc.entity.gson.parseTo
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
+import android.net.ConnectivityManager
 
-@Throws(IOException::class)
-fun Context.assetAsString(filename: String): String {
-    val reader = BufferedReader(InputStreamReader(getAssets().open(filename)))
-    return reader.readText()
-}
+val Context.searchManager: SearchManager
+    get() = getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
-inline fun <reified T> Context.assetAs(filename: String, gson: Gson = ffcGson): T {
-    return assetAsString(filename).parseTo(ffcGson)
-}
+val Context.connectivityManager: ConnectivityManager
+    get() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
