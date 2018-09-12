@@ -25,20 +25,32 @@
 
 package ffc.v3.android
 
-import android.content.Context
-import com.google.gson.Gson
-import ffc.entity.gson.ffcGson
-import ffc.entity.gson.parseTo
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
+import android.view.View
 
-@Throws(IOException::class)
-fun Context.assetAsString(filename: String): String {
-    val reader = BufferedReader(InputStreamReader(getAssets().open(filename)))
-    return reader.readText()
+class ViewValidateDsl<T : View> {
+
+    var condition: (T.() -> Boolean)? = null
+    lateinit var message: String
+    lateinit var validate: T.() -> Boolean
+
+    fun on(condition: T.() -> Boolean) {
+        this.condition = condition
+    }
+
+    fun that(validate: T.() -> Boolean) {
+        this.validate = validate
+    }
 }
 
-inline fun <reified T> Context.assetAs(filename: String, gson: Gson = ffcGson): T {
-    return assetAsString(filename).parseTo(ffcGson)
+fun <T : View> T.check(block: ViewValidateDsl<T>.() -> Unit) {
+    val dsl = ffc.v3.android.ViewValidateDsl<T>().apply(block)
+    error(null)
+    if (dsl.condition == null || dsl.condition?.invoke(this) == true) {
+        val valid = dsl.validate(this)
+        if (!valid) {
+            error(dsl.message)
+            throw IllegalStateException(dsl.message)
+        }
+    }
 }
+
