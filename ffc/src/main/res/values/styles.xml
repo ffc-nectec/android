@@ -69,4 +69,23 @@
         <item name="colorAccent">@color/light_green_500</item>
     </style>
 
+    <style name="Appbar">
+        <item name="android:theme">@style/Base.ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?android:actionBarSize</item>
+    </style>
+
+    <style name="Appbar.Floating">
+        <!--for normal theme -->
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:background">@drawable/card_background</item>
+    </style>
+
+
+    <style name="Appbar.Floating.Transulent">
+        <!--for transulent theme-->
+        <item name="android:layout_marginTop">34dp</item>
+    </style>
 </resources>

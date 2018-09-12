@@ -28,9 +28,11 @@ import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import ffc.entity.gson.toJson
 import ffc.v3.R.raw
+import ffc.v3.android.onClick
 import ffc.v3.api.FfcCentral
 import ffc.v3.api.PlaceService
 import ffc.v3.location.MarkLocationActivity
+import ffc.v3.search.SearchActivity
 import ffc.v3.util.animateCameraTo
 import ffc.v3.util.drawable
 import ffc.v3.util.find
@@ -38,9 +40,11 @@ import ffc.v3.util.gone
 import ffc.v3.util.moveCameraTo
 import ffc.v3.util.toBitmap
 import kotlinx.android.synthetic.main.activity_maps.addLocationButton
+import kotlinx.android.synthetic.main.activity_maps.searchButton
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import retrofit2.dsl.enqueue
@@ -55,6 +59,8 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
+        searchButton.onClick { startActivity<SearchActivity>() }
 
         addLocationButton.gone()
 

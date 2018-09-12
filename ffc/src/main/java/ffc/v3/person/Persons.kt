@@ -2,6 +2,8 @@ package ffc.v3.person
 
 import ffc.entity.Person
 import ffc.entity.ThaiCitizenId
+import ffc.v3.search.PersonSearcher
+import ffc.v3.util.RepoCallback
 import org.joda.time.LocalDate
 
 interface Persons {
@@ -11,7 +13,19 @@ interface Persons {
     fun add(person: Person, callback: (Person?, Throwable?) -> Unit)
 }
 
-private class InMemoryPersons : Persons {
+private class InMemoryPersons : Persons, PersonSearcher {
+    override fun search(query: String, dsl: RepoCallback<List<Person>>.() -> Unit) {
+        val callback = RepoCallback<List<Person>>().apply(dsl)
+        callback.always?.invoke()
+        repository.filter { it.name.contains(query) }.let {
+            if (it.isNotEmpty())
+                callback.onFound?.invoke(it)
+            else
+                callback.onNotFound?.invoke()
+
+        }
+    }
+
     override fun add(person: Person, callback: (Person?, Throwable?) -> Unit) {
         repository.add(person)
         callback(person, null)
@@ -37,3 +51,5 @@ val mockPerson = Person().apply {
 }
 
 fun persons(): Persons = InMemoryPersons()
+
+fun personSearcher(): PersonSearcher = InMemoryPersons()

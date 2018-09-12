@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import ffc.v3.android.connectivityManager
 
 class ConnectivityChangeReceiver(
     val onConnectivityChange: ((isConnect: Boolean) -> Unit)? = null
@@ -35,5 +36,3 @@ class ConnectivityChangeReceiver(
 val ConnectivityManager.isConnected
     get() = activeNetworkInfo?.isConnected == true
 
-val Context.connectivityManager
-    get() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

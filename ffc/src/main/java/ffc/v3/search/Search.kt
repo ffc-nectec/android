@@ -15,28 +15,12 @@
  * limitations under the License.
  */
 
-package ffc.v3.util
+package ffc.v3.search
 
-class RepoCallback<T> {
+import ffc.entity.Person
+import ffc.v3.util.RepoCallback
 
-    var onFound: ((T) -> Unit)? = null
-    var onNotFound: (() -> Unit)? = null
-    var onFail: ((Throwable) -> Unit)? = null
-    var always: (() -> Unit)? = null
+interface PersonSearcher {
 
-    fun onFound(onFound: (T) -> Unit) {
-        this.onFound = onFound
-    }
-
-    fun onNotFound(onNotFound: () -> Unit) {
-        this.onNotFound = onNotFound
-    }
-
-    fun onFail(onFail: (Throwable) -> Unit) {
-        this.onFail = onFail
-    }
-
-    fun always(always: () -> Unit) {
-        this.always = always
-    }
+    fun search(query: String, dsl: RepoCallback<List<Person>>.() -> Unit)
 }
