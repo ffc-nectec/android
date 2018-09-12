@@ -25,14 +25,13 @@ import android.view.ViewGroup
 import ffc.entity.Organization
 import ffc.v3.BuildConfig
 import ffc.v3.R
+import ffc.v3.android.check
+import ffc.v3.android.error
 import ffc.v3.android.onClick
 import ffc.v3.authen.orgs
 import ffc.v3.baseActivity
-import ffc.v3.util.assertionNotEmpty
-import ffc.v3.util.warnTextInput
 import kotlinx.android.synthetic.main.fragment_login_org.btnNext
 import kotlinx.android.synthetic.main.fragment_login_org.etOrganization
-import kotlinx.android.synthetic.main.fragment_login_org.inputLayoutOrganization
 import org.jetbrains.anko.support.v4.longToast
 
 internal class LoginOrgFragment : Fragment() {
@@ -49,15 +48,14 @@ internal class LoginOrgFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         btnNext.onClick {
-            val organizationName = etOrganization.text.toString()
-            val isNotEmpty = assertionNotEmpty(
-                inputLayoutOrganization,
-                organizationName,
-                getString(R.string.please_type_org)
-            )
-            if (isNotEmpty) {
-                loginActivityListener.onShowProgressBar(true)
-                findOrgBy(organizationName)
+            try {
+                etOrganization.check {
+                    that { text.isNotBlank() }
+                    message = getString(R.string.please_type_org)
+                }
+
+                findOrgBy(etOrganization.text.toString())
+            } catch (handled: IllegalStateException) {
             }
         }
 
@@ -77,22 +75,17 @@ internal class LoginOrgFragment : Fragment() {
 
     private fun checkUserNetwork() {
         orgs().myOrg {
-            onFound {
-                loginActivityListener.onShowProgressBar(false)
-                orgSelected(it)
-            }
+            always { loginActivityListener.onShowProgressBar(false) }
+            onFound { orgSelected(it) }
         }
     }
 
     private fun findOrgBy(orgQuery: String) {
+        loginActivityListener.onShowProgressBar(true)
         orgs().org(query = orgQuery) {
-            onFound {
-                loginActivityListener.onShowProgressBar(false)
-                orgSelected(it)
-            }
-            onNotFound {
-                warnTextInput(inputLayoutOrganization, getString(R.string.not_found_org), true)
-            }
+            always { loginActivityListener.onShowProgressBar(false) }
+            onFound { orgSelected(it) }
+            onNotFound { etOrganization.error(getString(R.string.not_found_org)) }
             onFail { longToast(it.message ?: "message") }
         }
     }
