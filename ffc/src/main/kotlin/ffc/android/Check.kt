@@ -62,4 +62,3 @@ fun View.error(message: String?) {
     } else if (this is TextView)
         error = message
 }
-

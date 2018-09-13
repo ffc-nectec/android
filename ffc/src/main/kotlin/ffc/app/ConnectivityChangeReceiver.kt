@@ -35,4 +35,3 @@ class ConnectivityChangeReceiver(
 
 val ConnectivityManager.isConnected
     get() = activeNetworkInfo?.isConnected == true
-
