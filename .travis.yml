@@ -23,5 +23,5 @@ before_script:
 script:
 - "./gradlew build"
 before_install:
-- openssl aes-256-cbc -K $encrypted_c87bbee302c4_key -iv $encrypted_c87bbee302c4_iv
-  -in ffc/google-services.json.enc -out ffc/google-services.json -d
+- openssl aes-256-cbc -K $encrypted_3bd8d729af6c_key -iv $encrypted_3bd8d729af6c_iv -in ffc/google-services.json.enc -out ffc/google-services.json -d
+
