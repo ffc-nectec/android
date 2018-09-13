@@ -51,6 +51,16 @@ android {
     }
 }
 
+// from https://github.com/android10/Android-KotlinInTests/blob/master/app/build.gradle
+// Ensure Kotlin will not be used in production code.
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test') || !sourceSet.name.startsWith('androidTest')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}
+
 dependencies {
     def appcompatVersion = '27.1.1'
     def firebaseVersion = '16.0.3'
