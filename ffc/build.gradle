@@ -42,6 +42,20 @@ android {
         debug {
             storeFile file("debug.keystore")
         }
+
+        Properties properties
+        if (rootProject.file('local.properties').exists()) {
+            properties = new Properties()
+            properties.load(rootProject.file('local.properties').newDataInputStream())
+        }
+        release {
+            storeFile file("release.keystore")
+            storePassword properties?.getProperty("release.storepassword") ?:
+                System.getenv('RELEASE_STORE_PASSWORD') ?: ""
+            keyAlias 'ffcrelease'
+            keyPassword properties?.getProperty("release.keypassword") ?:
+                System.getenv('RELEASE_KEY_PASSWORD') ?: ""
+        }
     }
 
     buildTypes {
@@ -49,6 +63,7 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
