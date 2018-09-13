@@ -23,8 +23,14 @@ apply plugin: "org.jlleitschuh.gradle.ktlint"
 android {
     compileSdkVersion 28
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
     defaultConfig {
-        applicationId "ffc.v3"
+        applicationId "ffc.app"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -82,7 +88,7 @@ dependencies {
     implementation "th.or.nectec.android:thai-widget:0.6.2" exclude group: 'com.android.support'
 
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.amshove.kluent:kluent:1.38'
+    testImplementation 'org.amshove.kluent:kluent:1.41'
 
     androidTestImplementation 'org.amshove.kluent:kluent-android:1.38'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

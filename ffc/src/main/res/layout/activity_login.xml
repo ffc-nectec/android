@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authen.LoginActivity">
+    tools:context="ffc.app.authen.LoginActivity">
 
     <ImageView
         android:id="@+id/ivCommunity"

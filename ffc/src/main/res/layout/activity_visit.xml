@@ -44,7 +44,7 @@
 
             <fragment
                 android:id="@+id/homeVisit"
-                class="ffc.v3.healthservice.HomeServiceFormFragment"
+                class="ffc.app.healthservice.HomeServiceFormFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />
@@ -60,7 +60,7 @@
 
             <fragment
                 android:id="@+id/vitalSign"
-                class="ffc.v3.healthservice.VitalSignFormFragment"
+                class="ffc.app.healthservice.VitalSignFormFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />
@@ -76,7 +76,7 @@
 
             <fragment
                 android:id="@+id/body"
-                class="ffc.v3.healthservice.BodyFormFragment"
+                class="ffc.app.healthservice.BodyFormFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />
@@ -93,7 +93,7 @@
 
             <fragment
                 android:id="@+id/diagnosis"
-                class="ffc.v3.healthservice.DiagnosisFormFragment"
+                class="ffc.app.healthservice.DiagnosisFormFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />
