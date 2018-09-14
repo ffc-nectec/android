@@ -51,12 +51,19 @@ class HomeVisitActivity : FamilyFolderActivity() {
         setContentView(R.layout.activity_visit)
 
         if (BuildConfig.DEBUG) {
-            getIdentityRepo(this).user = User(
-                generateTempId(),
-                "hello",
-                "world",
-                User.Role.PROVIDER, User.Role.SURVEYOR)
-            intent.putExtra("personId", mockPerson.id)
+            if (getIdentityRepo(this).user == null) {
+                getIdentityRepo(this).user = User(
+                    generateTempId(),
+                    "hello",
+                    "world",
+                    User.Role.PROVIDER, User.Role.SURVEYOR)
+            }
+            if (personId == null)
+                intent.putExtra("personId", mockPerson.id)
+        }
+
+        persons().person(personId) { person, throwable ->
+            toast("visit ${person!!.name}")
         }
 
         done.onClick { _ ->

@@ -69,7 +69,7 @@ internal class LoginInteractor() {
 
     val isLoggedIn: Boolean
         get() {
-            if (idRepo.user != null) {
+            if (idRepo.org != null && idRepo.user != null) {
                 FfcCentral.TOKEN = idRepo.token
                 return true
             } else

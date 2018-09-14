@@ -24,10 +24,12 @@ import android.support.v7.widget.LinearLayoutManager
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.healthservice.HomeVisitActivity
 import ffc.app.person.PersonAdapter
 import ffc.app.person.personSearcher
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class SearchResultActivity : FamilyFolderActivity() {
@@ -61,12 +63,9 @@ class SearchResultActivity : FamilyFolderActivity() {
 
     private fun handleIntent(intent: Intent) {
         val query = intent.query
-        toast("action = ${intent.action}")
         if (Intent.ACTION_SEARCH == intent.action && intent.query != null) {
             supportActionBar!!.title = query
-            toast("query $query")
             personSearcher().search(query!!) {
-                always { toast("always") }
                 onFound { bindAdapter(persons = it) }
                 onNotFound { toast("Not found ") }
             }
@@ -76,7 +75,7 @@ class SearchResultActivity : FamilyFolderActivity() {
     private fun bindAdapter(persons: List<Person>) {
         searchResultView.layoutManager = LinearLayoutManager(this)
         searchResultView.adapter = PersonAdapter(persons) {
-            onItemClick { p -> toast("${p.name} clicked") }
+            onItemClick { p -> startActivity<HomeVisitActivity>("personId" to p.id) }
         }
     }
 

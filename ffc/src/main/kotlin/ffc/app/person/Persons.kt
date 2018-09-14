@@ -40,7 +40,7 @@ private class InMemoryPersons : Persons, PersonSearcher {
     }
 }
 
-val mockPerson = Person().apply {
+val mockPerson = Person("5b9770e029191b0004c91a56").apply {
     birthDate = LocalDate.parse("1988-02-15")
     prename = "นาย"
     firstname = "พิรุณ"
