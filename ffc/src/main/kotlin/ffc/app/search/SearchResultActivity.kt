@@ -20,21 +20,35 @@ package ffc.app.search
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.person.PersonAdapter
 import ffc.app.person.personSearcher
-import ffc.entity.gson.toJson
+import ffc.entity.Person
+import kotlinx.android.synthetic.main.activity_search_result.searchResultView
 import org.jetbrains.anko.toast
 
 class SearchResultActivity : FamilyFolderActivity() {
 
-    val query by lazy { intent.getStringExtra(SearchManager.QUERY) }
+    var Intent.query: String?
+        get() = intent.getStringExtra(SearchManager.QUERY)
+        set(value) {
+            intent.putExtra(SearchManager.QUERY, value)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_result)
+
+        if (BuildConfig.DEBUG && intent.query == null) {
+            //TODO remove this after developed
+            intent.action = Intent.ACTION_SEARCH
+            intent.query = "พิรุณ"
+        }
         with(supportActionBar!!) {
-            title = query
+            title = intent.query
             setDisplayHomeAsUpEnabled(true)
             onToolbarClick { onBackPressed() }
         }
@@ -46,15 +60,23 @@ class SearchResultActivity : FamilyFolderActivity() {
     }
 
     private fun handleIntent(intent: Intent) {
+        val query = intent.query
         toast("action = ${intent.action}")
-        if (Intent.ACTION_SEARCH == intent.action) {
+        if (Intent.ACTION_SEARCH == intent.action && intent.query != null) {
             supportActionBar!!.title = query
             toast("query $query")
-            personSearcher().search(query) {
+            personSearcher().search(query!!) {
                 always { toast("always") }
-                onFound { toast(it.toJson()) }
+                onFound { bindAdapter(persons = it) }
                 onNotFound { toast("Not found ") }
             }
+        }
+    }
+
+    private fun bindAdapter(persons: List<Person>) {
+        searchResultView.layoutManager = LinearLayoutManager(this)
+        searchResultView.adapter = PersonAdapter(persons) {
+            onItemClick { p -> toast("${p.name} clicked") }
         }
     }
 

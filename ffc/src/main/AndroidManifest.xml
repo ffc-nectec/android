@@ -102,6 +102,7 @@
 
         <activity
             android:name="ffc.app.search.SearchResultActivity"
+            android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
