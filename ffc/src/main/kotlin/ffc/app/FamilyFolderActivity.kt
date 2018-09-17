@@ -29,7 +29,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import ffc.android.connectivityManager
 import ffc.android.onClick
-import ffc.app.authen.getIdentityRepo
+import ffc.app.auth.auth
 import ffc.entity.Organization
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
@@ -44,7 +44,7 @@ open class FamilyFolderActivity : AppCompatActivity() {
             onConnectivityChanged(field)
         }
 
-    val org: Organization? get() = getIdentityRepo(this).org
+    val org: Organization? get() = auth(this).org
 
     private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
 

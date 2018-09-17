@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package ffc.app.authen
+package ffc.app.auth
 
 import ffc.api.FfcCentral
 import ffc.api.OrgService
-import ffc.app.authen.exception.LoginFailureException
+import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
 import ffc.util.RepoCallback
 import retrofit2.dsl.then
@@ -31,7 +31,7 @@ interface Orgs {
     fun org(query: String, dsl: RepoCallback<Organization>.() -> Unit)
 }
 
-internal class OrgsImpl : Orgs {
+private class OrgsImpl : Orgs {
 
     private val orgService = FfcCentral().service<OrgService>()
 

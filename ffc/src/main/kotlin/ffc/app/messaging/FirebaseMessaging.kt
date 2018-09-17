@@ -22,10 +22,9 @@ import android.content.SharedPreferences
 import android.util.Log
 import ffc.android.tag
 import ffc.api.FfcCentral
-import ffc.app.authen.getIdentityRepo
+import ffc.app.auth.auth
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.dsl.enqueue
-import java.lang.IllegalArgumentException
 
 internal class FirebaseMessaging(val application: Application) : Messaging {
 
@@ -33,7 +32,7 @@ internal class FirebaseMessaging(val application: Application) : Messaging {
 
     private val preferences by lazy { application.defaultSharedPreferences }
 
-    private val org by lazy { getIdentityRepo(application).org }
+    private val org by lazy { auth(application).org }
 
     override fun subscripbe(token: String?) {
         try {

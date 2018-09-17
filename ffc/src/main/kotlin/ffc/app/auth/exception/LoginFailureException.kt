@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 
-package ffc.app.authen.exception
+package ffc.app.auth.exception
 
-class LoginErrorException internal constructor(message: String? = null) : RuntimeException(message)
+class LoginFailureException internal constructor(message: String? = null) : RuntimeException(message)

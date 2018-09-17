@@ -15,27 +15,37 @@
  * limitations under the License.
  */
 
-package ffc.app.authen
+package ffc.app.auth
 
 import ffc.api.FfcCentral
 import ffc.api.OrgService
-import ffc.app.authen.exception.LoginErrorException
-import ffc.app.authen.exception.LoginFailureException
+import ffc.app.auth.exception.LoginErrorException
+import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
 import okhttp3.Credentials
 import retrofit2.dsl.enqueue
 import java.nio.charset.Charset
 
-internal class LoginInteractor() {
+internal class LoginInteractor(
+    var presenter: LoginPresenter,
+    var auth: Authentication
+) {
 
-    lateinit var loginPresenter: LoginPresenter
-    lateinit var idRepo: IdentityRepo
+    init {
+        if (isLoggedIn) {
+            FfcCentral.TOKEN = auth.token
+            presenter.onLoginSuccess()
+        } else {
+            presenter.showOrgSelector()
+        }
+    }
+
     private val orgService = FfcCentral().service<OrgService>()
 
     var org: Organization? = null
         set(value) {
             field = value
-            if (value != null) loginPresenter.onOrgSelected(value)
+            if (value != null) presenter.onOrgSelected(value)
         }
 
     private val utf8 = Charset.forName("UTF-8")
@@ -47,32 +57,28 @@ internal class LoginInteractor() {
             onSuccess {
                 val authorize = body()!!
                 FfcCentral.TOKEN = authorize.token
-                idRepo.org = org
-                idRepo.token = authorize.token
+                auth.org = org
+                auth.token = authorize.token
                 users().user(username) { user, t ->
                     if (user != null) {
-                        idRepo.user = user
-                        loginPresenter.onLoginSuccess()
+                        auth.user = user
+                        presenter.onLoginSuccess()
                     } else {
-                        loginPresenter.onError(t ?: IllegalStateException("Something wrong"))
+                        presenter.onError(t ?: IllegalStateException("Something wrong"))
                     }
                 }
             }
             onError {
-                loginPresenter.onError(LoginErrorException())
+                presenter.onError(LoginErrorException())
             }
             onFailure {
-                loginPresenter.onError(LoginFailureException(it.message ?: "Something wrong"))
+                presenter.onError(LoginFailureException(it.message ?: "Something wrong"))
             }
         }
     }
 
     val isLoggedIn: Boolean
         get() {
-            if (idRepo.org != null && idRepo.user != null) {
-                FfcCentral.TOKEN = idRepo.token
-                return true
-            } else
-                return false
+            return auth.org != null && auth.user != null
         }
 }

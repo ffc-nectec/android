@@ -1,4 +1,4 @@
-package ffc.app.authen
+package ffc.app.auth
 
 import ffc.entity.User
 import ffc.entity.util.generateTempId

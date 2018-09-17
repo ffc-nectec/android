@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.authen
+package ffc.app.auth
 
 import android.content.Context
 import ffc.entity.Organization
@@ -25,7 +25,7 @@ import ffc.util.get
 import ffc.util.put
 import org.jetbrains.anko.defaultSharedPreferences
 
-interface IdentityRepo {
+interface Authentication {
 
     var org: Organization?
 
@@ -34,7 +34,7 @@ interface IdentityRepo {
     var user: User?
 }
 
-private class PreferenceIdentityRepo(context: Context) : IdentityRepo {
+private class PreferenceAuthen(context: Context) : Authentication {
 
     var preference = context.defaultSharedPreferences
 
@@ -61,4 +61,4 @@ private class PreferenceIdentityRepo(context: Context) : IdentityRepo {
     }
 }
 
-fun getIdentityRepo(context: Context): IdentityRepo = PreferenceIdentityRepo(context)
+fun auth(context: Context): Authentication = PreferenceAuthen(context)

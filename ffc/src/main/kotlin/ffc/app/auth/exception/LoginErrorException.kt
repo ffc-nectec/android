@@ -15,9 +15,6 @@
  * limitations under the License.
  */
 
-package ffc.app.authen.fragment
+package ffc.app.auth.exception
 
-internal interface LoginActivityListener {
-
-    fun onShowProgressBar(state: Boolean)
-}
+class LoginErrorException internal constructor(message: String? = null) : RuntimeException(message)
