@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.authen.fragment
+package ffc.app.auth.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -27,7 +27,7 @@ import ffc.android.error
 import ffc.android.onClick
 import ffc.app.BuildConfig
 import ffc.app.R
-import ffc.app.authen.orgs
+import ffc.app.auth.orgs
 import ffc.app.familyFolderActivity
 import ffc.entity.Organization
 import kotlinx.android.synthetic.main.fragment_login_org.btnNext

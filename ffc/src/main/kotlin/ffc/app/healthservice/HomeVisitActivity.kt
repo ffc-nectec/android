@@ -25,7 +25,7 @@ import ffc.android.toast
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
-import ffc.app.authen.getIdentityRepo
+import ffc.app.auth.auth
 import ffc.app.person.mockPerson
 import ffc.app.person.persons
 import ffc.entity.User
@@ -43,7 +43,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
     internal val diagnosis by lazy { supportFragmentManager.find<DiagnosisFormFragment>(R.id.diagnosis) }
     internal val body by lazy { supportFragmentManager.find<BodyFormFragment>(R.id.body) }
 
-    val providerId by lazy { getIdentityRepo(this).user!!.id }
+    val providerId by lazy { auth(this).user!!.id }
     val personId get() = intent.getStringExtra("personId")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +51,8 @@ class HomeVisitActivity : FamilyFolderActivity() {
         setContentView(R.layout.activity_visit)
 
         if (BuildConfig.DEBUG) {
-            if (getIdentityRepo(this).user == null) {
-                getIdentityRepo(this).user = User(
+            if (auth(this).user == null) {
+                auth(this).user = User(
                     generateTempId(),
                     "hello",
                     "world",

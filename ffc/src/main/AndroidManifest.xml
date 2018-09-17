@@ -39,7 +39,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="ffc.app.authen.LoginActivity"
+            android:name="ffc.app.auth.LoginActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>

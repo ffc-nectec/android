@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.authen.fragment
+package ffc.app.auth.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 
-package ffc.app.authen.exception
+package ffc.app.auth
 
-class LoginFailureException internal constructor(message: String? = null) : RuntimeException(message)
+import ffc.entity.Organization
+
+internal interface LoginPresenter {
+
+    fun onLoginSuccess()
+
+    fun showOrgSelector()
+
+    fun onOrgSelected(org: Organization)
+
+    fun onError(throwable: Throwable)
+}

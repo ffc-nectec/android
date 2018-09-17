@@ -15,21 +15,20 @@
  * limitations under the License.
  */
 
-package ffc.app.authen
+package ffc.app.auth
 
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.app.FamilyFolderActivity
-import ffc.app.MapsActivity
+import ffc.app.MainActivity
 import ffc.app.R
-import ffc.app.authen.exception.LoginErrorException
-import ffc.app.authen.exception.LoginFailureException
-import ffc.app.authen.fragment.LoginActivityListener
-import ffc.app.authen.fragment.LoginOrgFragment
-import ffc.app.authen.fragment.LoginUserFragment
+import ffc.app.auth.exception.LoginErrorException
+import ffc.app.auth.exception.LoginFailureException
+import ffc.app.auth.fragment.LoginActivityListener
+import ffc.app.auth.fragment.LoginOrgFragment
+import ffc.app.auth.fragment.LoginUserFragment
 import ffc.entity.Organization
-import ffc.util.debug
 import ffc.util.gone
 import ffc.util.visible
 import jp.wasabeef.glide.transformations.BlurTransformation
@@ -41,12 +40,7 @@ import org.jetbrains.anko.startActivity
 
 class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresenter {
 
-    private val interactor: LoginInteractor by lazy {
-        LoginInteractor().apply {
-            loginPresenter = this@LoginActivity
-            idRepo = getIdentityRepo(this@LoginActivity)
-        }
-    }
+    private lateinit var interactor: LoginInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,18 +48,7 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
 
         initInstances()
 
-        if (savedInstanceState == null) {
-            debug(interactor.idRepo.toString())
-            if (interactor.isLoggedIn) {
-                onLoginSuccess()
-            } else {
-                val fragment = LoginOrgFragment()
-                fragment.orgSelected = { interactor.org = it }
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.contentContainer, fragment, "LoginOrg")
-                    .commit()
-            }
-        }
+        interactor = LoginInteractor(this, auth(this))
     }
 
     private fun initInstances() {
@@ -90,9 +73,17 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
         }
     }
 
+    override fun showOrgSelector() {
+        val fragment = LoginOrgFragment()
+        fragment.orgSelected = { interactor.org = it }
+        supportFragmentManager.beginTransaction()
+            .add(R.id.contentContainer, fragment, "LoginOrg")
+            .commit()
+    }
+
     override fun onLoginSuccess() {
         onShowProgressBar(false)
-        startActivity<MapsActivity>()
+        startActivity<MainActivity>()
         finish()
     }
 
