@@ -45,19 +45,19 @@ class DiagnosisFormFragment : Fragment() {
     }
 
     fun dataInto(service: HealthCareService) {
-        val diagห = container.diagView
+        val diag = container.diagView
             .filter { it.diagnosis != null }
             .map { it.diagnosis!! }
             .toMutableList()
 
-        check(diagห.isNotEmpty()) { "กรุณาระบุผลการวินิจฉัย" }
-        check(diagห.firstOrNull { it.dxType == Diagnosis.Type.PRINCIPLE_DX } != null) { "ต้องมี Principle Dx" }
-        check(diagห.filter { it.dxType == Diagnosis.Type.PRINCIPLE_DX }.size == 1) {
+        check(diag.isNotEmpty()) { "กรุณาระบุผลการวินิจฉัย" }
+        check(diag.firstOrNull { it.dxType == Diagnosis.Type.PRINCIPLE_DX } != null) { "ต้องมี Principle Dx" }
+        check(diag.filter { it.dxType == Diagnosis.Type.PRINCIPLE_DX }.size == 1) {
             "มี Principle Dx ได้แค่รายการเดียว"
         }
 
         service.apply {
-            diagnosises = diagห
+            diagnosises = diag
         }
     }
 

@@ -17,41 +17,18 @@
 
 package ffc.app
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap
-import com.google.maps.android.data.geojson.GeoJsonLayer
-import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import ffc.android.onClick
-import ffc.api.FfcCentral
-import ffc.api.PlaceService
-import ffc.app.location.MarkLocationActivity
 import ffc.app.search.SearchActivity
-import ffc.entity.gson.toJson
-import ffc.util.animateCameraTo
-import ffc.util.drawable
-import ffc.util.find
 import ffc.util.gone
-import ffc.util.moveCameraTo
-import ffc.util.toBitmap
 import kotlinx.android.synthetic.main.activity_maps.addLocationButton
 import kotlinx.android.synthetic.main.activity_maps.searchButton
-import me.piruin.geok.geometry.Point
-import org.jetbrains.anko.dimen
-import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-import org.json.JSONObject
-import retrofit2.dsl.enqueue
-import retrofit2.dsl.isNotFound
 
 const val REQ_ADD_LOCATION = 10214
 
-class MapsActivity : FamilyFolderActivity(), OnMapReadyCallback {
+class MapsActivity : FamilyFolderActivity() {
 
     private lateinit var map: GoogleMap
 
@@ -62,92 +39,6 @@ class MapsActivity : FamilyFolderActivity(), OnMapReadyCallback {
         searchButton.onClick { startActivity<SearchActivity>() }
 
         addLocationButton.gone()
-
-        supportFragmentManager.find<SupportMapFragment>(R.id.mapFragment).getMapAsync(this)
     }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap.apply {
-            setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
-        }
-        addLocationButton.setOnClickListener {
-            val intent = intentFor<MarkLocationActivity>(
-                "target" to map.cameraPosition.target,
-                "zoom" to map.cameraPosition.zoom
-            )
-            startActivityForResult(intent, REQ_ADD_LOCATION)
-        }
-        showGeoJson()
-
-        checkHouseNoLocation()
-    }
-
-    private fun checkHouseNoLocation() {
-        val placeService = FfcCentral().service<PlaceService>()
-        placeService.listHouseNoLocation(org!!.id).enqueue {
-            onSuccess {
-                addLocationButton.show()
-            }
-            onClientError {
-                when {
-                    isNotFound -> addLocationButton.hide()
-                }
-            }
-        }
-    }
-
-    private fun showGeoJson() {
-        val placeService = FfcCentral().service<PlaceService>()
-        placeService.listHouseGeoJson(org!!.id).enqueue {
-
-            onSuccess {
-                val coordinates = (body()!!.features[0].geometry as Point).coordinates
-                map.animateCameraTo(coordinates.latitude, coordinates.longitude, 10.0f)
-                with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
-                    features.forEach {
-                        it.pointStyle = GeoJsonPointStyle().apply {
-                            icon = if (it.getProperty("haveChronics") == "true")
-                                chronicHomeIcon else homeIcon
-                            title = "บ้านเลขที่ ${it.getProperty("no")}"
-                            snippet = it.getProperty("coordinates")?.trimMargin()
-                        }
-                    }
-                    setOnFeatureClickListener {
-                        startActivityForResult(
-                            intentFor<HouseActivity>("houseId" to it.getProperty("_id")),
-                            REQ_ADD_LOCATION)
-                    }
-                    addLayerToMap()
-                }
-            }
-
-            onError {
-                toast("Not success get geoJson ${code()} ")
-                if (BuildConfig.DEBUG) {
-                    map.moveCameraTo(13.0, 102.1, 10.0f)
-                    GeoJsonLayer(map, R.raw.place, this@MapsActivity)
-                }
-            }
-
-            onFailure {
-                toast("${it.message}")
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQ_ADD_LOCATION -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    map.clear()
-                    showGeoJson()
-                }
-            }
-        }
-    }
-
-    private val homeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_black_24px).toBitmap()) }
-
-    private val chronicHomeIcon by lazy { fromBitmap(drawable(R.drawable.ic_home_red_24px).toBitmap()) }
 }
+

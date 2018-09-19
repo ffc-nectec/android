@@ -1,0 +1,45 @@
+{
+    "detail": "ให้จิบน้ำผสมเกลือแร่ ทานยาแก้ท้องเสียตามฉลากอยากดื่มน้ำและพักผ่อนมากๆ",
+    "nextAppoint": "2018-09-25",
+    "plan": "ตรวจสอบว่าผู้รับบริการหายดีแล้ว",
+    "result": "สุขภาพน่าจะดีขึ้น หลังกินยาแก้ท้องเสียและพักผ่อน",
+    "serviceType": {
+        "id": "1A011",
+        "name": "เยี่ยมผู้ป่วยโรคอุจจาระร่วง ",
+        "translation": {}
+    },
+    "bloodPressure": {
+        "diastolic": 69.0,
+        "systolic": 110.0
+    },
+    "bodyTemperature": 37.0,
+    "diagnosises": [
+        {
+            "disease": {
+                "icd10": "A01.3",
+                "isChronic": false,
+                "isEpimedic": false,
+                "isNCD": false,
+                "id": "cbc60d722a014e428d15d135525d1f86",
+                "name": "ไข้รากสาดเทียม (พาราไทฟอยด์) ซี",
+                "translation": {}
+            },
+            "dxType": "PRINCIPLE_DX",
+            "isContinued": false
+        }
+    ],
+    "endTime": "2018-09-18T10:27:58.483+07:00",
+    "height": 180.0,
+    "patientId": "5b9770e029191b0004c91a56",
+    "photosUrl": [],
+    "providerId": "5b9743345a2e99000421db07",
+    "pulseRate": 70.0,
+    "respiratoryRate": 13.0,
+    "syntom": "หน้าซีดร่างกายอ่อนเพลีย",
+    "time": "2018-09-18T10:22:58.483+07:00",
+    "waist": 82.0,
+    "weight": 60.0,
+    "id": "5ba06f95fda8eb00040a812b",
+    "timestamp": "2018-09-18T10:22:58.483+07:00",
+    "type": "HomeVisit"
+}

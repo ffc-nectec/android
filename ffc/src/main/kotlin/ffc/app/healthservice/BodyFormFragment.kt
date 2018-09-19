@@ -22,25 +22,24 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ffc.android.getInput
 import ffc.app.R
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.hs_body_form_fragment.heightField
 import kotlinx.android.synthetic.main.hs_body_form_fragment.waistField
 import kotlinx.android.synthetic.main.hs_body_form_fragment.weightField
 
-class BodyFormFragment : Fragment() {
+class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.hs_body_form_fragment, container, false)
     }
 
-    fun dataInto(service: HealthCareService) {
+    override fun dataInto(service: HealthCareService) {
         service.apply {
-            heightField.text.let { height = it.toString().toDouble() }
-            weightField.text.let { weight = it.toString().toDouble() }
-            waistField.text.let {
-                //TODO save waist on new version of entiity release
-            }
+            heightField.getInput { height = it.toDouble() }
+            weightField.getInput { weight = it.toDouble() }
+            waistField.getInput { waist = it.toDouble() }
         }
     }
 }

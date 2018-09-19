@@ -18,8 +18,10 @@
 package ffc.app.auth
 
 import android.os.Bundle
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ffc.android.tag
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
 import ffc.app.R
@@ -37,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground
 import kotlinx.android.synthetic.main.activity_login.pbLoading
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresenter {
 
@@ -48,7 +51,12 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
 
         initInstances()
 
-        interactor = LoginInteractor(this, auth(this))
+        val auth = auth(this)
+        if (auth.user != null) {
+            toast("Hello ${auth.user?.name}")
+            Log.d(tag, "User id = ${auth.user?.id}")
+        }
+        interactor = LoginInteractor(this, auth)
     }
 
     private fun initInstances() {

@@ -59,9 +59,9 @@ internal class LoginInteractor(
                 FfcCentral.TOKEN = authorize.token
                 auth.org = org
                 auth.token = authorize.token
+                auth.user = authorize.user
                 users().user(username) { user, t ->
                     if (user != null) {
-                        auth.user = user
                         presenter.onLoginSuccess()
                     } else {
                         presenter.onError(t ?: IllegalStateException("Something wrong"))
