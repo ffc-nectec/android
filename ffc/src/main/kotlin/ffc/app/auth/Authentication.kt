@@ -32,6 +32,8 @@ interface Authentication {
     var token: String?
 
     var user: User?
+
+    fun clear()
 }
 
 private class PreferenceAuthen(context: Context) : Authentication {
@@ -55,6 +57,10 @@ private class PreferenceAuthen(context: Context) : Authentication {
         set(value) {
             preference.edit().put("user", value).apply()
         }
+
+    override fun clear() {
+        preference.edit().clear().apply()
+    }
 
     override fun toString(): String {
         return "org = ${org?.toJson()}\nuser = ${user?.toJson()}\ntoken = $token"

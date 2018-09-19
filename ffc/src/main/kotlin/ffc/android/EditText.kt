@@ -14,19 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ffc.util
 
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import ffc.entity.gson.ffcGson
-import ffc.entity.gson.parseTo
-import ffc.entity.gson.toJson
+package ffc.android
 
-inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = ffcGson): T? =
-    this.getString(key, null)?.parseTo<T>(gson)
+import android.widget.EditText
 
-fun <T> SharedPreferences.Editor.put(
-    key: String,
-    value: T?,
-    gson: Gson = ffcGson
-) = this.apply { putString(key, value?.toJson(gson)) }
+fun EditText.getInput(block: (String) -> Unit) {
+    if (!text.isNullOrBlank()) block(text.toString())
+}

@@ -75,7 +75,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 body.dataInto(visit)
 
                 persons().person(personId) { p, _ ->
-                    p!!.healthCareServices().add(visit) { s, t ->
+                    p!!.healthCareServices(org!!).add(visit) { s, t ->
                         t?.let { throw it }
                         s?.let {
                             Log.d(tag, it.toJson())

@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.pulseField
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.rrField
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.tempField
 
-internal class VitalSignFormFragment : Fragment() {
+internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
     var service: HealthCareService? = null
 
@@ -42,7 +42,6 @@ internal class VitalSignFormFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         service?.let {
             it.bloodPressure?.let { bp ->
                 bpSysField.setText("${bp.systolic}")
@@ -51,12 +50,11 @@ internal class VitalSignFormFragment : Fragment() {
             it.respiratoryRate?.let { rr -> rrField.setText("$rr") }
             it.pulseRate?.let { pr -> pulseField.setText("$pr") }
             it.bodyTemperature?.let { temp -> tempField.setText("$temp") }
-            //TODO Temperature
         }
     }
 
-    fun dataInto(visit: HealthCareService) {
-        visit.apply {
+    override fun dataInto(service: HealthCareService) {
+        service.apply {
             if (notEmpty(bpSysField, bpDiaField))
                 bloodPressure = BloodPressure(
                     bpSysField.text.toString().toDouble(),

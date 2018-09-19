@@ -28,7 +28,7 @@ var url_ploy = "https://ffc-test.herokuapp.com/v0/"
 var url_max = "https://ffc-nectec.herokuapp.com/v0/"
 var url_old = "https://ffc-api-test.herokuapp.com/v0/"
 
-class FfcCentral(url: String = url_old) {
+class FfcCentral(url: String = url_max) {
 
     val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
 
@@ -37,8 +37,8 @@ class FfcCentral(url: String = url_old) {
             readTimeout(60, SECONDS)
             writeTimeout(60, SECONDS)
             connectTimeout(30, SECONDS)
-            cache?.let { cache(it) }
             addInterceptor(DefaultInterceptor())
+            cache?.let { cache(it) }
             TOKEN?.let { addInterceptor(AuthTokenInterceptor(it)) }
         }
 

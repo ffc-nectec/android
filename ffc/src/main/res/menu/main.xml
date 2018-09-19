@@ -15,16 +15,11 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <dimen name="maps_padding_top">86dp</dimen>
-
-    <dimen name="fab_screen_vertical_padding">24dp</dimen>
-    <dimen name="fab_screen_horizontal_padding">24dp</dimen>
-    <dimen name="input_size">18sp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+</menu>

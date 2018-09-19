@@ -60,7 +60,8 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="InputError" parent="Widget.Design.TextInputLayout"/>
+    <style name="InputError" parent="Widget.Design.TextInputLayout" />
+
     <style name="InputError.Purple">
         <item name="android:textColor">@color/purple_500</item>
     </style>
@@ -88,4 +89,8 @@
         <!--for transulent theme-->
         <item name="android:layout_marginTop">34dp</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

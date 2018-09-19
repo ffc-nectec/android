@@ -14,19 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ffc.util
 
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import ffc.entity.gson.ffcGson
-import ffc.entity.gson.parseTo
-import ffc.entity.gson.toJson
+package ffc.app.healthservice
 
-inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = ffcGson): T? =
-    this.getString(key, null)?.parseTo<T>(gson)
+import ffc.entity.healthcare.HealthCareService
 
-fun <T> SharedPreferences.Editor.put(
-    key: String,
-    value: T?,
-    gson: Gson = ffcGson
-) = this.apply { putString(key, value?.toJson(gson)) }
+interface HealthCareServivceForm<T : HealthCareService> {
+
+    fun dataInto(service: T)
+}

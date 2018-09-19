@@ -25,6 +25,7 @@ import android.view.ViewGroup
 import ffc.app.R
 import ffc.entity.healthcare.CommunityServiceType
 import ffc.entity.healthcare.HomeVisit
+import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.appointField
 import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.detailField
 import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.planField
 import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.resultField
@@ -32,8 +33,10 @@ import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.syntomField
 import me.piruin.spinney.Spinney
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.support.v4.toast
+import org.joda.time.LocalDate
+import java.util.*
 
-internal class HomeServiceFormFragment : Fragment() {
+internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<HomeVisit> {
 
     val communityServicesField by lazy { find<Spinney<CommunityServiceType>>(R.id.communityServiceField) }
 
@@ -43,7 +46,6 @@ internal class HomeServiceFormFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         homeVisitType(context!!).all { list, throwable ->
             if (throwable != null) {
                 toast(throwable.message ?: "What happend")
@@ -60,15 +62,20 @@ internal class HomeServiceFormFragment : Fragment() {
         }
     }
 
-    fun dataInto(visit: HomeVisit) {
+    override fun dataInto(services: HomeVisit) {
         check(communityServicesField.selectedItem != null) { "กรุณาระบุ" }
 
-        visit.apply {
+        services.apply {
             serviceType = communityServicesField.selectedItem!!
             syntom = syntomField.text.toString()
             detail = detailField.text.toString()
             result = resultField.text.toString()
             plan = planField.text.toString()
+            nextAppoint = appointField.calendar.toLocalDate()
         }
     }
+}
+
+private fun Calendar.toLocalDate(): LocalDate? {
+    return LocalDate.fromCalendarFields(this)
 }
