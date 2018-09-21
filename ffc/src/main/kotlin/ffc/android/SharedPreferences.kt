@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package ffc.android
 
-package ffc.api
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import ffc.entity.gson.ffcGson
+import ffc.entity.gson.parseTo
+import ffc.entity.gson.toJson
 
-import ffc.entity.Person
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Part
+inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = ffcGson): T? =
+    this.getString(key, null)?.parseTo<T>(gson)
 
-interface PersonService {
-
-    @GET("org/{orgId}/person")
-    fun listPerson(@Part("orgId") orgId: Long): Call<List<Person>>
-}
+fun <T> SharedPreferences.Editor.put(
+    key: String,
+    value: T?,
+    gson: Gson = ffcGson
+) = this.apply { putString(key, value?.toJson(gson)) }

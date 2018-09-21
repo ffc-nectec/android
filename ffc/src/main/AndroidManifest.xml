@@ -47,14 +47,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus">
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchResultActivity" />
-        </activity>
-        <activity
             android:name=".location.MarkLocationActivity"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
         <activity
@@ -99,7 +91,8 @@
         <activity
             android:name=".search.SearchResultActivity"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -114,6 +107,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
     </application>
 

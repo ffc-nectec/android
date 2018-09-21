@@ -18,7 +18,6 @@
 package ffc.app.auth
 
 import ffc.api.FfcCentral
-import ffc.api.OrgService
 import ffc.app.auth.exception.LoginErrorException
 import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
@@ -33,7 +32,7 @@ internal class LoginInteractor(
 
     init {
         if (isLoggedIn) {
-            FfcCentral.TOKEN = auth.token
+            FfcCentral.token = auth.token
             presenter.onLoginSuccess()
         } else {
             presenter.showOrgSelector()
@@ -56,7 +55,7 @@ internal class LoginInteractor(
         orgService.createAuthorize(org!!.id, basicToken).enqueue {
             onSuccess {
                 val authorize = body()!!
-                FfcCentral.TOKEN = authorize.token
+                FfcCentral.token = authorize.token
                 auth.org = org
                 auth.token = authorize.token
                 auth.user = authorize.user

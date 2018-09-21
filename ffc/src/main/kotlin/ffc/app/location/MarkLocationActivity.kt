@@ -23,8 +23,8 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
+import ffc.android.find
 import ffc.api.FfcCentral
-import ffc.api.PlaceService
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.R.id
@@ -33,14 +33,11 @@ import ffc.entity.Place
 import ffc.entity.gson.ffcGson
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
-import ffc.util.find
-import ffc.util.toPoint
 import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.dimen
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.support.v4.dimen
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
 import th.or.nectec.marlo.PointMarloFragment

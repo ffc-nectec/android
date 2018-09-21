@@ -17,8 +17,13 @@
 
 package ffc.app.search
 
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.SearchView
+import android.transition.Fade
+import android.transition.Slide
+import android.view.Gravity
+import ffc.android.excludeSystemView
 import ffc.android.searchManager
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
@@ -31,6 +36,13 @@ class SearchActivity : FamilyFolderActivity() {
         setContentView(R.layout.activity_search)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        with(window) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                enterTransition = Slide(Gravity.BOTTOM).excludeSystemView()
+                exitTransition = Fade().excludeSystemView()
+            }
+        }
 
         val searchView = find<SearchView>(R.id.searchView)
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))

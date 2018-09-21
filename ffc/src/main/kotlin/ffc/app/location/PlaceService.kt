@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.api
+package ffc.app.location
 
 import ffc.entity.House
 import ffc.entity.Place

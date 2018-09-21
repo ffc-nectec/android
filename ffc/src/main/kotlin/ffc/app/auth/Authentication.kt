@@ -18,11 +18,11 @@
 package ffc.app.auth
 
 import android.content.Context
+import ffc.android.get
+import ffc.android.put
 import ffc.entity.Organization
 import ffc.entity.User
 import ffc.entity.gson.toJson
-import ffc.util.get
-import ffc.util.put
 import org.jetbrains.anko.defaultSharedPreferences
 
 interface Authentication {

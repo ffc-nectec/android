@@ -15,17 +15,8 @@
  * limitations under the License.
  */
 
-package ffc.util
+package ffc.android
 
-import android.content.Context
-import android.support.annotation.StringRes
-import ffc.app.BuildConfig
-import org.jetbrains.anko.toast
+import android.support.v4.app.FragmentManager
 
-fun Context.debugToast(msg: CharSequence) {
-    if (BuildConfig.DEBUG) toast(msg)
-}
-
-fun Context.debugToast(@StringRes msg: Int) {
-    if (BuildConfig.DEBUG) toast(msg)
-}
+fun <T> FragmentManager.find(id: Int) = findFragmentById(id) as T
