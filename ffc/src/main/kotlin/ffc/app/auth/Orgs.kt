@@ -19,8 +19,8 @@ package ffc.app.auth
 
 import ffc.api.FfcCentral
 import ffc.app.auth.exception.LoginFailureException
+import ffc.app.util.RepoCallback
 import ffc.entity.Organization
-import ffc.util.RepoCallback
 import retrofit2.dsl.then
 
 interface Orgs {

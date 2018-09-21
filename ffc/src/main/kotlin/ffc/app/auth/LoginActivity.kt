@@ -21,7 +21,9 @@ import android.os.Bundle
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ffc.android.gone
 import ffc.android.tag
+import ffc.android.visible
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
 import ffc.app.R
@@ -31,8 +33,6 @@ import ffc.app.auth.fragment.LoginActivityListener
 import ffc.app.auth.fragment.LoginOrgFragment
 import ffc.app.auth.fragment.LoginUserFragment
 import ffc.entity.Organization
-import ffc.util.gone
-import ffc.util.visible
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.ivCommunity
 import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground

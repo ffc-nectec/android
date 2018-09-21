@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.util
+package ffc.app.util
 
 import android.view.View
 import ffc.android.onClick
