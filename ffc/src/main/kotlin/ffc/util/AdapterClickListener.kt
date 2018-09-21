@@ -26,7 +26,7 @@ typealias OnItemLongClick<T> = (T) -> Boolean
 typealias OnViewClick<T> = (View, T) -> Unit
 typealias OnViewLongClick<T> = (View, T) -> Boolean
 
-class AdapterClickListner<T> {
+class AdapterClickListener<T> {
 
     var onItemClick: OnItemClick<T>? = null
         private set

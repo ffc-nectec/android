@@ -36,6 +36,7 @@ import android.support.v4.app.Fragment
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import android.transition.Visibility
 import android.view.View
 import android.support.v4.util.Pair as AndroidSupportPair
 
@@ -43,11 +44,16 @@ fun Context.transition(@TransitionRes res: Int) = TransitionInflater.from(this).
 fun Fragment.transition(@TransitionRes res: Int) = context!!.transition(res)
 fun View.transition(@TransitionRes res: Int) = context.transition(res)
 
-fun Activity.sceneTransition(vararg sharedElements: Pair<View, String>): Bundle? {
+fun Activity.sceneTransition(): Bundle? {
+    return if (Build.VERSION.SDK_INT < 21) null else
+        ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle()
+}
+
+fun Activity.sceneTransition(vararg sharedElements: Pair<View, String>?): Bundle? {
     return if (Build.VERSION.SDK_INT < 21) null else
         ActivityOptionsCompat.makeSceneTransitionAnimation(
             this,
-            *sharedElements.map { it.toAndroidSupportPair() }.toTypedArray()
+            *sharedElements.map { it?.toAndroidSupportPair() }.toTypedArray()
         ).toBundle()
 }
 
@@ -67,4 +73,11 @@ fun transitionSetOf(vararg transitions: Transition): TransitionSet {
     return TransitionSet().apply {
         transitions.forEach { this.addTransition(it) }
     }
+}
+
+@TargetApi(21)
+fun Visibility.excludeSystemView(): Visibility {
+    excludeTarget(android.R.id.statusBarBackground, true)
+    excludeTarget(android.R.id.navigationBarBackground, true)
+    return this
 }

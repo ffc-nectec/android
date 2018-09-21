@@ -23,12 +23,12 @@ import android.view.ViewGroup
 import ffc.android.layoutInflater
 import ffc.app.R
 import ffc.entity.Person
-import ffc.util.AdapterClickListner
+import ffc.util.AdapterClickListener
 import kotlinx.android.synthetic.main.person_list_item.view.personNameView
 
-class PersonAdapter(val persons: List<Person>, val onClickDsl: AdapterClickListner<Person>.() -> Unit) : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
+class PersonAdapter(val persons: List<Person>, val onClickDsl: AdapterClickListener<Person>.() -> Unit) : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
 
-    val listener = AdapterClickListner<Person>().apply(onClickDsl)
+    val listener = AdapterClickListener<Person>().apply(onClickDsl)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonHolder {
         val view = parent.layoutInflater.inflate(R.layout.person_list_item, parent, false)
@@ -43,7 +43,7 @@ class PersonAdapter(val persons: List<Person>, val onClickDsl: AdapterClickListn
 
     class PersonHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(person: Person, listener: AdapterClickListner<Person>) {
+        fun bind(person: Person, listener: AdapterClickListener<Person>) {
             with(person) {
                 itemView.personNameView.text = name
                 listener.bindOnItemClick(itemView, person)

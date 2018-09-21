@@ -18,7 +18,6 @@
 package ffc.app.auth
 
 import ffc.api.FfcCentral
-import ffc.api.OrgService
 import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
 import ffc.util.RepoCallback

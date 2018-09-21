@@ -15,27 +15,13 @@
  * limitations under the License.
  */
 
-package ffc.api
+package ffc.android
 
-import ffc.entity.Organization
-import ffc.entity.Token
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Path
+import android.util.Log
+import ffc.app.BuildConfig
 
-interface OrgService {
-
-    @GET("org")
-    fun listOrgs(): Call<List<Organization>>
-
-    @GET("org?my=true")
-    fun myOrg(): Call<List<Organization>>
-
-    @POST("org/{orgId}/authorize")
-    fun createAuthorize(
-        @Path("orgId") id: String,
-        @Header("Authorization") authorize: String
-    ): Call<Token>
+fun debug(message: String, vararg args: Any?, throwable: Throwable? = null) {
+    if (BuildConfig.DEBUG) {
+        Log.d("FFC", String.format(message, *args), throwable)
+    }
 }

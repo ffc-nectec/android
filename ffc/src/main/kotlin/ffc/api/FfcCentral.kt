@@ -39,7 +39,7 @@ class FfcCentral(url: String = url_max) {
             connectTimeout(30, SECONDS)
             addInterceptor(DefaultInterceptor())
             cache?.let { cache(it) }
-            TOKEN?.let { addInterceptor(AuthTokenInterceptor(it)) }
+            token?.let { addInterceptor(AuthTokenInterceptor(it)) }
         }
 
         return retrofitBuilder
@@ -50,7 +50,7 @@ class FfcCentral(url: String = url_max) {
     }
 
     companion object {
-        var TOKEN: String? = null
+        var token: String? = null
         var cache: Cache? = null
     }
 }

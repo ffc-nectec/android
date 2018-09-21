@@ -26,6 +26,13 @@
         <item name="android:elegantTextHeight" tools:targetApi="lollipop">true</item>
         <item name="android:textAppearanceMedium">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowEnterTransition" tools:targetApi="lollipop">
+            @android:transition/explode
+        </item>
+        <item name="android:windowExitTransition" tools:targetApi="lollipop">
+            @android:transition/explode
+        </item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -74,20 +81,22 @@
         <item name="android:theme">@style/Base.ThemeOverlay.AppCompat.ActionBar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?android:actionBarSize</item>
+        <item name="android:transitionName" tools:targetApi="lollipop">@string/transition_appbar
+        </item>
     </style>
 
     <style name="Appbar.Floating">
         <!--for normal theme -->
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:layout_marginStart">8dp</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginTop">12dp</item>
         <item name="android:background">@drawable/card_background</item>
     </style>
 
 
     <style name="Appbar.Floating.Transulent">
         <!--for transulent theme-->
-        <item name="android:layout_marginTop">34dp</item>
+        <item name="android:layout_marginTop">36dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

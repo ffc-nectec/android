@@ -14,19 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ffc.util
 
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import ffc.entity.gson.ffcGson
-import ffc.entity.gson.parseTo
-import ffc.entity.gson.toJson
+package ffc.app.auth
 
-inline fun <reified T> SharedPreferences.get(key: String, gson: Gson = ffcGson): T? =
-    this.getString(key, null)?.parseTo<T>(gson)
+import ffc.entity.Organization
+import ffc.entity.Token
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
 
-fun <T> SharedPreferences.Editor.put(
-    key: String,
-    value: T?,
-    gson: Gson = ffcGson
-) = this.apply { putString(key, value?.toJson(gson)) }
+interface OrgService {
+
+    @GET("org")
+    fun listOrgs(): Call<List<Organization>>
+
+    @GET("org?my=true")
+    fun myOrg(): Call<List<Organization>>
+
+    @POST("org/{orgId}/authorize")
+    fun createAuthorize(
+        @Path("orgId") id: String,
+        @Header("Authorization") authorize: String
+    ): Call<Token>
+}

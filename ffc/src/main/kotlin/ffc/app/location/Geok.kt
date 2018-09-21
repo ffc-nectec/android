@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-package ffc.util
+package ffc.app.location
 
-import android.util.Log
-import ffc.app.BuildConfig
+import com.google.android.gms.maps.model.LatLng
+import me.piruin.geok.geometry.Point
 
-fun debug(message: String, vararg args: Any?, throwable: Throwable? = null) {
-    if (BuildConfig.DEBUG) {
-        Log.d("FFC", String.format(message, *args), throwable)
-    }
+fun LatLng.toPoint(): Point {
+    return Point(latitude, longitude)
 }

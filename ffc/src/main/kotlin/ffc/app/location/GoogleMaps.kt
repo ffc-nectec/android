@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.util
+package ffc.app.location
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
