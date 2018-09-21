@@ -19,6 +19,7 @@ package ffc.app.healthservice
 
 import android.os.Bundle
 import android.util.Log
+import ffc.android.find
 import ffc.android.onClick
 import ffc.android.tag
 import ffc.android.toast
@@ -32,7 +33,6 @@ import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HomeVisit
 import ffc.entity.util.generateTempId
-import ffc.util.find
 import kotlinx.android.synthetic.main.activity_visit.done
 import org.jetbrains.anko.toast
 

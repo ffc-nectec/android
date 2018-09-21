@@ -1,9 +1,9 @@
 package ffc.app.person
 
 import ffc.app.search.PersonSearcher
+import ffc.app.util.RepoCallback
 import ffc.entity.Person
 import ffc.entity.ThaiCitizenId
-import ffc.util.RepoCallback
 import org.joda.time.LocalDate
 
 interface Persons {

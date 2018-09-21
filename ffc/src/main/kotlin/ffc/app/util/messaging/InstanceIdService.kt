@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.messaging
+package ffc.app.util.messaging
 
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService

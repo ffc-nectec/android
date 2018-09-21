@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.messaging
+package ffc.app.util.messaging
 
 import android.app.Application
 import android.content.SharedPreferences

@@ -17,8 +17,8 @@
 
 package ffc.app.search
 
+import ffc.app.util.RepoCallback
 import ffc.entity.Person
-import ffc.util.RepoCallback
 
 interface PersonSearcher {
 
