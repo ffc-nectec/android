@@ -62,8 +62,10 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 intent.putExtra("personId", mockPerson.id)
         }
 
-        persons().person(personId) { person, throwable ->
-            toast("visit ${person!!.name}")
+        persons().person(personId) {
+            onFound {
+                toast("visit ${it.name}")
+            }
         }
 
         done.onClick { _ ->
@@ -74,13 +76,15 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 diagnosis.dataInto(visit)
                 body.dataInto(visit)
 
-                persons().person(personId) { p, _ ->
-                    p!!.healthCareServices(org!!).add(visit) { s, t ->
-                        t?.let { throw it }
-                        s?.let {
-                            Log.d(tag, it.toJson())
-                            toast("Services save")
-                            finish()
+                persons().person(personId) {
+                    onFound { p ->
+                        p.healthCareServices(org!!).add(visit) { s, t ->
+                            t?.let { throw it }
+                            s?.let {
+                                Log.d(tag, it.toJson())
+                                toast("Services save")
+                                finish()
+                            }
                         }
                     }
                 }

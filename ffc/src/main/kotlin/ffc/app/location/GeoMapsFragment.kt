@@ -32,7 +32,6 @@ import ffc.api.FfcCentral
 import ffc.app.BuildConfig
 import ffc.app.HouseActivity
 import ffc.app.R
-import ffc.app.REQ_ADD_LOCATION
 import ffc.app.familyFolderActivity
 import ffc.entity.gson.toJson
 import me.piruin.geok.geometry.Point
@@ -45,6 +44,8 @@ import retrofit2.dsl.enqueue
 import retrofit2.dsl.isNotFound
 
 class GeoMapsFragment : SupportMapFragment() {
+
+    val REQ_ADD_LOCATION = 1032
 
     private lateinit var map: GoogleMap
 

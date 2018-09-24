@@ -81,13 +81,16 @@
         <activity
             android:name=".healthservice.HomeVisitActivity"
             android:exported="true" />
+
         <activity
             android:name=".search.SearchActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.Transparent">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".search.SearchResultActivity" />
         </activity>
+
         <activity
             android:name=".search.SearchResultActivity"
             android:exported="true"
@@ -104,11 +107,16 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+
+        <activity
+            android:name=".person.PersonActvitiy"
+            android:exported="true" />
     </application>
 
 </manifest>

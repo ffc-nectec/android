@@ -24,7 +24,7 @@ import android.support.v7.widget.LinearLayoutManager
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
-import ffc.app.healthservice.HomeVisitActivity
+import ffc.app.person.PersonActvitiy
 import ffc.app.person.PersonAdapter
 import ffc.app.person.personSearcher
 import ffc.entity.Person
@@ -75,7 +75,7 @@ class SearchResultActivity : FamilyFolderActivity() {
     private fun bindAdapter(persons: List<Person>) {
         searchResultView.layoutManager = LinearLayoutManager(this)
         searchResultView.adapter = PersonAdapter(persons) {
-            onItemClick { p -> startActivity<HomeVisitActivity>("personId" to p.id) }
+            onItemClick { p -> startActivity<PersonActvitiy>("personId" to p.id) }
         }
     }
 
