@@ -23,6 +23,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ffc.android.check
+import ffc.android.isNotBlank
 import ffc.android.onClick
 import ffc.android.onLongClick
 import ffc.app.BuildConfig
@@ -58,11 +59,11 @@ internal class LoginUserFragment : Fragment() {
         btnLogin.onClick {
             try {
                 etUsername.check {
-                    that { text.isNotBlank() }
+                    that { isNotBlank }
                     message = getString(R.string.no_username)
                 }
                 etPwd.check {
-                    that { text.isNotEmpty() }
+                    that { isNotBlank }
                     message = getString(R.string.no_password)
                 }
 
