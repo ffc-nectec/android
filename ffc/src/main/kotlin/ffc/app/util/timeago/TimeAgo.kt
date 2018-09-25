@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 NECTEC
+ * Copyright (c) 2018 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 
-package ffc.app.util.timeago;
+package ffc.app.util.timeago
 
-import org.joda.time.DateTime;
+import org.joda.time.DateTime
 
-class JodaCurrentTime implements CurrentTimer {
-    @Override
-    public long getInMills() {
-        return DateTime.now().getMillis();
-    }
-}
+fun DateTime.toTimeAgo() = TimePrettyPrinterFactory(JodaCurrentTime()).print(millis)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 NECTEC
+ * Copyright (c) 2018 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 
-package ffc.app.util.timeago;
+package ffc.api
 
-import org.joda.time.DateTime;
+import retrofit2.Response
 
-class JodaCurrentTime implements CurrentTimer {
-    @Override
-    public long getInMills() {
-        return DateTime.now().getMillis();
-    }
-}
+class ServerErrorException(res: Response<*>) : IllegalStateException("${res.code()} - ${res.errorBody()}")

@@ -115,6 +115,7 @@
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
 
         <activity
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"
             android:name=".person.PersonActvitiy"
             android:exported="true" />
     </application>

@@ -28,12 +28,12 @@ var url_ploy = "https://ffc-test.herokuapp.com/v0/"
 var url_max = "https://ffc-nectec.herokuapp.com/v0/"
 var url_old = "https://ffc-api-test.herokuapp.com/v0/"
 
-class FfcCentral(url: String = url_max) {
+class FfcCentral(url: String = url_old) {
 
     val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
 
     inline fun <reified T> service(): T {
-        val httpBuilder: OkHttpClient.Builder = OkHttpClient.Builder().apply {
+        val httpBuilder = OkHttpClient.Builder().apply {
             readTimeout(60, SECONDS)
             writeTimeout(60, SECONDS)
             connectTimeout(30, SECONDS)
