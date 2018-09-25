@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:drawableStart="@drawable/ic_services_folder_24dp"
         android:drawablePadding="16dp"
-        android:text="@string/hs_history"
+        android:text="@string/hs_services"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
     <android.support.v7.widget.RecyclerView

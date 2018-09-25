@@ -28,6 +28,7 @@ import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.auth.auth
 import ffc.app.person.mockPerson
+import ffc.app.person.personId
 import ffc.app.person.persons
 import ffc.entity.User
 import ffc.entity.gson.toJson
@@ -38,13 +39,13 @@ import org.jetbrains.anko.toast
 
 class HomeVisitActivity : FamilyFolderActivity() {
 
-    internal val homeVisit by lazy { supportFragmentManager.find<HomeServiceFormFragment>(R.id.homeVisit) }
-    internal val vitalSign by lazy { supportFragmentManager.find<VitalSignFormFragment>(R.id.vitalSign) }
-    internal val diagnosis by lazy { supportFragmentManager.find<DiagnosisFormFragment>(R.id.diagnosis) }
-    internal val body by lazy { supportFragmentManager.find<BodyFormFragment>(R.id.body) }
+    private val homeVisit by lazy { supportFragmentManager.find<HomeServiceFormFragment>(R.id.homeVisit) }
+    private val vitalSign by lazy { supportFragmentManager.find<VitalSignFormFragment>(R.id.vitalSign) }
+    private val diagnosis by lazy { supportFragmentManager.find<DiagnosisFormFragment>(R.id.diagnosis) }
+    private val body by lazy { supportFragmentManager.find<BodyFormFragment>(R.id.body) }
 
-    val providerId by lazy { auth(this).user!!.id }
-    val personId get() = intent.getStringExtra("personId")
+    private val providerId by lazy { auth(this).user!!.id }
+    private val personId get() = intent.personId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,10 +60,10 @@ class HomeVisitActivity : FamilyFolderActivity() {
                     User.Role.PROVIDER, User.Role.SURVEYOR)
             }
             if (personId == null)
-                intent.putExtra("personId", mockPerson.id)
+                intent.personId = mockPerson.id
         }
 
-        persons().person(personId) {
+        persons().person(personId!!) {
             onFound {
                 toast("visit ${it.name}")
             }
@@ -70,13 +71,13 @@ class HomeVisitActivity : FamilyFolderActivity() {
 
         done.onClick { _ ->
             try {
-                val visit = HomeVisit(providerId, personId, notDefineCommunityService)
+                val visit = HomeVisit(providerId, personId!!, notDefineCommunityService)
                 homeVisit.dataInto(visit)
                 vitalSign.dataInto(visit)
                 diagnosis.dataInto(visit)
                 body.dataInto(visit)
 
-                healthCareServicesOf(personId).add(visit) { s, t ->
+                healthCareServicesOf(personId!!).add(visit) { s, t ->
                     t?.let { throw it }
                     s?.let {
                         Log.d(tag, it.toJson())
