@@ -21,12 +21,14 @@ import android.os.Bundle
 import ffc.android.onClick
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.healthservice.HealthCareServicesFragment
 import ffc.app.healthservice.HomeVisitActivity
 import ffc.app.isDev
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.activity_person.ageView
 import kotlinx.android.synthetic.main.activity_person.nameView
 import kotlinx.android.synthetic.main.activity_person.visitButton
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -46,11 +48,25 @@ class PersonActvitiy : FamilyFolderActivity() {
             personId = mockPerson.id
         }
 
-        persons().person(personId) {
-            onFound {
-                bind(it)
-            }
+        if (savedInstanceState == null) {
+            val fragment = HealthCareServicesFragment()
+            fragment.arguments = bundleOf("personId" to personId)
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.contentContainer, fragment)
+                .commit()
+        }
 
+        visitButton.onClick {
+            startActivity<HomeVisitActivity>("personId" to personId)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        persons().person(personId) {
+            onFound { bind(it) }
             onNotFound { toast("Not found") }
         }
     }
@@ -60,9 +76,6 @@ class PersonActvitiy : FamilyFolderActivity() {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
 
-            visitButton.onClick {
-                startActivity<HomeVisitActivity>("personId" to id)
-            }
         }
     }
 }

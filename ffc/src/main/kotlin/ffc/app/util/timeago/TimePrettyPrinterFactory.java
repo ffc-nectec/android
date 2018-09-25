@@ -19,7 +19,7 @@ package ffc.app.util.timeago;
 
 import org.joda.time.DateTime;
 
-public class TimePrettyPrinterFactory implements TimePrettyPrinter {
+class TimePrettyPrinterFactory implements TimePrettyPrinter {
     private final CurrentTimer currentTimer;
 
     public TimePrettyPrinterFactory(CurrentTimer currentTimer) {

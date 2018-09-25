@@ -76,16 +76,12 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 diagnosis.dataInto(visit)
                 body.dataInto(visit)
 
-                persons().person(personId) {
-                    onFound { p ->
-                        p.healthCareServices(org!!).add(visit) { s, t ->
-                            t?.let { throw it }
-                            s?.let {
-                                Log.d(tag, it.toJson())
-                                toast("Services save")
-                                finish()
-                            }
-                        }
+                healthCareServicesOf(personId).add(visit) { s, t ->
+                    t?.let { throw it }
+                    s?.let {
+                        Log.d(tag, it.toJson())
+                        toast("Services save")
+                        finish()
                     }
                 }
             } catch (invalid: IllegalStateException) {
