@@ -26,7 +26,6 @@ import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.person.PersonActvitiy
 import ffc.app.person.PersonAdapter
-import ffc.app.person.personSearcher
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
 import org.jetbrains.anko.startActivity
