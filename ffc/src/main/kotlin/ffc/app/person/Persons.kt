@@ -1,6 +1,5 @@
 package ffc.app.person
 
-import ffc.app.search.PersonSearcher
 import ffc.app.util.RepoCallback
 import ffc.entity.Person
 import ffc.entity.ThaiCitizenId
@@ -13,7 +12,7 @@ interface Persons {
     fun add(person: Person, callback: (Person?, Throwable?) -> Unit)
 }
 
-private class InMemoryPersons : Persons, PersonSearcher {
+private class InMemoryPersons : Persons {
     override fun person(personId: String, dsl: RepoCallback<Person>.() -> Unit) {
         val callback = RepoCallback<Person>().apply(dsl)
         callback.always?.invoke()
@@ -22,17 +21,6 @@ private class InMemoryPersons : Persons, PersonSearcher {
             callback.onFound!!.invoke(person)
         } else {
             callback.onNotFound!!.invoke()
-        }
-    }
-
-    override fun search(query: String, dsl: RepoCallback<List<Person>>.() -> Unit) {
-        val callback = RepoCallback<List<Person>>().apply(dsl)
-        callback.always?.invoke()
-        repository.filter { it.name.contains(query) }.let {
-            if (it.isNotEmpty())
-                callback.onFound?.invoke(it)
-            else
-                callback.onNotFound?.invoke()
         }
     }
 
@@ -56,5 +44,3 @@ val mockPerson = Person("5b9770e029191b0004c91a56").apply {
 }
 
 fun persons(): Persons = InMemoryPersons()
-
-fun personSearcher(): PersonSearcher = InMemoryPersons()
