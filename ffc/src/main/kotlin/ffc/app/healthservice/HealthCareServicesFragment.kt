@@ -33,6 +33,7 @@ import ffc.android.gone
 import ffc.android.onClick
 import ffc.android.visible
 import ffc.app.R
+import ffc.app.person.personId
 import ffc.app.util.AdapterClickListener
 import ffc.app.util.timeago.toTimeAgo
 import ffc.entity.healthcare.HealthCareService
@@ -75,12 +76,6 @@ class HealthCareServicesFragment : Fragment() {
         }
     }
 }
-
-var Bundle.personId: String?
-    get() = getString("personId")
-    set(value) {
-        putString("personId", value)
-    }
 
 class HealthCareServiceAdapter(
     val services: List<HealthCareService>,

@@ -34,18 +34,14 @@ import org.jetbrains.anko.toast
 
 class PersonActvitiy : FamilyFolderActivity() {
 
-    private var personId
-        get() = intent.getStringExtra("personId")
-        set(value) {
-            intent.putExtra("personId", value)
-        }
+    val personId get() = intent.personId!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_person)
 
-        if (isDev && personId == null) {
-            personId = mockPerson.id
+        if (isDev && intent.personId == null) {
+            intent.personId = mockPerson.id
         }
 
         if (savedInstanceState == null) {

@@ -84,8 +84,7 @@
 
         <activity
             android:name=".search.SearchActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Transparent">
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".search.SearchResultActivity" />
