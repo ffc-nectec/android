@@ -17,10 +17,16 @@
 
 package ffc.app.auth
 
+import android.os.Build
 import android.os.Bundle
+import android.transition.Explode
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ffc.android.allowTransitionOverlap
+import ffc.android.find
 import ffc.android.gone
 import ffc.android.tag
 import ffc.android.visible
@@ -106,12 +112,23 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
     }
 
     override fun onOrgSelected(org: Organization) {
-        val fragment = LoginUserFragment()
-        fragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
-        fragment.org = org
+        val userPassFragment = LoginUserFragment()
+        userPassFragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
+        userPassFragment.org = org
+        val orgFragment = supportFragmentManager.find<LoginOrgFragment>("LoginOrg")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            orgFragment.exitTransition = Explode()
+            orgFragment.allowTransitionOverlap = false
+            userPassFragment.enterTransition = Slide(Gravity.END).apply {
+                startDelay = 50
+                duration = 300
+            }
+        }
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.contentContainer, fragment)
+            .add(R.id.contentContainer, userPassFragment, "LoginUser")
+            .hide(orgFragment)
             .addToBackStack(null)
             .commit()
     }

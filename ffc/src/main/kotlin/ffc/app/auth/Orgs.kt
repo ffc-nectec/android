@@ -53,10 +53,9 @@ private class OrgsImpl : Orgs {
 
     override fun org(query: String, dsl: RepoCallback<Organization>.() -> Unit) {
         val callback = RepoCallback<Organization>().apply(dsl)
-        orgService.listOrgs().then {
-            val org = it.find { it.name == query }
-            if (org != null)
-                callback.onFound?.invoke(org)
+        orgService.listOrgs(query).then {
+            if (it.isNotEmpty())
+                callback.onFound?.invoke(it[0])
             else
                 callback.onNotFound?.invoke()
         }.catch { res, t ->

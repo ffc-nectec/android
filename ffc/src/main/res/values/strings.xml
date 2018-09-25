@@ -30,7 +30,6 @@
     <string name="not_found_org">ไม่พบหน่วยงานที่่ท่านเลือก</string>
     <string name="please_type_org">กรุณากรอกชื่อหน่วยงาน</string>
     <string name="identification_error">การยืนยันตัวตนผิดพลาด</string>
-    <string name="transition_org_name">transition_org_name</string>
     <string name="organization">หน่วยงาน</string>
     <string name="next">ถัดไป</string>
     <string name="you_offline">You are offline</string>
