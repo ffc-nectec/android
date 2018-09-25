@@ -66,9 +66,8 @@ internal class LoginUserFragment : Fragment() {
                     that { isNotBlank }
                     message = getString(R.string.no_password)
                 }
-
-                val username = etUsername.text.toString()
-                val password = etPwd.text.toString()
+                val username = etUsername.text.toString().trim()
+                val password = etPwd.text.toString().trim()
 
                 loginActivityListener.onShowProgressBar(true)
                 onLogin(username, password)
@@ -77,9 +76,7 @@ internal class LoginUserFragment : Fragment() {
         }
         btnBack.onClick { fragmentManager!!.popBackStack() }
 
-        org!!.let {
-            tvHospitalName.text = it.name
-        }
+        org!!.let { tvHospitalName.text = it.name }
 
         if (BuildConfig.DEBUG) {
             btnLogin.onLongClick {

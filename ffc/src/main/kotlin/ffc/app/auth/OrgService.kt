@@ -24,11 +24,12 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface OrgService {
 
     @GET("org")
-    fun listOrgs(): Call<List<Organization>>
+    fun listOrgs(@Query("query") query: String? = null): Call<List<Organization>>
 
     @GET("org?my=true")
     fun myOrg(): Call<List<Organization>>

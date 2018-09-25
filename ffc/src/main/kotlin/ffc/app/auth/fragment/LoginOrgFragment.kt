@@ -24,6 +24,7 @@ import android.view.View
 import android.view.ViewGroup
 import ffc.android.check
 import ffc.android.error
+import ffc.android.isNotBlank
 import ffc.android.onClick
 import ffc.app.BuildConfig
 import ffc.app.R
@@ -50,7 +51,7 @@ internal class LoginOrgFragment : Fragment() {
         btnNext.onClick {
             try {
                 etOrganization.check {
-                    that { text.isNotBlank() }
+                    that { isNotBlank }
                     message = getString(R.string.please_type_org)
                 }
 
@@ -76,13 +77,16 @@ internal class LoginOrgFragment : Fragment() {
     private fun checkUserNetwork() {
         orgs().myOrg {
             always { loginActivityListener.onShowProgressBar(false) }
-            onFound { orgSelected(it) }
+            onFound {
+                etOrganization.setText(it.name)
+                orgSelected(it)
+            }
         }
     }
 
     private fun findOrgBy(orgQuery: String) {
         loginActivityListener.onShowProgressBar(true)
-        orgs().org(query = orgQuery) {
+        orgs().org(query = orgQuery.trim()) {
             always { loginActivityListener.onShowProgressBar(false) }
             onFound { orgSelected(it) }
             onNotFound { etOrganization.error(getString(R.string.not_found_org)) }
