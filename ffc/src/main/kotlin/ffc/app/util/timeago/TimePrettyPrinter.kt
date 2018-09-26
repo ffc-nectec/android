@@ -15,24 +15,13 @@
  * limitations under the License.
  */
 
-package ffc.app.util.timeago;
+package ffc.app.util.timeago
 
-class SecondsAgoPrinter implements TimePrettyPrinter {
-    private final CurrentTimer currentTimer;
+internal interface TimePrettyPrinter {
 
-    public SecondsAgoPrinter(CurrentTimer currentTimer) {
-        this.currentTimer = currentTimer;
-    }
-
-    @Override
-    public String print(long referenceTime) {
-        long currentTimeInMills = currentTimer.getInMills();
-        long diff = currentTimeInMills - referenceTime;
-        long sec = diff / SECOND_IN_MILLS;
-        if (sec > 30) {
-            return diff / SECOND_IN_MILLS + " วิ";
-        } else {
-            return "เมื่อสักครู่";
-        }
-    }
+    fun print(referenceTime: Long): String
 }
+
+val SECOND_IN_MILLS = 1000
+val MINITE_IN_MILLS = SECOND_IN_MILLS * 60
+val HOUR_IN_MILLS = MINITE_IN_MILLS * 60

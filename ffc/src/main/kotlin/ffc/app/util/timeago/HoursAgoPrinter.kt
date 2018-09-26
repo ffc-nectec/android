@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
-package ffc.app.util.timeago;
+package ffc.app.util.timeago
 
-interface TimePrettyPrinter {
-    int SECOND_IN_MILLS = 1000;
-    int MINITE_IN_MILLS = SECOND_IN_MILLS * 60;
-    int HOUR_IN_MILLS = MINITE_IN_MILLS * 60;
+internal class HoursAgoPrinter(private val currentTimer: CurrentTimer) : TimePrettyPrinter {
 
-    String print(long referenceTime);
+    override fun print(referenceTime: Long): String {
+        val currentTimeInMills = currentTimer.inMills
+        val diff = currentTimeInMills - referenceTime
+
+        return "${diff / HOUR_IN_MILLS } ชั่วโมงที่แล้ว"
+    }
 }

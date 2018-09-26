@@ -15,13 +15,18 @@
  * limitations under the License.
  */
 
-package ffc.app.util.timeago;
+package ffc.app.util.timeago
 
-import org.joda.time.DateTime;
+internal class SecondsAgoPrinter(private val currentTimer: CurrentTimer) : TimePrettyPrinter {
 
-class JodaCurrentTime implements CurrentTimer {
-    @Override
-    public long getInMills() {
-        return DateTime.now().getMillis();
+    override fun print(referenceTime: Long): String {
+        val currentTimeInMills = currentTimer.inMills
+        val diff = currentTimeInMills - referenceTime
+        val sec = diff / SECOND_IN_MILLS
+        return if (sec > 30) {
+            "${diff / SECOND_IN_MILLS} วิ"
+        } else {
+            "เมื่อสักครู่"
+        }
     }
 }

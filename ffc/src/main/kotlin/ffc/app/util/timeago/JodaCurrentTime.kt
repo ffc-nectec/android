@@ -15,19 +15,11 @@
  * limitations under the License.
  */
 
-package ffc.app.util.timeago;
+package ffc.app.util.timeago
 
-class MinuteAgoPrinter implements TimePrettyPrinter {
-    private final CurrentTimer currentTimer;
+import org.joda.time.DateTime
 
-    public MinuteAgoPrinter(CurrentTimer currentTimer) {
-        this.currentTimer = currentTimer;
-    }
-
-    @Override
-    public String print(long referenceTime) {
-        long currentTimeInMills = currentTimer.getInMills();
-        long diff = currentTimeInMills - referenceTime;
-        return diff / MINITE_IN_MILLS + " นาทีที่แล้ว";
-    }
+internal class JodaCurrentTime : CurrentTimer {
+    override val inMills: Long
+        get() = DateTime.now().getMillis()
 }
