@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-package ffc.app.util.timeago;
+package ffc.app.util.timeago
 
-public interface CurrentTimer {
-    long getInMills();
+interface CurrentTimer {
+    val inMills: Long
 }
