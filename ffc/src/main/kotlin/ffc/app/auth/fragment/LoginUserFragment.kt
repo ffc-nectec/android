@@ -80,8 +80,8 @@ internal class LoginUserFragment : Fragment() {
 
         if (BuildConfig.DEBUG) {
             btnLogin.onLongClick {
-                etUsername.setText("ploy")
-                etPwd.setText("n")
+                etUsername.setText("puy")
+                etPwd.setText("hipuy")
                 true
             }
         }
