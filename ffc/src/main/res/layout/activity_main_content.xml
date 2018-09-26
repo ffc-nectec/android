@@ -22,7 +22,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include layout="@layout/content_main" />
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:showIn="@layout/activity_main_content">
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.AppBarLayout
         style="@style/Appbar.Floating.Transulent"
@@ -63,6 +69,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_location_black_24dp"
+        android:visibility="gone"
         android:tint="@color/white"
         app:fabSize="normal" />
 

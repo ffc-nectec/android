@@ -41,7 +41,6 @@ import org.jetbrains.anko.support.v4.intentFor
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
 import retrofit2.dsl.enqueue
-import retrofit2.dsl.isNotFound
 
 class GeoMapsFragment : SupportMapFragment() {
 
@@ -68,24 +67,10 @@ class GeoMapsFragment : SupportMapFragment() {
                 startActivityForResult(intent, REQ_ADD_LOCATION)
             }
             showGeoJson()
-
-            checkHouseNoLocation()
         }
     }
 
-    private fun checkHouseNoLocation() {
-        val placeService = FfcCentral().service<PlaceService>()
-        placeService.listHouseNoLocation(familyFolderActivity.org!!.id).enqueue {
-            onSuccess {
-                addLocationButton?.show()
-            }
-            onClientError {
-                when {
-                    isNotFound -> addLocationButton?.hide()
-                }
-            }
-        }
-    }
+
 
     private fun showGeoJson() {
 
@@ -112,11 +97,10 @@ class GeoMapsFragment : SupportMapFragment() {
                     addLayerToMap()
                 }
             }
-
             onError {
                 toast("Not success get geoJson ${code()} ")
                 if (BuildConfig.DEBUG) {
-                    map.moveCameraTo(13.0, 102.1, 10.0f)
+                    map.animateCameraTo(13.0, 102.1, 10.0f)
                     GeoJsonLayer(map, R.raw.place, context)
                 }
             }

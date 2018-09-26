@@ -25,16 +25,24 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.transition.Fade
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.AccelerateInterpolator
+import ffc.android.enterDuration
+import ffc.android.exitDuration
 import ffc.android.onClick
 import ffc.android.sceneTransition
+import ffc.api.FfcCentral
 import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
+import ffc.app.location.PlaceService
 import ffc.app.search.SearchActivity
-import kotlinx.android.synthetic.main.activity_main.drawer_layout
-import kotlinx.android.synthetic.main.activity_main.nav_view
-import kotlinx.android.synthetic.main.app_bar_main.searchButton
-import kotlinx.android.synthetic.main.app_bar_main.toolbar
+import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.navView
+import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
+import kotlinx.android.synthetic.main.activity_main_content.searchButton
+import kotlinx.android.synthetic.main.activity_main_content.toolbar
 import org.jetbrains.anko.intentFor
+import retrofit2.dsl.enqueue
+import retrofit2.dsl.isNotFound
 
 class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,7 +52,14 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
 
         with(window) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                exitTransition = Fade()
+                exitTransition = Fade().apply {
+                    duration = exitDuration
+                    interpolator = AccelerateInterpolator()
+                }
+                reenterTransition = Fade().apply {
+                    duration = enterDuration
+                    interpolator = AccelerateInterpolator()
+                }
             }
         }
 
@@ -53,13 +68,10 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
                 sceneTransition(toolbar to getString(R.string.transition_appbar)))
         }
 
-        val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
-        nav_view.setNavigationItemSelectedListener(this)
+        navView.setNavigationItemSelectedListener(this)
 
         supportFragmentManager
             .beginTransaction()
@@ -67,16 +79,21 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
             .commit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkHouseNoLocation()
+    }
+
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.activity_main_option, menu)
         return true
     }
 
@@ -95,17 +112,26 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_manage -> {
-
             }
             R.id.nav_share -> {
-
             }
             R.id.nav_send -> {
-
             }
         }
 
-        drawer_layout.closeDrawer(GravityCompat.START)
+        drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun checkHouseNoLocation() {
+        val placeService = FfcCentral().service<PlaceService>()
+        placeService.listHouseNoLocation(org!!.id).enqueue {
+            onSuccess { addLocationButton.show() }
+            onClientError {
+                when {
+                    isNotFound -> addLocationButton.hide()
+                }
+            }
+        }
     }
 }

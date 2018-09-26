@@ -26,6 +26,8 @@ import android.view.Gravity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.android.allowTransitionOverlap
+import ffc.android.enterDuration
+import ffc.android.exitDuration
 import ffc.android.find
 import ffc.android.gone
 import ffc.android.tag
@@ -118,11 +120,11 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
         val orgFragment = supportFragmentManager.find<LoginOrgFragment>("LoginOrg")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            orgFragment.exitTransition = Explode()
+            orgFragment.exitTransition = Explode().apply { duration = exitDuration }
             orgFragment.allowTransitionOverlap = false
             userPassFragment.enterTransition = Slide(Gravity.END).apply {
                 startDelay = 50
-                duration = 300
+                duration = enterDuration
             }
         }
 
