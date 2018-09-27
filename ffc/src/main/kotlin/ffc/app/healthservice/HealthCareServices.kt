@@ -4,6 +4,7 @@ import android.util.Log
 import ffc.android.tag
 import ffc.api.FfcCentral
 import ffc.api.ServerErrorException
+import ffc.app.isDev
 import ffc.app.util.RepoCallback
 import ffc.entity.Organization
 import ffc.entity.Person
@@ -49,19 +50,19 @@ private class InMemoryHealthCareServices(val personId: String) : HealthCareServi
 }
 
 private class ApiHealthCareServices(
-    val org: Organization,
-    val person: Person
+    val org: String,
+    val person: String
 ) : HealthCareServices {
 
     val api = FfcCentral().service<HealthCareServiceApi>()
 
     override fun add(services: HealthCareService, callback: (HealthCareService?, Throwable?) -> Unit) {
-        api.post(services, org.id).enqueue {
+        api.post(services, org).enqueue {
             onSuccess {
                 callback(body()!!, null)
             }
             onError {
-                callback(null, IllegalArgumentException())
+                callback(null, ServerErrorException(this))
             }
             onFailure {
                 callback(null, it)
@@ -71,7 +72,7 @@ private class ApiHealthCareServices(
 
     override fun all(dsl: RepoCallback<List<HealthCareService>>.() -> Unit) {
         val callback = RepoCallback<List<HealthCareService>>().apply(dsl)
-        api.get(org.id, person.id).enqueue {
+        api.get(org, person).enqueue {
             onSuccess {
                 callback.onFound!!.invoke(body()!!)
             }
@@ -88,5 +89,5 @@ private class ApiHealthCareServices(
     }
 }
 
-internal fun healthCareServicesOf(personId: String): HealthCareServices = InMemoryHealthCareServices(personId)
+internal fun healthCareServicesOf(personId: String, orgId: String): HealthCareServices = if (isDev) InMemoryHealthCareServices(personId) else ApiHealthCareServices(orgId, personId)
 

@@ -71,6 +71,7 @@ class SearchResultActivity : FamilyFolderActivity() {
             personSearcher(org!!.id).search(query!!) {
                 onFound { bindAdapter(persons = it) }
                 onNotFound { toast("Not found ") }
+                onFail { toast("${it.message}") }
             }
         }
     }
