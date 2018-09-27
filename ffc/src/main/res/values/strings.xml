@@ -60,4 +60,8 @@
     <string name="transition_appbar">appbar_transition</string>
     <string name="hs_empty">ไม่มีประวัติการรับบริการ</string>
     <string name="hs_services">บริการสาธารณสุข</string>
+    <string name="body_height">ส่วนสูง (ซม.)</string>
+    <string name="body_weight">น้ำหนัก (กก.)</string>
+    <string name="body_waist">รอบเอว (ซม.)</string>
+    <string name="body_ass">สะโพก (ซม.)</string>
 </resources>

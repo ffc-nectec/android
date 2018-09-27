@@ -36,7 +36,7 @@
                 android:id="@+id/heightField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ส่วนสูง (ซม.)"
+                android:hint="@string/body_height"
                 android:inputType="number"
                 android:maxLength="3" />
         </android.support.design.widget.TextInputLayout>
@@ -50,7 +50,7 @@
                 android:id="@+id/weightField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="น้ำหนัก (กก.)"
+                android:hint="@string/body_weight"
                 android:inputType="numberDecimal"
                 android:maxLength="5" />
         </android.support.design.widget.TextInputLayout>
@@ -65,7 +65,21 @@
             android:id="@+id/waistField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="สะโพก (ซม.)"
+            android:hint="@string/body_waist"
+            android:inputType="number"
+            android:maxLength="3" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/assField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/body_ass"
             android:inputType="number"
             android:maxLength="3" />
     </android.support.design.widget.TextInputLayout>

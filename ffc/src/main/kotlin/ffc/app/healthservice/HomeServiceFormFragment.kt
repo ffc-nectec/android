@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ffc.android.check
 import ffc.app.R
 import ffc.entity.healthcare.CommunityServiceType
 import ffc.entity.healthcare.HomeVisit
@@ -63,7 +64,10 @@ internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<Home
     }
 
     override fun dataInto(services: HomeVisit) {
-        check(communityServicesField.selectedItem != null) { "กรุณาระบุ" }
+        communityServicesField.check {
+            that { selectedItem != null }
+            message = "กรุณาระบุประเภทการเยี่ยม"
+        }
 
         services.apply {
             serviceType = communityServicesField.selectedItem!!
@@ -71,7 +75,7 @@ internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<Home
             detail = detailField.text.toString()
             result = resultField.text.toString()
             plan = planField.text.toString()
-            nextAppoint = appointField.calendar.toLocalDate()
+            nextAppoint = appointField.calendar?.toLocalDate()
         }
     }
 }
