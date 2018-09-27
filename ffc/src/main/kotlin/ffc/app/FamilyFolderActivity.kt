@@ -46,6 +46,8 @@ open class FamilyFolderActivity : AppCompatActivity() {
 
     val org: Organization? get() = auth(this).org
 
+    var savedInstanceState : Bundle? = null
+
     private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
 
     override fun setContentView(@LayoutRes layoutResID: Int) {
@@ -67,6 +69,7 @@ open class FamilyFolderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isOnline = connectivityManager.isConnected
+        this.savedInstanceState = savedInstanceState
     }
 
     override fun onResume() {

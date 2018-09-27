@@ -17,7 +17,6 @@
 
 package ffc.app
 
-import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -25,42 +24,33 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.transition.Fade
 import android.view.Menu
 import android.view.MenuItem
-import android.view.animation.AccelerateInterpolator
-import ffc.android.enterDuration
-import ffc.android.exitDuration
+import ffc.android.enter
+import ffc.android.exit
 import ffc.android.onClick
 import ffc.android.sceneTransition
+import ffc.android.setTransition
 import ffc.api.FfcCentral
 import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
 import ffc.app.location.PlaceService
 import ffc.app.search.SearchActivity
-import kotlinx.android.synthetic.main.activity_main.drawerLayout
-import kotlinx.android.synthetic.main.activity_main.navView
-import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
-import kotlinx.android.synthetic.main.activity_main_content.searchButton
-import kotlinx.android.synthetic.main.activity_main_content.toolbar
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_content.*
 import org.jetbrains.anko.intentFor
 import retrofit2.dsl.enqueue
 import retrofit2.dsl.isNotFound
 
 class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        with(window) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                exitTransition = Fade().apply {
-                    duration = exitDuration
-                    interpolator = AccelerateInterpolator()
-                }
-                reenterTransition = Fade().apply {
-                    duration = enterDuration
-                    interpolator = AccelerateInterpolator()
-                }
-            }
+        setTransition {
+            exitTransition = Fade().exit()
+            reenterTransition = Fade().enter()
         }
 
         searchButton.onClick {
@@ -132,6 +122,9 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
                     isNotFound -> addLocationButton.hide()
                 }
             }
+        }
+        if (isDev) {
+            addLocationButton.show()
         }
     }
 }

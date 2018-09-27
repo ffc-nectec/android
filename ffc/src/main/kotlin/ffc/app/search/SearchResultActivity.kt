@@ -34,9 +34,9 @@ import org.jetbrains.anko.toast
 class SearchResultActivity : FamilyFolderActivity() {
 
     var Intent.query: String?
-        get() = intent.getStringExtra(SearchManager.QUERY)
+        get() = getStringExtra(SearchManager.QUERY)
         set(value) {
-            intent.putExtra(SearchManager.QUERY, value)
+            putExtra(SearchManager.QUERY, value)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {

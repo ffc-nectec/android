@@ -17,14 +17,16 @@
 
 package ffc.app.search
 
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.SearchView
 import android.transition.Fade
 import android.transition.Slide
 import android.view.Gravity
+import ffc.android.enter
 import ffc.android.excludeSystemView
+import ffc.android.exit
 import ffc.android.searchManager
+import ffc.android.setTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import org.jetbrains.anko.find
@@ -37,11 +39,9 @@ class SearchActivity : FamilyFolderActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        with(window) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                enterTransition = Slide(Gravity.BOTTOM).excludeSystemView()
-                exitTransition = Fade().excludeSystemView()
-            }
+        setTransition {
+            enterTransition = Slide(Gravity.BOTTOM).excludeSystemView().enter()
+            exitTransition = Fade().excludeSystemView().exit()
         }
 
         val searchView = find<SearchView>(R.id.searchView)
