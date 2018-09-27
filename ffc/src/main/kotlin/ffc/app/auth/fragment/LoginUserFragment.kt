@@ -28,6 +28,7 @@ import ffc.android.onClick
 import ffc.android.onLongClick
 import ffc.app.BuildConfig
 import ffc.app.R
+import ffc.app.dev
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
@@ -78,7 +79,7 @@ internal class LoginUserFragment : Fragment() {
 
         org!!.let { tvHospitalName.text = it.name }
 
-        if (BuildConfig.DEBUG) {
+        dev {
             btnLogin.onLongClick {
                 etUsername.setText("puy")
                 etPwd.setText("hipuy")

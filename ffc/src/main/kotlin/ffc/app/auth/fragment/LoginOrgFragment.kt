@@ -29,6 +29,7 @@ import ffc.android.onClick
 import ffc.app.BuildConfig
 import ffc.app.R
 import ffc.app.auth.orgs
+import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.entity.Organization
 import kotlinx.android.synthetic.main.fragment_login_org.btnNext
@@ -66,7 +67,7 @@ internal class LoginOrgFragment : Fragment() {
 
         checkUserNetwork()
 
-        if (BuildConfig.DEBUG) {
+        dev {
             btnNext.setOnLongClickListener {
                 etOrganization.setText("รพ.สต. เนคเทค")
                 true

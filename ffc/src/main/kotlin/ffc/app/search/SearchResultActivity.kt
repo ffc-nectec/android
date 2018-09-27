@@ -24,6 +24,7 @@ import android.support.v7.widget.LinearLayoutManager
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.dev
 import ffc.app.person.PersonActvitiy
 import ffc.app.person.PersonAdapter
 import ffc.entity.Person
@@ -43,11 +44,14 @@ class SearchResultActivity : FamilyFolderActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_result)
 
-        if (BuildConfig.DEBUG && intent.query == null) {
-            //TODO remove this after developed
-            intent.action = Intent.ACTION_SEARCH
-            intent.query = "พิรุณ"
+        dev {
+            if (intent.query == null) {
+                //TODO remove this after developed
+                intent.action = Intent.ACTION_SEARCH
+                intent.query = "พิรุณ"
+            }
         }
+
         with(supportActionBar!!) {
             title = intent.query
             setDisplayHomeAsUpEnabled(true)

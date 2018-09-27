@@ -31,6 +31,7 @@ import ffc.android.toBitmap
 import ffc.api.FfcCentral
 import ffc.app.BuildConfig
 import ffc.app.R
+import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.entity.gson.toJson
 import me.piruin.geok.geometry.Point
@@ -98,7 +99,7 @@ class GeoMapsFragment : SupportMapFragment() {
             }
             onError {
                 toast("Not success get geoJson ${code()} ")
-                if (BuildConfig.DEBUG) {
+                dev {
                     map.animateCameraTo(13.0, 102.1, 10.0f)
                     GeoJsonLayer(map, R.raw.place, context)
                 }
