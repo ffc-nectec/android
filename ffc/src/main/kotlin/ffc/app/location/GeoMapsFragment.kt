@@ -32,8 +32,6 @@ import ffc.api.FfcCentral
 import ffc.app.BuildConfig
 import ffc.app.R
 import ffc.app.familyFolderActivity
-import ffc.entity.House
-import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
@@ -84,7 +82,7 @@ class GeoMapsFragment : SupportMapFragment() {
                 with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
                     features.forEach {
                         it.pointStyle = GeoJsonPointStyle().apply {
-                            icon = if (it.getProperty("haveChronics") == "true")
+                            icon = if (it.getProperty("id").hashCode() % 3 == 0)
                                 chronicHomeIcon else homeIcon
                             title = "บ้านเลขที่ ${it.getProperty("no")}"
                             snippet = it.getProperty("coordinates")?.trimMargin()

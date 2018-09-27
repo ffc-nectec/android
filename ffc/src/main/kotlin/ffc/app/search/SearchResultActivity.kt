@@ -64,7 +64,7 @@ class SearchResultActivity : FamilyFolderActivity() {
         val query = intent.query
         if (Intent.ACTION_SEARCH == intent.action && intent.query != null) {
             supportActionBar!!.title = query
-            personSearcher().search(query!!) {
+            personSearcher(org!!.id).search(query!!) {
                 onFound { bindAdapter(persons = it) }
                 onNotFound { toast("Not found ") }
             }

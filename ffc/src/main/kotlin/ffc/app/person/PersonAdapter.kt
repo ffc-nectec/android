@@ -38,7 +38,7 @@ class PersonAdapter(val persons: List<Person>, val onClickDsl: AdapterClickListe
     override fun getItemCount() = persons.size
 
     override fun onBindViewHolder(holder: PersonHolder, position: Int) {
-        holder.bind(persons[0], listener)
+        holder.bind(persons[position], listener)
     }
 
     class PersonHolder(view: View) : RecyclerView.ViewHolder(view) {

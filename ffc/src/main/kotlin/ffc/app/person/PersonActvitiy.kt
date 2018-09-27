@@ -61,9 +61,12 @@ class PersonActvitiy : FamilyFolderActivity() {
     override fun onResume() {
         super.onResume()
 
-        persons().person(personId) {
+        persons(org!!.id).person(personId) {
             onFound { bind(it) }
-            onNotFound { toast("Not found") }
+            onNotFound {
+                toast("Not found")
+                finish()
+            }
         }
     }
 

@@ -63,7 +63,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 intent.personId = mockPerson.id
         }
 
-        persons().person(personId!!) {
+        persons(org!!.id).person(personId!!) {
             onFound {
                 toast("visit ${it.name}")
             }
