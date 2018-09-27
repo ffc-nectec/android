@@ -26,9 +26,7 @@
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:showIn="@layout/activity_main_content">
-
-    </android.support.constraint.ConstraintLayout>
+        tools:showIn="@layout/activity_main_content"/>
 
     <android.support.design.widget.AppBarLayout
         style="@style/Appbar.Floating.Transulent"

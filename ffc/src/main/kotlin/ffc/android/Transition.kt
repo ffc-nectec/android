@@ -38,6 +38,8 @@ import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.transition.Visibility
 import android.view.View
+import android.view.Window
+import android.view.animation.Interpolator
 import android.support.v4.util.Pair as AndroidSupportPair
 
 fun Context.transition(@TransitionRes res: Int) = TransitionInflater.from(this).inflateTransition(res)
@@ -66,7 +68,15 @@ var Fragment.allowTransitionOverlap: Boolean
     }
     get() = throw IllegalAccessError()
 
-@TargetApi(21)
+var Window.allowTransitionOverlap: Boolean
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    set(value) {
+        allowEnterTransitionOverlap = value
+        allowReturnTransitionOverlap = value
+    }
+    get() = throw IllegalAccessError()
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 fun Move(context: Context) = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 
 fun transitionSetOf(vararg transitions: Transition): TransitionSet {
@@ -75,9 +85,49 @@ fun transitionSetOf(vararg transitions: Transition): TransitionSet {
     }
 }
 
-@TargetApi(21)
-fun Visibility.excludeSystemView(): Visibility {
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun Transition.excludeSystemView(): Transition {
     excludeTarget(android.R.id.statusBarBackground, true)
     excludeTarget(android.R.id.navigationBarBackground, true)
     return this
+}
+
+val enterDuration: Long = 300
+val exitDuration: Long = 250
+val sharedElementDuration: Long = 250
+
+val sharedElementEasing = android.support.v4.view.animation.FastOutSlowInInterpolator()
+val enterEasing = android.support.v4.view.animation.LinearOutSlowInInterpolator()
+val exitEasing = android.support.v4.view.animation.FastOutLinearInInterpolator()
+
+fun Transition.shareElement(time: Long = sharedElementDuration, easing: Interpolator = sharedElementEasing) : Transition {
+    duration = time
+    interpolator = easing
+    return this
+}
+
+fun Transition.enter(time: Long = enterDuration, easing: Interpolator = enterEasing) : Transition {
+    duration = time
+    interpolator = easing
+    return this
+}
+
+fun Transition.exit(time: Long = exitDuration, easing: Interpolator = exitEasing) : Transition {
+    duration = time
+    interpolator = easing
+    return this
+}
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+inline fun Activity.setTransition(action: Window.() -> Unit) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.action()
+    }
+}
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+inline fun Fragment.setTransition(action: Fragment.() -> Unit) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        this.action()
+    }
 }

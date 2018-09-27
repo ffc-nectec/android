@@ -17,7 +17,6 @@
 
 package ffc.app.auth
 
-import android.os.Build
 import android.os.Bundle
 import android.transition.Explode
 import android.transition.Slide
@@ -27,10 +26,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ffc.android.allowTransitionOverlap
 import ffc.android.enterDuration
-import ffc.android.exitDuration
+import ffc.android.exit
 import ffc.android.find
 import ffc.android.gone
 import ffc.android.tag
+import ffc.android.setTransition
 import ffc.android.visible
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
@@ -41,6 +41,8 @@ import ffc.app.auth.fragment.LoginActivityListener
 import ffc.app.auth.fragment.LoginOrgFragment
 import ffc.app.auth.fragment.LoginUserFragment
 import ffc.entity.Organization
+import ffc.entity.gson.parseTo
+import ffc.entity.gson.toJson
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.ivCommunity
 import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground
@@ -65,6 +67,11 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
             Log.d(tag, "User id = ${auth.user?.id}")
         }
         interactor = LoginInteractor(this, auth)
+
+        savedInstanceState?.let { saved ->
+            val org = saved.getString("org")?.parseTo<Organization>()
+            org?.let { interactor.org = org }
+        }
     }
 
     private fun initInstances() {
@@ -90,11 +97,13 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
     }
 
     override fun showOrgSelector() {
-        val fragment = LoginOrgFragment()
-        fragment.orgSelected = { interactor.org = it }
-        supportFragmentManager.beginTransaction()
-            .add(R.id.contentContainer, fragment, "LoginOrg")
-            .commit()
+        if (savedInstanceState == null) {
+            val fragment = LoginOrgFragment()
+            fragment.orgSelected = { interactor.org = it }
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.contentContainer, fragment, "LoginOrg")
+                .commit()
+        }
     }
 
     override fun onLoginSuccess() {
@@ -103,35 +112,46 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
         finish()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        interactor.org?.let { outState.putString("org", it.toJson()) }
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onError(throwable: Throwable) {
         onShowProgressBar(false)
         val message = when (throwable) {
             is LoginErrorException -> getString(R.string.identification_error)
-            is LoginFailureException -> throwable.message
+            is LoginFailureException ->
+                throwable.message
             else -> "Something wrong"
         }
         message?.let { longToast(it) }
     }
 
     override fun onOrgSelected(org: Organization) {
-        val userPassFragment = LoginUserFragment()
+        val userPassFragment = supportFragmentManager.find("LoginUser")
+            ?: LoginUserFragment()
         userPassFragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
         userPassFragment.org = org
         val orgFragment = supportFragmentManager.find<LoginOrgFragment>("LoginOrg")
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            orgFragment.exitTransition = Explode().apply { duration = exitDuration }
-            orgFragment.allowTransitionOverlap = false
-            userPassFragment.enterTransition = Slide(Gravity.END).apply {
+        orgFragment.setTransition {
+            exitTransition = Explode().exit()
+            allowTransitionOverlap = false
+        }
+        userPassFragment.setTransition {
+            enterTransition = Slide(Gravity.END).apply {
                 startDelay = 50
                 duration = enterDuration
             }
         }
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.contentContainer, userPassFragment, "LoginUser")
-            .hide(orgFragment)
-            .addToBackStack(null)
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.contentContainer, userPassFragment, "LoginUser")
+                .hide(orgFragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 }
