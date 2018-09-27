@@ -83,7 +83,13 @@ class SearchResultActivity : FamilyFolderActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+       finish()
+        overridePendingTransition(0, 0)
         return super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(android.R.anim.fade_in, 0)
     }
 }
