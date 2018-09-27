@@ -53,4 +53,9 @@ class SearchActivity : FamilyFolderActivity() {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
 }
