@@ -24,13 +24,14 @@ import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
 import ffc.app.healthservice.HomeVisitActivity
 import ffc.app.isDev
+import ffc.app.location.HouseActivity
 import ffc.entity.Person
-import kotlinx.android.synthetic.main.activity_person.ageView
-import kotlinx.android.synthetic.main.activity_person.nameView
-import kotlinx.android.synthetic.main.activity_person.visitButton
+import ffc.entity.util.generateTempId
+import kotlinx.android.synthetic.main.activity_person.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import java.util.*
 
 class PersonActvitiy : FamilyFolderActivity() {
 
@@ -42,6 +43,10 @@ class PersonActvitiy : FamilyFolderActivity() {
 
         if (isDev && intent.personId == null) {
             intent.personId = mockPerson.id
+        }
+        homeAsUp.onClick {
+            //TODO send houseId
+            startActivity<HouseActivity>("houseId" to generateTempId())
         }
 
         if (savedInstanceState == null) {

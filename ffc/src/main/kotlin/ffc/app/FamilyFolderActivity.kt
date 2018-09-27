@@ -96,12 +96,5 @@ open class FamilyFolderActivity : AppCompatActivity() {
     }
 }
 
-val isDev: Boolean
-    get() = BuildConfig.BUILD_TYPE == "debug"
-
-inline fun dev(action: () -> Unit) {
-    if (isDev) action()
-}
-
 val Fragment.familyFolderActivity: FamilyFolderActivity
     get() = activity as FamilyFolderActivity
