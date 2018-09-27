@@ -33,6 +33,7 @@ import ffc.android.gone
 import ffc.android.onClick
 import ffc.android.visible
 import ffc.app.R
+import ffc.app.familyFolderActivity
 import ffc.app.person.personId
 import ffc.app.util.AdapterClickListener
 import ffc.app.util.timeago.toTimeAgo
@@ -59,9 +60,9 @@ class HealthCareServicesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val personId = arguments!!.personId!!
-        healthCareServicesOf(personId).all {
+        healthCareServicesOf(personId, familyFolderActivity.org!!.id).all {
             onFound {
-                recyclerView.layoutManager = LinearLayoutManager(context)
+                recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
                 recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 recyclerView.adapter = HealthCareServiceAdapter(it) {
                     onItemClick {

@@ -78,8 +78,8 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 diagnosis.dataInto(visit)
                 body.dataInto(visit)
 
-                healthCareServicesOf(personId!!).add(visit) { s, t ->
-                    t?.let { throw it }
+                healthCareServicesOf(personId!!, org!!.id).add(visit) { s, t ->
+                    t?.let { toast(it.message!!) }
                     s?.let {
                         Log.d(tag, it.toJson())
                         toast("Services save")
