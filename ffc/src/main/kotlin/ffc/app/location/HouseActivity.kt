@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-package ffc.app
+package ffc.app.location
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import ffc.app.R
 import org.jetbrains.anko.toast
 
 class HouseActivity : AppCompatActivity() {

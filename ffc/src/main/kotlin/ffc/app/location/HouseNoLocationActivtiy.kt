@@ -33,7 +33,6 @@ import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.entity.House
 import ffc.entity.gson.toJson
-import kotlinx.android.synthetic.main.activity_house_no_location.houseList
 import kotlinx.android.synthetic.main.item_house.view.houseNo
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.find
@@ -46,7 +45,7 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_house_no_location)
+        setContentView(R.layout.activity_search)
 
         setSupportActionBar(find(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -92,6 +91,7 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
     }
 
     fun setupListOf(houses: List<House>) {
+        val houseList = find<RecyclerView>(R.id.recycleView)
         houseAdapter = HouseAdapter(houses) {
             val bundle = bundleOf("house" to it.toJson())
             setResult(Activity.RESULT_OK, Intent().apply { putExtras(bundle) })
@@ -117,11 +117,10 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
     class HouseViewHolder(view: View, val onItemClick: (House) -> Unit) : RecyclerView.ViewHolder(
         view
     ) {
-
         fun bind(address: House) {
             with(address) {
-                itemView.houseNo.text = address.no
-                itemView.setOnClickListener { onItemClick(address) }
+                itemView.houseNo.text = no
+                itemView.setOnClickListener { onItemClick(this) }
             }
         }
     }

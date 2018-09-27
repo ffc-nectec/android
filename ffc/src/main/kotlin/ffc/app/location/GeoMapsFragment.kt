@@ -30,9 +30,10 @@ import ffc.android.drawable
 import ffc.android.toBitmap
 import ffc.api.FfcCentral
 import ffc.app.BuildConfig
-import ffc.app.HouseActivity
 import ffc.app.R
 import ffc.app.familyFolderActivity
+import ffc.entity.House
+import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
@@ -91,7 +92,7 @@ class GeoMapsFragment : SupportMapFragment() {
                     }
                     setOnFeatureClickListener {
                         startActivityForResult(
-                            intentFor<HouseActivity>("houseId" to it.getProperty("_id")),
+                            intentFor<HouseActivity>("houseId" to it.getProperty("id")),
                             REQ_ADD_LOCATION)
                     }
                     addLayerToMap()

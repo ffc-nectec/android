@@ -61,7 +61,7 @@
             android:name=".location.HouseNoLocationActivtiy"
             android:label="เลือกบ้านไม่มีพิกัด"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HouseActivity" />
+        <activity android:name=".location.HouseActivity" />
 
         <receiver
             android:name=".ConnectivityChangeReceiver"
