@@ -19,11 +19,15 @@ package ffc.app.location
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.transition.Fade
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
+import ffc.android.enterDuration
 import ffc.android.find
+import ffc.android.sceneTransition
 import ffc.api.FfcCentral
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
@@ -37,6 +41,7 @@ import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
@@ -57,10 +62,6 @@ class MarkLocationActivity : FamilyFolderActivity() {
         with(mapFragment) {
             setPaddingTop(dimen(R.dimen.maps_padding_top))
             setMaxPoint(1)
-            setStartLocation(
-                intent.getParcelableExtra("target") as LatLng,
-                intent.getFloatExtra("zoom", 15.0f)
-            )
             onMapReady {
                 findViewById(R.id.marlo_undo).visibility = View.GONE
             }
@@ -90,6 +91,7 @@ class MarkLocationActivity : FamilyFolderActivity() {
             onSuccess {
                 setResult(Activity.RESULT_OK)
                 finish()
+                overridePendingTransition(0, 0)
             }
             onError {
                 alert("error ${code()}") {
@@ -113,6 +115,12 @@ class MarkLocationActivity : FamilyFolderActivity() {
             }
             Activity.RESULT_CANCELED -> finish()
         }
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_CANCELED)
+        super.onBackPressed()
+        overridePendingTransition(0, 0)
     }
 }
 
