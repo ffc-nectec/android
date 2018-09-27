@@ -25,9 +25,7 @@ import android.view.ViewGroup
 import ffc.android.getInput
 import ffc.app.R
 import ffc.entity.healthcare.HealthCareService
-import kotlinx.android.synthetic.main.hs_body_form_fragment.heightField
-import kotlinx.android.synthetic.main.hs_body_form_fragment.waistField
-import kotlinx.android.synthetic.main.hs_body_form_fragment.weightField
+import kotlinx.android.synthetic.main.hs_body_form_fragment.*
 
 class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
@@ -40,6 +38,7 @@ class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
             heightField.getInput { height = it.toDouble() }
             weightField.getInput { weight = it.toDouble() }
             waistField.getInput { waist = it.toDouble() }
+            assField.getInput { ass = it.toDouble() }
         }
     }
 }

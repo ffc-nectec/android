@@ -20,6 +20,7 @@ package ffc.app.healthservice
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import ffc.android.check
 import ffc.app.R
 import ffc.entity.healthcare.Diagnosis
 import ffc.entity.healthcare.Disease
@@ -32,30 +33,46 @@ class DiagnosisFormView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private var dxTypeField: Spinney<Diagnosis.Type>?
-    private var diseaseField: Spinney<Disease>?
+    private var dxTypeField: Spinney<Diagnosis.Type>
+    private var diseaseField: Spinney<Disease>
 
     init {
         inflate(context, R.layout.hs_diagnosis_view, this)
         orientation = LinearLayout.VERTICAL
 
         dxTypeField = find(R.id.dxTypeField)
-        dxTypeField!!.setItems(dxTypes)
+        dxTypeField.setItems(dxTypes)
         diseaseField = find(R.id.diseaseField)
         diseases(context).all { list, _ ->
-            diseaseField!!.setItemPresenter { item, _ ->
+            diseaseField.setItemPresenter { item, _ ->
                 item as Disease
                 "${item.icd10} - ${item.name}"
             }
-            diseaseField!!.setSearchableItem(list)
+            diseaseField.setSearchableItem(list)
         }
     }
 
     var diagnosis: Diagnosis?
-        get() = Diagnosis(diseaseField?.selectedItem!!, dxTypeField?.selectedItem!!)
+        get() {
+            diseaseField.check {
+                on { dxTypeField.selectedItem != null }
+                that { selectedItem != null }
+                message = "กรุณาระบุ"
+            }
+            dxTypeField.check {
+                on { diseaseField.selectedItem != null }
+                that { selectedItem != null }
+                message = "กรุณาระบุ"
+            }
+
+            if (diseaseField.selectedItem != null && dxTypeField.selectedItem != null)
+                return Diagnosis(diseaseField.selectedItem!!, dxTypeField.selectedItem!!)
+            else
+                return null
+        }
         set(value) {
-            dxTypeField!!.selectedItem = value?.dxType
-            diseaseField!!.selectedItem = value?.disease
+            dxTypeField.selectedItem = value?.dxType
+            diseaseField.selectedItem = value?.disease
         }
 }
 
