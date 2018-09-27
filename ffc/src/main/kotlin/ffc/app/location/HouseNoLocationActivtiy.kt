@@ -31,6 +31,7 @@ import ffc.api.FfcCentral
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.dev
 import ffc.entity.House
 import ffc.entity.gson.toJson
 import kotlinx.android.synthetic.main.item_house.view.houseNo
@@ -65,14 +66,14 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
 
         FfcCentral().service<PlaceService>().listHouseNoLocation(org!!.id).enqueue {
             onSuccess {
-                if (BuildConfig.DEBUG) {
+                dev {
                     toast("Loaded ${body()?.size}")
                 }
                 setupListOf(body()!!)
             }
             onError {
                 //        toast("onError ${code()}")
-                if (BuildConfig.DEBUG) {
+                dev {
                     var houses: MutableList<House> = mutableListOf()
                     for (i in 1..100) {
                         houses.add(House().apply {
@@ -114,9 +115,7 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
         super.onBackPressed()
     }
 
-    class HouseViewHolder(view: View, val onItemClick: (House) -> Unit) : RecyclerView.ViewHolder(
-        view
-    ) {
+    class HouseViewHolder(view: View, val onItemClick: (House) -> Unit) : RecyclerView.ViewHolder(view) {
         fun bind(address: House) {
             with(address) {
                 itemView.houseNo.text = no

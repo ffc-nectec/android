@@ -27,6 +27,7 @@ import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.auth.auth
+import ffc.app.dev
 import ffc.app.person.mockPerson
 import ffc.app.person.personId
 import ffc.app.person.persons
@@ -51,7 +52,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_visit)
 
-        if (BuildConfig.DEBUG) {
+        dev {
             if (auth(this).user == null) {
                 auth(this).user = User(
                     generateTempId(),
