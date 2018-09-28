@@ -22,6 +22,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ffc.android.check
+import ffc.android.isNotBlank
 import ffc.android.notEmpty
 import ffc.app.R
 import ffc.entity.healthcare.BloodPressure
@@ -54,6 +56,42 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
     }
 
     override fun dataInto(service: HealthCareService) {
+        bpSysField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 80..330 }
+            message = "ค่าต้องอยู่ระหว่าง 80-330"
+        }
+        bpSysField.check {
+            on { bpDiaField.isNotBlank }
+            that { isNotBlank }
+            message = "กรุณาระบุ"
+        }
+        bpDiaField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 30..135 }
+            message = "ค่าต้องอยู่ระหว่าง 30-135"
+        }
+        bpDiaField.check {
+            on { bpSysField.isNotBlank }
+            that { isNotBlank }
+            message = "กรุณาระบุ"
+        }
+        pulseField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 30..250 }
+            message = "ค่าต้องอยู่ระหว่าง 30-250"
+        }
+        rrField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 5..40 }
+            message = "ค่าต้องอยู่ระหว่าง 5-40"
+        }
+        tempField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 35..45 }
+            message = "ค่าต้องอยู่ระหว่าง 35-45"
+        }
+
         service.apply {
             if (notEmpty(bpSysField, bpDiaField))
                 bloodPressure = BloodPressure(
