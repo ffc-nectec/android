@@ -119,7 +119,11 @@ class GeoMapsFragment : SupportMapFragment() {
         }
     }
 
-    private val homeIcon by lazy { BitmapDescriptorFactory.fromBitmap(context!!.drawable(R.drawable.ic_home_black_24px).toBitmap()) }
+    private val homeIcon by lazy {
+        BitmapDescriptorFactory.fromBitmap(context!!.drawable(R.drawable.ic_home_black_24px).toBitmap())
+    }
 
-    private val chronicHomeIcon by lazy { BitmapDescriptorFactory.fromBitmap(context!!.drawable(R.drawable.ic_home_red_24px).toBitmap()) }
+    private val chronicHomeIcon by lazy {
+        BitmapDescriptorFactory.fromBitmap(context!!.drawable(R.drawable.ic_home_red_24px).toBitmap())
+    }
 }

@@ -26,7 +26,10 @@ import ffc.app.util.AdapterClickListener
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.person_list_item.view.personNameView
 
-class PersonAdapter(val persons: List<Person>, val onClickDsl: AdapterClickListener<Person>.() -> Unit) : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
+class PersonAdapter(
+    val persons: List<Person>,
+    val onClickDsl: AdapterClickListener<Person>.() -> Unit
+) : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
 
     val listener = AdapterClickListener<Person>().apply(onClickDsl)
 
@@ -51,6 +54,3 @@ class PersonAdapter(val persons: List<Person>, val onClickDsl: AdapterClickListe
         }
     }
 }
-
-
-

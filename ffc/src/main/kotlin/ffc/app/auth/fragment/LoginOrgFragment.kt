@@ -26,7 +26,6 @@ import ffc.android.check
 import ffc.android.error
 import ffc.android.isNotBlank
 import ffc.android.onClick
-import ffc.app.BuildConfig
 import ffc.app.R
 import ffc.app.auth.orgs
 import ffc.app.dev

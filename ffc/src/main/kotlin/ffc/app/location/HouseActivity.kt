@@ -18,7 +18,6 @@
 package ffc.app.location
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import org.jetbrains.anko.toast

@@ -23,7 +23,6 @@ import ffc.android.find
 import ffc.android.onClick
 import ffc.android.tag
 import ffc.android.toast
-import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.auth.auth

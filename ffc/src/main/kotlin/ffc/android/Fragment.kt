@@ -21,4 +21,3 @@ import android.support.v4.app.FragmentManager
 
 fun <T> FragmentManager.find(id: Int) = findFragmentById(id) as T
 fun <T> FragmentManager.find(tag: String) = findFragmentByTag(tag) as T
-

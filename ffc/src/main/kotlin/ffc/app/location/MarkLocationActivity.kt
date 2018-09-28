@@ -19,15 +19,10 @@ package ffc.app.location
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.transition.Fade
 import android.view.View
-import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
-import ffc.android.enterDuration
 import ffc.android.find
-import ffc.android.sceneTransition
 import ffc.api.FfcCentral
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
@@ -41,7 +36,6 @@ import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue

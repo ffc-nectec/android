@@ -27,11 +27,13 @@ import ffc.app.isDev
 import ffc.app.location.HouseActivity
 import ffc.entity.Person
 import ffc.entity.util.generateTempId
-import kotlinx.android.synthetic.main.activity_person.*
+import kotlinx.android.synthetic.main.activity_person.ageView
+import kotlinx.android.synthetic.main.activity_person.homeAsUp
+import kotlinx.android.synthetic.main.activity_person.nameView
+import kotlinx.android.synthetic.main.activity_person.visitButton
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import java.util.*
 
 class PersonActvitiy : FamilyFolderActivity() {
 
@@ -79,7 +81,6 @@ class PersonActvitiy : FamilyFolderActivity() {
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
-
         }
     }
 }
