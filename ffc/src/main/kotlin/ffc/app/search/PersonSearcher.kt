@@ -17,8 +17,8 @@
 
 package ffc.app.search
 
+import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.api.ServerErrorException
 import ffc.app.isDev
 import ffc.app.person.mockPerson
 import ffc.app.util.RepoCallback
@@ -68,7 +68,7 @@ private class ApiPersonSearcher(val orgId: String) : PersonSearcher {
                     callback.onNotFound!!.invoke()
                 }
             }
-            onError { callback.onFail!!.invoke(ServerErrorException(this)) }
+            onError { callback.onFail!!.invoke(ApiErrorException(this)) }
             onFailure { callback.onFail!!.invoke(it) }
         }
     }
