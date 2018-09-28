@@ -47,17 +47,15 @@ internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<Home
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        communityServicesField.setItemPresenter { item, _ -> "${item.id} - ${item.name}" }
+        communityServicesField.setItems(listOf())
+
+        appointField.setUndefinedAsDefault()
         homeVisitType(context!!).all { list, throwable ->
             if (throwable != null) {
                 toast(throwable.message ?: "What happend")
             } else {
-                communityServicesField.setItemPresenter { item, position ->
-                    if (item is CommunityServiceType) {
-                        "${item.id} - ${item.name}"
-                    } else {
-                        item.toString()
-                    }
-                }
                 communityServicesField.setSearchableItem(list)
             }
         }
