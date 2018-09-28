@@ -24,18 +24,14 @@ import android.view.View
 import android.view.ViewGroup
 import ffc.android.check
 import ffc.app.R
+import ffc.app.util.datetime.th_TH
+import ffc.app.util.datetime.toLocalDate
 import ffc.entity.healthcare.CommunityServiceType
 import ffc.entity.healthcare.HomeVisit
-import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.appointField
-import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.detailField
-import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.planField
-import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.resultField
-import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.syntomField
+import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.*
 import me.piruin.spinney.Spinney
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.support.v4.toast
-import org.joda.time.LocalDate
-import java.util.*
 
 internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<HomeVisit> {
 
@@ -66,6 +62,11 @@ internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<Home
             that { selectedItem != null }
             message = "กรุณาระบุประเภทการเยี่ยม"
         }
+        appointField.check {
+            on { calendar != null }
+            that { calendar.after(services.time.toCalendar(th_TH)) }
+            message = "นัดครั้งต่อไป ต้องหลังจากวันที่ให้บริการ"
+        }
 
         services.apply {
             serviceType = communityServicesField.selectedItem!!
@@ -76,8 +77,4 @@ internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<Home
             nextAppoint = appointField.calendar?.toLocalDate()
         }
     }
-}
-
-private fun Calendar.toLocalDate(): LocalDate? {
-    return LocalDate.fromCalendarFields(this)
 }
