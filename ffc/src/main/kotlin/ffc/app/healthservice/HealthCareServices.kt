@@ -2,12 +2,10 @@ package ffc.app.healthservice
 
 import android.util.Log
 import ffc.android.tag
+import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.api.ServerErrorException
 import ffc.app.isDev
 import ffc.app.util.RepoCallback
-import ffc.entity.Organization
-import ffc.entity.Person
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
 import retrofit2.dsl.enqueue
@@ -62,7 +60,7 @@ private class ApiHealthCareServices(
                 callback(body()!!, null)
             }
             onError {
-                callback(null, ServerErrorException(this))
+                callback(null, ApiErrorException(this))
             }
             onFailure {
                 callback(null, it)
@@ -80,7 +78,7 @@ private class ApiHealthCareServices(
                 callback.onNotFound!!.invoke()
             }
             onServerError {
-                callback.onFail!!.invoke(ServerErrorException(this))
+                callback.onFail!!.invoke(ApiErrorException(this))
             }
             onFailure {
                 callback.onFail!!.invoke(it)

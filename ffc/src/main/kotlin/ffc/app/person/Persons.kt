@@ -1,13 +1,12 @@
 package ffc.app.person
 
+import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.api.ServerErrorException
 import ffc.app.isDev
 import ffc.app.util.RepoCallback
 import ffc.entity.Person
 import ffc.entity.ThaiCitizenId
 import org.joda.time.LocalDate
-import retrofit2.Retrofit
 import retrofit2.dsl.enqueue
 import retrofit2.dsl.then
 
@@ -48,7 +47,7 @@ private class ApiPersons(val orgId: String) : Persons {
         api.post(orgId, person).then {
             callback(it, null)
         }.catch { res, t ->
-            res?.let { callback(null, ServerErrorException(it)) }
+            res?.let { callback(null, ApiErrorException(it)) }
             t?.let { callback(null, it) }
         }
     }
@@ -64,7 +63,7 @@ private class ApiPersons(val orgId: String) : Persons {
                 if (code() == 404)
                     callback.onNotFound!!.invoke()
                 else
-                    callback.onFail!!.invoke(ServerErrorException(this))
+                    callback.onFail!!.invoke(ApiErrorException(this))
             }
             onFailure { callback.onFail!!.invoke(it) }
         }
