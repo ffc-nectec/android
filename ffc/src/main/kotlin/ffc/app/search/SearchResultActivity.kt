@@ -21,7 +21,6 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
@@ -70,7 +69,7 @@ class SearchResultActivity : FamilyFolderActivity() {
             supportActionBar!!.title = query
             personSearcher(org!!.id).search(query!!) {
                 onFound { bindAdapter(persons = it) }
-                onNotFound { toast("Not found ") }
+                onNotFound { bindAdapter(listOf())}
                 onFail { toast("${it.message}") }
             }
         }
