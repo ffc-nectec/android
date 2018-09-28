@@ -37,12 +37,11 @@ import ffc.app.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_content.*
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
 import retrofit2.dsl.isNotFound
 
 class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +89,7 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> {
-                auth(this).clear()
-                finish()
+                toast(R.string.under_construction)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -101,11 +99,21 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
+            R.id.nav_gallery -> {
+                toast(R.string.under_construction)
+            }
             R.id.nav_manage -> {
+                toast(R.string.under_construction)
             }
             R.id.nav_share -> {
+                toast(R.string.under_construction)
             }
             R.id.nav_send -> {
+                toast(R.string.under_construction)
+            }
+            R.id.nav_logout -> {
+                auth(this).clear()
+                finish()
             }
         }
 

@@ -64,4 +64,5 @@
     <string name="body_weight">น้ำหนัก (กก.)</string>
     <string name="body_waist">รอบเอว (ซม.)</string>
     <string name="body_ass">สะโพก (ซม.)</string>
+    <string name="under_construction">อยู่ระหว่างการพัฒนา</string>
 </resources>
