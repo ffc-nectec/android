@@ -77,11 +77,11 @@ class GeoMapsFragment : SupportMapFragment() {
 
             onSuccess {
                 val coordinates = (body()!!.features[0].geometry as Point).coordinates
-                map.animateCameraTo(coordinates.latitude, coordinates.longitude, 10.0f)
+                map.animateCameraTo(coordinates.latitude, coordinates.longitude, 13.0f)
                 with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
                     features.forEach {
                         it.pointStyle = GeoJsonPointStyle().apply {
-                            icon = if (it.getProperty("id").hashCode() % 3 == 0)
+                            icon = if (it.getProperty("haveChronic") == "true")
                                 chronicHomeIcon else homeIcon
                             title = "บ้านเลขที่ ${it.getProperty("no")}"
                             snippet = it.getProperty("coordinates")?.trimMargin()
@@ -96,7 +96,7 @@ class GeoMapsFragment : SupportMapFragment() {
             onError {
                 toast("Not success get geoJson ${code()} ")
                 dev {
-                    map.animateCameraTo(13.0, 102.1, 10.0f)
+                    map.animateCameraTo(13.0, 102.1, 12.0f)
                     GeoJsonLayer(map, R.raw.place, context)
                 }
             }
