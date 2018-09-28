@@ -69,7 +69,7 @@ class SearchResultActivity : FamilyFolderActivity() {
             supportActionBar!!.title = query
             personSearcher(org!!.id).search(query!!) {
                 onFound { bindAdapter(persons = it) }
-                onNotFound { bindAdapter(listOf())}
+                onNotFound { bindAdapter(listOf()) }
                 onFail { toast("${it.message}") }
             }
         }
@@ -83,7 +83,7 @@ class SearchResultActivity : FamilyFolderActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-       finish()
+        finish()
         overridePendingTransition(0, 0)
         return super.onSupportNavigateUp()
     }

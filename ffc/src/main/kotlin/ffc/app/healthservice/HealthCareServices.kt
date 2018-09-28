@@ -87,5 +87,5 @@ private class ApiHealthCareServices(
     }
 }
 
-internal fun healthCareServicesOf(personId: String, orgId: String): HealthCareServices = if (isDev) InMemoryHealthCareServices(personId) else ApiHealthCareServices(orgId, personId)
-
+internal fun healthCareServicesOf(personId: String, orgId: String): HealthCareServices = if (isDev)
+    InMemoryHealthCareServices(personId) else ApiHealthCareServices(orgId, personId)

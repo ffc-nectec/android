@@ -26,7 +26,6 @@ import ffc.android.check
 import ffc.android.isNotBlank
 import ffc.android.onClick
 import ffc.android.onLongClick
-import ffc.app.BuildConfig
 import ffc.app.R
 import ffc.app.dev
 import ffc.entity.Organization

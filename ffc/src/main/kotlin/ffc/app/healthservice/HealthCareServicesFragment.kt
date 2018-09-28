@@ -120,5 +120,3 @@ class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
     }
 }
-
-

@@ -46,7 +46,7 @@ open class FamilyFolderActivity : AppCompatActivity() {
 
     val org: Organization? get() = auth(this).org
 
-    var savedInstanceState : Bundle? = null
+    var savedInstanceState: Bundle? = null
 
     private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
 

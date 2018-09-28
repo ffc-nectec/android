@@ -34,7 +34,8 @@ interface PersonSearcher {
     fun search(query: String, dsl: RepoCallback<List<Person>>.() -> Unit)
 }
 
-fun personSearcher(orgId : String): PersonSearcher = if (isDev) InMemoryPersonSearcher() else ApiPersonSearcher(orgId)
+fun personSearcher(orgId: String): PersonSearcher = if (isDev)
+    InMemoryPersonSearcher() else ApiPersonSearcher(orgId)
 
 private class InMemoryPersonSearcher : PersonSearcher {
 

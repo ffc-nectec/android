@@ -34,8 +34,11 @@ import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
 import ffc.app.location.PlaceService
 import ffc.app.search.SearchActivity
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main_content.*
+import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.navView
+import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
+import kotlinx.android.synthetic.main.activity_main_content.searchButton
+import kotlinx.android.synthetic.main.activity_main_content.toolbar
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
@@ -57,7 +60,9 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
                 sceneTransition(toolbar to getString(R.string.transition_appbar)))
         }
 
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
