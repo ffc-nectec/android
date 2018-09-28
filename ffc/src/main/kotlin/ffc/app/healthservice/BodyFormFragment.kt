@@ -22,7 +22,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ffc.android.check
 import ffc.android.getInput
+import ffc.android.isNotBlank
 import ffc.app.R
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.hs_body_form_fragment.*
@@ -34,6 +36,27 @@ class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
     }
 
     override fun dataInto(service: HealthCareService) {
+        heightField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 10..250 }
+            message = "ค่าต้องอยู่ระหว่าง 10-250"
+        }
+        weightField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 2..250 }
+            message = "ค่าต้องอยู่ระหว่าง 2-250"
+        }
+        waistField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 15..500 }
+            message = "ค่าต้องอยู่ระหว่าง 15-500"
+        }
+        assField.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 15..500 }
+            message = "ค่าต้องอยู่ระหว่าง 15-500"
+        }
+
         service.apply {
             heightField.getInput { height = it.toDouble() }
             weightField.getInput { weight = it.toDouble() }
