@@ -45,8 +45,8 @@ class PersonActvitiy : FamilyFolderActivity() {
             intent.personId = mockPerson.id
         }
         homeAsUp.onClick {
-            //TODO send houseId
             startActivity<HouseActivity>("houseId" to generateTempId())
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
 
         if (savedInstanceState == null) {

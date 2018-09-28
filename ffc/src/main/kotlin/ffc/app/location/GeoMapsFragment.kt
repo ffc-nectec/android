@@ -29,7 +29,6 @@ import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import ffc.android.drawable
 import ffc.android.toBitmap
 import ffc.api.FfcCentral
-import ffc.app.BuildConfig
 import ffc.app.R
 import ffc.app.dev
 import ffc.app.familyFolderActivity
@@ -38,6 +37,7 @@ import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.dimen
 import org.jetbrains.anko.support.v4.intentFor
+import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
 import retrofit2.dsl.enqueue
@@ -70,8 +70,6 @@ class GeoMapsFragment : SupportMapFragment() {
         }
     }
 
-
-
     private fun showGeoJson() {
 
         val placeService = FfcCentral().service<PlaceService>()
@@ -90,9 +88,7 @@ class GeoMapsFragment : SupportMapFragment() {
                         }
                     }
                     setOnFeatureClickListener {
-                        startActivityForResult(
-                            intentFor<HouseActivity>("houseId" to it.getProperty("id")),
-                            REQ_ADD_LOCATION)
+                        startActivityForResult<HouseActivity>(REQ_ADD_LOCATION, "houseId" to it.getProperty("id"))
                     }
                     addLayerToMap()
                 }

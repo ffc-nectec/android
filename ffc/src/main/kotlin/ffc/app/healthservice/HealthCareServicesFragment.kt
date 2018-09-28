@@ -66,7 +66,7 @@ class HealthCareServicesFragment : Fragment() {
                 recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 recyclerView.adapter = HealthCareServiceAdapter(it) {
                     onItemClick {
-                        toast("Clicked")
+                        toast(R.string.under_construction)
                     }
                 }
                 emptyView.gone()
