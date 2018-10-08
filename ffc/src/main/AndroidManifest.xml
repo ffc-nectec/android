@@ -124,7 +124,7 @@
         </activity>
 
         <activity
-            android:name=".person.PersonActvitiy"
+            android:name=".person.PersonActivitiy"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
     </application>

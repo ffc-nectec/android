@@ -27,7 +27,7 @@ import ffc.entity.Person
 import kotlinx.android.synthetic.main.person_list_item.view.personNameView
 
 class PersonAdapter(
-    val persons: List<Person>,
+    var persons: List<Person>,
     val onClickDsl: AdapterClickListener<Person>.() -> Unit
 ) : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
 
@@ -42,6 +42,11 @@ class PersonAdapter(
 
     override fun onBindViewHolder(holder: PersonHolder, position: Int) {
         holder.bind(persons[position], listener)
+    }
+
+    fun update(persons: List<Person>) {
+        this.persons = persons
+        notifyDataSetChanged()
     }
 
     class PersonHolder(view: View) : RecyclerView.ViewHolder(view) {

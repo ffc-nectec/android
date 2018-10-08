@@ -73,7 +73,7 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
             onError {
                 //        toast("onError ${code()}")
                 dev {
-                    var houses: MutableList<House> = mutableListOf()
+                    val houses: MutableList<House> = mutableListOf()
                     for (i in 1..100) {
                         houses.add(House().apply {
                             no = "100/$i"

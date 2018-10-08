@@ -24,11 +24,10 @@ import android.support.v7.widget.LinearLayoutManager
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
-import ffc.app.person.PersonActvitiy
 import ffc.app.person.PersonAdapter
+import ffc.app.person.startPersonActivityOf
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class SearchResultActivity : FamilyFolderActivity() {
@@ -78,7 +77,7 @@ class SearchResultActivity : FamilyFolderActivity() {
     private fun bindAdapter(persons: List<Person>) {
         searchResultView.layoutManager = LinearLayoutManager(this)
         searchResultView.adapter = PersonAdapter(persons) {
-            onItemClick { p -> startActivity<PersonActvitiy>("personId" to p.id) }
+            onItemClick { p -> startPersonActivityOf(p) }
         }
     }
 

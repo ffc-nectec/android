@@ -17,6 +17,7 @@
 
 package ffc.app.person
 
+import android.app.Activity
 import android.os.Bundle
 import ffc.android.onClick
 import ffc.app.FamilyFolderActivity
@@ -35,7 +36,7 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
-class PersonActvitiy : FamilyFolderActivity() {
+class PersonActivitiy : FamilyFolderActivity() {
 
     val personId get() = intent.personId!!
 
@@ -83,4 +84,8 @@ class PersonActvitiy : FamilyFolderActivity() {
             age?.let { ageView.text = "อายุ $it ปี" }
         }
     }
+}
+
+fun Activity.startPersonActivityOf(person: Person) {
+    startActivity<PersonActivitiy>("personId" to person.id)
 }
