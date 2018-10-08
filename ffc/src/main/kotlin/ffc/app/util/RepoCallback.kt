@@ -19,10 +19,14 @@ package ffc.app.util
 
 class RepoCallback<T> {
 
-    var onFound: ((T) -> Unit)? = null
-    var onNotFound: (() -> Unit)? = null
-    var onFail: ((Throwable) -> Unit)? = null
     var always: (() -> Unit)? = null
+        private set
+    var onFound: ((T) -> Unit)? = null
+        private set
+    var onNotFound: (() -> Unit)? = null
+        private set
+    var onFail: ((Throwable) -> Unit)? = null
+        private set
 
     fun onFound(onFound: (T) -> Unit) {
         this.onFound = onFound

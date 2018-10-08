@@ -27,7 +27,6 @@ import ffc.app.healthservice.HomeVisitActivity
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
 import ffc.entity.Person
-import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_person.ageView
 import kotlinx.android.synthetic.main.activity_person.homeAsUp
 import kotlinx.android.synthetic.main.activity_person.nameView
@@ -46,10 +45,6 @@ class PersonActivitiy : FamilyFolderActivity() {
 
         if (isDev && intent.personId == null) {
             intent.personId = mockPerson.id
-        }
-        homeAsUp.onClick {
-            startActivity<HouseActivity>("houseId" to generateTempId())
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
 
         if (savedInstanceState == null) {
@@ -82,6 +77,11 @@ class PersonActivitiy : FamilyFolderActivity() {
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
+        }
+
+        homeAsUp.onClick {
+            startActivity<HouseActivity>("houseId" to person.houseId)
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
     }
 }

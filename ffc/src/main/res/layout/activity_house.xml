@@ -37,23 +37,29 @@
             app:title="บ้าน" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.santalu.emptyview.EmptyView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/under_construction"
+
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:ev_empty_drawable="@drawable/ic_home_black_24px"
+        app:ev_empty_title="@string/resident_not_found"
+        app:ev_loading_title="กำลังดึงข้อมูล..."
+        app:ev_loading_type="circular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.santalu.emptyview.EmptyView>
 </android.support.constraint.ConstraintLayout>

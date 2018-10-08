@@ -65,4 +65,5 @@
     <string name="body_waist">รอบเอว (ซม.)</string>
     <string name="body_ass">สะโพก (ซม.)</string>
     <string name="under_construction">อยู่ระหว่างการพัฒนา</string>
+    <string name="resident_not_found">ไม่พบข้อมูลผู้อยู่อาศัย</string>
 </resources>

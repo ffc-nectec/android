@@ -19,14 +19,13 @@ package ffc.app.location
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
 import ffc.entity.House
+import kotlinx.android.synthetic.main.activity_house.emptyView
 import kotlinx.android.synthetic.main.activity_house.recycleView
-import org.jetbrains.anko.toast
 
 class HouseActivity : FamilyFolderActivity() {
 
@@ -39,6 +38,8 @@ class HouseActivity : FamilyFolderActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        emptyView.loading().show()
+
         with(recycleView) {
             layoutManager = LinearLayoutManager(context)
             adapter = PersonAdapter(listOf()) {
@@ -49,12 +50,13 @@ class HouseActivity : FamilyFolderActivity() {
         House(houseId).resident(org!!.id) {
             onFound {
                 (recycleView.adapter as PersonAdapter).update(it)
+                emptyView.content().show()
             }
             onNotFound {
-                toast("ไม่พบผู้อยู่อาศัย")
+                emptyView.empty().show()
             }
             onFail {
-                toast(it)
+                emptyView.error(it).show()
             }
         }
     }
