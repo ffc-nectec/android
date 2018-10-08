@@ -17,6 +17,7 @@
 
 package ffc.app
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -24,8 +25,11 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.transition.Fade
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import ffc.android.enter
 import ffc.android.exit
+import ffc.android.load
 import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.android.setTransition
@@ -39,6 +43,7 @@ import kotlinx.android.synthetic.main.activity_main.navView
 import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
 import kotlinx.android.synthetic.main.activity_main_content.searchButton
 import kotlinx.android.synthetic.main.activity_main_content.toolbar
+import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
@@ -66,6 +71,13 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+
+        with(navView.getHeaderView(0)) {
+            val user = auth(context).user!!
+            find<TextView>(R.id.userDisplayNameView).text = user.displayName
+            user.avatarUrl?.let { find<ImageView>(R.id.userAvartarView).load(Uri.parse(it)) }
+            find<TextView>(R.id.orgDisplayNameView).text = org!!.displayName
+        }
 
         supportFragmentManager
             .beginTransaction()
