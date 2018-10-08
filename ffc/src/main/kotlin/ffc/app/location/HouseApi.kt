@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface HouseApi {
 
-    @GET("org/{orgId}/house/{houseId}/resident")
+    @GET("org/{orgId}/place/house/{houseId}/resident")
     fun personInHouse(
         @Path("orgId") orgId: String,
         @Path("houseId") houseId: String
