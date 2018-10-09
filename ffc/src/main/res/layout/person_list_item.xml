@@ -39,8 +39,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintStart_toEndOf="@+id/personImageView"
-        app:layout_constraintTop_toTopOf="@+id/personImageView"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="นายพิรุณ พานิชผล" />
+
+    <TextView
+        android:id="@+id/personAgeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="personAge"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/personNameView"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="30 ปี" />
 </android.support.constraint.ConstraintLayout>
