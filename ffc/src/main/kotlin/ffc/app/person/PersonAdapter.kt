@@ -17,13 +17,17 @@
 
 package ffc.app.person
 
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import ffc.android.layoutInflater
+import ffc.android.load
 import ffc.app.R
 import ffc.app.util.AdapterClickListener
 import ffc.entity.Person
+import kotlinx.android.synthetic.main.person_list_item.view.personAgeView
+import kotlinx.android.synthetic.main.person_list_item.view.personImageView
 import kotlinx.android.synthetic.main.person_list_item.view.personNameView
 
 class PersonAdapter(
@@ -54,6 +58,8 @@ class PersonAdapter(
         fun bind(person: Person, listener: AdapterClickListener<Person>) {
             with(person) {
                 itemView.personNameView.text = name
+                itemView.personAgeView.text = "$age ปี"
+                avatarUrl?.let { itemView.personImageView.load(Uri.parse(it)) }
                 listener.bindOnItemClick(itemView, person)
             }
         }
