@@ -43,6 +43,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
     private val vitalSign by lazy { supportFragmentManager.find<VitalSignFormFragment>(R.id.vitalSign) }
     private val diagnosis by lazy { supportFragmentManager.find<DiagnosisFormFragment>(R.id.diagnosis) }
     private val body by lazy { supportFragmentManager.find<BodyFormFragment>(R.id.body) }
+    private val photo by lazy { supportFragmentManager.find<ServicePhotoFragment>(R.id.photos) }
 
     private val providerId by lazy { auth(this).user!!.id }
     private val personId get() = intent.personId
@@ -76,6 +77,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 vitalSign.dataInto(visit)
                 diagnosis.dataInto(visit)
                 body.dataInto(visit)
+                photo.dataInto(visit)
 
                 healthCareServicesOf(personId!!, org!!.id).add(visit) { s, t ->
                     t?.let { toast(it.message!!) }
