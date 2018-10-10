@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import ffc.android.load
@@ -46,8 +45,6 @@ class TakePhotoActivity : FamilyFolderActivity() {
 
         with(photos) {
             setItemViewCacheSize(2)
-            isDrawingCacheEnabled = true
-            drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
             addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, true)
             adapter = TakePhotoAdapter(photoList) {

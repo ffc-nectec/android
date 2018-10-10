@@ -12,6 +12,6 @@ class TaskCallback<TResult> {
     }
 
     fun onFail(exception: (Throwable) -> Unit) {
-        this.expception = expception
+        this.expception = exception
     }
 }
