@@ -20,8 +20,6 @@ internal interface HealthCareServices {
 
 private class InMemoryHealthCareServices(val personId: String) : HealthCareServices {
 
-    val api = FfcCentral().service<HealthCareServiceApi>()
-
     override fun add(services: HealthCareService, callback: (HealthCareService?, Throwable?) -> Unit) {
         require(services.patientId == personId) { "Not match patinet id" }
         Log.d(tag, "homevisit = ${services.toJson()}")
