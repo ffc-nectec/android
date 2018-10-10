@@ -11,4 +11,4 @@ interface PhotoStorage {
     fun delete(uri: Uri, callback: TaskCallback<Boolean>.() -> Unit)
 }
 
-fun photoStorageFor(org: Organization, photoType: PhotoType) = FirebasePhotoStorage(org, photoType)
+fun Organization.photoStorageFor(photoType: PhotoType): PhotoStorage = FirebasePhotoStorage(this, photoType)

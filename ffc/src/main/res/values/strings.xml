@@ -58,6 +58,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="transition_appbar">appbar_transition</string>
+    <string name="transition_photo">photo_transition</string>
     <string name="hs_empty">ไม่มีประวัติการรับบริการ</string>
     <string name="hs_services">บริการสาธารณสุข</string>
     <string name="body_height">ส่วนสูง (ซม.)</string>
@@ -66,4 +67,6 @@
     <string name="body_ass">สะโพก (ซม.)</string>
     <string name="under_construction">อยู่ระหว่างการพัฒนา</string>
     <string name="resident_not_found">ไม่พบข้อมูลผู้อยู่อาศัย</string>
+    <string name="save">บันทึก</string>
+    <string name="photo_take">ถ่ายภาพ</string>
 </resources>

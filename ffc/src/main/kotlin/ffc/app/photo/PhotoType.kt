@@ -1,7 +1,7 @@
 package ffc.app.photo
 
 enum class PhotoType(val folder: String) {
-    SERVICE("folder"),
+    SERVICE("service"),
     PLACE("place"),
     PERSON("person")
 }

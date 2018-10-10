@@ -18,6 +18,7 @@
 package ffc.app.auth
 
 import android.content.Context
+import com.google.firebase.auth.FirebaseAuth
 import ffc.android.get
 import ffc.android.put
 import ffc.entity.Organization
@@ -56,6 +57,12 @@ private class PreferenceAuthen(context: Context) : Authentication {
         get() = preference.get<User>("user")
         set(value) {
             preference.edit().put("user", value).apply()
+            if (value != null) {
+                //Firebase Anonymously sign for Upload Photo to FB's Storage
+                FirebaseAuth.getInstance().signInAnonymously()
+            } else {
+                FirebaseAuth.getInstance().signOut()
+            }
         }
 
     override fun clear() {

@@ -29,8 +29,8 @@ import ffc.android.enterDuration
 import ffc.android.exit
 import ffc.android.find
 import ffc.android.gone
-import ffc.android.tag
 import ffc.android.setTransition
+import ffc.android.tag
 import ffc.android.visible
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
