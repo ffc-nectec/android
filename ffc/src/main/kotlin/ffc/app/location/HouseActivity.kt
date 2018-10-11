@@ -44,6 +44,8 @@ class HouseActivity : FamilyFolderActivity() {
     val houseId: String
         get() = intent.getStringExtra("houseId")
 
+    lateinit var house: House
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_house)
@@ -74,20 +76,17 @@ class HouseActivity : FamilyFolderActivity() {
         }
 
         housesOf(org!!).house(houseId) {
-            onFound {
-                bind(it)
-            }
+            onFound { bind(it) }
             onNotFound {
                 toast(Resources.NotFoundException("Not found House"))
                 finish()
             }
-            onFail {
-                toast(it)
-            }
+            onFail { toast(it) }
         }
     }
 
     fun bind(house: House) {
+        this.house = house
         supportActionBar?.title = "บ้านเลขที่ ${house.no}"
         house.resident(org!!.id) {
             onFound {
