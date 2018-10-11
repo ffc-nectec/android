@@ -97,12 +97,15 @@
             </android.support.v7.widget.CardView>
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatarView"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="24dp"
                 android:elevation="12dp"
-                android:src="@mipmap/ic_launcher" />
+                android:scaleType="centerCrop"
+                android:transitionName="@string/transition_person_profile"
+                android:src="@drawable/ic_account_circle_black_24dp" />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>

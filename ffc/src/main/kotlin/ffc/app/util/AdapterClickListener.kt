@@ -37,6 +37,8 @@ class AdapterClickListener<T> {
     var onViewLongClick: OnViewLongClick<T>? = null
         private set
 
+    lateinit var itemView: View
+
     fun onItemClick(block: OnItemClick<T>) {
         onItemClick = block
     }
@@ -54,6 +56,7 @@ class AdapterClickListener<T> {
     }
 
     internal fun bindOnItemClick(itemView: View, data: T) {
+        this.itemView = itemView
         onItemClick?.let { itemView.onClick { _ -> it.invoke(data) } }
         onItemLongClick?.let { itemView.onLongClick { _ -> it.invoke(data) } }
     }

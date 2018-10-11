@@ -69,4 +69,5 @@
     <string name="resident_not_found">ไม่พบข้อมูลผู้อยู่อาศัย</string>
     <string name="save">บันทึก</string>
     <string name="photo_take">ถ่ายภาพ</string>
+    <string name="transition_person_profile">person_profile_transition</string>
 </resources>

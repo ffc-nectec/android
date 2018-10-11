@@ -18,8 +18,12 @@
 package ffc.app.person
 
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import ffc.android.load
 import ffc.android.onClick
+import ffc.android.sceneTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
@@ -28,10 +32,12 @@ import ffc.app.isDev
 import ffc.app.location.HouseActivity
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.activity_person.ageView
+import kotlinx.android.synthetic.main.activity_person.avatarView
 import kotlinx.android.synthetic.main.activity_person.homeAsUp
 import kotlinx.android.synthetic.main.activity_person.nameView
 import kotlinx.android.synthetic.main.activity_person.visitButton
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -77,6 +83,10 @@ class PersonActivitiy : FamilyFolderActivity() {
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
+            avatarUrl?.let {
+                avatarView.load(Uri.parse(it)
+                )
+            }
         }
 
         homeAsUp.onClick {
@@ -86,6 +96,7 @@ class PersonActivitiy : FamilyFolderActivity() {
     }
 }
 
-fun Activity.startPersonActivityOf(person: Person) {
-    startActivity<PersonActivitiy>("personId" to person.id)
+fun Activity.startPersonActivityOf(person: Person, vararg sharedElements: Pair<View, String>?) {
+    val intent = intentFor<PersonActivitiy>("personId" to person.id)
+    startActivity(intent, sceneTransition(*sharedElements))
 }
