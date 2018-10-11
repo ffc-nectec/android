@@ -21,6 +21,7 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.ImageView
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
@@ -28,6 +29,7 @@ import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
+import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 
 class SearchResultActivity : FamilyFolderActivity() {
@@ -77,7 +79,10 @@ class SearchResultActivity : FamilyFolderActivity() {
     private fun bindAdapter(persons: List<Person>) {
         searchResultView.layoutManager = LinearLayoutManager(this)
         searchResultView.adapter = PersonAdapter(persons) {
-            onItemClick { p -> startPersonActivityOf(p) }
+            onItemClick { p ->
+                startPersonActivityOf(p,
+                    itemView.find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile))
+            }
         }
     }
 
