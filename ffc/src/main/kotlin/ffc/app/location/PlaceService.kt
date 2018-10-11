@@ -37,6 +37,12 @@ interface PlaceService {
     @GET("org/{orgId}/place/house?haveLocation=false")
     fun listHouseNoLocation(@Path("orgId") orgId: String): Call<List<House>>
 
+    @GET("org/{orgId}/place/house/{houseId}")
+    fun get(
+        @Path("orgId") orgId: String,
+        @Path("houseId") houseId: String
+    ): Call<House>
+
     @PUT("org/{orgId}/place/house/{houseId}")
     fun updateHouse(
         @Path("orgId") orgId: String,

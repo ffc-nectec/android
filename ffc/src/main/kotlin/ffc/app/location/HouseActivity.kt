@@ -17,6 +17,7 @@
 
 package ffc.app.location
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.transition.Slide
@@ -27,6 +28,7 @@ import ffc.android.enter
 import ffc.android.excludeSystemView
 import ffc.android.exit
 import ffc.android.setTransition
+import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.person.PersonAdapter
@@ -48,7 +50,7 @@ class HouseActivity : FamilyFolderActivity() {
 
         setTransition {
             enterTransition = Slide(Gravity.BOTTOM).enter().excludeSystemView()
-            exitTransition = Slide(Gravity.BOTTOM).exit()
+            exitTransition = Slide(Gravity.START).exit()
             reenterTransition = Slide(Gravity.START).enter()
             allowTransitionOverlap = false
         }
@@ -71,7 +73,23 @@ class HouseActivity : FamilyFolderActivity() {
             }
         }
 
-        House(houseId).resident(org!!.id) {
+        housesOf(org!!).house(houseId) {
+            onFound {
+                bind(it)
+            }
+            onNotFound {
+                toast(Resources.NotFoundException("Not found House"))
+                finish()
+            }
+            onFail {
+                toast(it)
+            }
+        }
+    }
+
+    fun bind(house: House) {
+        supportActionBar?.title = "บ้านเลขที่ ${house.no}"
+        house.resident(org!!.id) {
             onFound {
                 (recycleView.adapter as PersonAdapter).update(it)
                 emptyView.content().show()

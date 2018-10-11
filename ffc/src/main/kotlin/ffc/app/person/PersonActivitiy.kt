@@ -25,7 +25,6 @@ import android.view.Gravity
 import android.view.View
 import ffc.android.allowTransitionOverlap
 import ffc.android.enter
-import ffc.android.excludeSystemView
 import ffc.android.exit
 import ffc.android.load
 import ffc.android.onClick
@@ -59,7 +58,7 @@ class PersonActivitiy : FamilyFolderActivity() {
 
         setTransition {
             enterTransition = Slide(Gravity.END).enter()
-            returnTransition = Slide(Gravity.END).exit().excludeSystemView()
+            returnTransition = Slide(Gravity.END).exit()
             allowTransitionOverlap = false
         }
 
