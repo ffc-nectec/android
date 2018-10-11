@@ -20,10 +20,14 @@ package ffc.app.person
 import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
 import android.view.View
+import ffc.android.enter
 import ffc.android.load
 import ffc.android.onClick
 import ffc.android.sceneTransition
+import ffc.android.setTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
@@ -44,10 +48,15 @@ import org.jetbrains.anko.toast
 class PersonActivitiy : FamilyFolderActivity() {
 
     val personId get() = intent.personId!!
+    val startFromActivity get() = intent.getStringExtra("starter")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_person)
+
+        setTransition {
+            enterTransition = Slide(Gravity.BOTTOM).enter()
+        }
 
         if (isDev && intent.personId == null) {
             intent.personId = mockPerson.id
@@ -84,19 +93,27 @@ class PersonActivitiy : FamilyFolderActivity() {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
             avatarUrl?.let {
-                avatarView.load(Uri.parse(it)
-                )
+                avatarView.load(Uri.parse(it))
             }
         }
 
         homeAsUp.onClick {
-            startActivity<HouseActivity>("houseId" to person.houseId)
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            if (startFromActivity == HouseActivity::class.java.name) {
+                onBackPressed()
+            } else {
+                startActivity<HouseActivity>("houseId" to person.houseId)
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            }
         }
     }
 }
 
 fun Activity.startPersonActivityOf(person: Person, vararg sharedElements: Pair<View, String>?) {
-    val intent = intentFor<PersonActivitiy>("personId" to person.id)
+    val intent = intentFor<PersonActivitiy>(
+        "personId" to person.id,
+        "starter" to when (this) {
+            is HouseActivity -> HouseActivity::class.java.name
+            else -> null
+        })
     startActivity(intent, sceneTransition(*sharedElements))
 }

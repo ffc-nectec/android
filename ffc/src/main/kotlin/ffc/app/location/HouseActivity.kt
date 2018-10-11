@@ -19,6 +19,7 @@ package ffc.app.location
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.ImageView
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.person.PersonAdapter
@@ -26,6 +27,7 @@ import ffc.app.person.startPersonActivityOf
 import ffc.entity.House
 import kotlinx.android.synthetic.main.activity_house.emptyView
 import kotlinx.android.synthetic.main.activity_house.recycleView
+import org.jetbrains.anko.find
 
 class HouseActivity : FamilyFolderActivity() {
 
@@ -43,7 +45,11 @@ class HouseActivity : FamilyFolderActivity() {
         with(recycleView) {
             layoutManager = LinearLayoutManager(context)
             adapter = PersonAdapter(listOf()) {
-                onItemClick { startPersonActivityOf(it) }
+                onItemClick {
+                    startPersonActivityOf(it,
+                        itemView.find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile)
+                    )
+                }
             }
         }
 
