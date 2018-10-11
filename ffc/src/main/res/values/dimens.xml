@@ -30,5 +30,5 @@
 
     <dimen name="content_start_horizontal_padding">56dp</dimen>
 
-    <dimen name="banner_height">240dp</dimen>
+    <dimen name="banner_height">248dp</dimen>
 </resources>

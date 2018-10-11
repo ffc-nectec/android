@@ -23,7 +23,10 @@ import android.os.Bundle
 import android.transition.Slide
 import android.view.Gravity
 import android.view.View
+import ffc.android.allowTransitionOverlap
 import ffc.android.enter
+import ffc.android.excludeSystemView
+import ffc.android.exit
 import ffc.android.load
 import ffc.android.onClick
 import ffc.android.sceneTransition
@@ -55,7 +58,9 @@ class PersonActivitiy : FamilyFolderActivity() {
         setContentView(R.layout.activity_person)
 
         setTransition {
-            enterTransition = Slide(Gravity.BOTTOM).enter()
+            enterTransition = Slide(Gravity.END).enter()
+            returnTransition = Slide(Gravity.END).exit().excludeSystemView()
+            allowTransitionOverlap = false
         }
 
         if (isDev && intent.personId == null) {
@@ -103,6 +108,7 @@ class PersonActivitiy : FamilyFolderActivity() {
             } else {
                 startActivity<HouseActivity>("houseId" to person.houseId)
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                finish()
             }
         }
     }
