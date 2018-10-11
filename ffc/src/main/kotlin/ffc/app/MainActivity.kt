@@ -28,7 +28,6 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import ffc.android.enter
-import ffc.android.exit
 import ffc.android.load
 import ffc.android.onClick
 import ffc.android.sceneTransition
@@ -56,7 +55,7 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         setContentView(R.layout.activity_main)
 
         setTransition {
-            exitTransition = Fade().exit()
+            exitTransition = null
             reenterTransition = Fade().enter()
         }
 

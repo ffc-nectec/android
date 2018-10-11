@@ -27,8 +27,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import ffc.android.drawable
+import ffc.android.sceneTransition
 import ffc.android.toBitmap
-import ffc.api.FfcCentral
 import ffc.app.R
 import ffc.app.dev
 import ffc.app.familyFolderActivity
@@ -37,10 +37,8 @@ import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.dimen
 import org.jetbrains.anko.support.v4.intentFor
-import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
-import retrofit2.dsl.enqueue
 
 class GeoMapsFragment : SupportMapFragment() {
 
@@ -72,38 +70,37 @@ class GeoMapsFragment : SupportMapFragment() {
 
     private fun showGeoJson() {
 
-        val placeService = FfcCentral().service<PlaceService>()
-        placeService.listHouseGeoJson(familyFolderActivity.org!!.id).enqueue {
-
-            onSuccess {
-                val coordinates = (body()!!.features[0].geometry as Point).coordinates
+        placeGeoJson(familyFolderActivity.org!!).all {
+            onFound {
+                val coordinates = (it.features[0].geometry as Point).coordinates
                 map.animateCameraTo(coordinates.latitude, coordinates.longitude, 13.0f)
-                with(GeoJsonLayer(map, JSONObject(body()!!.toJson()))) {
-                    features.forEach {
-                        it.pointStyle = GeoJsonPointStyle().apply {
-                            icon = if (it.getProperty("haveChronic") == "true")
-                                chronicHomeIcon else homeIcon
-                            title = "บ้านเลขที่ ${it.getProperty("no")}"
-                            snippet = it.getProperty("coordinates")?.trimMargin()
-                        }
-                    }
-                    setOnFeatureClickListener {
-                        startActivityForResult<HouseActivity>(REQ_ADD_LOCATION, "houseId" to it.getProperty("id"))
-                    }
-                    addLayerToMap()
-                }
+                addGeoJsonLayer(GeoJsonLayer(map, JSONObject(it.toJson())))
             }
-            onError {
-                toast("Not success get geoJson ${code()} ")
+            onFail {
                 dev {
                     map.animateCameraTo(13.0, 102.1, 12.0f)
-                    GeoJsonLayer(map, R.raw.place, context)
+                    addGeoJsonLayer(GeoJsonLayer(map, R.raw.place, context))
                 }
-            }
-
-            onFailure {
                 toast("${it.message}")
             }
+        }
+    }
+
+    fun addGeoJsonLayer(layer: GeoJsonLayer) {
+        with(layer) {
+            features.forEach {
+                it.pointStyle = GeoJsonPointStyle().apply {
+                    icon = if (it.getProperty("haveChronic") == "true")
+                        chronicHomeIcon else homeIcon
+                    title = "บ้านเลขที่ ${it.getProperty("no")}"
+                    snippet = it.getProperty("coordinates")?.trimMargin()
+                }
+            }
+            setOnFeatureClickListener {
+                val intent = intentFor<HouseActivity>("houseId" to it.getProperty("id"))
+                startActivityForResult(intent, REQ_ADD_LOCATION, activity!!.sceneTransition())
+            }
+            addLayerToMap()
         }
     }
 

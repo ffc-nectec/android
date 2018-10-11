@@ -24,6 +24,7 @@ import android.view.Gravity
 import android.widget.ImageView
 import ffc.android.allowTransitionOverlap
 import ffc.android.enter
+import ffc.android.excludeSystemView
 import ffc.android.exit
 import ffc.android.setTransition
 import ffc.app.FamilyFolderActivity
@@ -46,7 +47,8 @@ class HouseActivity : FamilyFolderActivity() {
         setContentView(R.layout.activity_house)
 
         setTransition {
-            exitTransition = Slide(Gravity.START).exit()
+            enterTransition = Slide(Gravity.BOTTOM).enter().excludeSystemView()
+            exitTransition = Slide(Gravity.BOTTOM).exit()
             reenterTransition = Slide(Gravity.START).enter()
             allowTransitionOverlap = false
         }
