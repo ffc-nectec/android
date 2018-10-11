@@ -20,7 +20,6 @@ package ffc.app.location
 import ffc.entity.House
 import ffc.entity.Place
 import me.piruin.geok.geometry.FeatureCollection
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -48,5 +47,5 @@ interface PlaceService {
         @Path("orgId") orgId: String,
         @Body place: Place,
         @Path("houseId") houseId: String = place.id
-    ): Call<ResponseBody>
+    ): Call<House>
 }
