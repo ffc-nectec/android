@@ -86,7 +86,9 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+        android:transitionGroup="true"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+        tools:ignore="UnusedAttribute">
 
         <com.santalu.emptyview.EmptyView
             android:id="@+id/emptyView"
@@ -100,11 +102,7 @@
             app:ev_empty_drawable="@drawable/ic_home_black_24px"
             app:ev_empty_title="@string/resident_not_found"
             app:ev_loading_title="กำลังดึงข้อมูล..."
-            app:ev_loading_type="circular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:ev_loading_type="circular">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleView"
