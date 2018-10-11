@@ -19,12 +19,19 @@ package ffc.app.location
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.transition.Slide
+import android.view.Gravity
 import android.widget.ImageView
+import ffc.android.allowTransitionOverlap
+import ffc.android.enter
+import ffc.android.exit
+import ffc.android.setTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
 import ffc.entity.House
+import kotlinx.android.synthetic.main.activity_house.appbar
 import kotlinx.android.synthetic.main.activity_house.emptyView
 import kotlinx.android.synthetic.main.activity_house.recycleView
 import org.jetbrains.anko.find
@@ -38,7 +45,14 @@ class HouseActivity : FamilyFolderActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_house)
 
+        setTransition {
+            exitTransition = Slide(Gravity.START).exit()
+            reenterTransition = Slide(Gravity.START).enter()
+            allowTransitionOverlap = false
+        }
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "บ้านเลขที่ ?"
 
         emptyView.loading().show()
 
@@ -47,6 +61,8 @@ class HouseActivity : FamilyFolderActivity() {
             adapter = PersonAdapter(listOf()) {
                 onItemClick {
                     startPersonActivityOf(it,
+                        appbar to getString(R.string.transition_appbar),
+                        itemView to getString(R.string.transition_card),
                         itemView.find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile)
                     )
                 }

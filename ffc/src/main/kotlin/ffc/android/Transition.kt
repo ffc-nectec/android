@@ -110,18 +110,22 @@ fun Transition.shareElement(
 
 fun Transition.enter(
     time: Long = enterDuration,
+    delay: Long = 0,
     easing: Interpolator = enterEasing
 ): Transition {
     duration = time
+    startDelay = delay
     interpolator = easing
     return this
 }
 
 fun Transition.exit(
     time: Long = exitDuration,
+    delay: Long = 0,
     easing: Interpolator = exitEasing
 ): Transition {
     duration = time
+    startDelay = delay
     interpolator = easing
     return this
 }
