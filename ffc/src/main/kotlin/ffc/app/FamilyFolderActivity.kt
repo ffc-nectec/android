@@ -18,6 +18,7 @@
 package ffc.app
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -33,6 +34,7 @@ import ffc.app.auth.auth
 import ffc.entity.Organization
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 @SuppressLint("Registered")
 open class FamilyFolderActivity : AppCompatActivity() {
@@ -64,6 +66,10 @@ open class FamilyFolderActivity : AppCompatActivity() {
 
     fun onToolbarClick(block: (Toolbar) -> Unit) {
         findViewById<Toolbar>(R.id.toolbar).onClick(block)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

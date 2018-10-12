@@ -125,6 +125,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "th.or.nectec.android:marlo:0.5.3"
     implementation "th.or.nectec.android:thai-widget:0.6.2"
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.amshove.kluent:kluent:1.41'

@@ -31,4 +31,5 @@
     <dimen name="content_start_horizontal_padding">56dp</dimen>
 
     <dimen name="banner_height">248dp</dimen>
+    <dimen name="text_appbar_title">18sp</dimen>
 </resources>
