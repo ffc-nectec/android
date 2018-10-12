@@ -29,12 +29,18 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="android.app.searchable"
             android:resource="@xml/searchable" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/accent" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -49,6 +55,26 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <receiver
+            android:name=".ConnectivityChangeReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="ffc.app.util.messaging.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name="ffc.app.util.messaging.InstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".MainActivity"
@@ -71,6 +97,7 @@
         <activity
             android:name=".location.MarkLocationActivity"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+
         <activity
             android:name=".location.HouseNoLocationActivtiy"
             android:label="เลือกบ้านไม่มีพิกัด"
@@ -78,32 +105,10 @@
 
         <activity
             android:name=".location.HouseActivity"
+            android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"
-            android:parentActivityName=".MainActivity" />
-
-        <receiver
-            android:name=".ConnectivityChangeReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name="ffc.app.util.messaging.MessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name="ffc.app.util.messaging.InstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/accent" />
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
 
         <activity
             android:name=".healthservice.HomeVisitActivity"
@@ -142,6 +147,6 @@
         <activity android:name=".photo.TakePhotoActivity" />
 
         <activity android:name=".photo.PhotoActivity" />
-    </application>
 
+    </application>
 </manifest>

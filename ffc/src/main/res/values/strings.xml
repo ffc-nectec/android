@@ -71,4 +71,6 @@
     <string name="photo_take">ถ่ายภาพ</string>
     <string name="transition_person_profile">person_profile_transition</string>
     <string name="transition_card">transition_card</string>
+    <string name="delete_photo">ลบภาพ</string>
+    <string name="resident">ผู้อยู่อาศัยในบ้าน</string>
 </resources>

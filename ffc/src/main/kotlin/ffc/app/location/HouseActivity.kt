@@ -17,26 +17,41 @@
 
 package ffc.app.location
 
+import android.app.Activity
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.transition.Slide
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import ffc.android.allowTransitionOverlap
 import ffc.android.enter
 import ffc.android.excludeSystemView
 import ffc.android.exit
+import ffc.android.load
 import ffc.android.setTransition
 import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.dev
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
+import ffc.app.photo.PhotoType
+import ffc.app.photo.REQUEST_TAKE_PHOTO
+import ffc.app.photo.startTakePhotoActivity
+import ffc.app.photo.urls
 import ffc.entity.House
+import ffc.entity.update
+import ffc.entity.util.URLs
+import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_house.appbar
 import kotlinx.android.synthetic.main.activity_house.emptyView
 import kotlinx.android.synthetic.main.activity_house.recycleView
+import kotlinx.android.synthetic.main.activity_house.toolbarImage
 import org.jetbrains.anko.find
 
 class HouseActivity : FamilyFolderActivity() {
@@ -55,6 +70,10 @@ class HouseActivity : FamilyFolderActivity() {
             exitTransition = Slide(Gravity.START).exit()
             reenterTransition = Slide(Gravity.START).enter()
             allowTransitionOverlap = false
+        }
+
+        dev {
+            intent.putExtra("houseId", generateTempId())
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -98,6 +117,34 @@ class HouseActivity : FamilyFolderActivity() {
             }
             onFail {
                 emptyView.error(it).show()
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.house_activity, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.photoMenu -> startTakePhotoActivity(PhotoType.PLACE)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TAKE_PHOTO -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    house.update {
+                        imagesUrl = data!!.urls!!.mapTo(URLs()) { it }
+                    }.editor(org!!).commit {
+                        onComplete { toolbarImage.load(Uri.parse(it.avatarUrl)) }
+                        onFail { toast(it) }
+                    }
+                }
             }
         }
     }
