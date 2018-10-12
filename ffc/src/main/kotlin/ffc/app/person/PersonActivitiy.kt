@@ -18,6 +18,7 @@
 package ffc.app.person
 
 import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.transition.Slide
@@ -36,12 +37,19 @@ import ffc.app.healthservice.HealthCareServicesFragment
 import ffc.app.healthservice.HomeVisitActivity
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
+import ffc.app.photo.PhotoType
+import ffc.app.photo.REQUEST_TAKE_PHOTO
+import ffc.app.photo.startAvatarPhotoActivity
 import ffc.entity.Person
+import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_person.ageView
 import kotlinx.android.synthetic.main.activity_person.avatarView
 import kotlinx.android.synthetic.main.activity_person.homeAsUp
 import kotlinx.android.synthetic.main.activity_person.nameView
 import kotlinx.android.synthetic.main.activity_person.visitButton
+import me.piruin.phototaker.PhotoSize
+import me.piruin.phototaker.PhotoTaker
+import me.piruin.phototaker.PhotoTakerListener
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
@@ -50,6 +58,7 @@ import org.jetbrains.anko.toast
 class PersonActivitiy : FamilyFolderActivity() {
 
     val personId get() = intent.personId!!
+    lateinit var person: Person
     val startFromActivity get() = intent.getStringExtra("starter")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,11 +102,13 @@ class PersonActivitiy : FamilyFolderActivity() {
     }
 
     private fun bind(person: Person) {
+        this.person = person
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
-            avatarUrl?.let {
-                avatarView.load(Uri.parse(it))
+            avatarUrl?.let { url -> avatarView.load(Uri.parse(url)) }
+            avatarView.onClick {
+                startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl)
             }
         }
 
@@ -108,6 +119,20 @@ class PersonActivitiy : FamilyFolderActivity() {
                 startActivity<HouseActivity>("houseId" to person.houseId)
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 finish()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TAKE_PHOTO -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val uri = data!!.data!!
+                    avatarView.load(uri)
+                    person.update { avatarUrl = uri.toString() }
+                    //TODO put to api
+                }
             }
         }
     }

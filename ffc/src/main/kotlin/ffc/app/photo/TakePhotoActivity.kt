@@ -26,9 +26,16 @@ import org.jetbrains.anko.toast
 
 class TakePhotoActivity : FamilyFolderActivity() {
 
-    val reqPhotoCode = 1928
+    private val reqPhotoCode = 1928
 
-    var photoList = mutableListOf<Photo>()
+    private var photoList = mutableListOf<Photo>()
+    private var targetImageUri: Uri? = null
+
+    private val storage: PhotoStorage
+        get() = org!!.photoStorageFor(intent.photoType)
+
+    private val RecyclerView.takePhotoAdapter: TakePhotoAdapter
+        get() = adapter as TakePhotoAdapter
 
     private val maxPhotoSize = 2
 
@@ -116,8 +123,6 @@ class TakePhotoActivity : FamilyFolderActivity() {
         }
     }
 
-    private var targetImageUri: Uri? = null
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == reqPhotoCode) {
@@ -135,12 +140,6 @@ class TakePhotoActivity : FamilyFolderActivity() {
             }
         }
     }
-
-    private val storage: PhotoStorage
-        get() = org!!.photoStorageFor(intent.photoType)
-
-    private val RecyclerView.takePhotoAdapter: TakePhotoAdapter
-        get() = adapter as TakePhotoAdapter
 
     private fun removeImage(photo: Photo) {
         when (photo) {
