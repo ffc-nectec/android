@@ -22,6 +22,7 @@ import ffc.api.FfcCentral
 import ffc.entity.Lookup
 import me.piruin.spinney.Spinney
 import okhttp3.Cache
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 class FamilyFolderApplication : Application() {
 
@@ -32,6 +33,11 @@ class FamilyFolderApplication : Application() {
             if (item is Lookup) item.name else item.toString()
         }
 
+        CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
+            .setDefaultFontPath("fonts/Kanit-Light.ttf")
+            .setFontAttrId(R.attr.fontPath)
+            .build()
+        )
         FfcCentral.cache = Cache(cacheDir, 10 * 1024 * 1024) //10 MB
     }
 }

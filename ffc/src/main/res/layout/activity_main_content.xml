@@ -45,11 +45,12 @@
 
                 <TextView
                     android:id="@+id/searchButton"
-                    style="@style/TextAppearance.AppCompat.Caption"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableTint="@color/text_secondary"
+                    android:textSize="@dimen/text_appbar_title"
+                    android:textColor="@color/text_hint"
                     android:gravity="center_vertical"
                     android:text="@string/search_hint"
                     tools:ignore="UnusedAttribute" />
