@@ -144,9 +144,13 @@
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
 
-        <activity android:name=".photo.TakePhotoActivity" />
+        <activity
+            android:name=".photo.TakePhotoActivity"
+            android:label="@string/photo" />
 
-        <activity android:name=".photo.PhotoActivity" />
+        <activity
+            android:name=".photo.PhotoActivity"
+            android:theme="@style/AppTheme.Gallery" />
 
     </application>
 </manifest>

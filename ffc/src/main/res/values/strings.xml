@@ -73,4 +73,5 @@
     <string name="transition_card">transition_card</string>
     <string name="delete_photo">ลบภาพ</string>
     <string name="resident">ผู้อยู่อาศัยในบ้าน</string>
+    <string name="photo">รูปภาพ</string>
 </resources>

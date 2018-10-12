@@ -5,20 +5,20 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
+import ffc.android.SpacesItemDecoration
 import ffc.android.load
-import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import kotlinx.android.synthetic.main.activity_photo_take.photos
-import kotlinx.android.synthetic.main.activity_photo_take.saveButton
-import kotlinx.android.synthetic.main.activity_photo_take.takePhoto
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.support.v4.intentFor
@@ -35,6 +35,7 @@ class TakePhotoActivity : FamilyFolderActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_take)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         intent.urls?.forEach {
             photoList.add(UrlPhoto(it))
@@ -45,8 +46,9 @@ class TakePhotoActivity : FamilyFolderActivity() {
 
         with(photos) {
             setItemViewCacheSize(2)
-            addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
+            addItemDecoration(SpacesItemDecoration(dip(16)))
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, true)
+
             adapter = TakePhotoAdapter(photoList) {
                 onViewClick { view, photo ->
                     when (view.id) {
@@ -56,21 +58,31 @@ class TakePhotoActivity : FamilyFolderActivity() {
                 }
             }
         }
-        takePhoto.onClick {
-            targetImageUri = takePhoto(reqPhotoCode)
-        }
+    }
 
-        saveButton.onClick { _ ->
-            val dialog = indeterminateProgressDialog("บันทึกภาพถ่าย").apply { show() }
-            photoList.upload {
-                dialog.dismiss()
-                val intent = Intent().apply {
-                    urls = it
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.house_activity, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                val dialog = indeterminateProgressDialog("บันทึกภาพถ่าย").apply { show() }
+                photoList.upload {
+                    dialog.dismiss()
+                    val intent = Intent().apply {
+                        urls = it
+                    }
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
                 }
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+            }
+            R.id.photoMenu -> {
+                targetImageUri = takePhoto(reqPhotoCode)
             }
         }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun MutableList<Photo>.upload(function: (List<String>) -> Unit) {
@@ -173,7 +185,7 @@ var Intent.urls: List<String>?
         putExtra("urls", value!!.toTypedArray())
     }
 
-var Intent.photoType: PhotoType
+internal var Intent.photoType: PhotoType
     get() = when (getStringExtra("folder")) {
         PhotoType.SERVICE.folder -> PhotoType.SERVICE
         PhotoType.PERSON.folder -> PhotoType.PERSON
