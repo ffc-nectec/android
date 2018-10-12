@@ -21,10 +21,7 @@ class PhotoActivity : FamilyFolderActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val uri = intent.data
-        when (uri.scheme) {
-            "http", "https" -> photo.load(uri)
-            else -> photo.setImageURI(uri)
-        }
+        photo.load(uri)
     }
 
     override fun onSupportNavigateUp(): Boolean {

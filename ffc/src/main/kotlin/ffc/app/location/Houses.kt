@@ -68,7 +68,6 @@ private class ApiHouseManipulator(val org: Organization, val house: House) : Hou
 private class DummyHouses(val house: House? = null) : Houses, HouseManipulator {
 
     override fun commit(callbackDsl: TaskCallback<House>.() -> Unit) {
-        house!!.update {}
         val callback = TaskCallback<House>().apply(callbackDsl)
         callback.result(house!!)
     }
