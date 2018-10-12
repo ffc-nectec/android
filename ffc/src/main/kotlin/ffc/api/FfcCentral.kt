@@ -28,9 +28,7 @@ var url_ploy = "https://ffc-test.herokuapp.com/v0/"
 var url_max = "https://ffc-nectec.herokuapp.com/v0/"
 var url_old = "https://ffc-api-test.herokuapp.com/v0/"
 
-class FfcCentral(url: String = url_old) {
-
-    val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
+class FfcCentral(val url: String = url_old) {
 
     inline fun <reified T> service(): T {
         val httpBuilder = OkHttpClient.Builder().apply {
@@ -42,7 +40,7 @@ class FfcCentral(url: String = url_old) {
             token?.let { addInterceptor(AuthTokenInterceptor(it)) }
         }
 
-        return retrofitBuilder
+        return Retrofit.Builder().baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create(ffcGson))
             .client(httpBuilder.build())
             .build()
