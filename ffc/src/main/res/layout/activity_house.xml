@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/banner_height"
             app:contentScrim="@color/colorPrimary"
-            app:expandedTitleMargin="16dp"
+            app:expandedTitleMarginStart="24dp"
+            app:expandedTitleMarginBottom="16dp"
             app:expandedTitleTextAppearance="?android:attr/textAppearanceLarge"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
@@ -67,13 +68,24 @@
                 android:padding="8dp"
                 app:layout_collapseMode="pin" />
 
+            <ImageButton
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="end|top"
+                android:layout_marginEnd="7dp"
+                android:layout_marginTop="34dp"
+                android:background="@drawable/white_circle"
+                android:minWidth="?android:actionBarSize"
+                android:padding="8dp"
+                app:layout_collapseMode="pin" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
                 android:layout_marginTop="24dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:contentInsetStart="16dp"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:titleTextColor="@color/primaryDark" />
@@ -110,14 +122,27 @@
                 app:ev_loading_title="กำลังดึงข้อมูล..."
                 app:ev_loading_type="circular">
 
+                <TextView
+                    android:id="@+id/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="16dp"
+                    android:text="@string/resident"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycleView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/label"
                     tools:listitem="@layout/person_list_item" />
             </com.santalu.emptyview.EmptyView>
         </LinearLayout>
-
 
     </android.support.v4.widget.NestedScrollView>
 
