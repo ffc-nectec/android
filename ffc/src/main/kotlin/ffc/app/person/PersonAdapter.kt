@@ -19,6 +19,7 @@ package ffc.app.person
 
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import ffc.android.layoutInflater
@@ -32,7 +33,7 @@ import kotlinx.android.synthetic.main.person_list_item.view.personNameView
 
 class PersonAdapter(
     var persons: List<Person>,
-    val onClickDsl: AdapterClickListener<Person>.() -> Unit
+    onClickDsl: AdapterClickListener<Person>.() -> Unit
 ) : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
 
     val listener = AdapterClickListener<Person>().apply(onClickDsl)
@@ -42,14 +43,19 @@ class PersonAdapter(
         return PersonHolder(view)
     }
 
-    override fun getItemCount() = persons.size
+    override fun getItemCount(): Int {
+        Log.d("adapter", "person size ${persons.size}")
+        return persons.size
+    }
 
     override fun onBindViewHolder(holder: PersonHolder, position: Int) {
         holder.bind(persons[position], listener)
+        Log.d("adapter", "bind person $position")
     }
 
-    fun update(persons: List<Person>) {
-        this.persons = persons
+    fun update(update: List<Person>) {
+        this.persons = update
+
         notifyDataSetChanged()
     }
 

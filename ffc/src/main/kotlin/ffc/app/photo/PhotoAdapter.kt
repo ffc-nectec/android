@@ -37,7 +37,7 @@ internal class PhotoAdapter(
 
         fun bind(uri: Uri) {
             image.load(uri)
-            image.onClick { listener.onViewClick?.invoke(it, uri) }
+            image.onClick { listener.onViewClick?.invoke(itemView, it, uri) }
         }
     }
 }
