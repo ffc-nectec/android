@@ -81,7 +81,7 @@ class SearchResultActivity : FamilyFolderActivity() {
         searchResultView.adapter = PersonAdapter(persons) {
             onItemClick { p ->
                 startPersonActivityOf(p,
-                    itemView.find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile))
+                    find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile))
             }
         }
     }

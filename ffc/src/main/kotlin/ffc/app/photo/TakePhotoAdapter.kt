@@ -42,10 +42,10 @@ internal class TakePhotoAdapter(
         fun bind(photo: TakePhotoActivity.Photo) {
             with(itemView) {
                 photo.showOn(image)
-                onClick { listener.onItemClick?.invoke(photo) }
-                onLongClick { listener.onItemLongClick?.invoke(photo) ?: false }
-                image.onClick { listener.onViewClick?.invoke(it, photo) }
-                delBtn.onClick { listener.onViewClick?.invoke(it, photo) }
+                onClick { listener.onItemClick?.invoke(itemView, photo) }
+                onLongClick { listener.onItemLongClick?.invoke(itemView, photo) ?: false }
+                image.onClick { listener.onViewClick?.invoke(itemView, it, photo) }
+                delBtn.onClick { listener.onViewClick?.invoke(itemView, it, photo) }
             }
         }
     }

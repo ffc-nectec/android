@@ -96,7 +96,9 @@ class HealthCareServiceAdapter(
 
     override fun onBindViewHolder(holder: ServiceViewHolder, position: Int) {
         holder.bind(services[position])
-        holder.itemView.onClick { listener.onItemClick!!.invoke(services[position]) }
+        holder.itemView.onClick {
+            listener.onItemClick!!.invoke(holder.itemView, services[position])
+        }
     }
 }
 

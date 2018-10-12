@@ -21,10 +21,10 @@ import android.view.View
 import ffc.android.onClick
 import ffc.android.onLongClick
 
-typealias OnItemClick<T> = (T) -> Unit
-typealias OnItemLongClick<T> = (T) -> Boolean
-typealias OnViewClick<T> = (View, T) -> Unit
-typealias OnViewLongClick<T> = (View, T) -> Boolean
+typealias OnItemClick<T> = View.(T) -> Unit
+typealias OnItemLongClick<T> = View.(T) -> Boolean
+typealias OnViewClick<T> = View.(View, T) -> Unit
+typealias OnViewLongClick<T> = View.(View, T) -> Boolean
 
 class AdapterClickListener<T> {
 
@@ -36,8 +36,6 @@ class AdapterClickListener<T> {
         private set
     var onViewLongClick: OnViewLongClick<T>? = null
         private set
-
-    lateinit var itemView: View
 
     fun onItemClick(block: OnItemClick<T>) {
         onItemClick = block
@@ -56,8 +54,7 @@ class AdapterClickListener<T> {
     }
 
     internal fun bindOnItemClick(itemView: View, data: T) {
-        this.itemView = itemView
-        onItemClick?.let { itemView.onClick { _ -> it.invoke(data) } }
-        onItemLongClick?.let { itemView.onLongClick { _ -> it.invoke(data) } }
+        onItemClick?.let { itemView.onClick { _ -> it.invoke(itemView, data) } }
+        onItemLongClick?.let { itemView.onLongClick { _ -> it.invoke(itemView, data) } }
     }
 }
