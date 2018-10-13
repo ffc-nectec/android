@@ -28,6 +28,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
 import ffc.android.drawable
 import ffc.android.getString
 import ffc.android.gone
@@ -36,6 +37,7 @@ import ffc.android.visible
 import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
+import ffc.app.photo.asymmetric.bind
 import ffc.app.photo.bindPhotoUrl
 import ffc.app.util.AdapterClickListener
 import ffc.app.util.timeago.toTimeAgo
@@ -109,7 +111,7 @@ class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val date = view.find<TextView>(R.id.serviceDateView)
     val dx = view.find<TextView>(R.id.serviceDxView)
     val caption = view.find<TextView>(R.id.captionView)
-    val photos = view.find<RecyclerView>(R.id.photos)
+    val photos = view.find<AsymmetricRecyclerView>(R.id.photos)
 
     fun bind(services: HealthCareService) {
         with(services) {
@@ -120,7 +122,7 @@ class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     title.text = getString(R.string.home_visit)
                     icon.setImageDrawable(itemView.context.drawable(R.drawable.ic_home_visit_color_24dp))
                     caption.text = (this as HomeVisit).serviceType.name
-                    photos.bindPhotoUrl(itemView.context as Activity, photosUrl)
+                    photos.bind(photosUrl)
                 }
             }
         }
