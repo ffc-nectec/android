@@ -108,7 +108,7 @@ class PersonActivitiy : FamilyFolderActivity() {
             age?.let { ageView.text = "อายุ $it ปี" }
             avatarUrl?.let { url -> avatarView.load(Uri.parse(url)) }
             avatarView.onClick {
-                startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl)
+                startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl, it)
             }
         }
 
