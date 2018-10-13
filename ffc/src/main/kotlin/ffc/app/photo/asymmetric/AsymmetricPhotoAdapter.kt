@@ -1,8 +1,6 @@
 package ffc.app.photo.asymmetric
 
 import android.app.Activity
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -16,20 +14,18 @@ import com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
 import com.felipecsl.asymmetricgridview.AsymmetricRecyclerViewAdapter
 import ffc.android.SpacesItemDecoration
 import ffc.android.load
-import ffc.android.onClick
-import ffc.android.onLongClick
 import ffc.android.sceneTransition
 import ffc.app.R
-import ffc.app.photo.asymmetric.item.PairImageMapper
-import ffc.app.photo.asymmetric.item.SingleImageMapper
-import ffc.app.photo.asymmetric.item.TrippleImageMapper
-import ffc.app.photo.asymmetric.item.itemMapperFor
+import ffc.app.photo.asymmetric.item.imageItemPresenterFor
 import ffc.app.photo.viewPhoto
 import ffc.app.util.AdapterClickListener
 import org.jetbrains.anko.dip
 
+/**
+ * Modified from ChildAdapter at abhisheklunagaria/FacebookTypeImageGrid
+ */
 internal class AsymmetricPhotoAdapter(
-    private val items: List<ItemImage>,
+    private val items: List<ImageItem>,
     private val onPhotoClickDsl: AdapterClickListener<Uri>.() -> Unit = {}
 ) : AGVRecyclerViewAdapter<ViewHolder>() {
 
@@ -60,8 +56,8 @@ internal class ViewHolder(view: View, val listener: AdapterClickListener<Uri>) :
     private val imageView: ImageView = itemView.findViewById(R.id.mImageView)
     private val textView: TextView = itemView.findViewById(R.id.tvCount)
 
-    fun bind(item: List<ItemImage>, position: Int, mDisplay: Int, mTotal: Int) {
-        val uri = Uri.parse(item.get(position).imagePath)
+    fun bind(item: List<ImageItem>, position: Int, mDisplay: Int, mTotal: Int) {
+        val uri = Uri.parse(item.get(position).urls)
         imageView.load(uri)
         textView.text = "+" + (mTotal - mDisplay)
         if (mTotal > mDisplay) {
@@ -81,7 +77,7 @@ internal class ViewHolder(view: View, val listener: AdapterClickListener<Uri>) :
 }
 
 fun AsymmetricRecyclerView.bind(urls: List<String>) {
-    val mapper = itemMapperFor(urls)
+    val mapper = imageItemPresenterFor(urls)
     setRequestedColumnCount(mapper.requestColumns)
     setDebugging(true)
     requestedHorizontalSpacing = dip(3)
