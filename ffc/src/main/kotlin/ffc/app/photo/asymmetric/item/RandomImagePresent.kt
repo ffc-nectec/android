@@ -1,13 +1,16 @@
 package ffc.app.photo.asymmetric.item
 
-import ffc.app.photo.asymmetric.ItemImage
+import ffc.app.photo.asymmetric.ImageItem
 
-internal class RandomImageMapper(val urls: List<String>) : ItemMapper {
+/**
+ * Modified from MainActivity.java at abhisheklunagaria/FacebookTypeImageGrid
+ */
+internal class RandomImagePresent(val urls: List<String>) : ImagePresent {
 
-    private var _item = listOf<ItemImage>()
+    private var _item = listOf<ImageItem>()
     private var isCol2Avail = false
 
-    override val item: List<ItemImage>
+    override val item: List<ImageItem>
         get() = _item
 
     override val requestColumns: Int
@@ -17,8 +20,8 @@ internal class RandomImageMapper(val urls: List<String>) : ItemMapper {
         _item = urls.map { parse(it) }
     }
 
-    fun parse(urls: String): ItemImage {
-        val i1 = ItemImage(1, urls, urls)
+    fun parse(urls: String): ImageItem {
+        val i1 = ImageItem( urls)
         var colSpan = if (Math.random() < 0.2f) 2 else 1
         val rowSpan = colSpan
         if (colSpan == 2 && !isCol2Avail)
