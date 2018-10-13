@@ -90,4 +90,3 @@ fun AsymmetricRecyclerView.bind(urls: List<String>) {
     }
     adapter = AsymmetricRecyclerViewAdapter(context, this, itemAdapter)
 }
-

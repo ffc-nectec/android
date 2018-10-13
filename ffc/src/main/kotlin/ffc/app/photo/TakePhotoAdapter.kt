@@ -37,7 +37,10 @@ internal class TakePhotoAdapter(
         holder.bind(photoUrl[position])
     }
 
-    internal class TakePhotoHolder(view: View, private val listener: AdapterClickListener<TakePhotoActivity.Photo>) : RecyclerView.ViewHolder(view) {
+    internal class TakePhotoHolder(
+        view: View,
+        private val listener: AdapterClickListener<TakePhotoActivity.Photo>
+    ) : RecyclerView.ViewHolder(view) {
 
         fun bind(photo: TakePhotoActivity.Photo) {
             with(itemView) {

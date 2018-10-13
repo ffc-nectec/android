@@ -47,9 +47,6 @@ import kotlinx.android.synthetic.main.activity_person.avatarView
 import kotlinx.android.synthetic.main.activity_person.homeAsUp
 import kotlinx.android.synthetic.main.activity_person.nameView
 import kotlinx.android.synthetic.main.activity_person.visitButton
-import me.piruin.phototaker.PhotoSize
-import me.piruin.phototaker.PhotoTaker
-import me.piruin.phototaker.PhotoTakerListener
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
