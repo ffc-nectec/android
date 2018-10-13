@@ -5,16 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleView"
+    <com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
+        android:id="@+id/asymmetricRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_photo" />
+        android:background="#ffffff"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="3dp"
+        android:fadingEdge="none"
+        android:focusable="false"
+        android:gravity="center"
+        android:listSelector="#00000000" />
 
     <Button
         android:id="@+id/takePhoto"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_photo_camera_black_24dp"
+        android:drawablePadding="8dp"
         android:text="@string/photo_take" />
 
 </LinearLayout>

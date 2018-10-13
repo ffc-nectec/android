@@ -100,7 +100,7 @@
                 android:layout_marginTop="4dp" />
 
             <TextView
-                android:drawableStart="@drawable/ic_photo_camera_black_24dp"
+                android:drawableStart="@drawable/ic_photo_library_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
