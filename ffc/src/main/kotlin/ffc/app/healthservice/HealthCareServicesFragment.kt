@@ -17,7 +17,6 @@
 
 package ffc.app.healthservice
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -38,7 +37,6 @@ import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
 import ffc.app.photo.asymmetric.bind
-import ffc.app.photo.bindPhotoUrl
 import ffc.app.util.AdapterClickListener
 import ffc.app.util.timeago.toTimeAgo
 import ffc.entity.healthcare.HealthCareService

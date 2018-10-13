@@ -9,7 +9,6 @@ import ffc.app.util.TaskCallback
 import ffc.entity.House
 import ffc.entity.Organization
 import ffc.entity.Person
-import ffc.entity.update
 import me.piruin.geok.geometry.Point
 import retrofit2.dsl.enqueue
 
