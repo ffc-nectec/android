@@ -57,4 +57,11 @@ class AdapterClickListener<T> {
         onItemClick?.let { itemView.onClick { _ -> it.invoke(itemView, data) } }
         onItemLongClick?.let { itemView.onLongClick { _ -> it.invoke(itemView, data) } }
     }
+
+    internal fun bindOnViewClick(itemView: View, data: T, vararg views: View) {
+        views.forEach { view ->
+            onViewClick?.let { view.onClick { _ -> it.invoke(itemView, view, data) } }
+            onViewLongClick?.let { view.onLongClick { _ -> it.invoke(itemView, view, data) } }
+        }
+    }
 }
