@@ -28,9 +28,11 @@ import ffc.app.dev
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
 import ffc.entity.Person
+import kotlinx.android.synthetic.main.activity_search_result.emptyView
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
+import java.lang.IllegalArgumentException
 
 class SearchResultActivity : FamilyFolderActivity() {
 
@@ -68,11 +70,23 @@ class SearchResultActivity : FamilyFolderActivity() {
         val query = intent.query
         if (Intent.ACTION_SEARCH == intent.action && intent.query != null) {
             supportActionBar!!.title = query
+            emptyView.showLoading()
             personSearcher(org!!.id).search(query!!) {
-                onFound { bindAdapter(persons = it) }
-                onNotFound { bindAdapter(listOf()) }
-                onFail { toast("${it.message}") }
+                onFound {
+                    bindAdapter(persons = it)
+                    emptyView.showContent()
+                }
+                onNotFound {
+                    bindAdapter(listOf())
+                    emptyView.empty().setEmptyText("\"$query\"").show()
+                }
+                onFail {
+                    toast("${it.message}")
+                    emptyView.error(it).show()
+                }
             }
+        } else {
+            emptyView.error(IllegalArgumentException("ไม่มีคำค้นหา")).show()
         }
     }
 

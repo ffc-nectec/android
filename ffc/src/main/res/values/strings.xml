@@ -75,4 +75,6 @@
     <string name="resident">ผู้อยู่อาศัยในบ้าน</string>
     <string name="photo">รูปภาพ</string>
     <string name="photo_choose">เลือกภาพ</string>
+    <string name="search_not_found">ไม่พบข้อมูลที่เกี่ยวข้อง</string>
+    <string name="searching">กำลังค้นหา…</string>
 </resources>
