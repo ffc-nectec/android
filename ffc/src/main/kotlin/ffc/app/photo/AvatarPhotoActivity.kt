@@ -6,10 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
+import android.view.View
 import com.sembozdemir.permissionskt.askPermissions
 import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.load
 import ffc.android.onClick
+import ffc.android.sceneTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import kotlinx.android.synthetic.main.activity_photo_avatar.avatarView
@@ -115,10 +117,15 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
 fun Activity.startAvatarPhotoActivity(
     type: PhotoType,
     url: String? = null,
+    avatarView: View? = null,
     requestCode: Int = REQUEST_TAKE_PHOTO
 ) {
     val intent = intentFor<AvatarPhotoActivity>()
     intent.photoType = type
     url?.let { intent.data = Uri.parse(it) }
-    startActivityForResult(intent, requestCode)
+    val bundle = if (avatarView == null)
+        sceneTransition()
+    else
+        sceneTransition(avatarView to getString(R.string.transition_photo))
+    startActivityForResult(intent, requestCode, bundle)
 }
