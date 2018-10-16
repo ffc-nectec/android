@@ -19,7 +19,7 @@ interface Houses {
 
 interface HouseManipulator {
 
-    fun commit(callbackDsl: TaskCallback<House>.() -> Unit)
+    fun update(callbackDsl: TaskCallback<House>.() -> Unit)
 }
 
 fun housesOf(org: Organization): Houses = if (isDev) DummyHouses() else ApiHouses(org)
@@ -48,7 +48,7 @@ private class ApiHouseManipulator(val org: Organization, val house: House) : Hou
 
     val api = FfcCentral().service<PlaceService>()
 
-    override fun commit(callbackDsl: TaskCallback<House>.() -> Unit) {
+    override fun update(callbackDsl: TaskCallback<House>.() -> Unit) {
         val callback = TaskCallback<House>().apply(callbackDsl)
         api.updateHouse(org.id, house).enqueue {
             onSuccess {
@@ -66,7 +66,7 @@ private class ApiHouseManipulator(val org: Organization, val house: House) : Hou
 
 private class DummyHouses(val house: House? = null) : Houses, HouseManipulator {
 
-    override fun commit(callbackDsl: TaskCallback<House>.() -> Unit) {
+    override fun update(callbackDsl: TaskCallback<House>.() -> Unit) {
         val callback = TaskCallback<House>().apply(callbackDsl)
         callback.result(house!!)
     }
@@ -95,6 +95,10 @@ internal fun House.resident(orgId: String, callbackDsl: RepoCallback<List<Person
     }
 }
 
-internal fun House.editor(org: Organization): HouseManipulator {
+fun House.manipulator(org: Organization): HouseManipulator {
     return if (isDev) DummyHouses(this) else ApiHouseManipulator(org, this)
+}
+
+internal fun House.pushTo(org: Organization, callbackDsl: TaskCallback<House>.() -> Unit) {
+    manipulator(org).update(callbackDsl)
 }

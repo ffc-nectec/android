@@ -140,7 +140,7 @@ class HouseActivity : FamilyFolderActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     house.update {
                         imagesUrl = data!!.urls!!.mapTo(URLs()) { it }
-                    }.editor(org!!).commit {
+                    }.pushTo(org!!) {
                         onComplete { toolbarImage.load(Uri.parse(it.avatarUrl)) }
                         onFail { toast(it) }
                     }

@@ -4,6 +4,8 @@ import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
 import ffc.app.isDev
 import ffc.app.util.RepoCallback
+import ffc.app.util.TaskCallback
+import ffc.entity.Organization
 import ffc.entity.Person
 import ffc.entity.ThaiCitizenId
 import org.joda.time.LocalDate
@@ -15,6 +17,11 @@ interface Persons {
     fun person(personId: String, dsl: RepoCallback<Person>.() -> Unit)
 
     fun add(person: Person, callback: (Person?, Throwable?) -> Unit)
+}
+
+interface PersonManipulator {
+
+    fun update(callbackDsl: TaskCallback<Person>.() -> Unit)
 }
 
 private class InMemoryPersons : Persons {
@@ -70,6 +77,33 @@ private class ApiPersons(val orgId: String) : Persons {
     }
 }
 
+class DummyPersonManipulator(val orgId: String, val person: Person) : PersonManipulator {
+    override fun update(callbackDsl: TaskCallback<Person>.() -> Unit) {
+        val callback = TaskCallback<Person>().apply(callbackDsl)
+        callback.result(person)
+    }
+}
+
+class ApiPersonManipulator(val orgId: String, val person: Person) : PersonManipulator {
+
+    val api = FfcCentral().service<PersonsApi>()
+
+    override fun update(callbackDsl: TaskCallback<Person>.() -> Unit) {
+        val callback = TaskCallback<Person>().apply(callbackDsl)
+        api.put(orgId, person).enqueue {
+            onSuccess {
+                callback.result(body()!!)
+            }
+            onError {
+                callback.expception!!.invoke(ApiErrorException(this))
+            }
+            onFailure {
+                callback.expception!!.invoke(it)
+            }
+        }
+    }
+}
+
 val mockPerson = Person("5b9770e029191b0004c91a56").apply {
     birthDate = LocalDate.parse("1988-02-15")
     prename = "นาย"
@@ -77,6 +111,17 @@ val mockPerson = Person("5b9770e029191b0004c91a56").apply {
     lastname = "พานิชผล"
     sex = Person.Sex.MALE
     identities.add(ThaiCitizenId("1145841548789"))
+}
+
+internal fun Person.manipulator(org: Organization): PersonManipulator {
+    return if (isDev)
+        DummyPersonManipulator(org.id, this)
+    else
+        ApiPersonManipulator(org.id, this)
+}
+
+fun Person.pushTo(org: Organization, callbackDsl: TaskCallback<Person>.() -> Unit) {
+    manipulator(org).update(callbackDsl)
 }
 
 fun persons(orgId: String): Persons = if (isDev) InMemoryPersons() else ApiPersons(orgId)
