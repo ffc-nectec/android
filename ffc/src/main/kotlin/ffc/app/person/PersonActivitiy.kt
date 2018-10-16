@@ -31,6 +31,7 @@ import ffc.android.load
 import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.android.setTransition
+import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
@@ -50,7 +51,6 @@ import kotlinx.android.synthetic.main.activity_person.visitButton
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class PersonActivitiy : FamilyFolderActivity() {
 
@@ -127,8 +127,10 @@ class PersonActivitiy : FamilyFolderActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     val uri = data!!.data!!
                     avatarView.load(uri)
-                    person.update { avatarUrl = uri.toString() }
-                    //TODO put to api
+                    person.update { avatarUrl = uri.toString() }.pushTo(org!!) {
+                        onComplete { toast("Complete") }
+                        onFail { toast(it) }
+                    }
                 }
             }
         }
