@@ -32,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_search_result.emptyView
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
-import java.lang.IllegalArgumentException
 
 class SearchResultActivity : FamilyFolderActivity() {
 
@@ -94,7 +93,7 @@ class SearchResultActivity : FamilyFolderActivity() {
         searchResultView.layoutManager = LinearLayoutManager(this)
         searchResultView.adapter = PersonAdapter(persons) {
             onItemClick { p ->
-                startPersonActivityOf(p,
+                startPersonActivityOf(p, null,
                     find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile))
             }
         }

@@ -86,7 +86,7 @@ class HouseActivity : FamilyFolderActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = PersonAdapter(listOf()) {
                 onItemClick {
-                    startPersonActivityOf(it,
+                    startPersonActivityOf(it, house,
                         appbar to getString(R.string.transition_appbar),
                         this to getString(R.string.transition_card),
                         find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile)
@@ -123,6 +123,7 @@ class HouseActivity : FamilyFolderActivity() {
         this.house = house
         collapsingToolbar!!.title = "บ้านเลขที่ ${house.no}"
         supportActionBar!!.title = "บ้านเลขที่ ${house.no}"
+        house.avatarUrl?.let { toolbarImage.load(Uri.parse(it)) }
         house.resident(org!!.id) {
             onFound {
                 (recycleView.adapter as PersonAdapter).update(it)
