@@ -98,6 +98,20 @@ class HouseActivity : FamilyFolderActivity() {
         housesOf(org!!).house(houseId) {
             onFound { bind(it) }
             onNotFound {
+                emptyView.error(Error("ไม่พบข้อมูล")).show()
+                toast(Resources.NotFoundException("Not found House"))
+                finish()
+            }
+            onFail { toast(it) }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        housesOf(org!!).house(houseId) {
+            onFound { bind(it) }
+            onNotFound {
+                emptyView.error(Error("ไม่พบข้อมูล")).show()
                 toast(Resources.NotFoundException("Not found House"))
                 finish()
             }

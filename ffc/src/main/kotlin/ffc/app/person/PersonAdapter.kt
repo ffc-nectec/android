@@ -54,9 +54,10 @@ class PersonAdapter(
     }
 
     fun update(update: List<Person>) {
-        this.persons = update
-
-        notifyDataSetChanged()
+        if (this.persons != update) {
+            this.persons = update
+            notifyDataSetChanged()
+        }
     }
 
     class PersonHolder(view: View) : RecyclerView.ViewHolder(view) {
