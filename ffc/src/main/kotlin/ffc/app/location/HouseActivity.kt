@@ -49,6 +49,7 @@ import ffc.entity.update
 import ffc.entity.util.URLs
 import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_house.appbar
+import kotlinx.android.synthetic.main.activity_house.collapsingToolbar
 import kotlinx.android.synthetic.main.activity_house.emptyView
 import kotlinx.android.synthetic.main.activity_house.recycleView
 import kotlinx.android.synthetic.main.activity_house.toolbarImage
@@ -106,7 +107,8 @@ class HouseActivity : FamilyFolderActivity() {
 
     fun bind(house: House) {
         this.house = house
-        supportActionBar?.title = "บ้านเลขที่ ${house.no}"
+        collapsingToolbar!!.title = "บ้านเลขที่ ${house.no}"
+        supportActionBar!!.title = "บ้านเลขที่ ${house.no}"
         house.resident(org!!.id) {
             onFound {
                 (recycleView.adapter as PersonAdapter).update(it)
@@ -141,7 +143,9 @@ class HouseActivity : FamilyFolderActivity() {
                     house.update {
                         imagesUrl = data!!.urls!!.mapTo(URLs()) { it }
                     }.pushTo(org!!) {
-                        onComplete { toolbarImage.load(Uri.parse(it.avatarUrl)) }
+                        onComplete {
+                            it.avatarUrl?.let { toolbarImage.load(Uri.parse(it)) }
+                        }
                         onFail { toast(it) }
                     }
                 }
