@@ -79,6 +79,7 @@
         </service>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
@@ -97,15 +98,18 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".location.MarkLocationActivity"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".location.HouseNoLocationActivtiy"
             android:label="เลือกบ้านไม่มีพิกัด"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".location.HouseActivity"
             android:exported="true"
             android:launchMode="singleTop"
@@ -113,10 +117,12 @@
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".healthservice.HomeVisitActivity"
             android:exported="true" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".search.SearchActivity"
             android:launchMode="singleTop">
             <meta-data
@@ -125,6 +131,7 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".search.SearchResultActivity"
             android:exported="true"
             android:launchMode="singleTop"
@@ -142,19 +149,23 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".person.PersonActivitiy"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".photo.TakePhotoActivity"
             android:label="@string/photo" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".photo.AvatarPhotoActivity"
             android:label="@string/photo" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".photo.PhotoActivity"
             android:theme="@style/AppTheme.Gallery" />
 
