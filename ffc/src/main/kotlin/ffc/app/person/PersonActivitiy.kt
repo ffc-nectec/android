@@ -72,6 +72,10 @@ class PersonActivitiy : FamilyFolderActivity() {
             intent.personId = mockPerson.id
         }
 
+        intent.getStringExtra("avatarUrl")?.let { url -> avatarView.load(Uri.parse(url)) }
+        intent.getStringExtra("name")?.let { nameView.text = it }
+        intent.getStringExtra("age")?.let { ageView.text = "อายุ $it ปี" }
+
         if (savedInstanceState == null) {
             val fragment = HealthCareServicesFragment()
             fragment.arguments = bundleOf("personId" to personId)
@@ -103,7 +107,6 @@ class PersonActivitiy : FamilyFolderActivity() {
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
-            avatarUrl?.let { url -> avatarView.load(Uri.parse(url)) }
             avatarView.onClick {
                 startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl, it)
             }
@@ -140,6 +143,9 @@ class PersonActivitiy : FamilyFolderActivity() {
 fun Activity.startPersonActivityOf(person: Person, vararg sharedElements: Pair<View, String>?) {
     val intent = intentFor<PersonActivitiy>(
         "personId" to person.id,
+        "avatarUrl" to person.avatarUrl,
+        "name" to person.name,
+        "age" to person.age,
         "starter" to when (this) {
             is HouseActivity -> HouseActivity::class.java.name
             else -> null
