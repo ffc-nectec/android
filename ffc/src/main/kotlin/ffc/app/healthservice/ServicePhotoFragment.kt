@@ -51,7 +51,9 @@ class ServicePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareServic
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            photoUrls = data!!.urls!!
+            with(asymmetricRecyclerView) {
+                bind(data!!.urls!!)
+            }
         }
     }
 
