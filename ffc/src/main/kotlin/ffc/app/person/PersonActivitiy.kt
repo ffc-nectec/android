@@ -41,12 +41,14 @@ import ffc.app.location.HouseActivity
 import ffc.app.photo.PhotoType
 import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startAvatarPhotoActivity
+import ffc.entity.House
 import ffc.entity.Person
 import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_person.ageView
 import kotlinx.android.synthetic.main.activity_person.avatarView
 import kotlinx.android.synthetic.main.activity_person.homeAsUp
 import kotlinx.android.synthetic.main.activity_person.nameView
+import kotlinx.android.synthetic.main.activity_person.toolbarImage
 import kotlinx.android.synthetic.main.activity_person.visitButton
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.intentFor
@@ -72,9 +74,12 @@ class PersonActivitiy : FamilyFolderActivity() {
             intent.personId = mockPerson.id
         }
 
-        intent.getStringExtra("avatarUrl")?.let { url -> avatarView.load(Uri.parse(url)) }
-        intent.getStringExtra("name")?.let { nameView.text = it }
-        intent.getStringExtra("age")?.let { ageView.text = "อายุ $it ปี" }
+        with(intent) {
+            getStringExtra("avatarUrl")?.let { url -> avatarView.load(Uri.parse(url)) }
+            getStringExtra("name")?.let { nameView.text = it }
+            getStringExtra("age")?.let { ageView.text = "อายุ $it ปี" }
+            getStringExtra("houseAvatarUrl")?.let { url -> toolbarImage.load((Uri.parse(url))) }
+        }
 
         if (savedInstanceState == null) {
             val fragment = HealthCareServicesFragment()
@@ -100,6 +105,7 @@ class PersonActivitiy : FamilyFolderActivity() {
                 finish()
             }
         }
+
     }
 
     private fun bind(person: Person) {
@@ -140,7 +146,7 @@ class PersonActivitiy : FamilyFolderActivity() {
     }
 }
 
-fun Activity.startPersonActivityOf(person: Person, vararg sharedElements: Pair<View, String>?) {
+fun Activity.startPersonActivityOf(person: Person, house: House? = null, vararg sharedElements: Pair<View, String>?) {
     val intent = intentFor<PersonActivitiy>(
         "personId" to person.id,
         "avatarUrl" to person.avatarUrl,
@@ -150,5 +156,6 @@ fun Activity.startPersonActivityOf(person: Person, vararg sharedElements: Pair<V
             is HouseActivity -> HouseActivity::class.java.name
             else -> null
         })
+    house?.avatarUrl?.let { intent.putExtra("houseAvatarUrl", it) }
     startActivity(intent, sceneTransition(*sharedElements))
 }
