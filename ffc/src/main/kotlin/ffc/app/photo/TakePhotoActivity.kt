@@ -22,7 +22,6 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.support.v4.intentFor
-import org.jetbrains.anko.toast
 
 class TakePhotoActivity : FamilyFolderActivity() {
 
@@ -52,10 +51,8 @@ class TakePhotoActivity : FamilyFolderActivity() {
         }
 
         with(photos) {
-            setItemViewCacheSize(2)
             addItemDecoration(SpacesItemDecoration(dip(16)))
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, true)
-
             adapter = TakePhotoAdapter(photoList) {
                 onViewClick { view, photo ->
                     when (view.id) {
@@ -144,12 +141,19 @@ class TakePhotoActivity : FamilyFolderActivity() {
 
     private fun removeImage(photo: Photo) {
         when (photo) {
-            is UrlPhoto -> storage.delete(Uri.parse(photo.url)) {
-                onComplete {
-                    photoList.remove(photo)
-                    photos.takePhotoAdapter.update(photoList)
+            is UrlPhoto -> {
+                val dialog = indeterminateProgressDialog("ลบภาพถ่าย").apply { show() }
+                storage.delete(Uri.parse(photo.url)) {
+                    onComplete {
+                        dialog.dismiss()
+                        photoList.remove(photo)
+                        photos.takePhotoAdapter.update(photoList)
+                    }
+                    onFail {
+                        dialog.dismiss()
+                        handle(it)
+                    }
                 }
-                onFail { handle(it) }
             }
             is UriPhoto -> {
                 photoList.remove(photo)
@@ -167,7 +171,6 @@ class TakePhotoActivity : FamilyFolderActivity() {
         val uri: Uri
 
         fun showOn(imageView: ImageView) {
-            imageView.context.toast("uri $uri")
             imageView.load(uri)
         }
     }
