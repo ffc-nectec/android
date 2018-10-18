@@ -76,7 +76,7 @@ internal class LoginUserFragment : Fragment() {
         }
         btnBack.onClick { fragmentManager!!.popBackStack() }
 
-        org!!.let { tvHospitalName.text = it.name }
+        org!!.let { tvHospitalName.text = it.displayName }
 
         dev {
             btnLogin.onLongClick {
