@@ -18,8 +18,9 @@
 package ffc.app.location
 
 import android.app.Activity
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.content.Intent
-import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -33,7 +34,9 @@ import ffc.android.enter
 import ffc.android.excludeSystemView
 import ffc.android.exit
 import ffc.android.load
+import ffc.android.observe
 import ffc.android.setTransition
+import ffc.android.viewModel
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
@@ -44,7 +47,9 @@ import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startTakePhotoActivity
 import ffc.app.photo.urls
 import ffc.app.util.alert.handle
+import ffc.app.util.alert.toast
 import ffc.entity.House
+import ffc.entity.Person
 import ffc.entity.update
 import ffc.entity.util.URLs
 import ffc.entity.util.generateTempId
@@ -60,12 +65,11 @@ class HouseActivity : FamilyFolderActivity() {
     val houseId: String
         get() = intent.getStringExtra("houseId")
 
-    lateinit var house: House
+    lateinit var viewModel: HouseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_house)
-
         setTransition {
             enterTransition = Slide(Gravity.BOTTOM).enter().excludeSystemView()
             exitTransition = Slide(Gravity.START).exit()
@@ -80,13 +84,42 @@ class HouseActivity : FamilyFolderActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "บ้านเลขที่ ?"
 
+        viewModel = viewModel()
+        observe(viewModel.house) { house ->
+            if (house != null) {
+                bind(house)
+                house.resident(org!!.id) {
+                    onFound { viewModel.resident.value = it }
+                    onNotFound { viewModel.resident.value = null }
+                    onFail { viewModel.exception.value = it }
+                }
+            } else {
+                emptyView.error(Error("ไม่พบข้อมูล")).show()
+                finish()
+            }
+            photoMenu.isEnabled = house != null
+        }
+        observe(viewModel.resident) {
+            if (it != null) {
+                (recycleView.adapter as PersonAdapter).update(it)
+                emptyView.content().show()
+            } else {
+                emptyView.empty().show()
+            }
+        }
+        observe(viewModel.exception) { t ->
+            t?.let {
+                handle(it)
+                emptyView.error(it).show()
+            }
+        }
         emptyView.loading().show()
 
         with(recycleView) {
             layoutManager = LinearLayoutManager(context)
             adapter = PersonAdapter(listOf()) {
                 onItemClick {
-                    startPersonActivityOf(it, house,
+                    startPersonActivityOf(it, viewModel.house.value,
                         appbar to getString(R.string.transition_appbar),
                         this to getString(R.string.transition_card),
                         find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile)
@@ -94,58 +127,35 @@ class HouseActivity : FamilyFolderActivity() {
                 }
             }
         }
+    }
 
-        housesOf(org!!).house(houseId) {
-            onFound { bind(it) }
-            onNotFound {
-                emptyView.error(Error("ไม่พบข้อมูล")).show()
-                handle(Resources.NotFoundException("Not found House"))
-                finish()
-            }
-            onFail { handle(it) }
-        }
+    fun bind(house: House) {
+        collapsingToolbar!!.title = "บ้านเลขที่ ${house.no}"
+        supportActionBar!!.title = "บ้านเลขที่ ${house.no}"
+        house.avatarUrl?.let { toolbarImage.load(Uri.parse(it)) }
     }
 
     override fun onResume() {
         super.onResume()
         housesOf(org!!).house(houseId) {
-            onFound { bind(it) }
-            onNotFound {
-                emptyView.error(Error("ไม่พบข้อมูล")).show()
-                handle(Resources.NotFoundException("Not found House"))
-                finish()
-            }
-            onFail { handle(it) }
+            onFound { viewModel.house.value = it }
+            onNotFound { viewModel.house.value = null }
+            onFail { viewModel.exception.value = it }
         }
     }
 
-    fun bind(house: House) {
-        this.house = house
-        collapsingToolbar!!.title = "บ้านเลขที่ ${house.no}"
-        supportActionBar!!.title = "บ้านเลขที่ ${house.no}"
-        house.avatarUrl?.let { toolbarImage.load(Uri.parse(it)) }
-        house.resident(org!!.id) {
-            onFound {
-                (recycleView.adapter as PersonAdapter).update(it)
-                emptyView.content().show()
-            }
-            onNotFound {
-                emptyView.empty().show()
-            }
-            onFail {
-                emptyView.error(it).show()
-            }
-        }
-    }
+    lateinit var photoMenu: MenuItem
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.house_activity, menu)
+        photoMenu = menu.findItem(R.id.photoMenu)
+        photoMenu.isEnabled = false
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.photoMenu -> startTakePhotoActivity(PhotoType.PLACE)
+            R.id.photoMenu -> startTakePhotoActivity(PhotoType.PLACE, viewModel.house.value?.imagesUrl)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -155,16 +165,23 @@ class HouseActivity : FamilyFolderActivity() {
         when (requestCode) {
             REQUEST_TAKE_PHOTO -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    house.update {
+                    viewModel.house.value?.update {
                         imagesUrl = data!!.urls!!.mapTo(URLs()) { it }
-                    }.pushTo(org!!) {
+                    }?.pushTo(org!!) {
                         onComplete {
-                            it.avatarUrl?.let { toolbarImage.load(Uri.parse(it)) }
+                            toast("ปรับปรุงข้อมูลแล้ว")
+                            viewModel.house.value = it
                         }
                         onFail { handle(it) }
                     }
                 }
             }
         }
+    }
+
+    class HouseViewModel : ViewModel() {
+        var house: MutableLiveData<House> = MutableLiveData()
+        var resident: MutableLiveData<List<Person>> = MutableLiveData()
+        var exception: MutableLiveData<Throwable> = MutableLiveData()
     }
 }
