@@ -27,19 +27,34 @@ import java.nio.charset.Charset
 
 internal class LoginInteractor(
     var presenter: LoginPresenter,
-    var auth: Authentication
+    var auth: Authentication,
+    relogin: Boolean = false
 ) {
+    private val orgService = FfcCentral().service<OrgService>()
 
     init {
-        if (isLoggedIn) {
-            FfcCentral.token = auth.token
-            presenter.onLoginSuccess()
+        if (relogin) {
+            orgService.listOrgs(auth.org!!.displayName!!).enqueue {
+                onSuccess {
+                    org = body()!!.get(0)
+                }
+                onError {
+                    presenter.showOrgSelector()
+                }
+                onFailure {
+                    presenter.showOrgSelector()
+                    presenter.onError(LoginFailureException(it.message ?: "Something wrong"))
+                }
+            }
         } else {
-            presenter.showOrgSelector()
+            if (auth.isLoggedIn) {
+                FfcCentral.token = auth.token
+                presenter.onLoginSuccess()
+            } else {
+                presenter.showOrgSelector()
+            }
         }
     }
-
-    private val orgService = FfcCentral().service<OrgService>()
 
     var org: Organization? = null
         set(value) {
@@ -75,9 +90,4 @@ internal class LoginInteractor(
             }
         }
     }
-
-    val isLoggedIn: Boolean
-        get() {
-            return auth.org != null && auth.user != null
-        }
 }

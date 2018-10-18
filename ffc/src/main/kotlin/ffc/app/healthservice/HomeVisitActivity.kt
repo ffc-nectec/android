@@ -22,7 +22,6 @@ import android.util.Log
 import ffc.android.find
 import ffc.android.onClick
 import ffc.android.tag
-import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.auth.auth
@@ -30,12 +29,13 @@ import ffc.app.dev
 import ffc.app.person.mockPerson
 import ffc.app.person.personId
 import ffc.app.person.persons
+import ffc.app.util.alert.handle
+import ffc.app.util.alert.toast
 import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HomeVisit
 import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_visit.done
-import org.jetbrains.anko.toast
 
 class HomeVisitActivity : FamilyFolderActivity() {
 
@@ -88,9 +88,9 @@ class HomeVisitActivity : FamilyFolderActivity() {
                     }
                 }
             } catch (invalid: IllegalStateException) {
-                toast(invalid)
+                handle(invalid)
             } catch (throwable: Throwable) {
-                toast(throwable)
+                handle(throwable)
             }
         }
     }
