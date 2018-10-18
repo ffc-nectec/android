@@ -14,9 +14,9 @@ import android.widget.LinearLayout
 import ffc.android.SpacesItemDecoration
 import ffc.android.load
 import ffc.android.sceneTransition
-import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.util.alert.handle
 import kotlinx.android.synthetic.main.activity_photo_take.photos
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -107,7 +107,7 @@ class TakePhotoActivity : FamilyFolderActivity() {
                             }
                         }
                         onFail {
-                            toast(it)
+                            handle(it)
                             function(listOf())
                         }
                     }
@@ -149,7 +149,7 @@ class TakePhotoActivity : FamilyFolderActivity() {
                     photoList.remove(photo)
                     photos.takePhotoAdapter.update(photoList)
                 }
-                onFail { toast(it) }
+                onFail { handle(it) }
             }
             is UriPhoto -> {
                 photoList.remove(photo)

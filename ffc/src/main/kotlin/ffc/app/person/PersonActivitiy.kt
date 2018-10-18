@@ -31,7 +31,6 @@ import ffc.android.load
 import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.android.setTransition
-import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
@@ -41,6 +40,8 @@ import ffc.app.location.HouseActivity
 import ffc.app.photo.PhotoType
 import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startAvatarPhotoActivity
+import ffc.app.util.alert.handle
+import ffc.app.util.alert.toast
 import ffc.entity.House
 import ffc.entity.Person
 import ffc.entity.update
@@ -138,7 +139,7 @@ class PersonActivitiy : FamilyFolderActivity() {
                     avatarView.load(uri)
                     person.update { avatarUrl = uri.toString() }.pushTo(org!!) {
                         onComplete { toast("Complete") }
-                        onFail { toast(it) }
+                        onFail { handle(it) }
                     }
                 }
             }

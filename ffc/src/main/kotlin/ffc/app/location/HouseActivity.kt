@@ -34,7 +34,6 @@ import ffc.android.excludeSystemView
 import ffc.android.exit
 import ffc.android.load
 import ffc.android.setTransition
-import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
@@ -44,6 +43,7 @@ import ffc.app.photo.PhotoType
 import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startTakePhotoActivity
 import ffc.app.photo.urls
+import ffc.app.util.alert.handle
 import ffc.entity.House
 import ffc.entity.update
 import ffc.entity.util.URLs
@@ -99,10 +99,10 @@ class HouseActivity : FamilyFolderActivity() {
             onFound { bind(it) }
             onNotFound {
                 emptyView.error(Error("ไม่พบข้อมูล")).show()
-                toast(Resources.NotFoundException("Not found House"))
+                handle(Resources.NotFoundException("Not found House"))
                 finish()
             }
-            onFail { toast(it) }
+            onFail { handle(it) }
         }
     }
 
@@ -112,10 +112,10 @@ class HouseActivity : FamilyFolderActivity() {
             onFound { bind(it) }
             onNotFound {
                 emptyView.error(Error("ไม่พบข้อมูล")).show()
-                toast(Resources.NotFoundException("Not found House"))
+                handle(Resources.NotFoundException("Not found House"))
                 finish()
             }
-            onFail { toast(it) }
+            onFail { handle(it) }
         }
     }
 
@@ -161,7 +161,7 @@ class HouseActivity : FamilyFolderActivity() {
                         onComplete {
                             it.avatarUrl?.let { toolbarImage.load(Uri.parse(it)) }
                         }
-                        onFail { toast(it) }
+                        onFail { handle(it) }
                     }
                 }
             }

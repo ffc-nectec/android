@@ -55,6 +55,9 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
 
     private lateinit var interactor: LoginInteractor
 
+    val isRelogin
+        get() = intent.getBooleanExtra("relogin", false)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -65,8 +68,9 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
         if (auth.user != null) {
             toast("Hello ${auth.user?.name}")
             Log.d(tag, "User id = ${auth.user?.id}")
+
         }
-        interactor = LoginInteractor(this, auth)
+        interactor = LoginInteractor(this, auth, isRelogin)
 
         savedInstanceState?.let { saved ->
             val org = saved.getString("org")?.parseTo<Organization>()
@@ -108,7 +112,9 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
 
     override fun onLoginSuccess() {
         onShowProgressBar(false)
-        startActivity<MainActivity>()
+        if (!isRelogin) {
+            startActivity<MainActivity>()
+        }
         finish()
     }
 
@@ -154,4 +160,8 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
                 .commit()
         }
     }
+}
+
+fun FamilyFolderActivity.relogin() {
+    startActivity<LoginActivity>("relogin" to true)
 }

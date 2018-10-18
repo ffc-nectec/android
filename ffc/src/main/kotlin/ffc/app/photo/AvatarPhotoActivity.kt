@@ -11,10 +11,11 @@ import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.load
 import ffc.android.onClick
 import ffc.android.sceneTransition
-import ffc.android.toast
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
+import ffc.app.util.alert.handle
+import ffc.app.util.alert.toast
 import kotlinx.android.synthetic.main.activity_photo_avatar.avatarView
 import kotlinx.android.synthetic.main.activity_photo_avatar.choosePhoto
 import kotlinx.android.synthetic.main.activity_photo_avatar.takePhoto
@@ -105,7 +106,7 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
                 finish()
             }
             onFail {
-                toast(it)
+                handle(it)
             }
         }
     }
@@ -114,7 +115,7 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
         photo?.let { photo ->
             storage.delete(photo.uri) {
                 onComplete { dev { toast("Deleted ${photo.uri}") } }
-                onFail { toast(it) }
+                onFail { handle(it) }
             }
         }
     }

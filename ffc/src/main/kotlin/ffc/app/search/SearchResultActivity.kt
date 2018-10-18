@@ -27,11 +27,11 @@ import ffc.app.R
 import ffc.app.dev
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
+import ffc.app.util.alert.handle
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.activity_search_result.emptyView
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
 import org.jetbrains.anko.find
-import org.jetbrains.anko.toast
 
 class SearchResultActivity : FamilyFolderActivity() {
 
@@ -80,7 +80,7 @@ class SearchResultActivity : FamilyFolderActivity() {
                     emptyView.empty().setEmptyText("\"$query\"").show()
                 }
                 onFail {
-                    toast("${it.message}")
+                    handle(it)
                     emptyView.error(it).show()
                 }
             }

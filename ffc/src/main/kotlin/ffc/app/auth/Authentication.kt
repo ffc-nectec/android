@@ -34,6 +34,9 @@ interface Authentication {
 
     var user: User?
 
+    val isLoggedIn: Boolean
+        get() = org != null && user != null
+
     fun clear()
 }
 

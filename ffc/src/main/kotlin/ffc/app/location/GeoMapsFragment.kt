@@ -32,12 +32,12 @@ import ffc.android.toBitmap
 import ffc.app.R
 import ffc.app.dev
 import ffc.app.familyFolderActivity
+import ffc.app.util.alert.handle
 import ffc.entity.gson.toJson
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.dimen
 import org.jetbrains.anko.support.v4.intentFor
-import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
 
 class GeoMapsFragment : SupportMapFragment() {
@@ -81,7 +81,7 @@ class GeoMapsFragment : SupportMapFragment() {
                     map.animateCameraTo(13.0, 102.1, 12.0f)
                     addGeoJsonLayer(GeoJsonLayer(map, R.raw.place, context))
                 }
-                toast("${it.message}")
+                familyFolderActivity.handle(it)
             }
         }
     }

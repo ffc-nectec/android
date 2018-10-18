@@ -71,7 +71,7 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
                 setupListOf(body()!!)
             }
             onError {
-                //        toast("onError ${code()}")
+                //        handle("onError ${code()}")
                 dev {
                     val houses: MutableList<House> = mutableListOf()
                     for (i in 1..100) {

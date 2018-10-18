@@ -42,7 +42,7 @@
 
     <color name="colorPrimary">#f8fdfc</color>
     <color name="colorPrimaryDark">#BDBDBD</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#339900</color>
     <color name="overlay_black">#79000000</color>
 
     <!-- Login -->
