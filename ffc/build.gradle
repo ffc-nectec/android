@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+plugins {
+    id 'com.gladed.androidgitversion' version '0.4.5'
+}
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -34,8 +37,8 @@ android {
         applicationId "ffc.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode androidGitVersion.code()
+        versionName androidGitVersion.name()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
