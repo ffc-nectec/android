@@ -42,6 +42,7 @@ import kotlinx.android.synthetic.main.activity_main.navView
 import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
 import kotlinx.android.synthetic.main.activity_main_content.searchButton
 import kotlinx.android.synthetic.main.activity_main_content.toolbar
+import kotlinx.android.synthetic.main.activity_main_content.versionView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
@@ -77,6 +78,7 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
             user.avatarUrl?.let { find<ImageView>(R.id.userAvartarView).load(Uri.parse(it)) }
             find<TextView>(R.id.orgDisplayNameView).text = org!!.displayName
         }
+        versionView.text = BuildConfig.VERSION_NAME
 
         supportFragmentManager
             .beginTransaction()
