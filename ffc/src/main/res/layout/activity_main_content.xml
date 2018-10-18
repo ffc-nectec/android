@@ -26,7 +26,7 @@
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:showIn="@layout/activity_main_content"/>
+        tools:showIn="@layout/activity_main_content" />
 
     <android.support.design.widget.AppBarLayout
         style="@style/Appbar.Floating.Transulent"
@@ -49,16 +49,24 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="@dimen/text_appbar_title"
-                    android:textColor="@color/text_hint"
                     android:gravity="center_vertical"
                     android:text="@string/search_hint"
+                    android:textColor="@color/text_hint"
+                    android:textSize="@dimen/text_appbar_title"
                     tools:ignore="UnusedAttribute" />
 
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:id="@+id/versionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+        tools:text="version 4.0.0-10-6167342-photo-dirty" />
 
 
     <android.support.design.widget.FloatingActionButton
@@ -68,8 +76,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_location_black_24dp"
-        android:visibility="gone"
         android:tint="@color/white"
+        android:visibility="gone"
         app:fabSize="normal" />
 
 </android.support.design.widget.CoordinatorLayout>
