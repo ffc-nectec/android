@@ -25,19 +25,19 @@ import retrofit2.dsl.then
 
 interface Orgs {
 
-    fun myOrg(dsl: RepoCallback<Organization>.() -> Unit)
+    fun myOrg(dsl: RepoCallback<List<Organization>>.() -> Unit)
 
-    fun org(query: String, dsl: RepoCallback<Organization>.() -> Unit)
+    fun org(query: String, dsl: RepoCallback<List<Organization>>.() -> Unit)
 }
 
 private class OrgsImpl : Orgs {
 
     private val orgService = FfcCentral().service<OrgService>()
 
-    override fun myOrg(dsl: RepoCallback<Organization>.() -> Unit) {
-        val callback = RepoCallback<Organization>().apply(dsl)
+    override fun myOrg(dsl: RepoCallback<List<Organization>>.() -> Unit) {
+        val callback = RepoCallback<List<Organization>>().apply(dsl)
         orgService.myOrg().then {
-            callback.onFound?.invoke(it[0])
+            callback.onFound?.invoke(it)
         }.catch { res, t ->
             res?.let {
                 if (it.code() == 404)
@@ -51,11 +51,11 @@ private class OrgsImpl : Orgs {
         }
     }
 
-    override fun org(query: String, dsl: RepoCallback<Organization>.() -> Unit) {
-        val callback = RepoCallback<Organization>().apply(dsl)
+    override fun org(query: String, dsl: RepoCallback<List<Organization>>.() -> Unit) {
+        val callback = RepoCallback<List<Organization>>().apply(dsl)
         orgService.listOrgs(query).then {
             if (it.isNotEmpty())
-                callback.onFound?.invoke(it[0])
+                callback.onFound?.invoke(it)
             else
                 callback.onNotFound?.invoke()
         }.catch { res, t ->
