@@ -124,7 +124,7 @@ dependencies {
     implementation 'joda-time:joda-time:2.10'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'me.piruin:spinney:1.0.0'
-    implementation 'me.piruin:phototaker:1.1'
+    implementation 'me.piruin:phototaker:1.2'
     implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$ankoVersion"
     implementation "org.jetbrains.anko:anko-design:$ankoVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

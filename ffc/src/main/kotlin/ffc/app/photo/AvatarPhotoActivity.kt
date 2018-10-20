@@ -31,8 +31,8 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
     private val photoTaker by lazy {
         PhotoTaker(this, PhotoSize(1024, 1024)).apply {
             setListener(object : PhotoTakerListener {
-                override fun onFinish(intent: Intent?) {
-                    photoUri = TakePhotoActivity.UriPhoto(intent!!.data!!)
+                override fun onFinish(intent: Intent) {
+                    photoUri = TakePhotoActivity.UriPhoto(intent.data!!)
                     avatarView.load(intent.data!!)
                 }
 
@@ -61,17 +61,16 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
         }
 
         takePhoto.onClick {
-            askPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE) {
+            askPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                 onGranted {
                     photoTaker.captureImage()
                 }
             }
         }
         choosePhoto.onClick {
-            askPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE) {
+            askPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                 onGranted {
-                    toast(R.string.under_construction)
-                    //photoTaker.pickImage()
+                    photoTaker.pickImage()
                 }
             }
         }

@@ -18,19 +18,15 @@
 package ffc.app.person
 
 import android.app.Activity
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.transition.Slide
 import android.view.Gravity
 import android.view.View
-import ffc.android.allowTransitionOverlap
-import ffc.android.enter
-import ffc.android.exit
-import ffc.android.load
-import ffc.android.onClick
-import ffc.android.sceneTransition
-import ffc.android.setTransition
+import ffc.android.*
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
@@ -58,8 +54,9 @@ import org.jetbrains.anko.startActivity
 class PersonActivitiy : FamilyFolderActivity() {
 
     val personId get() = intent.personId!!
-    lateinit var person: Person
     val startFromActivity get() = intent.getStringExtra("starter")
+
+    lateinit var viewModel: PersonViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,23 +91,33 @@ class PersonActivitiy : FamilyFolderActivity() {
         visitButton.onClick {
             startActivity<HomeVisitActivity>("personId" to personId)
         }
+
+        viewModel = viewModel()
+        observe(viewModel.person) {
+            if (it != null) {
+                bind(it)
+            } else {
+                toast("ไม่พบข้อมูล")
+                finish()
+            }
+        }
+        observe(viewModel.exception) {
+            it?.let { handle(it) }
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
         persons(org!!.id).person(personId) {
-            onFound { bind(it) }
-            onNotFound {
-                toast("Not found")
-                finish()
-            }
+            onFound { viewModel.person.value = it }
+            onNotFound { viewModel.person.value = null }
+            onFail { viewModel.exception.value = it }
         }
 
     }
 
     private fun bind(person: Person) {
-        this.person = person
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
@@ -137,13 +144,18 @@ class PersonActivitiy : FamilyFolderActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     val uri = data!!.data!!
                     avatarView.load(uri)
-                    person.update { avatarUrl = uri.toString() }.pushTo(org!!) {
-                        onComplete { toast("Complete") }
-                        onFail { handle(it) }
+                    viewModel.person.value?.update { avatarUrl = uri.toString() }?.pushTo(org!!) {
+                        onComplete { viewModel.person.value = it }
+                        onFail { viewModel.exception.value = it }
                     }
                 }
             }
         }
+    }
+
+    class PersonViewModel : ViewModel() {
+        val person: MutableLiveData<Person> = MutableLiveData()
+        val exception: MutableLiveData<Throwable> = MutableLiveData()
     }
 }
 
