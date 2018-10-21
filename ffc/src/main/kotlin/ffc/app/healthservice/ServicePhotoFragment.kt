@@ -40,20 +40,16 @@ class ServicePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareServic
                 "https://c.pxhere.com/photos/b0/71/new_home_for_sale_georgia_usa_home_house_estate_sale-486530.jpg!d"
             )
         }
-        with(asymmetricRecyclerView) {
-            bind(photoUrls)
-        }
+        asymmetricRecyclerView.bind(photoUrls)
         takePhoto.onClick {
-            startTakePhotoActivity(PhotoType.SERVICE, photoUrls)
+            startTakePhotoActivity(PhotoType.SERVICE, photoUrls, 5)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            with(asymmetricRecyclerView) {
-                bind(data!!.urls!!)
-            }
+            photoUrls = data!!.urls!!
         }
     }
 

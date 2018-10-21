@@ -28,7 +28,7 @@ var url_ploy = "https://ffc-test.herokuapp.com/v0/"
 var url_max = "https://ffc-nectec.herokuapp.com/v0/"
 var url_old = "https://ffc-api-test.herokuapp.com/v0/"
 
-class FfcCentral(val url: String = url_old) {
+class FfcCentral(val url: String = url_max) {
 
     inline fun <reified T> service(): T {
         val httpBuilder = OkHttpClient.Builder().apply {
