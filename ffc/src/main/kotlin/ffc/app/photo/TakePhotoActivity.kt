@@ -36,7 +36,7 @@ class TakePhotoActivity : FamilyFolderActivity() {
     private val RecyclerView.takePhotoAdapter: TakePhotoAdapter
         get() = adapter as TakePhotoAdapter
 
-    private val maxPhotoSize = 2
+    private val maxPhotoSize get() = intent.limit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,6 +188,12 @@ var Intent.urls: List<String>?
         putExtra("urls", value!!.toTypedArray())
     }
 
+var Intent.limit: Int
+    get() = getIntExtra("limit", 2)
+    set(value) {
+        putExtra("limit", value)
+    }
+
 internal var Intent.photoType: PhotoType
     get() = when (getStringExtra("folder")) {
         PhotoType.SERVICE.folder -> PhotoType.SERVICE
@@ -202,22 +208,26 @@ internal var Intent.photoType: PhotoType
 fun Activity.startTakePhotoActivity(
     type: PhotoType,
     urls: List<String>? = null,
+    limit: Int = 2,
     requestCode: Int = REQUEST_TAKE_PHOTO
 ) {
     val intent = intentFor<TakePhotoActivity>()
     urls?.let { intent.urls = it }
     intent.photoType = type
+    intent.limit = limit
     startActivityForResult(intent, requestCode)
 }
 
 fun Fragment.startTakePhotoActivity(
     type: PhotoType,
     urls: List<String>? = null,
+    limit: Int = 2,
     requestCode: Int = REQUEST_TAKE_PHOTO
 ) {
     val intent = intentFor<TakePhotoActivity>()
     urls?.let { intent.urls = it }
     intent.photoType = type
+    intent.limit = limit
     startActivityForResult(intent, requestCode)
 }
 
