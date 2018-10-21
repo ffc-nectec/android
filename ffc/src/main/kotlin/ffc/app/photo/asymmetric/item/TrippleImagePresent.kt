@@ -21,4 +21,6 @@ internal class TrippleImagePresent(urls: List<String>) : ImagePresent {
         get() = _items
     override val requestColumns: Int
         get() = 6
+    override val maxDisplayItem: Int
+        get() = 3
 }

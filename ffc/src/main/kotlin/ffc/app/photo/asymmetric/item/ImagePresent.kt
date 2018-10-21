@@ -7,6 +7,8 @@ internal interface ImagePresent {
     val item: List<ImageItem>
 
     val requestColumns: Int
+
+    val maxDisplayItem: Int
 }
 
 internal fun imageItemPresenterFor(urls: List<String>): ImagePresent = when (urls.size) {

@@ -31,7 +31,8 @@ internal class FacebookImagePresent(
 
     override val item: List<ImageItem>
         get() = _items
-
     override val requestColumns: Int
         get() = 3
+    override val maxDisplayItem: Int
+        get() = 4
 }

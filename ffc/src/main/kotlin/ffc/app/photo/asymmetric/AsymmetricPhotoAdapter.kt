@@ -26,11 +26,12 @@ import org.jetbrains.anko.dip
  */
 internal class AsymmetricPhotoAdapter(
     private val items: List<ImageItem>,
+    private val maxDisplay: Int = 4,
     private val onPhotoClickDsl: AdapterClickListener<Uri>.() -> Unit = {}
 ) : AGVRecyclerViewAdapter<ViewHolder>() {
 
     private val listener = AdapterClickListener<Uri>().apply(onPhotoClickDsl)
-    private val maxDisplay = 4
+
     private val displayItem: Int = if (items.size >= maxDisplay) maxDisplay else items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -77,12 +78,11 @@ internal class ViewHolder(view: View, val listener: AdapterClickListener<Uri>) :
 }
 
 fun AsymmetricRecyclerView.bind(urls: List<String>) {
-    val mapper = imageItemPresenterFor(urls)
-    setRequestedColumnCount(mapper.requestColumns)
-    setDebugging(true)
+    val presenter = imageItemPresenterFor(urls)
+    setRequestedColumnCount(presenter.requestColumns)
     requestedHorizontalSpacing = dip(3)
     addItemDecoration(SpacesItemDecoration(dip(3)))
-    val itemAdapter = AsymmetricPhotoAdapter(mapper.item) {
+    val itemAdapter = AsymmetricPhotoAdapter(presenter.item, presenter.maxDisplayItem) {
         onViewClick { view, uri ->
             val activity = context as Activity
             activity.viewPhoto(uri, activity.sceneTransition(view to activity.getString(R.string.transition_photo)))

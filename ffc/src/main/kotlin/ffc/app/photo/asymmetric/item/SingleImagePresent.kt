@@ -8,7 +8,8 @@ internal class SingleImagePresent(val urls: List<String>) : ImagePresent {
 
     override val item: List<ImageItem>
         get() = listOf(itemImage)
-
     override val requestColumns: Int
+        get() = 1
+    override val maxDisplayItem: Int
         get() = 1
 }
