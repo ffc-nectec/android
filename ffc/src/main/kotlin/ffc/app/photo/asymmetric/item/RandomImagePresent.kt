@@ -7,14 +7,16 @@ import ffc.app.photo.asymmetric.ImageItem
  */
 internal class RandomImagePresent(val urls: List<String>) : ImagePresent {
 
+
     private var _item = listOf<ImageItem>()
     private var isCol2Avail = false
 
     override val item: List<ImageItem>
         get() = _item
-
     override val requestColumns: Int
         get() = 3
+    override val maxDisplayItem: Int
+        get() = 5
 
     init {
         _item = urls.map { parse(it) }
