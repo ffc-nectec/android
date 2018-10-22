@@ -111,6 +111,7 @@ dependencies {
     implementation 'com.github.piruin:retrofit-dsl:1.2'
     implementation 'com.github.santalu:emptyview:1.3.6'
     implementation 'com.github.sembozdemir:PermissionsKt:1.0.0'
+    implementation "com.google.android.gms:play-services-location:16.0.0"
     implementation "com.google.android.gms:play-services-maps:16.0.0"
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.google.firebase:firebase-auth:16.0.4'
