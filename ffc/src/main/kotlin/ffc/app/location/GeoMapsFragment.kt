@@ -17,16 +17,21 @@
 
 package ffc.app.location
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
+import com.sembozdemir.permissionskt.askPermissions
+import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.drawable
+import ffc.android.gone
 import ffc.android.sceneTransition
 import ffc.android.toBitmap
 import ffc.app.R
@@ -36,50 +41,58 @@ import ffc.app.util.alert.handle
 import ffc.entity.gson.toJson
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.dimen
 import org.jetbrains.anko.support.v4.intentFor
 import org.json.JSONObject
+import th.or.nectec.marlo.PointMarloFragment
 
-class GeoMapsFragment : SupportMapFragment() {
+class GeoMapsFragment : PointMarloFragment() {
 
     val REQ_ADD_LOCATION = 1032
 
-    private lateinit var map: GoogleMap
 
     private var addLocationButton: FloatingActionButton? = null
 
     override fun onActivityCreated(bundle: Bundle?) {
         super.onActivityCreated(bundle)
-
         addLocationButton = activity!!.find(R.id.addLocationButton)
+        viewFinder.gone()
+        hideToolsMenu()
+    }
 
-        getMapAsync { googleMap ->
-            map = googleMap.apply {
-                setPadding(0, dimen(R.dimen.maps_padding_top), 0, 0)
+    override fun onMapReady(googleMap: GoogleMap?) {
+        super.onMapReady(googleMap)
+
+        addLocationButton?.setOnClickListener {
+            val intent = intentFor<MarkLocationActivity>(
+                "target" to googleMap!!.cameraPosition.target,
+                "zoom" to googleMap.cameraPosition.zoom
+            )
+            startActivityForResult(intent, REQ_ADD_LOCATION)
+        }
+        showGeoJson()
+        activity!!.askMyLocationPermission()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun Activity.askMyLocationPermission() {
+        askPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION) {
+            onGranted {
+                enableMyLocationButton()
             }
-            addLocationButton?.setOnClickListener {
-                val intent = intentFor<MarkLocationActivity>(
-                    "target" to map.cameraPosition.target,
-                    "zoom" to map.cameraPosition.zoom
-                )
-                startActivityForResult(intent, REQ_ADD_LOCATION)
-            }
-            showGeoJson()
         }
     }
 
     private fun showGeoJson() {
-
         placeGeoJson(familyFolderActivity.org!!).all {
             onFound {
                 val coordinates = (it.features[0].geometry as Point).coordinates
-                map.animateCameraTo(coordinates.latitude, coordinates.longitude, 13.0f)
-                addGeoJsonLayer(GeoJsonLayer(map, JSONObject(it.toJson())))
+                googleMap.animateCameraTo(coordinates.latitude, coordinates.longitude, 13.0f)
+                addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(it.toJson())))
             }
             onFail {
                 dev {
-                    map.animateCameraTo(13.0, 102.1, 12.0f)
-                    addGeoJsonLayer(GeoJsonLayer(map, R.raw.place, context))
+                    googleMap.animateCameraTo(13.0, 102.1, 12.0f)
+                    addGeoJsonLayer(GeoJsonLayer(googleMap, R.raw.place, context))
                 }
                 familyFolderActivity.handle(it)
             }
@@ -109,18 +122,22 @@ class GeoMapsFragment : SupportMapFragment() {
         when (requestCode) {
             REQ_ADD_LOCATION -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    map.clear()
+                    googleMap.clear()
                     showGeoJson()
                 }
             }
         }
     }
 
-    private val homeIcon by lazy {
-        BitmapDescriptorFactory.fromBitmap(context!!.drawable(R.drawable.ic_home_black_24px).toBitmap())
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        activity!!.handlePermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private val chronicHomeIcon by lazy {
-        BitmapDescriptorFactory.fromBitmap(context!!.drawable(R.drawable.ic_home_red_24px).toBitmap())
-    }
+    fun bitmapOf(@DrawableRes resId: Int) = BitmapDescriptorFactory.fromBitmap(context!!.drawable(resId).toBitmap())
+
+    private val homeIcon by lazy { bitmapOf(R.drawable.ic_home_black_24px) }
+
+    private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_home_red_24px) }
+
+
 }

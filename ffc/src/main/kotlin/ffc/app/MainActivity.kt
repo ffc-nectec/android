@@ -27,6 +27,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.android.gms.maps.model.LatLng
 import ffc.android.enter
 import ffc.android.load
 import ffc.android.onClick
@@ -43,6 +44,7 @@ import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
 import kotlinx.android.synthetic.main.activity_main_content.searchButton
 import kotlinx.android.synthetic.main.activity_main_content.toolbar
 import kotlinx.android.synthetic.main.activity_main_content.versionView
+import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
@@ -50,6 +52,8 @@ import retrofit2.dsl.enqueue
 import retrofit2.dsl.isNotFound
 
 class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private val geoMapsFragment = GeoMapsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,9 +84,14 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         }
         versionView.text = BuildConfig.VERSION_NAME
 
+        with(geoMapsFragment) {
+            setStartLocation(LatLng(13.76498, 100.538335), 5.0f)
+            setStartAtCurrentLocation(true)
+            setPaddingTop(dimen(R.dimen.maps_padding_top))
+        }
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.contentContainer, GeoMapsFragment(), "geomap")
+            .replace(R.id.contentContainer, geoMapsFragment, "geomap")
             .commit()
     }
 
