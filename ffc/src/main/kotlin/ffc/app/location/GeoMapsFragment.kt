@@ -17,8 +17,6 @@
 
 package ffc.app.location
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -28,7 +26,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
-import com.sembozdemir.permissionskt.askPermissions
 import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.drawable
 import ffc.android.gone
@@ -69,16 +66,7 @@ class GeoMapsFragment : PointMarloFragment() {
             startActivityForResult(intent, REQ_ADD_LOCATION)
         }
         showGeoJson()
-        activity!!.askMyLocationPermission()
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun Activity.askMyLocationPermission() {
-        askPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION) {
-            onGranted {
-                enableMyLocationButton()
-            }
-        }
+        askMyLocationPermission()
     }
 
     private fun showGeoJson() {
