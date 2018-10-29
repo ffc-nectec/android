@@ -49,7 +49,6 @@ class GeoMapsFragment : PointMarloFragment() {
 
     val REQ_ADD_LOCATION = 1032
 
-
     private var addLocationButton: FloatingActionButton? = null
 
     override fun onActivityCreated(bundle: Bundle?) {

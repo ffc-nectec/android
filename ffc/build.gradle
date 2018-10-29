@@ -40,6 +40,7 @@ android {
         versionCode androidGitVersion.code()
         versionName androidGitVersion.name()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -97,11 +98,12 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation "com.android.support:appcompat-v7:$appcompatVersion"
-    implementation "com.android.support:design:$appcompatVersion"
     implementation "com.android.support:cardview-v7:$appcompatVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "com.android.support:design:$appcompatVersion"
     implementation "com.android.support:support-annotations:$appcompatVersion"
     implementation "com.android.support:support-v4:$appcompatVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.6.0'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation "com.github.chrisbanes:PhotoView:2.1.3"

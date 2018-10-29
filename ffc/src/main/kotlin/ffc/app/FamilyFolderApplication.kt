@@ -17,14 +17,14 @@
 
 package ffc.app
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import ffc.api.FfcCentral
 import ffc.entity.Lookup
 import me.piruin.spinney.Spinney
 import okhttp3.Cache
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
-class FamilyFolderApplication : Application() {
+class FamilyFolderApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
