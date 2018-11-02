@@ -26,13 +26,22 @@ import android.os.Bundle
 import android.transition.Slide
 import android.view.Gravity
 import android.view.View
-import ffc.android.*
+import ffc.android.allowTransitionOverlap
+import ffc.android.enter
+import ffc.android.exit
+import ffc.android.load
+import ffc.android.observe
+import ffc.android.onClick
+import ffc.android.sceneTransition
+import ffc.android.setTransition
+import ffc.android.viewModel
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
 import ffc.app.healthservice.HomeVisitActivity
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
+import ffc.app.person.genogram.GenogramActivity
 import ffc.app.photo.PhotoType
 import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startAvatarPhotoActivity
@@ -43,6 +52,7 @@ import ffc.entity.Person
 import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_person.ageView
 import kotlinx.android.synthetic.main.activity_person.avatarView
+import kotlinx.android.synthetic.main.activity_person.genogramButton
 import kotlinx.android.synthetic.main.activity_person.homeAsUp
 import kotlinx.android.synthetic.main.activity_person.nameView
 import kotlinx.android.synthetic.main.activity_person.toolbarImage
@@ -91,6 +101,9 @@ class PersonActivitiy : FamilyFolderActivity() {
         visitButton.onClick {
             startActivity<HomeVisitActivity>("personId" to personId)
         }
+        genogramButton.onClick {
+            startActivity<GenogramActivity>("personId" to personId)
+        }
 
         viewModel = viewModel()
         observe(viewModel.person) {
@@ -114,7 +127,6 @@ class PersonActivitiy : FamilyFolderActivity() {
             onNotFound { viewModel.person.value = null }
             onFail { viewModel.exception.value = it }
         }
-
     }
 
     private fun bind(person: Person) {
@@ -125,7 +137,6 @@ class PersonActivitiy : FamilyFolderActivity() {
                 startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl, it)
             }
         }
-
         homeAsUp.onClick {
             if (startFromActivity == HouseActivity::class.java.name) {
                 onBackPressed()

@@ -174,5 +174,7 @@
             android:name=".photo.PhotoActivity"
             android:theme="@style/AppTheme.Gallery" />
 
+        <activity android:name=".person.genogram.GenogramActivity" />
+
     </application>
 </manifest>
