@@ -22,8 +22,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <Button
-        tools:background="@drawable/female_node_icon"
+    <android.support.v7.widget.AppCompatImageView
+        android:background="@drawable/male_node_icon"
         android:id="@+id/icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -32,6 +32,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:scaleType="centerCrop"
+        android:cropToPadding="true"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
