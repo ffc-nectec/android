@@ -34,6 +34,7 @@ class ServicePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareServic
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        counterView.text = "0/$maxPhoto"
         dev {
             photoUrls = listOf(
                 "https://upload.wikimedia.org/wikipedia/commons/0/06/Hotel_Wellington_Sherbrooke.jpg",
