@@ -17,6 +17,7 @@
 
 package ffc.api
 
+import com.google.gson.Gson
 import ffc.entity.gson.ffcGson
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -28,7 +29,7 @@ var url_ploy = "https://ffc-test.herokuapp.com/v0/"
 var url_max = "https://ffc-nectec.herokuapp.com/v0/"
 var url_old = "https://ffc-api-test.herokuapp.com/v0/"
 
-class FfcCentral(val url: String = url_max) {
+class FfcCentral(val url: String = url_max, val gson: Gson = ffcGson) {
 
     inline fun <reified T> service(): T {
         val httpBuilder = OkHttpClient.Builder().apply {
@@ -41,7 +42,7 @@ class FfcCentral(val url: String = url_max) {
         }
 
         return Retrofit.Builder().baseUrl(url)
-            .addConverterFactory(GsonConverterFactory.create(ffcGson))
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(httpBuilder.build())
             .build()
             .create(T::class.java)
