@@ -93,6 +93,7 @@
         <activity
             android:name=".auth.LoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
