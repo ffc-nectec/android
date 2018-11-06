@@ -49,7 +49,6 @@ class TakePhotoActivity : FamilyFolderActivity() {
         if (photoList.isEmpty()) {
             targetImageUri = takePhoto(reqPhotoCode)
         }
-
         with(photos) {
             addItemDecoration(SpacesItemDecoration(dip(16)))
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, true)

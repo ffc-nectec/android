@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
-        android:id="@+id/asymmetricRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fadingEdge="none"
-        android:focusable="false"
-        android:gravity="center" />
+    android:layout_height="wrap_content">
 
     <Button
         android:id="@+id/takePhoto"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_weight="1"
         android:drawableStart="@drawable/ic_photo_camera_black_24dp"
         android:drawablePadding="8dp"
+        android:gravity="start|center_vertical"
         android:text="@string/photo_take" />
+
+    <TextView
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:gravity="center"
+        android:id="@+id/counterView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="0/2" />
 
 </LinearLayout>
