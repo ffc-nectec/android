@@ -17,8 +17,8 @@
 
 package ffc.app.location
 
-import ffc.entity.House
 import ffc.entity.Place
+import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
 import retrofit2.Call
 import retrofit2.http.Body
@@ -30,19 +30,19 @@ import retrofit2.http.Path
 interface PlaceService {
 
     @Headers("accept: application/vnd.geo+json")
-    @GET("org/{orgId}/place/house")
+    @GET("org/{orgId}/house")
     fun listHouseGeoJson(@Path("orgId") orgId: String): Call<FeatureCollection<House>>
 
-    @GET("org/{orgId}/place/house?haveLocation=false")
+    @GET("org/{orgId}/house?haveLocation=false")
     fun listHouseNoLocation(@Path("orgId") orgId: String): Call<List<House>>
 
-    @GET("org/{orgId}/place/house/{houseId}")
+    @GET("org/{orgId}/house/{houseId}")
     fun get(
         @Path("orgId") orgId: String,
         @Path("houseId") houseId: String
     ): Call<House>
 
-    @PUT("org/{orgId}/place/house/{houseId}")
+    @PUT("org/{orgId}/house/{houseId}")
     fun updateHouse(
         @Path("orgId") orgId: String,
         @Body place: Place,

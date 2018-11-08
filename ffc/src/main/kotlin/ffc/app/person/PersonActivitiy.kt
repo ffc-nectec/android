@@ -47,8 +47,8 @@ import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startAvatarPhotoActivity
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
-import ffc.entity.House
 import ffc.entity.Person
+import ffc.entity.place.House
 import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_person.ageView
 import kotlinx.android.synthetic.main.activity_person.avatarView

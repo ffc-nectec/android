@@ -31,8 +31,8 @@ import ffc.api.FfcCentral
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
-import ffc.entity.House
 import ffc.entity.gson.toJson
+import ffc.entity.place.House
 import kotlinx.android.synthetic.main.item_house.view.houseNo
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.find

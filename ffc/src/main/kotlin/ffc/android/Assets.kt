@@ -40,5 +40,5 @@ fun Context.assetAsString(filename: String): String {
 }
 
 inline fun <reified T> Context.assetAs(filename: String, gson: Gson = ffcGson): T {
-    return assetAsString(filename).parseTo(ffcGson)
+    return assetAsString(filename).parseTo(gson)
 }

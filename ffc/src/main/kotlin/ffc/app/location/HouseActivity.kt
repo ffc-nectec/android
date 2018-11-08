@@ -48,8 +48,8 @@ import ffc.app.photo.startTakePhotoActivity
 import ffc.app.photo.urls
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
-import ffc.entity.House
 import ffc.entity.Person
+import ffc.entity.place.House
 import ffc.entity.update
 import ffc.entity.util.URLs
 import ffc.entity.util.generateTempId
