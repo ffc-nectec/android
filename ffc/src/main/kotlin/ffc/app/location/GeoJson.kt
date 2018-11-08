@@ -3,8 +3,8 @@ package ffc.app.location
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
 import ffc.app.util.RepoCallback
-import ffc.entity.House
 import ffc.entity.Organization
+import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
 import retrofit2.dsl.enqueue
 
