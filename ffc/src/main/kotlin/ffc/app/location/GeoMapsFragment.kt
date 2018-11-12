@@ -125,6 +125,4 @@ class GeoMapsFragment : PointMarloFragment() {
     private val homeIcon by lazy { bitmapOf(R.drawable.ic_home_black_24px) }
 
     private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_home_red_24px) }
-
-
 }

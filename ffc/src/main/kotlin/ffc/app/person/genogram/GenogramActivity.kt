@@ -8,7 +8,6 @@ import ffc.app.R
 import ffc.app.person.personId
 import ffc.app.util.alert.handle
 import ffc.genogram.android.GenogramView
-import ffc.entity.Person as FFCPerson
 
 class GenogramActivity : FamilyFolderActivity() {
 

@@ -68,7 +68,6 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
         if (auth.user != null) {
             toast("Hello ${auth.user?.name}")
             Log.d(tag, "User id = ${auth.user?.id}")
-
         }
         interactor = LoginInteractor(this, auth, isRelogin)
 
