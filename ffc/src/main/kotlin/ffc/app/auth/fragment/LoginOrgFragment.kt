@@ -76,7 +76,6 @@ internal class LoginOrgFragment : Fragment() {
         }
         observe(viewModel.exception) { longToast(it?.message ?: "Something Error Occurs") }
 
-
         btnNext.onClick {
             try {
                 etOrganization.check {

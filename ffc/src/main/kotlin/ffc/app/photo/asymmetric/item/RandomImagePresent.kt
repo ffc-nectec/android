@@ -7,7 +7,6 @@ import ffc.app.photo.asymmetric.ImageItem
  */
 internal class RandomImagePresent(val urls: List<String>) : ImagePresent {
 
-
     private var _item = listOf<ImageItem>()
     private var isCol2Avail = false
 
