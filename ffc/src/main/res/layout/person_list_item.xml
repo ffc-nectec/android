@@ -53,6 +53,7 @@
         android:id="@+id/personAgeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/text_secondary"
@@ -60,4 +61,17 @@
         app:layout_constraintStart_toStartOf="@+id/personNameView"
         app:layout_constraintTop_toBottomOf="@+id/personNameView"
         tools:text="30 ปี" />
+
+    <TextView
+        android:id="@+id/personDeadLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/card_background_dark"
+        android:padding="2dp"
+        android:text="@string/dead"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/white"
+        app:layout_constraintBaseline_toBaselineOf="@+id/personAgeView"
+        app:layout_constraintStart_toEndOf="@+id/personAgeView" />
 </android.support.constraint.ConstraintLayout>
