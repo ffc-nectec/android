@@ -28,6 +28,7 @@ import ffc.app.R
 import ffc.app.util.AdapterClickListener
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.person_list_item.view.personAgeView
+import kotlinx.android.synthetic.main.person_list_item.view.personDeadLabel
 import kotlinx.android.synthetic.main.person_list_item.view.personImageView
 import kotlinx.android.synthetic.main.person_list_item.view.personNameView
 
@@ -64,6 +65,7 @@ class PersonAdapter(
             with(person) {
                 itemView.personNameView.text = name
                 itemView.personAgeView.text = "$age ปี"
+                itemView.personDeadLabel.visibility = if (isDead) View.VISIBLE else View.GONE
                 avatarUrl?.let { itemView.personImageView.load(Uri.parse(it)) }
                 listener.bindOnItemClick(itemView, person)
             }
