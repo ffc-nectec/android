@@ -17,12 +17,12 @@
 
 package ffc.app.healthservice
 
-import ffc.entity.healthcare.CommunityServiceType
+import ffc.entity.healthcare.CommunityService
 import retrofit2.Call
 import retrofit2.http.GET
 
 interface CommunityServicesApi {
 
     @GET("homehealth")
-    fun getHomeHealthService(): Call<List<CommunityServiceType>>
+    fun getHomeHealthService(): Call<List<CommunityService.ServiceType>>
 }

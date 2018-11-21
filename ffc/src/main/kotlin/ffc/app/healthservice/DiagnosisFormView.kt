@@ -24,6 +24,7 @@ import ffc.android.check
 import ffc.app.R
 import ffc.entity.healthcare.Diagnosis
 import ffc.entity.healthcare.Disease
+import ffc.entity.healthcare.Icd10
 import me.piruin.spinney.Spinney
 import org.jetbrains.anko.find
 
@@ -45,7 +46,7 @@ class DiagnosisFormView @JvmOverloads constructor(
         diseaseField = find(R.id.diseaseField)
         diseases(context).all { list, _ ->
             diseaseField.setItemPresenter { item, _ ->
-                item as Disease
+                item as Icd10
                 "${item.icd10} - ${item.name}"
             }
             diseaseField.setSearchableItem(list)

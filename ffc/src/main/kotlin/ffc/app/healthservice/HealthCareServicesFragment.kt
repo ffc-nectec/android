@@ -41,6 +41,7 @@ import ffc.app.util.AdapterClickListener
 import ffc.app.util.timeago.toTimeAgo
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.HomeVisit
+import ffc.entity.healthcare.Icd10
 import kotlinx.android.synthetic.main.hs_services_list_card.emptyView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.toast
@@ -114,12 +115,12 @@ class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(services: HealthCareService) {
         with(services) {
             date.text = services.time.toTimeAgo()
-            dx.text = services.principleDx!!.icd10
+            dx.text = (services.principleDx!! as Icd10).icd10
             when (services) {
-                is HomeVisit -> {
+                is HealthCareService -> {
                     title.text = getString(R.string.home_visit)
                     icon.setImageDrawable(itemView.context.drawable(R.drawable.ic_home_visit_color_24dp))
-                    caption.text = (this as HomeVisit).serviceType.name
+                    caption.text = (communityServices[0] as HomeVisit).serviceType.name
                     photos.bind(photosUrl)
                 }
             }

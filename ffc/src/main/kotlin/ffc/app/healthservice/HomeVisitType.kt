@@ -23,7 +23,7 @@ import ffc.api.FfcCentral
 import ffc.app.isConnected
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
-import ffc.entity.healthcare.CommunityServiceType
+import ffc.entity.healthcare.CommunityService
 import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
 import java.io.File
@@ -31,7 +31,7 @@ import java.io.IOException
 
 interface HomeVisitType {
 
-    fun all(res: (List<CommunityServiceType>, Throwable?) -> Unit)
+    fun all(res: (List<CommunityService.ServiceType>, Throwable?) -> Unit)
 }
 
 internal fun homeVisitType(context: Context): HomeVisitType = HomeHealtServiceImpl(context)
@@ -79,9 +79,9 @@ private class HomeHealtServiceImpl(val context: Context) : HomeVisitType {
         }
     }
 
-    var tempRes: ((List<CommunityServiceType>, Throwable?) -> Unit)? = null
+    var tempRes: ((List<CommunityService.ServiceType>, Throwable?) -> Unit)? = null
 
-    override fun all(res: (List<CommunityServiceType>, Throwable?) -> Unit) {
+    override fun all(res: (List<CommunityService.ServiceType>, Throwable?) -> Unit) {
         if (loading) {
             tempRes = res
         } else {
@@ -90,8 +90,8 @@ private class HomeHealtServiceImpl(val context: Context) : HomeVisitType {
     }
 
     companion object {
-        var homeVisitType = listOf<CommunityServiceType>()
+        var homeVisitType = listOf<CommunityService.ServiceType>()
     }
 }
 
-val notDefineCommunityService = CommunityServiceType("null", "NULL")
+val notDefineCommunityService = CommunityService.ServiceType("null", "NULL")
