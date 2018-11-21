@@ -46,7 +46,12 @@ open class FamilyFolderActivity : AppCompatActivity() {
             onConnectivityChanged(field)
         }
 
-    val org: Organization? get() = auth(this).org
+    val org: Organization?
+        get() {
+            return auth(this).org ?: devOrg
+        }
+
+    private val devOrg = if (isDev) Organization() else null
 
     var savedInstanceState: Bundle? = null
 
