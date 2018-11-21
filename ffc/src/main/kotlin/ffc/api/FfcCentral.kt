@@ -27,9 +27,11 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 var url_ploy = "https://ffc-test.herokuapp.com/v0/"
 var url_max = "https://ffc-nectec.herokuapp.com/v0/"
-var url_old = "https://ffc-api-test.herokuapp.com/v0/"
+var url_puy = "https://ffc-api-test.herokuapp.com/v0/"
 
 class FfcCentral(val url: String = url_max, val gson: Gson = ffcGson) {
+
+    val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
 
     inline fun <reified T> service(): T {
         val httpBuilder = OkHttpClient.Builder().apply {
@@ -41,7 +43,7 @@ class FfcCentral(val url: String = url_max, val gson: Gson = ffcGson) {
             token?.let { addInterceptor(AuthTokenInterceptor(it)) }
         }
 
-        return Retrofit.Builder().baseUrl(url)
+        return retrofitBuilder
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(httpBuilder.build())
             .build()
