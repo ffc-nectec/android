@@ -52,6 +52,7 @@ import ffc.entity.place.House
 import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_person.ageView
 import kotlinx.android.synthetic.main.activity_person.avatarView
+import kotlinx.android.synthetic.main.activity_person.deadLabelView
 import kotlinx.android.synthetic.main.activity_person.genogramButton
 import kotlinx.android.synthetic.main.activity_person.homeAsUp
 import kotlinx.android.synthetic.main.activity_person.nameView
@@ -133,6 +134,7 @@ class PersonActivitiy : FamilyFolderActivity() {
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
+            deadLabelView.visibility = if (isDead) View.VISIBLE else View.GONE
             avatarView.onClick {
                 startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl, it)
             }
