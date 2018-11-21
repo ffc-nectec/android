@@ -78,4 +78,6 @@
     <string name="search_not_found">ไม่พบข้อมูลที่เกี่ยวข้อง</string>
     <string name="searching">กำลังค้นหา…</string>
     <string name="dead">เสียชีวิต</string>
+    <string name="death_causes">สาเหตุการเสียชีวิต</string>
+    <string name="death_date">วันที่เสียชีวิต</string>
 </resources>

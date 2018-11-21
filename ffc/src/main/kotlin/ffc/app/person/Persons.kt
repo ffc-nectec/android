@@ -5,9 +5,11 @@ import ffc.api.FfcCentral
 import ffc.app.isDev
 import ffc.app.util.RepoCallback
 import ffc.app.util.TaskCallback
+import ffc.entity.Lang
 import ffc.entity.Organization
 import ffc.entity.Person
 import ffc.entity.ThaiCitizenId
+import ffc.entity.healthcare.Icd10
 import org.joda.time.LocalDate
 import retrofit2.dsl.enqueue
 import retrofit2.dsl.then
@@ -111,6 +113,14 @@ val mockPerson = Person("5b9770e029191b0004c91a56").apply {
     lastname = "พานิชผล"
     sex = Person.Sex.MALE
     identities.add(ThaiCitizenId("1145841548789"))
+    death = Person.Death(LocalDate.now(),
+        Icd10("ไข้หวัดใหญ่ร่วมกับปอดบวม ตรวจพบไวรัสไข้หวัดใหญ่ชนิดอื่น", "J10.0").apply {
+            translation[Lang.en] = "Influenza with pneumonia, other influenza virus identified"
+        },
+        Icd10("เบาหวานชนิดพึ่งอินซูลิน", "E10").apply {
+            translation[Lang.en] = "Insulin-dependent diabetes mellitus"
+        }
+    )
 }
 
 internal fun Person.manipulator(org: Organization): PersonManipulator {

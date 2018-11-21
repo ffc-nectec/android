@@ -138,6 +138,13 @@ class PersonActivitiy : FamilyFolderActivity() {
             avatarView.onClick {
                 startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl, it)
             }
+            if (isDead) {
+                val deathFragment = DeathFragment()
+                deathFragment.death = death
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.contentContainer, deathFragment, "death")
+                    .commit()
+            }
         }
         homeAsUp.onClick {
             if (startFromActivity == HouseActivity::class.java.name) {
