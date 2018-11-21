@@ -1,0 +1,1202 @@
+[
+  {
+    "type": "Icd10",
+    "icd10": "Z00",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "General examination and investigation of persons without complaint or reported diagn"
+    },
+    "id": "3e5b272e387f4395ad938b274e575748",
+    "name": "การตรวจทั่วไปและสืบค้นโรคในบุคคลที่ไม่มีอาการผิดปกติหรือไม่มีบันทึกการวินิจฉัย"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "General medical examination"
+    },
+    "id": "cb11a45d8d5f4233b694a0da698a285b",
+    "name": "การตรวจร่างกายทั่วไป"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Routine child health examination"
+    },
+    "id": "32dd627ff71140a19aa7f9bd7ef7e788",
+    "name": "การตรวจร่างกายทั่วไป"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for period of rapid growth in childhood"
+    },
+    "id": "f35f2ea991f74937a3bbb1ccc451f9e9",
+    "name": "การตรวจในระยะที่มีการเติบโตอย่างรวดเร็วในวัยเด็ก"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for adolescent development state"
+    },
+    "id": "440023bd5b9e4fc3a760c7b23691db6b",
+    "name": "การตรวจภาวะพัฒนาการสู่วัยรุ่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "General psychiatric examination, not elsewhere classified"
+    },
+    "id": "a3022c7e6a1b493ebb0ac8023a175f02",
+    "name": "การตรวจทางจิตเวชทั่วไป มิได้จำแนกไว้ที่ใด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination of potential donor of organ and tissue"
+    },
+    "id": "72d0b59b9de44622a001d3f52a799d40",
+    "name": "การตรวจผู้ที่จะบริจาคอวัยวะหรือเนื้อเยื่อ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.6",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for normal comparison and control in clincal research programme"
+    },
+    "id": "32a15194bee44aec97fe9e5dd7534b3c",
+    "name": "การตรวจเพื่อการเปรียบเทียบและควบคุมในกระบวนการวิจัยทางคลินิก"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z00.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Other general examination"
+    },
+    "id": "d1fd4eff35ec4966a456c6fadbcd3c5a",
+    "name": "การตรวจทั่วไปอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Other special examinations and investigations of persons without complaint or report"
+    },
+    "id": "13e8f6e98bd5448eaf8c742f2ba91e3c",
+    "name": "การตรวจและการสืบค้นพิเศษแบบอื่นในบุคคลที่ไม่มีอาการผิดปกติหรือไม่มีบันทึกการวินิจฉัยโรค"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination of eyes and vision"
+    },
+    "id": "b4392509d6f446cbbc26d9784a343ada",
+    "name": "การตรวจตาและการมองเห็น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination of ears and hearing"
+    },
+    "id": "0159e0f4e525439c8e5e68b88c792b6e",
+    "name": "การตรวจหูและการได้ยิน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Dental examination"
+    },
+    "id": "b4306f06a3e44887be0100dc6a178a68",
+    "name": "การตรวจฟัน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination of blood pressure"
+    },
+    "id": "d5f35a5b0ab84a3b912ba8ff78eff480",
+    "name": "การตรวจความดันโลหิต"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Gynaecological examination (general)(routine)"
+    },
+    "id": "fcc8c6dc599045fc8379e0b36ec0b283",
+    "name": "การตรวจทางนรีเวช (ทั่วไป) (ตามปกติ)"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Diagnostic skin and sensitization tests"
+    },
+    "id": "f5de95e92dc245739e34cae8ce69f285",
+    "name": "การทดสอบและการกระตุ้นผิวหนังเพื่อการวินิจฉัย"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.6",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Radiological examination, not elsewhere classified"
+    },
+    "id": "49f93c9823fd4d9d87b1141c7be12e21",
+    "name": "การตรวจทางสีรังวิทยา มิได้จำแนกไว้ที่ใด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.7",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Laboratory examination"
+    },
+    "id": "d72084aa38624d03b125ed92337ab93c",
+    "name": "การตรวจทางห้องปฏิบัติการ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Other specifiad examinations"
+    },
+    "id": "e6c1dec195b841b18f509d50a33d285b",
+    "name": "การตรวจพิเศษอื่นที่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z01.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special examination, unspecified"
+    },
+    "id": "7719f78bd4244e63b72a48caa31531f7",
+    "name": "การตรวจพิเศษ ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and encounter for administrative purposes"
+    },
+    "id": "e5ed9c2a495543bdb0e0841bb5320f57",
+    "name": "การตรวจเพื่อวัตถุประสงค์ทางการจัดการ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for admission to educational institution"
+    },
+    "id": "1f778b594dc848209978b1ef306129ff",
+    "name": "การตรวจเพื่อการรับเข้าสถาบันการศึกษา"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Pre-employment examination"
+    },
+    "id": "a9e5c621fded4bdea34f722cfcf355a6",
+    "name": "การตรวจก่อนจ้างงาน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for admission to residential institution"
+    },
+    "id": "8567b583b3e3401592266f83686188cd",
+    "name": "การตรวจเพื่อรับเข้าสถาบันที่มีที่พักประจำ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for recruitment to armed forces"
+    },
+    "id": "a2f3de6d1e414bf0a468f67c4aea0e18",
+    "name": "การตรวจเพื่อรับเข้าเป็นกำลังพลกองทัพ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for driving licence"
+    },
+    "id": "f3edfe5a047a47c98ffeb51d1c445bbe",
+    "name": "การตรวจเพื่อขอใบอนุญาตขับขี่"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for participation in sport"
+    },
+    "id": "56c67dff4c324a0d9f6690975ca6afe1",
+    "name": "การตรวจเพื่อเข้าร่วมเล่นกีฬา"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.6",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for insurance purposes"
+    },
+    "id": "ecb34724205a42439ef61d9b39d29ee1",
+    "name": "การตรวจเพื่อทำประกัน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.7",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Issue of medical certificate"
+    },
+    "id": "9edae4b5331d44c88b2d925170ddfb07",
+    "name": "การออกรับรองแพทย์"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Other examinations for administrative purposes"
+    },
+    "id": "0f5f762cc5974371b70fdf550087479b",
+    "name": "การตรวจเพื่อวัตถุประสงค์ทางการจัดการอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z02.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination for administrative purposes, unsepcified"
+    },
+    "id": "6aace8228899419389520401c611cb9e",
+    "name": "การตรวจเพื่อวัตถุประสงค์ทางการจัดการ ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Medical observation and evaluation for suspected diseases and conditions"
+    },
+    "id": "aeaa187d45744a9299490b3018e05d4e",
+    "name": "การสังเกตและประเมินผลทางการแพทย์สำหรับโรคและภาวะที่ต้องสงสัย"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for suspected tuberculosis"
+    },
+    "id": "ecb728b5490c415ea25cdb92523232c9",
+    "name": "การสังเกตเมื่อสงสัยว่าเป็นวัณโรค"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for suspected malignant neoplasm"
+    },
+    "id": "ac014a02970647748970483e69e53c47",
+    "name": "การสังเกตเมื่อสงสัยว่าเป็นมะเร็ง"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for suspected mental and behavioural disorders"
+    },
+    "id": "95a42732b87a48ceb8f92405d08e9332",
+    "name": "การสังเกตเมื่อสงสัยว่ามีความผิดปกติทางจิตและพฤติกรรม"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for suspected nervous system disorder"
+    },
+    "id": "93505dbed20d4a9f9a1265937cf6bbe7",
+    "name": "การสังเกตเมื่อสงสัยว่ามีความผิดปกติทางระบบประสาท"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for suspected myocardial infarction"
+    },
+    "id": "31c71dffdea6485485cf0be50ffe4ec8",
+    "name": "การสังเกตเมื่อสงสัยว่ากล้ามเนื้อหัวใจตาย"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for other suspected cardiovascular diseases"
+    },
+    "id": "16a67f2fa0b44ba9811892d43ba531db",
+    "name": "การสังเกตเมื่อสงสัยว่ามีโรคแบบอื่นในระบบหัวใจและหลอดเลือด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.6",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for suspected toxic effect from ingested substance"
+    },
+    "id": "e748fd6ea416412998d85207cd3eaa7f",
+    "name": "การสังเกตเมื่อสงสัยว่าได้รับพิษจากสารที่รับประทานเข้าไป"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for other suspected diseases and conditions"
+    },
+    "id": "e415f1ae71e54f01b3a5704a46ea98e9",
+    "name": "การสังเกตเมื่อสงสัยว่ามีโรคหรือภาวะผิดปกติแบบอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z03.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Observation for suspected disease or condition, unspecified"
+    },
+    "id": "c5b90f509a45491ebe25e6d23d96a1ff",
+    "name": "การสังเกตเมื่อสงสัยว่ามีโรคหรือภาวะผิดปกติ ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation for other reasons"
+    },
+    "id": "0bb843261d90473d92dee30c8816a937",
+    "name": "การตรวจและสังเกตเพื่อเหตุผลอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Blood-alcohol blood-drug test"
+    },
+    "id": "638ec4d5062040c8b991f2fcd28b3064",
+    "name": "การทดสอบระดับของแอลกอฮอล์และยาในเลือด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation following transport accident"
+    },
+    "id": "ca994a96c4bb4655a6d292433ce4fcb6",
+    "name": "การตรวจและสังเกตหลังอุบัติเหตุการขนส่ง"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation following work accident"
+    },
+    "id": "b608d4513d39438d99b2d0c663af0a2f",
+    "name": "การตรวจและสังเกตหลังอุบัติเหตุการทำงาน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation following other accident"
+    },
+    "id": "88f6b90e64604a3599267692efbb9b20",
+    "name": "การตรวจและสังเกตหลังอุบัติเหตุแบบอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation following alleged rape and seduction"
+    },
+    "id": "42e3a49d3e0b494ea5daf95b8eacbe9f",
+    "name": "การตรวจและสังเกตหลังถูกข่มขืนหรือล่อลวง"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation following other inflicted injury"
+    },
+    "id": "b0e7c0cdc5834c21aea44ba7f0ae0748",
+    "name": "การตรวจและสังเกตหลังการบาดเจ็บแบบอื่นที่เป็นคดี"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.6",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "General psychiatric examination for other specified reasons"
+    },
+    "id": "846cb61e6a5444dca08a38c6ed7afbcc",
+    "name": "การตรวจทางจิตเวชทั่วไป ตามคำขอร้องของเจ้าหน้าที่"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation for other specified reasons"
+    },
+    "id": "03090bc412af4bfeb70181bdca126fda",
+    "name": "การตรวจและสังเกตด้วยเหตุผลอื่นที่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z04.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Examination and observation for unspecified reason"
+    },
+    "id": "c456ec5075e6489eb5f52d27696910f9",
+    "name": "การตรวจและสังเกตด้วยเหตุผลที่ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z08",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after treatment for malignant neoplasm"
+    },
+    "id": "5264c3537e4a40e39f722639eb54c8ef",
+    "name": "การตรวจติดตามผลหลังการรักษามะเร็ง"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z08.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after surgery for malignant neoplasm"
+    },
+    "id": "3b3dfb5b9170450aa670ec4953db5a58",
+    "name": "การตรวจติดตามผลหลังการรักษามะเร็งด้วยการผ่าตัด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z08.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after radiotherapy for malignant neoplasm"
+    },
+    "id": "ea5d93cb971a4c249fee18ce7cc2b34f",
+    "name": "การตรวจติดตามผลหลังการรักษามะเร็งด้วยรังสี"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z08.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after chemotherapy for malignant neoplasm"
+    },
+    "id": "a28dbdcbfa224012a527d5003f9f363f",
+    "name": "การตรวจติดตามผลหลังการรักษามะเร็งด้วยเคมีบำบัด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z08.7",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after combined treatment for malignant neoplasm"
+    },
+    "id": "86d9896fae004782ad4f6894b2257f68",
+    "name": "การตรวจติดตามผลหลังการรักษามะเร็งด้วยหลายวีธีร่วมกัน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z08.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after other treatment for malignant neoplasm"
+    },
+    "id": "652a11ff7aec4433924489dfed455cdd",
+    "name": "การตรวจติดตามผลหลังการรักษามะเร็งด้วยวิธีอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z08.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after unspecified treatment for malignant neoplasm"
+    },
+    "id": "acd0b97737c14239b5b2768474fbb38c",
+    "name": "การตรวจติดตามผลหลังการรักษามะเร็งด้วยวิธีที่ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after treatment for conditions other than malignant neoplasms"
+    },
+    "id": "6f3c813d9dec46c784b642b9a8a90e09",
+    "name": "การตรวจติดตามผลหลังการรักษาภาวะอื่นที่ไม่ใช่มะเร็ง"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after surgery for other conditions"
+    },
+    "id": "028387f47d94462b9526b920f4279a94",
+    "name": "การตรวจติดตามผลหลังการรักษาภาวะอื่นด้วยการผ่าตัด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after radiotherapy for other conditions"
+    },
+    "id": "3a9bb8efaf1a4194830f937c018c2b8f",
+    "name": "การตรวจติดตามผลหลังการรักษาภาวะอื่นด้วยรังสี"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after chemotherapy for other conditions"
+    },
+    "id": "a9d143dce14c4caa97ec7123ab3bf976",
+    "name": "การตรวจติดตามผลหลังการรักษาภาวะอื่นด้วยเคมีบำบัด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after psychotherapy"
+    },
+    "id": "d366867e68a647c89fff381bf4b10c6b",
+    "name": "การตรวจติดตามผลหลังการให้จิตบำบัด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after treatment of fracture"
+    },
+    "id": "eef3036951a345b780a4b7d37bcf67d2",
+    "name": "การตรวจติดตามผลหลังการรักษากระดูกหัก"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.7",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after combined treatment for other conditions"
+    },
+    "id": "cf0ee5363c8b43b296bf4051ad7a7785",
+    "name": "การตรวจติดตามผลหลังการรักษาภาวะอื่นด้วยหลายวิธีร่วมกัน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after other treatment for other conditions"
+    },
+    "id": "9682205f581a484380346c870ec43ca6",
+    "name": "การตรวจติดตามผลหลังการรักษาภาวะอื่นด้วยวิธีอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z09.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Follow-up examination after unspecified treatment for other conditions"
+    },
+    "id": "3ddbe5ae8ed549ecb2c2e38796d78804",
+    "name": "การตรวจติดตามผลหลังการรักษาภาวะอื่นด้วยวิธีที่ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z10",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Routine general health check-up of defined subpopulation"
+    },
+    "id": "79c8f773bd244c0dad0b0890f54d021b",
+    "name": "การตรวจสุขภาพทั่วไปตามปกติของประชากรกลุ่มจำเพาะ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z10.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Occupational health examination"
+    },
+    "id": "cefab57dd2bb46b0856cc3fc3f83bf6b",
+    "name": "การตรวจสุขภาพด้านอาชีวอนามัย"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z10.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Routine general health check-up of inhabitants of institutions"
+    },
+    "id": "be52fc6af2ea4d9cb5b3b1e65c45d43a",
+    "name": "การตรวจสุขภาพทั่วไปตามปกติของผู้พักอาศัยในสถาบัน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z10.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Routine general health check-up of armed forces"
+    },
+    "id": "33cf8fee34204b1088dbd550871eea6c",
+    "name": "การตรวจสุขภาพทั่วไปตามปกติของกำลังพลกองทัพ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z10.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Routine general health check-up of sports teams"
+    },
+    "id": "50d0d0e2eee7410b985374c2cfa34a22",
+    "name": "การตรวจสุขภาพทั่วไปตามปกติของคณะนักกีฬา"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z10.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Routine general health check-up of other defined subpopulations"
+    },
+    "id": "38f9304ef25345889195eea81f90f4c2",
+    "name": "การตรวจสุขภาพทั่วไปตามปกติของประชากรกลุ่มจำเพาะอื่นที่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for infectious and parasitic diseases"
+    },
+    "id": "8e0b4d79e5ae4a83abaa320c45eb5e6f",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดเชื้อและโรคปรสิต"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for intestinal infectious diseases"
+    },
+    "id": "5e77ae29526b488895676b1386ac697e",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดเชื้อลำไส้"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for respiratory tuberculosis"
+    },
+    "id": "931bfe70babc4ec8b61aa75030a604f8",
+    "name": "การตรวจคัดกรองพิเศษสำหรับวัณโรคทางเดินหายใจ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for other bacterial diseases"
+    },
+    "id": "981d107e1414417290932514b4840bb8",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดเชื้อแบคทีเรียชนิดอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for infections with a predominantly sexual mode of tra"
+    },
+    "id": "4125312097c14c89b12bc38c7f3a187b",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดเชื้อที่ติดต่อทางเพศสัมพันธ์"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for human immunodeficiency virus [HIV]"
+    },
+    "id": "a9dc59bb9fc24bcea21e74ed8e9b3ae4",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดต่อเชื้อไวรัสภูมิคุ้มกันบกพร่อง (เอชไอวี)"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for other viral diseases"
+    },
+    "id": "4629985836e742e5ab0dacfae6c64797",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดเชื้อไวรัสชนิดอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.6",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for other protozoal diseases and helminthiases"
+    },
+    "id": "b038da767e414ba292967f6bfec6e47b",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดเชื้อสัตว์เซลล์เดียวและหนองพยาธิ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for other infectious and parasitic diseases"
+    },
+    "id": "d112e1eea8244fac9fe895b255a559f6",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดต่อเชื้อและโรคปรสิตอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z11.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for infections and parasitic diseases, unspecified"
+    },
+    "id": "54cc1a23e20d43a5af4015fb08717db0",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคติดเชื้อและโรคปรสิต ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasms"
+    },
+    "id": "0621c69be4064f38be44520c5720a43a",
+    "name": "การตรวจคัดกรองพิเศษสำหรับเนื้องอก"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm of stomach"
+    },
+    "id": "3a8c9f30f4874bb9b749f1c5cde85f93",
+    "name": "การตรวจคัดกรองพิเศาสำหรับเนื้องอกของกระเพาะอาหาร"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm of intestinal tract"
+    },
+    "id": "cb00547fce4d413e8f85d78f6b1e4742",
+    "name": "การตรวจคัดกรองพิเศาสำหรับเนื้องอกของลำไส้"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm of respiratory organs"
+    },
+    "id": "92ea3271978f40568e1b4dd0e2d2dcd3",
+    "name": "การตรวจคัดกรองพิเศาสำหรับเนื้องอกของอวัยวะในระบบหายใจ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm of breast"
+    },
+    "id": "4c364ad47b7e4aa39313beb609cf6d37",
+    "name": "การตรวจคัดกรองพิเศษสำหรับเนื้องอกเต้านม"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm of cervix"
+    },
+    "id": "964b678998dc40edb5e3a369940d0b7b",
+    "name": "การตรวจคัดกรองพิเศษสำหรับเนื้องอกปากมดลูก"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm of prostate"
+    },
+    "id": "2468920dc56e4520b377fc59b5168165",
+    "name": "การตรวจคัดกรองพิเศาสำหรับเนื้องอกของต่อมลูกหมาก"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.6",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm of bladder"
+    },
+    "id": "55e3e603d3ed4d358ed2bc8df4f62ff2",
+    "name": "การตรวจคัดกรองพิเศาสำหรับเนื้องอกของกระเพาะปัสสาวะ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.8",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasms of other sites"
+    },
+    "id": "fd1940e29d6c4e22b05d9308d2ac4da7",
+    "name": "การตรวจคัดกรองพิเศาสำหรับเนื้องอกของอวัยวะอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z12.9",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for neoplasm, unspecified"
+    },
+    "id": "ccc36c25c5dd4f7d8bb602884057bf09",
+    "name": "การตรวจคัดกรองพิเศาสำหรับเนื้องอก ไม่ระบุรายละเอียด"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z13",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for other diseases and disorders"
+    },
+    "id": "e00a718c8de84a3480f8b8d3b1aff5f6",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคและความผิดปกติอื่น"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z13.0",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for diseases of the blood and blood-forming organs and"
+    },
+    "id": "d47cd1e2e4c345f8ac7f9d2bddfde045",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคเลือดและโรคของอวัยวะสร้างเม็ดเลือด และความผิดปกติของระบบภูมิคุ้มกัน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z13.1",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for diabetes mellitus"
+    },
+    "id": "fcbd7b3012434cc8b083980623ab11f8",
+    "name": "การตรวจคัดกรองพิเศษสำหรับโรคเบาหวาน"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z13.2",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for nutritional disorders"
+    },
+    "id": "a28e6429109e44618aacae47a90dc9d2",
+    "name": "การตรวจคัดกรองพิเศษสำหรับความผิดปกติทางโภชนาการ"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z13.3",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for mental and behavioural disorders"
+    },
+    "id": "d0efa75f03644f9793b2812a945098f3",
+    "name": "การตรวจคัดกรองพิเศษสำหรับความผิดปกติทางจิตและพฤติกรรม"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z13.4",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for certain developmental disorders in childhood"
+    },
+    "id": "029a7ab4953b44ec84002e2e3393ff5a",
+    "name": "การตรวจคัดกรองพิเศษสำหรับความผิดปกติของพัฒนาการในวัยเด็ก"
+  },
+  {
+    "type": "Icd10",
+    "icd10": "Z13.5",
+    "isEpimedic": false,
+    "isChronic": false,
+    "isNCD": false,
+    "translation": {
+      "en": "Special screening examination for eye and ear disorders"
+    },
+    "id": "63526ab63a304d2bbae09b7ca650894d",
+    "name": "การตรวจคัดกรองพิเศษสำหรับความผิดปกติของตาและหู"
+  }
+]

@@ -19,8 +19,8 @@ package ffc.app.healthservice
 
 import android.content.Context
 import ffc.android.assetAs
-import ffc.entity.Lang
 import ffc.entity.healthcare.Disease
+import ffc.entity.healthcare.Icd10
 
 internal interface Diseases {
 
@@ -33,8 +33,7 @@ private class MockDiseases(val context: Context) : Diseases {
 
     init {
         if (disease.isEmpty()) {
-            val enDisease = context.assetAs<List<Disease>>("lookups/Disease.json")
-            disease = enDisease.map { it.clone(Lang.th) }
+            disease = context.assetAs<List<Icd10>>("lookups/VisitIcd10.json")
         }
     }
 
@@ -46,7 +45,4 @@ private class MockDiseases(val context: Context) : Diseases {
         internal var disease: List<Disease> = listOf()
     }
 
-    fun Disease.clone(lang: Lang): Disease {
-        return Disease(id, translation[lang]!!, icd10, isEpimedic, isChronic, isNCD)
-    }
 }

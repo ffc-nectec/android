@@ -33,7 +33,7 @@ import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
 import ffc.entity.User
 import ffc.entity.gson.toJson
-import ffc.entity.healthcare.HomeVisit
+import ffc.entity.healthcare.HealthCareService
 import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_visit.done
 
@@ -72,7 +72,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
 
         done.onClick { _ ->
             try {
-                val visit = HomeVisit(providerId, personId!!, notDefineCommunityService)
+                val visit = HealthCareService(providerId, personId!!)
                 homeVisit.dataInto(visit)
                 vitalSign.dataInto(visit)
                 diagnosis.dataInto(visit)

@@ -26,16 +26,21 @@ import ffc.android.check
 import ffc.app.R
 import ffc.app.util.datetime.th_TH
 import ffc.app.util.datetime.toLocalDate
-import ffc.entity.healthcare.CommunityServiceType
+import ffc.entity.healthcare.CommunityService
+import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.HomeVisit
-import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.*
+import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.appointField
+import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.detailField
+import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.planField
+import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.resultField
+import kotlinx.android.synthetic.main.hs_homevisit_from_fragment.syntomField
 import me.piruin.spinney.Spinney
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.support.v4.toast
 
-internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<HomeVisit> {
+internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
-    val communityServicesField by lazy { find<Spinney<CommunityServiceType>>(R.id.communityServiceField) }
+    val communityServicesField by lazy { find<Spinney<CommunityService.ServiceType>>(R.id.communityServiceField) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.hs_homevisit_from_fragment, container, false)
@@ -57,7 +62,7 @@ internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<Home
         }
     }
 
-    override fun dataInto(services: HomeVisit) {
+    override fun dataInto(services: HealthCareService) {
         communityServicesField.check {
             that { selectedItem != null }
             message = "กรุณาระบุประเภทการเยี่ยม"
@@ -69,11 +74,12 @@ internal class HomeServiceFormFragment : Fragment(), HealthCareServivceForm<Home
         }
 
         services.apply {
-            serviceType = communityServicesField.selectedItem!!
+            communityServices.add(HomeVisit(communityServicesField.selectedItem!!,
+                detail = detailField.text.toString(),
+                result = resultField.text.toString(),
+                plan = planField.text.toString()
+            ))
             syntom = syntomField.text.toString()
-            detail = detailField.text.toString()
-            result = resultField.text.toString()
-            plan = planField.text.toString()
             nextAppoint = appointField.calendar?.toLocalDate()
         }
     }
