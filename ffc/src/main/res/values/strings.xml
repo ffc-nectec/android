@@ -80,4 +80,5 @@
     <string name="dead">เสียชีวิต</string>
     <string name="death_causes">สาเหตุการเสียชีวิต</string>
     <string name="death_date">วันที่เสียชีวิต</string>
+    <string name="death_info">ข้อมูลการเสียชีวิต</string>
 </resources>
