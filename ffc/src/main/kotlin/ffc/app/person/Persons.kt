@@ -10,6 +10,7 @@ import ffc.entity.Organization
 import ffc.entity.Person
 import ffc.entity.ThaiCitizenId
 import ffc.entity.healthcare.Icd10
+import ffc.entity.util.generateTempId
 import org.joda.time.LocalDate
 import retrofit2.dsl.enqueue
 import retrofit2.dsl.then
@@ -121,6 +122,7 @@ val mockPerson = Person("5b9770e029191b0004c91a56").apply {
             translation[Lang.en] = "Insulin-dependent diabetes mellitus"
         }
     )
+    relationships.add(Person.Relationship(Person.Relate.Mother, generateTempId(), "พรทิพา โชคสูงเนิน"))
 }
 
 internal fun Person.manipulator(org: Organization): PersonManipulator {

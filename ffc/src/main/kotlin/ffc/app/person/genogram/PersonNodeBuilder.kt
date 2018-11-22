@@ -23,7 +23,7 @@ internal class PersonNodeBuilder : GenogramNodeBuilder {
             GenderLabel.MALE -> layoutInflater.inflate(R.layout.genogram_node_male_item, parent, false)
             GenderLabel.FEMALE -> layoutInflater.inflate(R.layout.genogram_node_female_item, parent, false)
         }
-        val icon = view.findViewById<View>(R.id.icon)
+        val icon = view.findViewById<View>(R.id.personAvatar)
         val identicon = Uri.parse("https://identicon.org?s=128&t=ffc-${person.idCard}")
         when (icon) {
             is ImageView -> icon.load(identicon)
@@ -32,7 +32,7 @@ internal class PersonNodeBuilder : GenogramNodeBuilder {
         icon.setOnClickListener {
             Toast.makeText(context, "Click ${person.firstname} ${person.lastname}", Toast.LENGTH_SHORT).show()
         }
-        val name = view.findViewById<TextView>(R.id.name)
+        val name = view.findViewById<TextView>(R.id.personName)
         name.text = person.firstname
         return view
     }

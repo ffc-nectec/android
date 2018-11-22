@@ -32,4 +32,8 @@
 
     <dimen name="banner_height">248dp</dimen>
     <dimen name="text_appbar_title">18sp</dimen>
+
+    <dimen name="card_padding_vertical">10dp</dimen>
+    <dimen name="card_padding_horizontal">16dp</dimen>
+    <dimen name="card_margin_vertical">16dp</dimen>
 </resources>

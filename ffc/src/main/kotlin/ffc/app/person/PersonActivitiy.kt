@@ -91,12 +91,7 @@ class PersonActivitiy : FamilyFolderActivity() {
         }
 
         if (savedInstanceState == null) {
-            val fragment = HealthCareServicesFragment()
-            fragment.arguments = bundleOf("personId" to personId)
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.contentContainer, fragment)
-                .commit()
+
         }
 
         visitButton.onClick {
@@ -105,6 +100,7 @@ class PersonActivitiy : FamilyFolderActivity() {
         genogramButton.onClick {
             startActivity<GenogramActivity>("personId" to personId)
         }
+        genogramButton.hide()
 
         viewModel = viewModel()
         observe(viewModel.person) {
@@ -145,7 +141,20 @@ class PersonActivitiy : FamilyFolderActivity() {
                     .add(R.id.contentContainer, deathFragment, "death")
                     .commit()
             }
+            val relationshipFragment = RelationshipFragment()
+            relationshipFragment.person = this
+            supportFragmentManager.beginTransaction()
+                .add(R.id.contentContainer, relationshipFragment, "relation")
+                .commit()
+
+            val fragment = HealthCareServicesFragment()
+            fragment.arguments = bundleOf("personId" to personId)
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.contentContainer, fragment, "service")
+                .commit()
         }
+
         homeAsUp.onClick {
             if (startFromActivity == HouseActivity::class.java.name) {
                 onBackPressed()
