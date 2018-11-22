@@ -14,9 +14,18 @@
         android:paddingEnd="8dp">
 
         <TextView
+            android:drawableStart="@drawable/ic_gravestone_black_24dp"
+            android:drawablePadding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:text="@string/death_info"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/death_date"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/text_secondary" />
