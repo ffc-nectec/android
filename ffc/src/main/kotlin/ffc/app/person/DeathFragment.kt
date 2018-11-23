@@ -2,6 +2,7 @@ package ffc.app.person
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -28,8 +29,11 @@ class DeathFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         death?.let {
             personDeathDate.text = it.date.toBuddistString()
-            personDeathCause.adapter = DeathCauseAdapter(it.causes)
-            personDeathCause.layoutManager = LinearLayoutManager(context!!)
+            with(personDeathCause) {
+                adapter = DeathCauseAdapter(it.causes)
+                layoutManager = LinearLayoutManager(context!!)
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            }
         }
     }
 
