@@ -57,8 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintBaseline_toBaselineOf="@+id/personNameView"
-        app:layout_constraintStart_toEndOf="@+id/personNameView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/personLabel"
+        app:layout_constraintStart_toEndOf="@+id/personLabel"
         tools:text="30 ปี" />
 
     <TextView
