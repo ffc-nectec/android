@@ -3,10 +3,11 @@ package ffc.app.person
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
+import android.widget.ImageView
+import android.widget.TextView
 import ffc.app.R
 import ffc.entity.Person
-import kotlinx.android.synthetic.main.person_list_item.view.personDeadLabel
-import kotlinx.android.synthetic.main.person_list_item.view.personNameView
+import org.jetbrains.anko.find
 
 class RelationshipView @JvmOverloads constructor(
     context: Context,
@@ -14,9 +15,17 @@ class RelationshipView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    private val labelView: TextView
+    private val nameView: TextView
+    private val ageView: TextView
+    private val avatarView: ImageView
 
     init {
-        inflate(context, R.layout.person_list_item, this)
+        inflate(context, R.layout.person_list_item_small, this)
+        labelView = find(R.id.personLabel)
+        nameView = find(R.id.personNameView)
+        ageView = find(R.id.personAgeView)
+        avatarView = find(R.id.personImageView)
     }
 
     var relationship: Person.Relationship? = null
@@ -27,7 +36,7 @@ class RelationshipView @JvmOverloads constructor(
 
     private fun bind(relation: Person.Relationship) {
         with(relation) {
-            personDeadLabel.text = when (relate) {
+            labelView.text = when (relate) {
                 Person.Relate.Father -> "พ่อ"
                 Person.Relate.Mother -> "แม่"
                 Person.Relate.Married -> "คู่สมรส"
@@ -35,9 +44,9 @@ class RelationshipView @JvmOverloads constructor(
                 Person.Relate.Child -> "ลูก"
                 else -> null
             }
-            personNameView.text = name
-            //avatarUrl?.let { personAvatar.load(Uri.parse(it)) }
-            //age?.let { personAge.text = it }
+            nameView.text = name
+            //avatarUrl?.let { avatarView.load(Uri.parse(it)) }
+            //age?.let { ageView.text = it }
         }
     }
 }

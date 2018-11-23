@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/card_margin_vertical">
@@ -13,26 +14,28 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_group_black_24dp"
+            android:drawableStart="@drawable/ic_family_room_black_24dp"
             android:drawablePadding="16dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:text="@string/relationship"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-        <LinearLayout
-            android:id="@+id/contentContainer"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:orientation="vertical" />
-
+            tools:listitem="@layout/person_list_item_small" />
 
         <Button
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/genogramButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_family_tree_black_24dp"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/colorAccent"
             android:text="@string/genogram"
             android:layout_gravity="end" />
     </LinearLayout>

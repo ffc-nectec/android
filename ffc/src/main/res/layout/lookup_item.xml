@@ -14,7 +14,7 @@
         android:textColor="@color/text_primary"
         app:layout_constraintStart_toStartOf="@+id/lookupName"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Z00" />
+        tools:text="Z00.3X" />
 
     <TextView
         android:id="@+id/lookupName"
@@ -46,12 +46,13 @@
         android:id="@+id/lookupLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/card_background_dark"
         android:backgroundTint="@color/accent"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintBaseline_toBaselineOf="@+id/lookupId"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="lollipop"
         tools:text="Principle DX" />
 </android.support.constraint.ConstraintLayout>

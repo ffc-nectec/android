@@ -50,7 +50,7 @@
             android:id="@+id/personDeathCause"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/hs_service_item" />
+            tools:listitem="@layout/lookup_item" />
     </LinearLayout>
 
 
