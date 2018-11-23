@@ -23,6 +23,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.transition.Slide
 import android.view.Gravity
 import android.view.View
@@ -32,6 +33,7 @@ import ffc.android.exit
 import ffc.android.load
 import ffc.android.observe
 import ffc.android.onClick
+import ffc.android.replaceAll
 import ffc.android.sceneTransition
 import ffc.android.setTransition
 import ffc.android.viewModel
@@ -90,10 +92,6 @@ class PersonActivitiy : FamilyFolderActivity() {
             getStringExtra("houseAvatarUrl")?.let { url -> toolbarImage.load((Uri.parse(url))) }
         }
 
-        if (savedInstanceState == null) {
-
-        }
-
         visitButton.onClick {
             startActivity<HomeVisitActivity>("personId" to personId)
         }
@@ -134,24 +132,22 @@ class PersonActivitiy : FamilyFolderActivity() {
             avatarView.onClick {
                 startAvatarPhotoActivity(PhotoType.PERSON, avatarUrl, it)
             }
+            val fragmentAdd = mutableMapOf<String, Fragment>()
             if (isDead) {
                 val deathFragment = DeathFragment()
                 deathFragment.death = death
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.contentContainer, deathFragment, "death")
-                    .commit()
+                fragmentAdd.put("death", deathFragment)
             }
             val relationshipFragment = RelationshipFragment()
             relationshipFragment.person = this
-            supportFragmentManager.beginTransaction()
-                .add(R.id.contentContainer, relationshipFragment, "relation")
-                .commit()
+            fragmentAdd.put("relationship", relationshipFragment)
 
             val fragment = HealthCareServicesFragment()
             fragment.arguments = bundleOf("personId" to personId)
+            fragmentAdd.put("service", fragment)
+
             supportFragmentManager
-                .beginTransaction()
-                .add(R.id.contentContainer, fragment, "service")
+                .replaceAll(R.id.contentContainer, fragmentAdd)
                 .commit()
         }
 
