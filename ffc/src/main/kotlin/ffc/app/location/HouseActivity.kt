@@ -97,7 +97,7 @@ class HouseActivity : FamilyFolderActivity() {
                 emptyView.error(Error("ไม่พบข้อมูล")).show()
                 finish()
             }
-            photoMenu.isEnabled = house != null
+            photoMenu?.isEnabled = house != null
         }
         observe(viewModel.resident) {
             if (it != null) {
@@ -144,12 +144,12 @@ class HouseActivity : FamilyFolderActivity() {
         }
     }
 
-    lateinit var photoMenu: MenuItem
+    var photoMenu: MenuItem? = null
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.house_activity, menu)
         photoMenu = menu.findItem(R.id.photoMenu)
-        photoMenu.isEnabled = false
+        photoMenu!!.isEnabled = false
         return super.onCreateOptionsMenu(menu)
     }
 
