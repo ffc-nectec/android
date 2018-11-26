@@ -40,7 +40,9 @@ import ffc.android.viewModel
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
+import ffc.app.healthservice.HealthIssueFragment
 import ffc.app.healthservice.HomeVisitActivity
+import ffc.app.healthservice.healthIssues
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
 import ffc.app.person.genogram.GenogramActivity
@@ -149,6 +151,16 @@ class PersonActivitiy : FamilyFolderActivity() {
             supportFragmentManager
                 .replaceAll(R.id.contentContainer, fragmentAdd)
                 .commit()
+        }
+
+        healthIssues().issueOf(person) {
+            onFound {
+                val fragment = HealthIssueFragment()
+                fragment.issues = it
+                supportFragmentManager
+                    .replaceAll(R.id.contentContainer, "issue" to fragment)
+                    .commit()
+            }
         }
 
         homeAsUp.onClick {
