@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/severity1"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_weight="1"
+        android:background="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/severity2"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_weight="1"
+        android:background="@color/yellow_500" />
+
+    <ImageView
+        android:id="@+id/severity3"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_weight="1"
+        android:background="@color/orange_500" />
+
+    <ImageView
+        android:id="@+id/severity4"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_weight="1"
+        android:background="@color/red_500" />
+
+    <ImageView
+        android:id="@+id/severity5"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_weight="1"
+        android:background="@color/red_900" />
+
+</merge>

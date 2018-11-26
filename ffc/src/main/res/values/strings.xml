@@ -83,4 +83,11 @@
     <string name="death_info">ข้อมูลการเสียชีวิต</string>
     <string name="relationship">ความสัมพันธ์</string>
     <string name="genogram">ผังเครือญาติ</string>
+    <string name="ht">ความดันโลหิตสูง</string>
+    <string name="dm">เบาหวาน</string>
+    <string name="cvd">ความเสี่ยงโรคหัวใจและหลอดเลือด</string>
+    <string name="adl">กิจวัตรประจำวันของผู้สูงอายุ</string>
+    <string name="health_status">วิเคราะห์ภาวะสุขภาพ</string>
+    <string name="health_status_caption">ผลวิเคราะห์จากประวัติการรับบริการที่มีข้อมูลเกี่ยวข้องกับโรคหรือความเสี่ยงต่างๆ</string>
+
 </resources>

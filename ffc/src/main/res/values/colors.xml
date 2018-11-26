@@ -16,11 +16,6 @@
   -->
 
 <resources>
-    <color name="primay">#fffcfcfc</color>
-    <color name="primaryDark">#ececec</color>
-    <color name="accent">#9ccc65</color>
-    <color name="accentDark">#6b9b36</color>
-    <color name="accentLight">#cfff94</color>
     <color name="complementary">#9565cc</color>
     <color name="complementaryDark">#64399a</color>
     <color name="complementaryLight">#c894ff</color>
@@ -44,6 +39,7 @@
     <color name="colorPrimaryDark">#BDBDBD</color>
     <color name="colorAccent">#339900</color>
     <color name="overlay_black">#79000000</color>
+    <color name="overlay_white">#DDFFFFFF</color>
 
     <!-- Login -->
     <color name="button_login">@color/teal_500</color>

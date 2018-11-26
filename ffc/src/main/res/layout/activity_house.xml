@@ -88,7 +88,7 @@
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:titleTextColor="@color/primaryDark" />
+                app:titleTextColor="@color/colorPrimaryDark" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
