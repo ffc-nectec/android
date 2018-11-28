@@ -19,9 +19,11 @@ class DummyHealthIssue : HealthIssues {
         val callback = RepoCallback<List<HealthIssue>>().apply(dsl)
         val issues = listOf(
             HealthProblem(HealthIssue.Issue.HT, HealthIssue.Severity.HI),
-            HealthProblem(HealthIssue.Issue.DM, HealthIssue.Severity.UNDEFINED),
+            HealthProblem(HealthIssue.Issue.DM, HealthIssue.Severity.LOW),
             HealthProblem(HealthIssue.Issue.CVD, HealthIssue.Severity.VERY_HI),
-            HealthChecked(HealthIssue.Issue.ACTIVITIES)
+            HealthProblem(HealthIssue.Issue.ACTIVITIES, HealthIssue.Severity.MID),
+            HealthChecked(HealthIssue.Issue.FALL_RISK),
+            HealthChecked(HealthIssue.Issue.CATARACT, haveIssue = true)
         )
         callback.onFound!!.invoke(issues)
     }

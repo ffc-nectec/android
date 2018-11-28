@@ -25,7 +25,7 @@ class HealthIssueFragment : Fragment() {
         with(recycleView) {
             layoutManager = LinearLayoutManager(context!!)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            adapter = IssueAdapter(issues)
+            adapter = HealthIssueAdapter(issues)
         }
     }
 }

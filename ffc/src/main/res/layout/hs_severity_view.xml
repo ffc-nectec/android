@@ -5,38 +5,37 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/severity1"
+        android:id="@+id/severityOk"
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:layout_weight="1"
         android:background="@color/colorAccent" />
 
     <ImageView
-        android:id="@+id/severity2"
+        android:id="@+id/severityLow"
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:layout_weight="1"
         android:background="@color/yellow_500" />
 
     <ImageView
-        android:id="@+id/severity3"
+        android:id="@+id/severityMid"
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:layout_weight="1"
         android:background="@color/orange_500" />
 
     <ImageView
-        android:id="@+id/severity4"
+        android:id="@+id/severityHi"
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:layout_weight="1"
         android:background="@color/red_500" />
 
     <ImageView
-        android:id="@+id/severity5"
+        android:id="@+id/severityVeryHi"
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:layout_weight="1"
         android:background="@color/red_900" />
-
 </merge>
