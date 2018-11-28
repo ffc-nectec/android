@@ -87,6 +87,16 @@
     <string name="dm">เบาหวาน</string>
     <string name="cvd">ความเสี่ยงโรคหัวใจและหลอดเลือด</string>
     <string name="adl">กิจวัตรประจำวันของผู้สูงอายุ</string>
+    <string name="fall_risk">ความเสี่ยงภาวะหกล้ม</string>
+    <string name="cataract">ต้อกระจก</string>
+    <string name="glaucoma">ต้อหิน</string>
+    <string name="amd">จอประสาทตาเสื่อ</string>
+    <string name="farsighted">สายตายาว</string>
+    <string name="nearsighted">สายตาสั้น</string>
+    <string name="depression">ซึ่มเศร้า</string>
+    <string name="oa_knee">ข้อเข่าเสื่อม</string>
+    <string name="dementia">สมองเสื่อม</string>
+
     <string name="health_status">วิเคราะห์ภาวะสุขภาพ</string>
     <string name="health_status_caption">ผลวิเคราะห์จากประวัติการรับบริการที่มีข้อมูลเกี่ยวข้องกับโรคหรือความเสี่ยงต่างๆ</string>
 
