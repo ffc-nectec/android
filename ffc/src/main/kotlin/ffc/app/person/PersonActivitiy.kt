@@ -42,6 +42,7 @@ import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
 import ffc.app.healthservice.HealthIssueFragment
 import ffc.app.healthservice.HomeVisitActivity
+import ffc.app.healthservice.VitalSignFragment
 import ffc.app.healthservice.healthIssues
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
@@ -144,9 +145,13 @@ class PersonActivitiy : FamilyFolderActivity() {
             relationshipFragment.person = this
             fragmentAdd.put("relationship", relationshipFragment)
 
-            val fragment = HealthCareServicesFragment()
-            fragment.arguments = bundleOf("personId" to personId)
-            fragmentAdd.put("service", fragment)
+            val vitalSignFragment = VitalSignFragment()
+            vitalSignFragment.arguments = bundleOf("personId" to personId)
+            fragmentAdd.put("vitalSign", vitalSignFragment)
+
+            val serviceFragment = HealthCareServicesFragment()
+            serviceFragment.arguments = bundleOf("personId" to personId)
+            fragmentAdd.put("service", serviceFragment)
 
             supportFragmentManager
                 .replaceAll(R.id.contentContainer, fragmentAdd)
@@ -157,6 +162,7 @@ class PersonActivitiy : FamilyFolderActivity() {
             onFound {
                 val fragment = HealthIssueFragment()
                 fragment.issues = it
+                fragment.arguments = bundleOf("personId" to personId)
                 supportFragmentManager
                     .replaceAll(R.id.contentContainer, "issue" to fragment)
                     .commit()
