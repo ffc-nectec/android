@@ -43,7 +43,6 @@ import ffc.app.healthservice.HealthCareServicesFragment
 import ffc.app.healthservice.HealthIssueFragment
 import ffc.app.healthservice.HomeVisitActivity
 import ffc.app.healthservice.VitalSignFragment
-import ffc.app.healthservice.healthIssues
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
 import ffc.app.person.genogram.GenogramActivity
@@ -141,9 +140,16 @@ class PersonActivitiy : FamilyFolderActivity() {
                 deathFragment.death = death
                 fragmentAdd.put("death", deathFragment)
             }
-            val relationshipFragment = RelationshipFragment()
-            relationshipFragment.person = this
-            fragmentAdd.put("relationship", relationshipFragment)
+
+            if (person.relationships.isNotEmpty()) {
+                val relationshipFragment = RelationshipFragment()
+                relationshipFragment.person = this
+                fragmentAdd.put("relationship", relationshipFragment)
+            }
+
+            val issueFragment = HealthIssueFragment()
+            issueFragment.person = this
+            fragmentAdd.put("Issue", issueFragment)
 
             val vitalSignFragment = VitalSignFragment()
             vitalSignFragment.arguments = bundleOf("personId" to personId)
@@ -157,18 +163,6 @@ class PersonActivitiy : FamilyFolderActivity() {
                 .replaceAll(R.id.contentContainer, fragmentAdd)
                 .commit()
         }
-
-        healthIssues().issueOf(person) {
-            onFound {
-                val fragment = HealthIssueFragment()
-                fragment.issues = it
-                fragment.arguments = bundleOf("personId" to personId)
-                supportFragmentManager
-                    .replaceAll(R.id.contentContainer, "issue" to fragment)
-                    .commit()
-            }
-        }
-
         homeAsUp.onClick {
             if (startFromActivity == HouseActivity::class.java.name) {
                 onBackPressed()

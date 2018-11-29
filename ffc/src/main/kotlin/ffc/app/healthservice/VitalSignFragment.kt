@@ -51,8 +51,6 @@ internal class VitalSignFragment : Fragment() {
                 with(recycleView) {
                     layoutManager = GridLayoutManager(context!!, 3)
                     adapter = HealthValueAdapter(service.toValues())
-                    //addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                    //addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
                 }
                 timestamp.text = "ข้อมูลเมื่อ ${service.time.toLocalDate().toBuddistString()}"
 
