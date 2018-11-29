@@ -58,9 +58,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:ev_empty_drawable="@drawable/ic_search_black_24dp"
-                app:ev_empty_title="@string/search_not_found"
-                app:ev_loading_title="@string/searching"
+                app:ev_empty_drawable="@drawable/ic_not_found_black_24dp"
+                app:ev_empty_text="@string/search_not_found"
+                app:ev_loading_text="@string/searching"
                 app:ev_loading_type="circular">
 
                 <android.support.v7.widget.RecyclerView

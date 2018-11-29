@@ -117,9 +117,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:ev_empty_drawable="@drawable/ic_home_black_24px"
-                app:ev_empty_title="@string/resident_not_found"
-                app:ev_loading_title="กำลังดึงข้อมูล..."
+                app:ev_empty_drawable="@drawable/ic_not_found_black_24dp"
+                app:ev_empty_text="@string/resident_not_found"
+                app:ev_loading_text="กำลังดึงข้อมูล..."
                 app:ev_loading_type="circular">
 
                 <TextView

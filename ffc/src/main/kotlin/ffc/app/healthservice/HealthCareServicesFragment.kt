@@ -17,6 +17,8 @@
 
 package ffc.app.healthservice
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -30,17 +32,18 @@ import android.widget.TextView
 import com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
 import ffc.android.drawable
 import ffc.android.getString
-import ffc.android.gone
+import ffc.android.observe
 import ffc.android.onClick
-import ffc.android.visible
+import ffc.android.viewModel
+import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
 import ffc.app.photo.asymmetric.bind
 import ffc.app.util.AdapterClickListener
+import ffc.app.util.alert.handle
 import ffc.app.util.timeago.toTimeAgo
 import ffc.entity.healthcare.HealthCareService
-import ffc.entity.healthcare.HomeVisit
 import ffc.entity.healthcare.Icd10
 import kotlinx.android.synthetic.main.hs_services_list_card.emptyView
 import org.jetbrains.anko.find
@@ -50,6 +53,8 @@ class HealthCareServicesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
+    lateinit var viewModel: ServicesViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.hs_services_list_card, container, false)
         recyclerView = view.find(R.id.recycleView)
@@ -58,29 +63,49 @@ class HealthCareServicesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val personId = arguments!!.personId!!
-        healthCareServicesOf(personId, familyFolderActivity.org!!.id).all {
-            onFound {
-                recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-                recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                recyclerView.adapter = HealthCareServiceAdapter(it) {
-                    onItemClick { toast(R.string.under_construction) }
-                }
-                emptyView.gone()
-            }
-            onNotFound {
-                emptyView.visible()
+        viewModel = viewModel()
+        observe(viewModel.services) {
+            if (it == null || it.isEmpty())
+                emptyView.showEmpty()
+            else {
+                emptyView.showContent()
+                bind(it)
             }
         }
+        observe(viewModel.loading) { loading ->
+            if (loading == true) emptyView.showLoading()
+        }
+        loadHealthcareServices()
+    }
+
+    private fun loadHealthcareServices() {
+        viewModel.loading.value = true
+
+        healthCareServicesOf(arguments!!.personId!!, familyFolderActivity.org!!.id).all {
+            always { viewModel.loading.value = false }
+            onFound { viewModel.services.value = it }
+            onNotFound { viewModel.services.value = emptyList() }
+            onFail { (activity as FamilyFolderActivity).handle(it) }
+        }
+    }
+
+    private fun bind(services: List<HealthCareService>) {
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        recyclerView.adapter = HealthCareServiceAdapter(services) {
+            onItemClick { toast(R.string.under_construction) }
+        }
+    }
+
+    class ServicesViewModel : ViewModel() {
+        val services = MutableLiveData<List<HealthCareService>>()
+        val loading = MutableLiveData<Boolean>()
     }
 }
 
 class HealthCareServiceAdapter(
     val services: List<HealthCareService>,
+    val limit: Int = 10,
     onClickDsl: AdapterClickListener<HealthCareService>.() -> Unit
 ) : RecyclerView.Adapter<ServiceViewHolder>() {
 
@@ -91,7 +116,7 @@ class HealthCareServiceAdapter(
         return ServiceViewHolder(view)
     }
 
-    override fun getItemCount() = services.size
+    override fun getItemCount() = if (services.size > limit) limit else services.size
 
     override fun onBindViewHolder(holder: ServiceViewHolder, position: Int) {
         holder.bind(services[position])
@@ -118,7 +143,7 @@ class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 is HealthCareService -> {
                     title.text = getString(R.string.home_visit)
                     icon.setImageDrawable(itemView.context.drawable(R.drawable.ic_home_visit_color_24dp))
-                    caption.text = (communityServices[0] as HomeVisit).serviceType.name
+                    //caption.text = (communityServices[0] as HomeVisit).serviceType.name
                     photos.bind(photosUrl)
                 }
             }
