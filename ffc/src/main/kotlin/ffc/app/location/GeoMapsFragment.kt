@@ -147,7 +147,7 @@ class GeoMapsFragment : PointMarloFragment() {
 
     override fun onStop() {
         super.onStop()
-        lastCameraPosition = googleMap.cameraPosition
+        googleMap?.cameraPosition?.let { lastCameraPosition = it }
     }
 
     fun bitmapOf(@DrawableRes resId: Int) = BitmapDescriptorFactory.fromBitmap(context!!.drawable(resId).toBitmap())

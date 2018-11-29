@@ -76,6 +76,30 @@
         app:layout_constraintStart_toEndOf="@+id/serviceDateView"
         tools:text="·  Z01.3" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/diseasesView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/captionView" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/communityServiceView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diseasesView" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/specialPpView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/communityServiceView" />
+
     <com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
         android:id="@+id/photos"
         android:layout_width="match_parent"
@@ -88,6 +112,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/captionView" />
+        app:layout_constraintTop_toBottomOf="@+id/specialPpView" />
 
 </android.support.constraint.ConstraintLayout>

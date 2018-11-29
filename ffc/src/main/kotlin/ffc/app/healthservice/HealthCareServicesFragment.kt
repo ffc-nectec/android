@@ -27,11 +27,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
-import ffc.android.drawable
-import ffc.android.getString
 import ffc.android.observe
 import ffc.android.onClick
 import ffc.android.viewModel
@@ -39,12 +34,9 @@ import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
-import ffc.app.photo.asymmetric.bind
 import ffc.app.util.AdapterClickListener
 import ffc.app.util.alert.handle
-import ffc.app.util.timeago.toTimeAgo
 import ffc.entity.healthcare.HealthCareService
-import ffc.entity.healthcare.Icd10
 import kotlinx.android.synthetic.main.hs_services_list_card.emptyView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.toast
@@ -126,27 +118,3 @@ class HealthCareServiceAdapter(
     }
 }
 
-class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-    val icon = view.find<ImageView>(R.id.serviceIconView)
-    val title = view.find<TextView>(R.id.serviceTitleView)
-    val date = view.find<TextView>(R.id.serviceDateView)
-    val dx = view.find<TextView>(R.id.serviceDxView)
-    val caption = view.find<TextView>(R.id.captionView)
-    val photos = view.find<AsymmetricRecyclerView>(R.id.photos)
-
-    fun bind(services: HealthCareService) {
-        with(services) {
-            date.text = services.time.toTimeAgo()
-            dx.text = (services.principleDx!! as Icd10).icd10
-            when (services) {
-                is HealthCareService -> {
-                    title.text = getString(R.string.home_visit)
-                    icon.setImageDrawable(itemView.context.drawable(R.drawable.ic_home_visit_color_24dp))
-                    //caption.text = (communityServices[0] as HomeVisit).serviceType.name
-                    photos.bind(photosUrl)
-                }
-            }
-        }
-    }
-}
