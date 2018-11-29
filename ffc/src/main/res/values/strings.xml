@@ -48,6 +48,10 @@
     <string name="diagnosis">วินิจฉัย</string>
     <string name="vital_sign">สัญญาณชีพ</string>
     <string name="home_visit">เยี่ยมบ้าน</string>
+    <string name="community_service">บริการชุมชน</string>
+    <string name="general_service">บริการสาธารณสุข</string>
+    <string name="ncd_screen">คัดกรอง NCD</string>
+    <string name="special_pp">ส่งเสริมป้องกัน</string>
     <string name="search">search</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
