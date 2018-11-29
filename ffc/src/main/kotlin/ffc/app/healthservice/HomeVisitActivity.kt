@@ -79,9 +79,9 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 body.dataInto(visit)
                 photo.dataInto(visit)
 
-                healthCareServicesOf(personId!!, org!!.id).add(visit) { s, t ->
-                    t?.let { toast(it.message!!) }
-                    s?.let {
+                healthCareServicesOf(personId!!, org!!.id).add(visit) { service, throwable ->
+                    throwable?.let { toast(it.message!!) }
+                    service?.let {
                         Log.d(tag, it.toJson())
                         toast("Services save")
                         finish()
