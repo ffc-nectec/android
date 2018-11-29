@@ -18,17 +18,23 @@
 package ffc.app.location
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.drawable
+import ffc.android.get
 import ffc.android.gone
+import ffc.android.put
 import ffc.android.sceneTransition
 import ffc.android.toBitmap
 import ffc.app.R
@@ -48,11 +54,30 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private var addLocationButton: FloatingActionButton? = null
 
+    private var lastCameraPosition: CameraPosition?
+        set(value) {
+            preferences.edit().put("campos", value).apply()
+        }
+        get() = preferences.get("campos")
+
+    private val preferences: SharedPreferences by lazy { context!!.getSharedPreferences("geomap", Context.MODE_PRIVATE) }
+
     override fun onActivityCreated(bundle: Bundle?) {
         super.onActivityCreated(bundle)
+
+        setStartLocation(lastCameraPosition)
         addLocationButton = activity!!.find(R.id.addLocationButton)
         viewFinder.gone()
         hideToolsMenu()
+    }
+
+    private fun GeoMapsFragment.setStartLocation(lastPosition: CameraPosition?) {
+        if (lastPosition != null) {
+            setStartLocation(lastPosition.target, lastPosition.zoom)
+        } else {
+            setStartLocation(LatLng(13.76498, 100.538335), 5.0f)
+            setStartAtCurrentLocation(true)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -73,7 +98,7 @@ class GeoMapsFragment : PointMarloFragment() {
         placeGeoJson(familyFolderActivity.org!!).all {
             onFound {
                 val coordinates = (it.features[0].geometry as Point).coordinates
-                googleMap.animateCameraTo(coordinates.latitude, coordinates.longitude, 13.0f)
+                googleMap.animateCameraTo(coordinates.latitude, coordinates.longitude)
                 addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(it.toJson())))
             }
             onFail {
@@ -120,9 +145,14 @@ class GeoMapsFragment : PointMarloFragment() {
         activity!!.handlePermissionsResult(requestCode, permissions, grantResults)
     }
 
+    override fun onStop() {
+        super.onStop()
+        lastCameraPosition = googleMap.cameraPosition
+    }
+
     fun bitmapOf(@DrawableRes resId: Int) = BitmapDescriptorFactory.fromBitmap(context!!.drawable(resId).toBitmap())
 
-    private val homeIcon by lazy { bitmapOf(R.drawable.ic_home_black_24px) }
+    private val homeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_green_24dp) }
 
-    private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_home_red_24px) }
+    private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_red_24dp) }
 }
