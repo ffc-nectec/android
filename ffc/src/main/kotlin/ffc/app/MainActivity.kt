@@ -27,7 +27,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.android.gms.maps.model.LatLng
 import ffc.android.enter
 import ffc.android.load
 import ffc.android.onClick
@@ -85,8 +84,6 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         versionView.text = BuildConfig.VERSION_NAME
 
         with(geoMapsFragment) {
-            setStartLocation(LatLng(13.76498, 100.538335), 5.0f)
-            setStartAtCurrentLocation(true)
             setPaddingTop(dimen(R.dimen.maps_padding_top))
         }
         supportFragmentManager
