@@ -52,7 +52,7 @@ internal class VitalSignFragment : Fragment() {
                     layoutManager = GridLayoutManager(context!!, 3)
                     adapter = HealthValueAdapter(service.toValues())
                 }
-                timestamp.text = "ข้อมูลเมื่อ ${service.time.toLocalDate().toBuddistString()}"
+                timestamp.text = "ข้อมูลเมื่อ ${service.time.toBuddistString()}"
 
                 emptyView.gone()
             }
@@ -69,7 +69,7 @@ private fun HealthCareService.toValues(): List<Value> {
             it.isHigh -> "สูง" to R.color.red_500
             it.isPreHigh -> "เสี่ยง" to R.color.orange_500
             it.isNormal -> "ปกติ" to R.color.colorAccent
-            it.isLow -> "ต่ำ" to R.color.green_200
+            it.isLow -> "ต่ำ" to R.color.blue_500
             else -> null
         }
         values.add(Value("SYS/DIA", "${it.bp.systolic.toInt()}/${it.bp.diastolic.toInt()}", captionColor?.first, colorRes = captionColor?.second))
@@ -79,7 +79,7 @@ private fun HealthCareService.toValues(): List<Value> {
             it.isOverweight -> "สูง" to R.color.red_500
             it.isObese -> "เสี่ยง" to R.color.orange_500
             it.isNormal -> "ปกติ" to R.color.colorAccent
-            it.isUnderWeight -> "ต่ำ" to R.color.green_200
+            it.isUnderWeight -> "ต่ำ" to R.color.blue_500
             else -> null
         }
         values.add(Value("BMI", "${it.value}", captionColor?.first, colorRes = captionColor?.second))
