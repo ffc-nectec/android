@@ -30,7 +30,6 @@ import android.view.ViewGroup
 import ffc.android.observe
 import ffc.android.onClick
 import ffc.android.viewModel
-import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
@@ -67,6 +66,12 @@ class HealthCareServicesFragment : Fragment() {
         observe(viewModel.loading) { loading ->
             if (loading == true) emptyView.showLoading()
         }
+        observe(viewModel.exception) {
+            it?.let {
+                emptyView.error(it).show()
+                familyFolderActivity.handle(it)
+            }
+        }
         loadHealthcareServices()
     }
 
@@ -77,7 +82,7 @@ class HealthCareServicesFragment : Fragment() {
             always { viewModel.loading.value = false }
             onFound { viewModel.services.value = it }
             onNotFound { viewModel.services.value = emptyList() }
-            onFail { (activity as FamilyFolderActivity).handle(it) }
+            onFail { viewModel.exception.value = it }
         }
     }
 
@@ -92,6 +97,7 @@ class HealthCareServicesFragment : Fragment() {
     class ServicesViewModel : ViewModel() {
         val services = MutableLiveData<List<HealthCareService>>()
         val loading = MutableLiveData<Boolean>()
+        val exception = MutableLiveData<Throwable>()
     }
 }
 
