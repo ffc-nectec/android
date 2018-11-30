@@ -20,8 +20,8 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
-        style="@style/Appbar.Floating"
         android:id="@+id/appbar"
+        style="@style/Appbar.Floating"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize">
 
@@ -30,9 +30,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentInsetLeft="0dp"
+            android:gravity="center_vertical"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
-            android:gravity="center_vertical"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
             <android.support.v7.widget.SearchView
@@ -50,10 +50,59 @@
         android:layout_height="match_parent"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/recentQueryCard"
+                android:layout_marginTop="@dimen/card_margin_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/card_padding_horizontal"
+                    android:layout_marginTop="@dimen/card_padding_vertical"
+                    android:text="คำค้นหาล่าสุด"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recentQuery"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="38dp" />
+
+            </android.support.design.card.MaterialCardView>
+
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/recentPersonCard"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/card_margin_vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/card_padding_horizontal"
+                    android:layout_marginTop="@dimen/card_padding_vertical"
+                    android:text="เข้าดูล่าสุด"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recentPerson"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="38dp" />
+
+            </android.support.design.card.MaterialCardView>
+
+        </LinearLayout>
+
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

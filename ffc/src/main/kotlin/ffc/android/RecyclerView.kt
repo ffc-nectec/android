@@ -29,3 +29,16 @@ import android.support.annotation.StringRes
 import android.support.v7.widget.RecyclerView
 
 fun RecyclerView.ViewHolder.getString(@StringRes resId: Int): String = itemView.context.getString(resId)
+
+fun RecyclerView.addVeriticalItemDivider(paddingStart: Int = 0, paddingEnd: Int = 0) {
+    addItemDecoration(DividerItemDecorationNoLast(context, 1)
+        .apply {
+            startOffset = paddingStart
+            endOffset = paddingEnd
+        }
+    )
+}
+
+fun RecyclerView.addHorizontalItemDivider() {
+    addItemDecoration(DividerItemDecorationNoLast(context, 0))
+}

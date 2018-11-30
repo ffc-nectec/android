@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
+    android:orientation="vertical"
     android:paddingTop="2dp"
-    android:paddingBottom="2dp"
-    android:orientation="vertical">
+    android:paddingBottom="2dp">
 
     <TextView
         android:id="@+id/labelView"
@@ -13,10 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="4dp"
-        android:paddingTop="2dp"
+        android:layout_marginBottom="4dp"
         android:elegantTextHeight="false"
         android:maxLines="1"
-        android:layout_marginBottom="4dp"
+        android:paddingTop="2dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/text_secondary"
         tools:text="SYS/DIA" />
@@ -27,9 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:drawablePadding="8dp"
         android:elegantTextHeight="false"
         android:maxLines="1"
-        android:drawablePadding="8dp"
         android:text="-"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="120/43" />

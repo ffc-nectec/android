@@ -99,7 +99,7 @@ class SearchResultActivity : FamilyFolderActivity() {
             SearchRecentSuggestions(this, RecentSearchProvider.AUTHORITY, RecentSearchProvider.MODE)
                 .saveRecentQuery(query, null)
             supportActionBar!!.title = query
-            viewModel.loading.value = false
+            viewModel.loading.value = true
             personSearcher(org!!.id).search(query!!) {
                 always { viewModel.loading.value = false }
                 onFound { viewModel.persons.value = it }

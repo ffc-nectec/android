@@ -2,31 +2,36 @@ package ffc.app.healthservice
 
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import ffc.android.gone
 import ffc.app.R
 import org.jetbrains.anko.find
+import org.jetbrains.anko.findOptional
 
 class ValueItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val captionView: TextView
     private val labelView: TextView
     private val valueView: TextView
+    private val iconView: ImageView?
 
     init {
         captionView = itemView.find(R.id.captionView)
         labelView = itemView.find(R.id.labelView)
         valueView = itemView.find(R.id.valueView)
+        iconView = itemView.findOptional(R.id.iconView)
     }
 
     fun bind(value: Value) {
-        bind(value.label, value.value, value.caption, value.color, value.colorRes)
+        bind(value.label, value.value, value.caption, value.color, value.colorRes, value.iconRes)
     }
 
-    fun bind(label: String?, value: String = "-", caption: String? = null, @ColorInt color: Int? = null, @ColorRes colorRes: Int? = null) {
+    fun bind(label: String?, value: String = "-", caption: String? = null, @ColorInt color: Int? = null, @ColorRes colorRes: Int? = null, @DrawableRes iconRes: Int? = null) {
         with(itemView) {
             labelView.text = label
             labelView.visibility = if (label.isNullOrBlank()) View.GONE else View.VISIBLE
@@ -35,6 +40,9 @@ class ValueItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             captionView.visibility = if (caption == null) View.GONE else View.VISIBLE
             color?.let { valueView.setTextColor(it) }
             colorRes?.let { valueView.setTextColor(ContextCompat.getColor(context, it)) }
+            iconView?.let {
+                it.setImageResource(iconRes ?: 0)
+            }
         }
     }
 
