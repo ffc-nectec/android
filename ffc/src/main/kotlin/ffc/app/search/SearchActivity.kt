@@ -17,21 +17,42 @@
 
 package ffc.app.search
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.transition.Fade
 import android.transition.Slide
 import android.view.Gravity
+import android.widget.ImageView
+import ffc.android.addVeriticalItemDivider
 import ffc.android.enter
 import ffc.android.excludeSystemView
 import ffc.android.exit
+import ffc.android.gone
+import ffc.android.observe
 import ffc.android.searchManager
 import ffc.android.setTransition
+import ffc.android.viewModel
+import ffc.android.visible
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.healthservice.HealthValueAdapter
+import ffc.app.healthservice.Value
+import ffc.app.person.PersonAdapter
+import ffc.app.person.startPersonActivityOf
+import ffc.entity.Person
+import kotlinx.android.synthetic.main.activity_search.recentPerson
+import kotlinx.android.synthetic.main.activity_search.recentPersonCard
+import kotlinx.android.synthetic.main.activity_search.recentQuery
+import kotlinx.android.synthetic.main.activity_search.recentQueryCard
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 
 class SearchActivity : FamilyFolderActivity() {
+
+    val viewModel by lazy { viewModel<SearchViewModel>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +68,43 @@ class SearchActivity : FamilyFolderActivity() {
         val searchView = find<SearchView>(R.id.searchView)
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.setIconifiedByDefault(false)
+
+        observe(viewModel.recentQuery) { recent ->
+            if (!recent.isNullOrEmpty()) {
+                val values = recent.map { Value(value = it, iconRes = R.drawable.ic_search_black_24dp) }
+                with(recentQuery) {
+                    layoutManager = LinearLayoutManager(context)
+                    addVeriticalItemDivider(dip(48), dip(16))
+                    adapter = HealthValueAdapter(values, HealthValueAdapter.Style.NORMAL, limit = 5) {
+                        onItemClick { v -> searchView.setQuery(v.value, true) }
+                    }
+                }
+                recentQueryCard.visible()
+            } else {
+                recentQueryCard.gone()
+            }
+        }
+        observe(viewModel.recentPerson) {
+            if (!it.isNullOrEmpty()) {
+                with(recentPerson) {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = PersonAdapter(it) {
+                        onItemClick { p ->
+                            startPersonActivityOf(p, null,
+                                find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile))
+                        }
+                    }
+                }
+                recentPersonCard.visible()
+            } else {
+                recentPersonCard.gone()
+            }
+        }
+
+        viewModel.recentQuery.value = RecentSearchProvider.query(this)
+
+        //TODO show save & show recent view person
+        viewModel.recentPerson.value = null
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -57,5 +115,10 @@ class SearchActivity : FamilyFolderActivity() {
     override fun onPause() {
         super.onPause()
         overridePendingTransition(0, 0)
+    }
+
+    class SearchViewModel: ViewModel() {
+        val recentQuery = MutableLiveData<List<String>>()
+        val recentPerson = MutableLiveData<List<Person>>()
     }
 }
