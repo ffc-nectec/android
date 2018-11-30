@@ -18,10 +18,14 @@
 package ffc.app.search
 
 import android.app.SearchManager
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageView
+import ffc.android.observe
+import ffc.android.viewModel
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
@@ -41,17 +45,19 @@ class SearchResultActivity : FamilyFolderActivity() {
             putExtra(SearchManager.QUERY, value)
         }
 
+    val viewModel by lazy { viewModel<SearchResultViewModel>() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_result)
 
         dev {
             if (intent.query == null) {
-                //TODO remove this after developed
                 intent.action = Intent.ACTION_SEARCH
                 intent.query = "พิรุณ"
             }
         }
+        observeViewModelData()
 
         with(supportActionBar!!) {
             title = intent.query
@@ -59,6 +65,27 @@ class SearchResultActivity : FamilyFolderActivity() {
             onToolbarClick { onBackPressed() }
         }
         handleIntent(intent)
+    }
+
+    private fun observeViewModelData() {
+        observe(viewModel.persons) {
+            if (it.isNullOrEmpty()) {
+                bindAdapter(listOf())
+                emptyView.empty().setEmptyText("\"${intent.query}\"").show()
+            } else {
+                bindAdapter(it)
+                emptyView.showContent()
+            }
+        }
+        observe(viewModel.loading) {
+            if (it == true) emptyView.showLoading()
+        }
+        observe(viewModel.exception) {
+            it?.let {
+                handle(it)
+                emptyView.error(it).show()
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -69,23 +96,15 @@ class SearchResultActivity : FamilyFolderActivity() {
         val query = intent.query
         if (Intent.ACTION_SEARCH == intent.action && intent.query != null) {
             supportActionBar!!.title = query
-            emptyView.showLoading()
+            viewModel.loading.value = false
             personSearcher(org!!.id).search(query!!) {
-                onFound {
-                    bindAdapter(persons = it)
-                    emptyView.showContent()
-                }
-                onNotFound {
-                    bindAdapter(listOf())
-                    emptyView.empty().setEmptyText("\"$query\"").show()
-                }
-                onFail {
-                    handle(it)
-                    emptyView.error(it).show()
-                }
+                always { viewModel.loading.value = false }
+                onFound { viewModel.persons.value = it }
+                onNotFound { viewModel.persons.value = listOf() }
+                onFail { viewModel.exception.value = it }
             }
         } else {
-            emptyView.error(IllegalArgumentException("ไม่มีคำค้นหา")).show()
+            viewModel.exception.value = IllegalArgumentException("ไม่มีคำค้นหา")
         }
     }
 
@@ -108,5 +127,11 @@ class SearchResultActivity : FamilyFolderActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(android.R.anim.fade_in, 0)
+    }
+
+    class SearchResultViewModel : ViewModel() {
+        val persons = MutableLiveData<List<Person>>()
+        val loading = MutableLiveData<Boolean>()
+        val exception = MutableLiveData<Throwable>()
     }
 }
