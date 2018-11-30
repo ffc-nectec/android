@@ -49,6 +49,7 @@ import ffc.app.person.genogram.GenogramActivity
 import ffc.app.photo.PhotoType
 import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startAvatarPhotoActivity
+import ffc.app.search.RecentPersonProvider
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
 import ffc.entity.Person
@@ -127,6 +128,7 @@ class PersonActivitiy : FamilyFolderActivity() {
     }
 
     private fun bind(person: Person) {
+        RecentPersonProvider(this).saveRecentPerson(person)
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
