@@ -22,6 +22,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageView
 import ffc.android.observe
@@ -95,6 +96,8 @@ class SearchResultActivity : FamilyFolderActivity() {
     private fun handleIntent(intent: Intent) {
         val query = intent.query
         if (Intent.ACTION_SEARCH == intent.action && intent.query != null) {
+            SearchRecentSuggestions(this, RecentSearchProvider.AUTHORITY, RecentSearchProvider.MODE)
+                .saveRecentQuery(query, null)
             supportActionBar!!.title = query
             viewModel.loading.value = false
             personSearcher(org!!.id).search(query!!) {
