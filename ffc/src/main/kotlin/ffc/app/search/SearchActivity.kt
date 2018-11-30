@@ -103,8 +103,7 @@ class SearchActivity : FamilyFolderActivity() {
 
         viewModel.recentQuery.value = RecentSearchProvider.query(this)
 
-        //TODO show save & show recent view person
-        viewModel.recentPerson.value = null
+        viewModel.recentPerson.value = RecentPersonProvider(this).getRecentPerson()
     }
 
     override fun onSupportNavigateUp(): Boolean {
