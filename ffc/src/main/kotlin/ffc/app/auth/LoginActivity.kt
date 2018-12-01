@@ -32,6 +32,7 @@ import ffc.android.gone
 import ffc.android.setTransition
 import ffc.android.tag
 import ffc.android.visible
+import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
 import ffc.app.R
@@ -44,9 +45,7 @@ import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.activity_login.ivCommunity
-import kotlinx.android.synthetic.main.activity_login.ivOverlayBackground
-import kotlinx.android.synthetic.main.activity_login.pbLoading
+import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -75,6 +74,7 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
             val org = saved.getString("org")?.parseTo<Organization>()
             org?.let { interactor.org = org }
         }
+        versionView.text = "V ${BuildConfig.VERSION_NAME}"
     }
 
     private fun initInstances() {
@@ -91,10 +91,8 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
 
     override fun onShowProgressBar(state: Boolean) {
         if (state) {
-            ivOverlayBackground.visible()
             pbLoading.visible()
         } else {
-            ivOverlayBackground.gone()
             pbLoading.gone()
         }
     }

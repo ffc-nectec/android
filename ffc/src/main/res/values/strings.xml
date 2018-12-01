@@ -103,5 +103,6 @@
 
     <string name="health_status">วิเคราะห์ภาวะสุขภาพ</string>
     <string name="health_status_caption">ผลวิเคราะห์จากประวัติการรับบริการที่มีข้อมูลเกี่ยวข้องกับโรคหรือความเสี่ยงต่างๆ</string>
+    <string name="copyright_nectec">Copyright NECTEC</string>
 
 </resources>
