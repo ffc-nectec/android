@@ -29,11 +29,11 @@ import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
 import ffc.app.util.datetime.toBuddistString
+import ffc.app.util.value.Value
+import ffc.app.util.value.ValueAdapter
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.bloodPressureLevel
-import kotlinx.android.synthetic.main.hs_vitalsign_fragment.emptyView
-import kotlinx.android.synthetic.main.hs_vitalsign_fragment.recycleView
-import kotlinx.android.synthetic.main.hs_vitalsign_fragment.timestamp
+import kotlinx.android.synthetic.main.hs_vitalsign_fragment.*
 
 internal class VitalSignFragment : Fragment() {
 
@@ -50,7 +50,7 @@ internal class VitalSignFragment : Fragment() {
                 val service = it.sortedByDescending { it.time }.get(0)
                 with(recycleView) {
                     layoutManager = GridLayoutManager(context!!, 3)
-                    adapter = HealthValueAdapter(service.toValues())
+                    adapter = ValueAdapter(service.toValues())
                 }
                 timestamp.text = "ข้อมูลเมื่อ ${service.time.toBuddistString()}"
 

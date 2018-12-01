@@ -12,55 +12,45 @@ import ffc.android.drawable
 import ffc.android.getString
 import ffc.app.R
 import ffc.app.photo.asymmetric.bind
+import ffc.app.util.datetime.toBuddistString
+import ffc.app.util.takeIfNotEmpty
+import ffc.app.util.takeIfNotNullOrBlank
 import ffc.app.util.timeago.toTimeAgo
+import ffc.app.util.value.Value
+import ffc.app.util.value.ValueAdapter
 import ffc.entity.Lang
 import ffc.entity.Lookup
 import ffc.entity.healthcare.CommunityService
 import ffc.entity.healthcare.Diagnosis
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.HomeVisit
-import ffc.entity.healthcare.Icd10
 import ffc.entity.healthcare.SpecialPP
 import org.jetbrains.anko.find
 
-class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class HealthCareServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    val icon = view.find<ImageView>(R.id.serviceIconView)
-    val title = view.find<TextView>(R.id.serviceTitleView)
-    val date = view.find<TextView>(R.id.serviceDateView)
-    val dx = view.find<TextView>(R.id.serviceDxView)
-    val caption = view.find<TextView>(R.id.captionView)
-    val diagnosis = view.find<RecyclerView>(R.id.diseasesView)
-    val communityService = view.find<RecyclerView>(R.id.communityServiceView)
-    val specialPp = view.find<RecyclerView>(R.id.specialPpView)
-    val photos = view.find<AsymmetricRecyclerView>(R.id.photos)
+    private val icon = view.find<ImageView>(R.id.serviceIconView)
+    private val title = view.find<TextView>(R.id.serviceTitleView)
+    private val date = view.find<TextView>(R.id.serviceDateView)
+    private val detailView = view.find<RecyclerView>(R.id.detailView)
+    private val photos = view.find<AsymmetricRecyclerView>(R.id.photos)
 
     init {
-        diagnosis.layoutManager = LinearLayoutManager(itemView.context)
-        communityService.layoutManager = LinearLayoutManager(itemView.context)
-        specialPp.layoutManager = LinearLayoutManager(itemView.context)
+        detailView.layoutManager = LinearLayoutManager(itemView.context)
     }
 
     fun bind(services: HealthCareService) {
         with(services) {
             date.text = services.time.toTimeAgo()
-            dx.text = (services.principleDx!! as Icd10).icd10
-
             val type = typeOf(services)
             title.text = getString(type.titleRes)
             icon.setImageDrawable(itemView.context.drawable(type.iconRes))
-            //caption.text = (communityServices[0] as HomeVisit).serviceType.name
-            caption.visibility = if (caption.text.isNullOrBlank()) View.GONE else View.VISIBLE
             photos.bind(photosUrl)
-
-
-            diagnosis.adapter = HealthValueAdapter(diagnosises.toValue(), HealthValueAdapter.Style.SMALL, true)
-            communityService.adapter = HealthValueAdapter(communityServices.toCommunityServiceValues(), HealthValueAdapter.Style.SMALL, true)
-            specialPp.adapter = HealthValueAdapter(specialPPs.toSpecialPpValues(), HealthValueAdapter.Style.SMALL, true)
+            detailView.adapter = ValueAdapter(toValue(), ValueAdapter.Style.SMALL, true)
         }
     }
 
-    fun typeOf(services: HealthCareService): ServiceType {
+    private fun typeOf(services: HealthCareService): ServiceType {
         return when {
             services.specialPPs.isNotEmpty() -> ServiceType.SPECIAL_PP
             services.communityServices.isNotEmpty() -> {
@@ -86,6 +76,18 @@ class ServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 }
 
+private fun HealthCareService.toValue(): List<Value> {
+    val values = mutableListOf<Value>()
+    syntom.takeIfNotNullOrBlank()?.let { values.add(Value("อาการเบื้องต้น", it)) }
+    nextAppoint?.let { values.add(Value("นัดครั้งต่อไป", it.toBuddistString())) }
+    diagnosises.toValue().takeIfNotEmpty()?.let { values.addAll(it) }
+    specialPPs.toSpecialPpValues().takeIfNotEmpty()?.let { values.addAll(it) }
+    communityServices.toCommunityServiceValues().takeIfNotEmpty()?.let { values.addAll(it) }
+    suggestion.takeIfNotNullOrBlank()?.let { values.add(Value("คำแนะนำ", it)) }
+    note.takeIfNotNullOrBlank()?.let { values.add(Value("บันทึก", it)) }
+    return values
+}
+
 private fun List<SpecialPP>.toSpecialPpValues(): List<Value> {
     return map { Value("ส่งเสริมป้องกัน", "· ${it.ppType.nameTh}") }
 }
@@ -99,4 +101,4 @@ private fun List<Diagnosis>.toValue(): List<Value> {
 }
 
 val Lookup.nameTh: String
-    get() = translation[Lang.th] ?: name
+    get() = translation[Lang.th].takeIfNotNullOrBlank() ?: name

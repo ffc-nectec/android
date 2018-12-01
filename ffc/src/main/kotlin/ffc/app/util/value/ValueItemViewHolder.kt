@@ -1,4 +1,4 @@
-package ffc.app.healthservice
+package ffc.app.util.value
 
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
@@ -33,10 +33,10 @@ class ValueItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(label: String?, value: String = "-", caption: String? = null, @ColorInt color: Int? = null, @ColorRes colorRes: Int? = null, @DrawableRes iconRes: Int? = null) {
         with(itemView) {
-            labelView.text = label
+            labelView.text = label?.trim()
             labelView.visibility = if (label.isNullOrBlank()) View.GONE else View.VISIBLE
-            valueView.text = value
-            captionView.text = caption
+            valueView.text = value.trim()
+            captionView.text = caption?.trim()
             captionView.visibility = if (caption == null) View.GONE else View.VISIBLE
             color?.let { valueView.setTextColor(it) }
             colorRes?.let { valueView.setTextColor(ContextCompat.getColor(context, it)) }

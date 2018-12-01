@@ -1,18 +1,13 @@
-package ffc.app.healthservice
+package ffc.app.util.value
 
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import ffc.android.inflate
-import ffc.android.onClick
 import ffc.app.R
 import ffc.app.util.AdapterClickListener
-import ffc.entity.healthcare.HealthCareService
 
-class HealthValueAdapter(
+class ValueAdapter(
     val values: List<Value>,
     val style: Style = Style.GRID,
     val showOnlyFistLabel: Boolean = false,
@@ -46,11 +41,3 @@ class HealthValueAdapter(
     }
 }
 
-class Value(
-    val label: String? = null,
-    val value: String = "-",
-    val caption: String? = null,
-    @ColorInt val color: Int? = null,
-    @ColorRes val colorRes: Int? = null,
-    @DrawableRes val iconRes: Int? = null
-)
