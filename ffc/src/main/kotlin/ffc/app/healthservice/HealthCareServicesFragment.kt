@@ -28,15 +28,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ffc.android.observe
-import ffc.android.onClick
 import ffc.android.viewModel
 import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
-import ffc.app.util.AdapterClickListener
 import ffc.app.util.alert.handle
 import ffc.entity.healthcare.HealthCareService
-import kotlinx.android.synthetic.main.hs_services_list_card.emptyView
+import kotlinx.android.synthetic.main.hs_services_list_card.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.toast
 
@@ -44,7 +42,7 @@ class HealthCareServicesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
-    lateinit var viewModel: ServicesViewModel
+    private lateinit var viewModel: ServicesViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.hs_services_list_card, container, false)
@@ -98,29 +96,6 @@ class HealthCareServicesFragment : Fragment() {
         val services = MutableLiveData<List<HealthCareService>>()
         val loading = MutableLiveData<Boolean>()
         val exception = MutableLiveData<Throwable>()
-    }
-}
-
-class HealthCareServiceAdapter(
-    val services: List<HealthCareService>,
-    val limit: Int = 10,
-    onClickDsl: AdapterClickListener<HealthCareService>.() -> Unit
-) : RecyclerView.Adapter<ServiceViewHolder>() {
-
-    val listener = AdapterClickListener<HealthCareService>().apply(onClickDsl)
-
-    override fun onCreateViewHolder(parent: ViewGroup, type: Int): ServiceViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.hs_service_item, parent, false)
-        return ServiceViewHolder(view)
-    }
-
-    override fun getItemCount() = if (services.size > limit) limit else services.size
-
-    override fun onBindViewHolder(holder: ServiceViewHolder, position: Int) {
-        holder.bind(services[position])
-        holder.itemView.onClick {
-            listener.onItemClick!!.invoke(holder.itemView, services[position])
-        }
     }
 }
 

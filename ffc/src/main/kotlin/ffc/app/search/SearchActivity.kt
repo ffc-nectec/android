@@ -38,15 +38,12 @@ import ffc.android.viewModel
 import ffc.android.visible
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
-import ffc.app.healthservice.HealthValueAdapter
-import ffc.app.healthservice.Value
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
+import ffc.app.util.value.Value
+import ffc.app.util.value.ValueAdapter
 import ffc.entity.Person
-import kotlinx.android.synthetic.main.activity_search.recentPerson
-import kotlinx.android.synthetic.main.activity_search.recentPersonCard
-import kotlinx.android.synthetic.main.activity_search.recentQuery
-import kotlinx.android.synthetic.main.activity_search.recentQueryCard
+import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 
@@ -75,7 +72,7 @@ class SearchActivity : FamilyFolderActivity() {
                 with(recentQuery) {
                     layoutManager = LinearLayoutManager(context)
                     addVeriticalItemDivider(dip(48), dip(16))
-                    adapter = HealthValueAdapter(values, HealthValueAdapter.Style.NORMAL, limit = 5) {
+                    adapter = ValueAdapter(values, ValueAdapter.Style.NORMAL, limit = 5) {
                         onItemClick { v -> searchView.setQuery(v.value, true) }
                     }
                 }
