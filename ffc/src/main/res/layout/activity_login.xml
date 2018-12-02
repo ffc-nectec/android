@@ -19,6 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ffc.app.auth.LoginActivity">
 
     <ImageView
@@ -48,14 +49,16 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <ProgressBar
+    <com.santalu.emptyview.EmptyView
         android:id="@+id/pbLoading"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_centerInParent="true"
-        android:theme="@style/CircularProgress"
-        android:visibility="gone" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@color/overlay_black"
+        android:visibility="gone"
+        app:ev_loading_text="@string/searching"
+        app:ev_loading_type="circular" />
 
     <TextView
         android:layout_width="match_parent"

@@ -28,17 +28,14 @@ import ffc.android.allowTransitionOverlap
 import ffc.android.enterDuration
 import ffc.android.exit
 import ffc.android.find
-import ffc.android.gone
+import ffc.android.findFirst
 import ffc.android.setTransition
 import ffc.android.tag
-import ffc.android.visible
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
 import ffc.app.R
-import ffc.app.auth.exception.LoginErrorException
-import ffc.app.auth.exception.LoginFailureException
-import ffc.app.auth.fragment.LoginActivityListener
+import ffc.app.auth.fragment.LoginExceptionPresenter
 import ffc.app.auth.fragment.LoginOrgFragment
 import ffc.app.auth.fragment.LoginUserFragment
 import ffc.entity.Organization
@@ -46,11 +43,10 @@ import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
-class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresenter {
+class LoginActivity : FamilyFolderActivity(), LoginPresenter {
 
     private lateinit var interactor: LoginInteractor
 
@@ -79,7 +75,6 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
 
     private fun initInstances() {
         blurImage()
-        onShowProgressBar(true)
     }
 
     private fun blurImage() {
@@ -89,26 +84,21 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
             .into(ivCommunity)
     }
 
-    override fun onShowProgressBar(state: Boolean) {
-        if (state) {
-            pbLoading.visible()
-        } else {
-            pbLoading.gone()
-        }
-    }
-
     override fun showOrgSelector() {
         if (savedInstanceState == null) {
             val fragment = LoginOrgFragment()
             fragment.orgSelected = { interactor.org = it }
+            fragment.setTransition {
+                exitTransition = Explode().exit()
+                allowTransitionOverlap = false
+            }
             supportFragmentManager.beginTransaction()
-                .replace(R.id.contentContainer, fragment, "LoginOrg")
+                .replace(R.id.contentContainer, fragment, "Org")
                 .commit()
         }
     }
 
     override fun onLoginSuccess() {
-        onShowProgressBar(false)
         if (!isRelogin) {
             startActivity<MainActivity>()
         }
@@ -121,27 +111,16 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
     }
 
     override fun onError(throwable: Throwable) {
-        onShowProgressBar(false)
-        val message = when (throwable) {
-            is LoginErrorException -> getString(R.string.identification_error)
-            is LoginFailureException ->
-                throwable.message
-            else -> "Something wrong"
-        }
-        message?.let { longToast(it) }
+        supportFragmentManager
+            .findFirst<LoginExceptionPresenter>("Login", "Org")?.onException(throwable)
     }
 
     override fun onOrgSelected(org: Organization) {
-        val userPassFragment = supportFragmentManager.find("LoginUser")
+        val userPassFragment = supportFragmentManager.find("Login")
             ?: LoginUserFragment()
         userPassFragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
         userPassFragment.org = org
-        val orgFragment = supportFragmentManager.find<LoginOrgFragment>("LoginOrg")
-
-        orgFragment.setTransition {
-            exitTransition = Explode().exit()
-            allowTransitionOverlap = false
-        }
+        val orgFragment = supportFragmentManager.find<LoginOrgFragment>("Org")
         userPassFragment.setTransition {
             enterTransition = Slide(Gravity.END).apply {
                 startDelay = 50
@@ -151,7 +130,7 @@ class LoginActivity : FamilyFolderActivity(), LoginActivityListener, LoginPresen
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.contentContainer, userPassFragment, "LoginUser")
+                .add(R.id.contentContainer, userPassFragment, "Login")
                 .hide(orgFragment)
                 .addToBackStack(null)
                 .commit()

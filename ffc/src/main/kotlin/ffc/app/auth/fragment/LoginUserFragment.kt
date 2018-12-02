@@ -17,30 +17,32 @@
 
 package ffc.app.auth.fragment
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ffc.android.check
+import ffc.android.invisible
 import ffc.android.isNotBlank
+import ffc.android.observe
 import ffc.android.onClick
 import ffc.android.onLongClick
+import ffc.android.viewModel
+import ffc.android.visible
 import ffc.app.R
 import ffc.app.dev
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
-import kotlinx.android.synthetic.main.fragment_login_user.btnBack
-import kotlinx.android.synthetic.main.fragment_login_user.btnLogin
-import kotlinx.android.synthetic.main.fragment_login_user.etPwd
-import kotlinx.android.synthetic.main.fragment_login_user.etUsername
-import kotlinx.android.synthetic.main.fragment_login_user.tvHospitalName
+import kotlinx.android.synthetic.main.fragment_login_user.*
 import org.jetbrains.anko.bundleOf
 
-internal class LoginUserFragment : Fragment() {
+internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
 
-    private val loginActivityListener: LoginActivityListener by lazy { activity as LoginActivityListener }
+    private val viewModel by lazy { viewModel<LoginViewModel>() }
 
     lateinit var onLogin: (username: String, password: String) -> Unit
     var org: Organization?
@@ -56,8 +58,22 @@ internal class LoginUserFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        observe(viewModel.loading) {
+            if (it == true) emptyView.showLoading() else emptyView.showContent()
+        }
+        observe(viewModel.exception) {
+            if (it == null) {
+                errorView.invisible()
+            } else {
+                emptyView.showContent()
+                errorView.visible()
+                errorView.text = it.message ?: "ERROR"
+            }
+        }
+
         btnLogin.onClick {
             try {
+                viewModel.exception.value = null
                 etUsername.check {
                     that { isNotBlank }
                     message = getString(R.string.no_username)
@@ -69,7 +85,7 @@ internal class LoginUserFragment : Fragment() {
                 val username = etUsername.text.toString().trim()
                 val password = etPwd.text.toString().trim()
 
-                loginActivityListener.onShowProgressBar(true)
+                viewModel.loading.value = true
                 onLogin(username, password)
             } catch (handled: IllegalStateException) {
             }
@@ -85,5 +101,14 @@ internal class LoginUserFragment : Fragment() {
                 true
             }
         }
+    }
+
+    override fun onException(throwable: Throwable) {
+        viewModel.exception.value = throwable
+    }
+
+    class LoginViewModel : ViewModel() {
+        val loading = MutableLiveData<Boolean>()
+        val exception = MutableLiveData<Throwable>()
     }
 }

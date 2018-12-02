@@ -78,15 +78,17 @@ internal class LoginInteractor(
                     if (user != null) {
                         presenter.onLoginSuccess()
                     } else {
-                        presenter.onError(t ?: IllegalStateException("Something wrong"))
+                        presenter.onError(t
+                            ?: IllegalStateException("เกิดข้อผิดพลาดไม่สามารถระบุได้"))
                     }
                 }
             }
             onError {
-                presenter.onError(LoginErrorException())
+                presenter.onError(LoginErrorException(this))
             }
             onFailure {
-                presenter.onError(LoginFailureException(it.message ?: "Something wrong"))
+                presenter.onError(LoginFailureException(it.message
+                    ?: "เกิดข้อผิดพลาดไม่สามารถระบุได้"))
             }
         }
     }
