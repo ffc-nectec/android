@@ -42,7 +42,6 @@ import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
 import ffc.app.healthservice.HealthIssueFragment
 import ffc.app.healthservice.HomeVisitActivity
-import ffc.app.healthservice.VitalSignFragment
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
 import ffc.app.person.genogram.GenogramActivity
@@ -55,14 +54,7 @@ import ffc.app.util.alert.toast
 import ffc.entity.Person
 import ffc.entity.place.House
 import ffc.entity.update
-import kotlinx.android.synthetic.main.activity_person.ageView
-import kotlinx.android.synthetic.main.activity_person.avatarView
-import kotlinx.android.synthetic.main.activity_person.deadLabelView
-import kotlinx.android.synthetic.main.activity_person.genogramButton
-import kotlinx.android.synthetic.main.activity_person.homeAsUp
-import kotlinx.android.synthetic.main.activity_person.nameView
-import kotlinx.android.synthetic.main.activity_person.toolbarImage
-import kotlinx.android.synthetic.main.activity_person.visitButton
+import kotlinx.android.synthetic.main.activity_person.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
@@ -152,10 +144,6 @@ class PersonActivitiy : FamilyFolderActivity() {
             val issueFragment = HealthIssueFragment()
             issueFragment.person = this
             fragmentAdd.put("Issue", issueFragment)
-
-            val vitalSignFragment = VitalSignFragment()
-            vitalSignFragment.arguments = bundleOf("personId" to personId)
-            fragmentAdd.put("vitalSign", vitalSignFragment)
 
             val serviceFragment = HealthCareServicesFragment()
             serviceFragment.arguments = bundleOf("personId" to personId)

@@ -48,13 +48,27 @@
             app:ev_loading_text="@string/loading"
             app:ev_loading_type="circular">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleView"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:paddingBottom="@dimen/card_padding_vertical"
-                tools:listitem="@layout/hs_service_item" />
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/vitalSign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/card_padding_vertical"
+                    tools:listitem="@layout/hs_service_item" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/card_padding_vertical"
+                    tools:listitem="@layout/hs_service_item" />
+
+            </LinearLayout>
+
 
         </com.santalu.emptyview.EmptyView>
 
