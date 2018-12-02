@@ -22,18 +22,23 @@ import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ffc.android.addHorizontalItemDivider
 import ffc.android.observe
 import ffc.android.viewModel
 import ffc.app.R
 import ffc.app.familyFolderActivity
 import ffc.app.person.personId
 import ffc.app.util.alert.handle
+import ffc.app.util.value.Value
+import ffc.app.util.value.ValueAdapter
 import ffc.entity.healthcare.HealthCareService
+import ffc.entity.healthcare.bloodPressureLevel
 import kotlinx.android.synthetic.main.hs_services_list_card.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.toast
@@ -59,18 +64,28 @@ class HealthCareServicesFragment : Fragment() {
             else {
                 emptyView.showContent()
                 bind(it)
+                bindVitalSign(it[0])
             }
         }
         observe(viewModel.loading) { loading ->
-            if (loading == true) emptyView.showLoading()
+            if (loading == true && viewModel.services.value.isNullOrEmpty())
+                emptyView.showLoading()
         }
         observe(viewModel.exception) {
-            it?.let {
-                emptyView.error(it).show()
-                familyFolderActivity.handle(it)
+            it?.let { t ->
+                emptyView.error(t).show()
+                familyFolderActivity.handle(t)
             }
         }
         loadHealthcareServices()
+    }
+
+    private fun bindVitalSign(service: HealthCareService) {
+        with(vitalSign) {
+            layoutManager = GridLayoutManager(context!!, 3)
+            addHorizontalItemDivider()
+            adapter = ValueAdapter(service.toValues(), limit = 3)
+        }
     }
 
     private fun loadHealthcareServices() {
@@ -78,14 +93,14 @@ class HealthCareServicesFragment : Fragment() {
 
         healthCareServicesOf(arguments!!.personId!!, familyFolderActivity.org!!.id).all {
             always { viewModel.loading.value = false }
-            onFound { viewModel.services.value = it }
+            onFound { viewModel.services.value = it.sortedByDescending { it.time } }
             onNotFound { viewModel.services.value = emptyList() }
             onFail { viewModel.exception.value = it }
         }
     }
 
     private fun bind(services: List<HealthCareService>) {
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = HealthCareServiceAdapter(services) {
             onItemClick { toast(R.string.under_construction) }
@@ -96,6 +111,41 @@ class HealthCareServicesFragment : Fragment() {
         val services = MutableLiveData<List<HealthCareService>>()
         val loading = MutableLiveData<Boolean>()
         val exception = MutableLiveData<Throwable>()
+    }
+
+    private fun HealthCareService.toValues(): List<Value> {
+        val values = mutableListOf<Value>()
+        bmi?.let {
+            val captionColor = when {
+                it.isOverweight -> "สูง" to R.color.red_500
+                it.isObese -> "เสี่ยง" to R.color.orange_500
+                it.isNormal -> "ปกติ" to R.color.colorAccent
+                it.isUnderWeight -> "ต่ำ" to R.color.blue_500
+                else -> null
+            }
+            values.add(Value("BMI", "${it.value}", captionColor?.first, colorRes = captionColor?.second))
+        }
+        bloodPressureLevel?.let {
+            val captionColor = when {
+                it.isHigh -> "สูง" to R.color.red_500
+                it.isPreHigh -> "เสี่ยง" to R.color.orange_500
+                it.isNormal -> "ปกติ" to R.color.colorAccent
+                it.isLow -> "ต่ำ" to R.color.blue_500
+                else -> null
+            }
+            values.add(Value("SYS/DIA", "${it.bp.systolic.toInt()}/${it.bp.diastolic.toInt()}", captionColor?.first, colorRes = captionColor?.second))
+        }
+        pulseRate?.let {
+            val captionColor = when (it) {
+                in 60.0..100.0 -> "ปกติ" to R.color.colorAccent
+                else -> "" to R.color.orange_500
+            }
+            values.add(Value("Pulse", "${it.toInt()}", captionColor.first, colorRes = captionColor.second))
+        }
+        bodyTemperature?.let { values.add(Value("Temp", "$it")) }
+        respiratoryRate?.let { values.add(Value("RR", "${it.toInt()}")) }
+        waist?.let { values.add(Value("Waist", "$it")) }
+        return values
     }
 }
 
