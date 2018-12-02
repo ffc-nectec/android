@@ -20,6 +20,7 @@
     <string name="app_fullname">Family Folder Collector</string>
     <string name="title_activity_maps">Map</string>
     <string name="search_hint">ชื่อผู้รับบริการ, เลขที่บ้าน</string>
+    <string name="search_house_hint">เลขที่บ้าน</string>
 
     <string name="retry">ลองอีกครั้ง</string>
     <string name="please_check_connectivity">กรุณาตรวจสอบการเชื่อมต่อ</string>

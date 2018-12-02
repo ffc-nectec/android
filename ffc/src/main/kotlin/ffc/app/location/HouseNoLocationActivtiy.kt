@@ -18,6 +18,8 @@
 package ffc.app.location
 
 import android.app.Activity
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -27,31 +29,34 @@ import android.support.v7.widget.SearchView.OnQueryTextListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ffc.api.FfcCentral
+import ffc.android.addVeriticalItemDivider
+import ffc.android.observe
+import ffc.android.viewModel
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
-import ffc.app.dev
 import ffc.entity.gson.toJson
 import ffc.entity.place.House
-import kotlinx.android.synthetic.main.item_house.view.houseNo
+import kotlinx.android.synthetic.main.item_house.view.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
-import retrofit2.dsl.enqueue
 
 class HouseNoLocationActivtiy : FamilyFolderActivity() {
 
-    var houseAdapter: HouseAdapter? = null
+    private var houseAdapter: HouseAdapter? = null
+    private val viewModel by lazy { viewModel<HouseViewModel>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-
+        setContentView(R.layout.activity_search_house_no_location)
         setSupportActionBar(find(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val searchView = find<SearchView>(R.id.searchView)
+        searchView.queryHint = getString(R.string.search_house_hint)
         searchView.setOnQueryTextListener(object : OnQueryTextListener {
+
             override fun onQueryTextSubmit(query: String?): Boolean {
                 houseAdapter?.filter = query
                 return true
@@ -63,44 +68,29 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
             }
         })
 
-        FfcCentral().service<PlaceService>().listHouseNoLocation(org!!.id).enqueue {
-            onSuccess {
-                dev {
-                    toast("Loaded ${body()?.size}")
-                }
-                setupListOf(body()!!)
+        observe(viewModel.houses) {
+            if (!it.isNullOrEmpty()) {
+                setupListOf(it)
             }
-            onError {
-                //        handle("onError ${code()}")
-                dev {
-                    val houses: MutableList<House> = mutableListOf()
-                    for (i in 1..100) {
-                        houses.add(House().apply {
-                            no = "100/$i"
-                        })
-                    }
-                    toast("mocked ${houses.size} house")
-                    setupListOf(houses)
-                }
-            }
+        }
 
-            onFailure {
-                toast(it.message ?: "onFailure")
-            }
+        housesOf(org!!).houseNoLocation {
+            onFound { viewModel.houses.value = it }
+            onNotFound { viewModel.houses.value = listOf() }
+            onFail { toast(it.message ?: "onFailure") }
         }
     }
 
-    fun setupListOf(houses: List<House>) {
+    private fun setupListOf(houses: List<House>) {
         val houseList = find<RecyclerView>(R.id.recycleView)
         houseAdapter = HouseAdapter(houses) {
             val bundle = bundleOf("house" to it.toJson())
             setResult(Activity.RESULT_OK, Intent().apply { putExtras(bundle) })
             finish()
         }
-        houseAdapter?.onEmptyHouse = {
-            toast("Empty House")
-        }
+        houseAdapter?.onEmptyHouse = { }
         houseList.adapter = houseAdapter
+        houseList.addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
         houseList.layoutManager = LinearLayoutManager(this)
     }
 
@@ -114,6 +104,10 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
         super.onBackPressed()
     }
 
+    class HouseViewModel : ViewModel() {
+        val houses = MutableLiveData<List<House>>()
+    }
+
     class HouseViewHolder(view: View, val onItemClick: (House) -> Unit) : RecyclerView.ViewHolder(view) {
         fun bind(address: House) {
             with(address) {
@@ -124,14 +118,12 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
     }
 
     class HouseAdapter(
-        val houses: List<House>,
-        val onItemClick: (House) -> Unit
+        private val houses: List<House>,
+        private val onItemClick: (House) -> Unit
     ) : RecyclerView.Adapter<HouseViewHolder>() {
 
         var onEmptyHouse: (() -> Unit)? = null
-
         var filteredHouse: List<House> = ArrayList()
-
         var filter: String? = null
             set(value) {
                 field = value

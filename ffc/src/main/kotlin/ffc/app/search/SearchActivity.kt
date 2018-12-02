@@ -99,7 +99,6 @@ class SearchActivity : FamilyFolderActivity() {
         }
 
         viewModel.recentQuery.value = RecentSearchProvider.query(this)
-
         viewModel.recentPerson.value = RecentPersonProvider(this).getRecentPerson()
     }
 
