@@ -40,13 +40,12 @@
 
         <com.santalu.emptyview.EmptyView
             android:id="@+id/emptyView"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:ev_empty_drawable="@drawable/ic_not_found_black_24dp"
             app:ev_empty_text="ไม่พบประวัติการรับบริการ"
-            app:ev_loading_text="กำลังดึงข้อมูล..."
+            app:ev_loading_text="@string/loading"
             app:ev_loading_type="circular">
 
             <android.support.v7.widget.RecyclerView

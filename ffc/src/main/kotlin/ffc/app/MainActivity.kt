@@ -17,6 +17,8 @@
 
 package ffc.app
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -29,30 +31,27 @@ import android.widget.ImageView
 import android.widget.TextView
 import ffc.android.enter
 import ffc.android.load
+import ffc.android.observe
 import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.android.setTransition
-import ffc.api.FfcCentral
+import ffc.android.viewModel
 import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
-import ffc.app.location.PlaceService
+import ffc.app.location.housesOf
 import ffc.app.search.SearchActivity
-import kotlinx.android.synthetic.main.activity_main.drawerLayout
-import kotlinx.android.synthetic.main.activity_main.navView
-import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
-import kotlinx.android.synthetic.main.activity_main_content.searchButton
-import kotlinx.android.synthetic.main.activity_main_content.toolbar
-import kotlinx.android.synthetic.main.activity_main_content.versionView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_content.*
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
-import retrofit2.dsl.enqueue
-import retrofit2.dsl.isNotFound
 
 class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private val geoMapsFragment = GeoMapsFragment()
+    private val geoMapsFragment by lazy { GeoMapsFragment() }
+
+    private val viewModel by lazy { viewModel<MainViewModel>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +67,22 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
                 sceneTransition(toolbar to getString(R.string.transition_appbar)))
         }
 
+        setupNavigationDrawer()
+        versionView.text = BuildConfig.VERSION_NAME
+
+        with(geoMapsFragment) { setPaddingTop(dimen(R.dimen.maps_padding_top)) }
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.contentContainer, geoMapsFragment, "geomap")
+            .commit()
+
+        addLocationButton.hide()
+        observe(viewModel.houseNoLocation) {
+            if (it == true) addLocationButton.show() else addLocationButton.hide()
+        }
+    }
+
+    private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close)
@@ -81,15 +96,6 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
             user.avatarUrl?.let { find<ImageView>(R.id.userAvartarView).load(Uri.parse(it)) }
             find<TextView>(R.id.orgDisplayNameView).text = org!!.displayName
         }
-        versionView.text = BuildConfig.VERSION_NAME
-
-        with(geoMapsFragment) {
-            setPaddingTop(dimen(R.dimen.maps_padding_top))
-        }
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.contentContainer, geoMapsFragment, "geomap")
-            .commit()
     }
 
     override fun onResume() {
@@ -140,23 +146,19 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
                 finish()
             }
         }
-
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
     private fun checkHouseNoLocation() {
-        val placeService = FfcCentral().service<PlaceService>()
-        placeService.listHouseNoLocation(org!!.id).enqueue {
-            onSuccess { addLocationButton.show() }
-            onClientError {
-                when {
-                    isNotFound -> addLocationButton.hide()
-                }
-            }
+        housesOf(org!!).houseNoLocation {
+            onFound { viewModel.houseNoLocation.value = true }
+            onNotFound { viewModel.houseNoLocation.value = false }
+            onFail { }
         }
-        if (isDev) {
-            addLocationButton.show()
-        }
+    }
+
+    class MainViewModel : ViewModel() {
+        val houseNoLocation = MutableLiveData<Boolean>()
     }
 }

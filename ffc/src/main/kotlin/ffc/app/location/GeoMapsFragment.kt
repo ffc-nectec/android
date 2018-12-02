@@ -18,6 +18,8 @@
 package ffc.app.location
 
 import android.app.Activity
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -34,14 +36,19 @@ import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.drawable
 import ffc.android.get
 import ffc.android.gone
+import ffc.android.observe
 import ffc.android.put
+import ffc.android.rawAs
 import ffc.android.sceneTransition
 import ffc.android.toBitmap
+import ffc.android.viewModel
 import ffc.app.R
 import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.app.util.alert.handle
 import ffc.entity.gson.toJson
+import ffc.entity.place.House
+import me.piruin.geok.geometry.FeatureCollection
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.intentFor
@@ -53,6 +60,8 @@ class GeoMapsFragment : PointMarloFragment() {
     val REQ_ADD_LOCATION = 1032
 
     private var addLocationButton: FloatingActionButton? = null
+    private val viewModel by lazy { viewModel<GeoViewModel>() }
+    private val preferences: SharedPreferences by lazy { context!!.getSharedPreferences("geomap", Context.MODE_PRIVATE) }
 
     private var lastCameraPosition: CameraPosition?
         set(value) {
@@ -60,18 +69,27 @@ class GeoMapsFragment : PointMarloFragment() {
         }
         get() = preferences.get("campos")
 
-    private val preferences: SharedPreferences by lazy { context!!.getSharedPreferences("geomap", Context.MODE_PRIVATE) }
-
     override fun onActivityCreated(bundle: Bundle?) {
         super.onActivityCreated(bundle)
-
         setStartLocation(lastCameraPosition)
         addLocationButton = activity!!.find(R.id.addLocationButton)
         viewFinder.gone()
         hideToolsMenu()
+
+        observe(viewModel.houses) {
+            it?.let {
+                val coordinates = (it.features[0].geometry as Point).coordinates
+                googleMap.animateCameraTo(coordinates.latitude, coordinates.longitude)
+                addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(it.toJson())))
+                geojsonCache = it
+            }
+        }
+        observe(viewModel.exception) {
+            it?.let { familyFolderActivity.handle(it) }
+        }
     }
 
-    private fun GeoMapsFragment.setStartLocation(lastPosition: CameraPosition?) {
+    private fun setStartLocation(lastPosition: CameraPosition?) {
         if (lastPosition != null) {
             setStartLocation(lastPosition.target, lastPosition.zoom)
         } else {
@@ -82,7 +100,7 @@ class GeoMapsFragment : PointMarloFragment() {
 
     override fun onMapReady(googleMap: GoogleMap?) {
         super.onMapReady(googleMap)
-
+        viewModel.houses.value = geojsonCache
         addLocationButton?.setOnClickListener {
             val intent = intentFor<MarkLocationActivity>(
                 "target" to googleMap!!.cameraPosition.target,
@@ -96,27 +114,19 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private fun showGeoJson() {
         placeGeoJson(familyFolderActivity.org!!).all {
-            onFound {
-                val coordinates = (it.features[0].geometry as Point).coordinates
-                googleMap.animateCameraTo(coordinates.latitude, coordinates.longitude)
-                addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(it.toJson())))
-            }
+            onFound { viewModel.houses.value = it }
             onFail {
-                dev {
-                    googleMap.animateCameraTo(13.0, 102.1, 12.0f)
-                    addGeoJsonLayer(GeoJsonLayer(googleMap, R.raw.place, context))
-                }
-                familyFolderActivity.handle(it)
+                dev { viewModel.houses.value = context?.rawAs(R.raw.place) }
+                viewModel.exception.value = it
             }
         }
     }
 
-    fun addGeoJsonLayer(layer: GeoJsonLayer) {
+    private fun addGeoJsonLayer(layer: GeoJsonLayer) {
         with(layer) {
             features.forEach {
                 it.pointStyle = GeoJsonPointStyle().apply {
-                    icon = if (it.getProperty("haveChronic") == "true")
-                        chronicHomeIcon else homeIcon
+                    icon = if (it.getProperty("haveChronic") == "true") chronicHomeIcon else homeIcon
                     title = "บ้านเลขที่ ${it.getProperty("no")}"
                     snippet = it.getProperty("coordinates")?.trimMargin()
                 }
@@ -155,4 +165,15 @@ class GeoMapsFragment : PointMarloFragment() {
     private val homeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_green_24dp) }
 
     private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_red_24dp) }
+
+    class GeoViewModel : ViewModel() {
+        val houses = MutableLiveData<FeatureCollection<House>>()
+        val exception = MutableLiveData<Throwable>()
+    }
+
+    private var geojsonCache: FeatureCollection<House>?
+        set(value) {
+            preferences.edit().put("geojson", value).apply()
+        }
+        get() = preferences.get("geojson")
 }

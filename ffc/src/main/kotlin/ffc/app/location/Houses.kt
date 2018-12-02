@@ -15,6 +15,8 @@ import retrofit2.dsl.enqueue
 interface Houses {
 
     fun house(id: String, callbackDsl: RepoCallback<House>.() -> Unit)
+
+    fun houseNoLocation(callbackDsl: RepoCallback<List<House>>.() -> Unit)
 }
 
 interface HouseManipulator {
@@ -36,6 +38,24 @@ private class ApiHouses(val org: Organization) : Houses {
             }
             onError {
                 callback.onFail!!.invoke(ApiErrorException(this))
+            }
+            onFailure {
+                callback.onFail!!.invoke(it)
+            }
+        }
+    }
+
+    override fun houseNoLocation(callbackDsl: RepoCallback<List<House>>.() -> Unit) {
+        val callback = RepoCallback<List<House>>().apply(callbackDsl)
+        api.listHouseNoLocation(org.id).enqueue {
+            onSuccess {
+                callback.onFound!!.invoke(body()!!)
+            }
+            onError {
+                if (code() == 404)
+                    callback.onNotFound!!.invoke()
+                else
+                    callback.onFail!!.invoke(ApiErrorException(this))
             }
             onFailure {
                 callback.onFail!!.invoke(it)
@@ -65,6 +85,15 @@ private class ApiHouseManipulator(val org: Organization, val house: House) : Hou
 }
 
 private class DummyHouses(val house: House? = null) : Houses, HouseManipulator {
+
+    override fun houseNoLocation(callbackDsl: RepoCallback<List<House>>.() -> Unit) {
+        val callback = RepoCallback<List<House>>().apply(callbackDsl)
+        val houses = mutableListOf<House>()
+        for (i in 1..100) {
+            houses.add(House().apply { no = "100/$i" })
+        }
+        callback.onFound!!.invoke(houses)
+    }
 
     override fun update(callbackDsl: TaskCallback<House>.() -> Unit) {
         val callback = TaskCallback<House>().apply(callbackDsl)
