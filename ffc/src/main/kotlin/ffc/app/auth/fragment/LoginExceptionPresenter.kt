@@ -17,7 +17,7 @@
 
 package ffc.app.auth.fragment
 
-internal interface LoginActivityListener {
+internal interface LoginExceptionPresenter {
 
-    fun onShowProgressBar(state: Boolean)
+    fun onException(throwable: Throwable)
 }

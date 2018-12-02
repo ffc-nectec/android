@@ -26,25 +26,23 @@ import android.view.View
 import android.view.ViewGroup
 import ffc.android.check
 import ffc.android.error
+import ffc.android.invisible
 import ffc.android.isNotBlank
 import ffc.android.observe
 import ffc.android.onClick
 import ffc.android.viewModel
+import ffc.android.visible
 import ffc.app.R
 import ffc.app.auth.orgs
 import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.entity.Organization
-import kotlinx.android.synthetic.main.fragment_login_org.btnNext
-import kotlinx.android.synthetic.main.fragment_login_org.etOrganization
+import kotlinx.android.synthetic.main.fragment_login_org.*
 import me.piruin.spinney.Spinney
 import me.piruin.spinney.SpinneyAdapter
 import me.piruin.spinney.SpinneyDialog
-import org.jetbrains.anko.support.v4.longToast
 
-internal class LoginOrgFragment : Fragment() {
-
-    private val loginActivityListener: LoginActivityListener by lazy { activity as LoginActivityListener }
+internal class LoginOrgFragment : Fragment(), LoginExceptionPresenter {
 
     lateinit var orgSelected: (Organization) -> Unit
 
@@ -58,23 +56,34 @@ internal class LoginOrgFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = viewModel()
-        observe(viewModel.orgs) {
-            loginActivityListener.onShowProgressBar(false)
-            when (it?.size) {
-                null -> {
-                }
+        observe(viewModel.orgs) { orgs ->
+            when (orgs?.size) {
                 0 -> etOrganization.error(getString(R.string.not_found_org))
-                1 -> viewModel.selectOrg.value = it[0]
-                else -> showOrgSelectorUi(it)
+                1 -> viewModel.selectOrg.value = orgs[0]
+                else -> orgs?.let { showOrgSelectorUi(orgs) }
             }
+            viewModel.loading.value = false
         }
         observe(viewModel.selectOrg) {
             if (it != null) {
-                etOrganization.setText(it.name)
                 orgSelected(it)
             }
         }
-        observe(viewModel.exception) { longToast(it?.message ?: "Something Error Occurs") }
+        observe(viewModel.exception) {
+            if (it == null) {
+                errorView.invisible()
+            } else {
+                emptyView.showContent()
+                errorView.visible()
+                errorView.text = it.message ?: "ERROR"
+            }
+        }
+        observe(viewModel.loading) {
+            if (it == true)
+                emptyView.showLoading()
+            else
+                emptyView.showContent()
+        }
 
         btnNext.onClick {
             try {
@@ -116,6 +125,7 @@ internal class LoginOrgFragment : Fragment() {
     }
 
     private fun checkUserNetwork() {
+        viewModel.loading.value = true
         orgs().myOrg {
             onFound { viewModel.orgs.value = it }
             onNotFound { viewModel.orgs.value = null }
@@ -124,7 +134,8 @@ internal class LoginOrgFragment : Fragment() {
     }
 
     private fun findOrgBy(orgQuery: String) {
-        loginActivityListener.onShowProgressBar(true)
+        viewModel.loading.value = true
+        viewModel.exception.value = null
         orgs().org(query = orgQuery.trim()) {
             onFound { viewModel.orgs.value = it }
             onNotFound { viewModel.orgs.value = listOf() }
@@ -132,9 +143,13 @@ internal class LoginOrgFragment : Fragment() {
         }
     }
 
-    class OrgViewModel : ViewModel() {
+    override fun onException(throwable: Throwable) {
+        viewModel.exception.value = throwable
+    }
 
+    class OrgViewModel : ViewModel() {
         val orgs: MutableLiveData<List<Organization>> = MutableLiveData()
+        val loading: MutableLiveData<Boolean> = MutableLiveData()
         val selectOrg: MutableLiveData<Organization> = MutableLiveData()
         val exception: MutableLiveData<Throwable> = MutableLiveData()
     }
