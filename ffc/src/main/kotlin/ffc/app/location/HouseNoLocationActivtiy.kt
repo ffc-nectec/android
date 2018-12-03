@@ -26,9 +26,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.SearchView.OnQueryTextListener
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import ffc.android.addVeriticalItemDivider
 import ffc.android.observe
 import ffc.android.viewModel
@@ -36,7 +33,6 @@ import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.entity.gson.toJson
 import ffc.entity.place.House
-import kotlinx.android.synthetic.main.item_house.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
@@ -108,47 +104,4 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
         val houses = MutableLiveData<List<House>>()
     }
 
-    class HouseViewHolder(view: View, val onItemClick: (House) -> Unit) : RecyclerView.ViewHolder(view) {
-        fun bind(address: House) {
-            with(address) {
-                itemView.houseNo.text = no
-                itemView.setOnClickListener { onItemClick(this) }
-            }
-        }
-    }
-
-    class HouseAdapter(
-        private val houses: List<House>,
-        private val onItemClick: (House) -> Unit
-    ) : RecyclerView.Adapter<HouseViewHolder>() {
-
-        var onEmptyHouse: (() -> Unit)? = null
-        var filteredHouse: List<House> = ArrayList()
-        var filter: String? = null
-            set(value) {
-                field = value
-                if (value != null)
-                    filteredHouse = houses.filter { it.no?.contains(value) ?: false }
-                else
-                    filteredHouse = ArrayList(houses)
-                notifyDataSetChanged()
-            }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_house, parent, false)
-            return HouseViewHolder(view, onItemClick)
-        }
-
-        override fun getItemCount(): Int {
-            val size = filteredHouse.size
-            if (size == 0)
-                onEmptyHouse?.invoke()
-            return filteredHouse.size
-        }
-
-        override fun onBindViewHolder(holder: HouseViewHolder, position: Int) {
-            holder.bind(filteredHouse[position])
-        }
-    }
 }

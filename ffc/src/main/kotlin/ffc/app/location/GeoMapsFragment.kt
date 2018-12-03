@@ -61,7 +61,8 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private var addLocationButton: FloatingActionButton? = null
     private val viewModel by lazy { viewModel<GeoViewModel>() }
-    private val preferences: SharedPreferences by lazy { context!!.getSharedPreferences("geomap", Context.MODE_PRIVATE) }
+    private val preferences: SharedPreferences by lazy { context!!.getSharedPreferences("geomap-${org?.id}", Context.MODE_PRIVATE) }
+    private val org by lazy { familyFolderActivity.org }
 
     private var lastCameraPosition: CameraPosition?
         set(value) {
@@ -75,7 +76,10 @@ class GeoMapsFragment : PointMarloFragment() {
         addLocationButton = activity!!.find(R.id.addLocationButton)
         viewFinder.gone()
         hideToolsMenu()
+        observeViewModel()
+    }
 
+    private fun observeViewModel() {
         observe(viewModel.houses) {
             it?.let {
                 val coordinates = (it.features[0].geometry as Point).coordinates

@@ -120,7 +120,7 @@ class PersonActivitiy : FamilyFolderActivity() {
     }
 
     private fun bind(person: Person) {
-        RecentPersonProvider(this).saveRecentPerson(person)
+        RecentPersonProvider(this, org!!).saveRecentPerson(person)
         with(person) {
             nameView.text = name
             age?.let { ageView.text = "อายุ $it ปี" }
