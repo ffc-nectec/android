@@ -16,6 +16,8 @@
   -->
 
 <resources>
+    <color name="window_background">#E5E5E5</color>
+
     <color name="complementary">#9565cc</color>
     <color name="complementaryDark">#64399a</color>
     <color name="complementaryLight">#c894ff</color>

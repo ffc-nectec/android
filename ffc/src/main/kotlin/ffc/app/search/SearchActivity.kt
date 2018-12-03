@@ -43,7 +43,10 @@ import ffc.app.person.startPersonActivityOf
 import ffc.app.util.value.Value
 import ffc.app.util.value.ValueAdapter
 import ffc.entity.Person
-import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.activity_search.recentPerson
+import kotlinx.android.synthetic.main.activity_search.recentPersonCard
+import kotlinx.android.synthetic.main.activity_search.recentQuery
+import kotlinx.android.synthetic.main.activity_search.recentQueryCard
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 
@@ -99,7 +102,7 @@ class SearchActivity : FamilyFolderActivity() {
         }
 
         viewModel.recentQuery.value = RecentSearchProvider.query(this)
-        viewModel.recentPerson.value = RecentPersonProvider(this).getRecentPerson()
+        viewModel.recentPerson.value = RecentPersonProvider(this, org!!).getRecentPerson()
     }
 
     override fun onSupportNavigateUp(): Boolean {
