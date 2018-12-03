@@ -51,6 +51,7 @@ import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.doAsyncResult
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.intentFor
 import org.json.JSONObject
@@ -73,6 +74,12 @@ class GeoMapsFragment : PointMarloFragment() {
         }
         get() = preferences.get("campos")
 
+    private var geojsonCache: FeatureCollection<House>?
+        set(value) {
+            preferences.edit().put("geojson", value).apply()
+        }
+        get() = preferences.get("geojson")
+
     override fun onActivityCreated(bundle: Bundle?) {
         super.onActivityCreated(bundle)
         setStartLocation(lastCameraPosition)
@@ -83,7 +90,7 @@ class GeoMapsFragment : PointMarloFragment() {
     }
 
     private fun observeViewModel() {
-        observe(viewModel.houses) {
+        observe(viewModel.geojson) {
             it?.let {
                 googleMap.clear()
                 val coordinates = (it.features[0].geometry as Point).coordinates
@@ -113,7 +120,7 @@ class GeoMapsFragment : PointMarloFragment() {
 
     override fun onMapReady(googleMap: GoogleMap?) {
         super.onMapReady(googleMap)
-        viewModel.houses.value = geojsonCache
+        viewModel.geojson.value = doAsyncResult { geojsonCache }.get()
         addLocationButton?.setOnClickListener {
             val intent = intentFor<MarkLocationActivity>(
                 "target" to googleMap!!.cameraPosition.target,
@@ -127,9 +134,9 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private fun loadGeoJson() {
         placeGeoJson(familyFolderActivity.org!!).all {
-            onFound { viewModel.houses.value = it }
+            onFound { viewModel.geojson.value = it }
             onFail {
-                dev { viewModel.houses.value = context?.rawAs(R.raw.place) }
+                dev { viewModel.geojson.value = context?.rawAs(R.raw.place) }
                 viewModel.exception.value = it
             }
         }
@@ -179,13 +186,8 @@ class GeoMapsFragment : PointMarloFragment() {
     private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_red_24dp) }
 
     class GeoViewModel : ViewModel() {
-        val houses = MutableLiveData<FeatureCollection<House>>()
+        val geojson = MutableLiveData<FeatureCollection<House>>()
         val exception = MutableLiveData<Throwable>()
     }
 
-    private var geojsonCache: FeatureCollection<House>?
-        set(value) {
-            preferences.edit().put("geojson", value).apply()
-        }
-        get() = preferences.get("geojson")
 }
