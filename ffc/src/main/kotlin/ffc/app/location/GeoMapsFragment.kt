@@ -50,6 +50,7 @@ import ffc.entity.gson.toJson
 import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
 import me.piruin.geok.geometry.Point
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.intentFor
 import org.json.JSONObject
@@ -59,6 +60,8 @@ class GeoMapsFragment : PointMarloFragment() {
 
     val REQ_ADD_LOCATION = 1032
 
+    val preferZoomLevel = 17.0f
+
     private var addLocationButton: FloatingActionButton? = null
     private val viewModel by lazy { viewModel<GeoViewModel>() }
     private val preferences: SharedPreferences by lazy { context!!.getSharedPreferences("geomap-${org?.id}", Context.MODE_PRIVATE) }
@@ -66,7 +69,7 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private var lastCameraPosition: CameraPosition?
         set(value) {
-            preferences.edit().put("campos", value).apply()
+            doAsync { preferences.edit().put("campos", value).apply() }
         }
         get() = preferences.get("campos")
 
@@ -82,8 +85,14 @@ class GeoMapsFragment : PointMarloFragment() {
     private fun observeViewModel() {
         observe(viewModel.houses) {
             it?.let {
+                googleMap.clear()
                 val coordinates = (it.features[0].geometry as Point).coordinates
-                googleMap.animateCameraTo(coordinates.latitude, coordinates.longitude)
+                googleMap.animateCameraTo(
+                    coordinates.latitude,
+                    coordinates.longitude,
+                    googleMap?.cameraPosition?.zoom?.takeIf { it >= preferZoomLevel }
+                        ?: preferZoomLevel
+                )
                 addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(it.toJson())))
                 geojsonCache = it
             }
@@ -112,11 +121,11 @@ class GeoMapsFragment : PointMarloFragment() {
             )
             startActivityForResult(intent, REQ_ADD_LOCATION)
         }
-        showGeoJson()
+        loadGeoJson()
         askMyLocationPermission()
     }
 
-    private fun showGeoJson() {
+    private fun loadGeoJson() {
         placeGeoJson(familyFolderActivity.org!!).all {
             onFound { viewModel.houses.value = it }
             onFail {
@@ -135,8 +144,8 @@ class GeoMapsFragment : PointMarloFragment() {
                     snippet = it.getProperty("coordinates")?.trimMargin()
                 }
             }
-            setOnFeatureClickListener {
-                val intent = intentFor<HouseActivity>("houseId" to it.getProperty("id"))
+            setOnFeatureClickListener { feature ->
+                val intent = intentFor<HouseActivity>("houseId" to feature.getProperty("id"))
                 startActivityForResult(intent, REQ_ADD_LOCATION, activity!!.sceneTransition())
             }
             addLayerToMap()
@@ -148,8 +157,7 @@ class GeoMapsFragment : PointMarloFragment() {
         when (requestCode) {
             REQ_ADD_LOCATION -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    googleMap.clear()
-                    showGeoJson()
+                    loadGeoJson()
                 }
             }
         }
