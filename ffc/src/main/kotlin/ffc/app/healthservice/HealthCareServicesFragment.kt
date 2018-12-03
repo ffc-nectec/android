@@ -39,7 +39,8 @@ import ffc.app.util.value.Value
 import ffc.app.util.value.ValueAdapter
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.bloodPressureLevel
-import kotlinx.android.synthetic.main.hs_services_list_card.*
+import kotlinx.android.synthetic.main.hs_services_list_card.emptyView
+import kotlinx.android.synthetic.main.hs_services_list_card.vitalSign
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.toast
 
@@ -138,12 +139,24 @@ class HealthCareServicesFragment : Fragment() {
         pulseRate?.let {
             val captionColor = when (it) {
                 in 60.0..100.0 -> "ปกติ" to R.color.colorAccent
-                else -> "" to R.color.orange_500
+                else -> "ผิดปกติ" to R.color.orange_500
             }
             values.add(Value("Pulse", "${it.toInt()}", captionColor.first, colorRes = captionColor.second))
         }
-        bodyTemperature?.let { values.add(Value("Temp", "$it")) }
-        respiratoryRate?.let { values.add(Value("RR", "${it.toInt()}")) }
+        bodyTemperature?.let {
+            val captionColor = when (it) {
+                in 36.5..37.5 -> "ปกติ" to R.color.colorAccent
+                else -> "ผิดปกติ" to R.color.orange_500
+            }
+            values.add(Value("Temp", "$it", captionColor.first, colorRes = captionColor.second))
+        }
+        respiratoryRate?.let {
+            val captionColor = when (it) {
+                in 16.0..20.0 -> "ปกติ" to R.color.colorAccent
+                else -> "ผิดปกติ" to R.color.orange_500
+            }
+            values.add(Value("RR", "${it.toInt()}", captionColor.first, colorRes = captionColor.second))
+        }
         waist?.let { values.add(Value("Waist", "$it")) }
         return values
     }
