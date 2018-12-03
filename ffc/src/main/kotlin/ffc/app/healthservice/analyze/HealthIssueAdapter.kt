@@ -1,4 +1,4 @@
-package ffc.app.healthservice
+package ffc.app.healthservice.analyze
 
 import android.content.Context
 import android.graphics.drawable.Drawable

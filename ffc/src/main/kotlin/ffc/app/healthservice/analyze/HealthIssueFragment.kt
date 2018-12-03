@@ -1,4 +1,4 @@
-package ffc.app.healthservice
+package ffc.app.healthservice.analyze
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -44,5 +44,4 @@ class HealthIssueFragment : Fragment() {
             }
         }
     }
-
 }

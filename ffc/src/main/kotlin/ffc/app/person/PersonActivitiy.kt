@@ -40,8 +40,8 @@ import ffc.android.viewModel
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.healthservice.HealthCareServicesFragment
-import ffc.app.healthservice.HealthIssueFragment
 import ffc.app.healthservice.HomeVisitActivity
+import ffc.app.healthservice.analyze.HealthIssueFragment
 import ffc.app.isDev
 import ffc.app.location.HouseActivity
 import ffc.app.person.genogram.GenogramActivity
