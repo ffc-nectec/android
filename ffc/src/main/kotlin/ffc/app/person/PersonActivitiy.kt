@@ -54,7 +54,14 @@ import ffc.app.util.alert.toast
 import ffc.entity.Person
 import ffc.entity.place.House
 import ffc.entity.update
-import kotlinx.android.synthetic.main.activity_person.*
+import kotlinx.android.synthetic.main.activity_person.ageView
+import kotlinx.android.synthetic.main.activity_person.avatarView
+import kotlinx.android.synthetic.main.activity_person.deadLabelView
+import kotlinx.android.synthetic.main.activity_person.genogramButton
+import kotlinx.android.synthetic.main.activity_person.homeAsUp
+import kotlinx.android.synthetic.main.activity_person.nameView
+import kotlinx.android.synthetic.main.activity_person.toolbarImage
+import kotlinx.android.synthetic.main.activity_person.visitButton
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
@@ -130,6 +137,8 @@ class PersonActivitiy : FamilyFolderActivity() {
             }
             val fragmentAdd = mutableMapOf<String, Fragment>()
             if (isDead) {
+                visitButton.hide()
+
                 val deathFragment = DeathFragment()
                 deathFragment.death = death
                 fragmentAdd.put("death", deathFragment)
