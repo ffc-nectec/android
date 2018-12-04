@@ -19,13 +19,12 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/window_background
-        </item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:elegantTextHeight" tools:targetApi="lollipop">true</item>
         <item name="android:textAppearanceMedium">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:windowBackground">@color/window_background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
