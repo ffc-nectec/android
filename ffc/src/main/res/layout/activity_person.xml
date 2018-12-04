@@ -62,7 +62,7 @@
                 android:layout_gravity="start|top"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="34dp"
-                android:background="@drawable/white_circle"
+                android:background="@drawable/bg_circle_white"
                 android:minWidth="?android:actionBarSize"
                 android:padding="8dp"
                 app:layout_collapseMode="pin" />
@@ -119,7 +119,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:background="@drawable/card_background_dark"
+                            android:background="@drawable/bg_label_dark"
                             android:padding="2dp"
                             android:text="@string/dead"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"

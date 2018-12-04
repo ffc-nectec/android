@@ -23,7 +23,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.AppCompatImageView
-        android:background="@drawable/male_node_icon"
+        android:background="@drawable/bg_male_node"
         android:id="@+id/personAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
