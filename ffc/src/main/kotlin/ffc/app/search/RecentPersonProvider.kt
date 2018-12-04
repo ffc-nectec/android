@@ -35,5 +35,4 @@ class RecentPersonProvider(val context: Context, val org: Organization) {
     fun clearRecentHistory() {
         persons = LinkedList()
     }
-
 }

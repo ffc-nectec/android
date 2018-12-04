@@ -65,4 +65,3 @@ interface HealthIssueServiceApi {
     @GET("org/{orgId}/person/{personId}/healthanalyze")
     fun get(@Path("orgId") orgId: String, @Path("personId") personId: String): Call<HealthAnalyzer>
 }
-

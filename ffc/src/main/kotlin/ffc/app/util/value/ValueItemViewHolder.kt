@@ -31,7 +31,14 @@ class ValueItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         bind(value.label, value.value, value.caption, value.color, value.colorRes, value.iconRes)
     }
 
-    fun bind(label: String?, value: String = "-", caption: String? = null, @ColorInt color: Int? = null, @ColorRes colorRes: Int? = null, @DrawableRes iconRes: Int? = null) {
+    fun bind(
+        label: String?,
+        value: String = "-",
+        caption: String? = null,
+        @ColorInt color: Int? = null,
+        @ColorRes colorRes: Int? = null,
+        @DrawableRes iconRes: Int? = null
+    ) {
         with(itemView) {
             labelView.text = label?.trim()
             labelView.visibility = if (label.isNullOrBlank()) View.GONE else View.VISIBLE

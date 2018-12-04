@@ -125,7 +125,6 @@ val mockPerson = Person("5b9770e029191b0004c91a56").apply {
     relationships.add(Person.Relationship(Person.Relate.Mother, generateTempId(), "ปานแก้ว พานิชผล"))
     relationships.add(Person.Relationship(Person.Relate.Father, generateTempId(), "พิภพ พานิชผล"))
     relationships.add(Person.Relationship(Person.Relate.Married, generateTempId(), "พรทิพา โชคสูงเนิน"))
-
 }
 
 internal fun Person.manipulator(org: Organization): PersonManipulator {

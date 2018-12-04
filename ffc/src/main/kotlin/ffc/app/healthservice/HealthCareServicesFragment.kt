@@ -134,7 +134,9 @@ class HealthCareServicesFragment : Fragment() {
                 it.isLow -> "ต่ำ" to R.color.blue_500
                 else -> null
             }
-            values.add(Value("SYS/DIA", "${it.bp.systolic.toInt()}/${it.bp.diastolic.toInt()}", captionColor?.first, colorRes = captionColor?.second))
+            values.add(Value("SYS/DIA", "${it.bp.systolic.toInt()}/${it.bp.diastolic.toInt()}",
+                captionColor?.first,
+                colorRes = captionColor?.second))
         }
         pulseRate?.let {
             val captionColor = when (it) {
@@ -161,4 +163,3 @@ class HealthCareServicesFragment : Fragment() {
         return values
     }
 }
-

@@ -16,11 +16,14 @@ import kotlinx.android.synthetic.main.hs_issue_item_small.view.icon
 import kotlinx.android.synthetic.main.hs_issue_item_small.view.severity
 import kotlinx.android.synthetic.main.hs_issue_item_small.view.title
 
-class HealthIssueAdapter(val issues: List<HealthIssue>, limit: Int = Int.MAX_VALUE) : RecyclerView.Adapter<IssueHolder>() {
+class HealthIssueAdapter(
+    val issues: List<HealthIssue>,
+    val limit: Int = Int.MAX_VALUE
+) : RecyclerView.Adapter<IssueHolder>() {
 
     override fun onCreateViewHolder(view: ViewGroup, type: Int): IssueHolder = IssueHolder(view)
 
-    override fun getItemCount() = issues.size
+    override fun getItemCount() = issues.size.takeIf { it < limit } ?: limit
 
     override fun onBindViewHolder(holder: IssueHolder, position: Int) {
         holder.bind(issues[position])
@@ -56,7 +59,6 @@ class IssueHolder(parent: ViewGroup)
     }
 
     fun Drawable.setColorFilter(context: Context, @ColorRes colorRes: Int) {
-        setColorFilter(ContextCompat.getColor(context, colorRes), android.graphics.PorterDuff.Mode.SRC_IN);
+        setColorFilter(ContextCompat.getColor(context, colorRes), android.graphics.PorterDuff.Mode.SRC_IN)
     }
 }
-

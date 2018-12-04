@@ -44,5 +44,4 @@ private class MockDiseases(val context: Context) : Diseases {
     companion object {
         internal var disease: List<Disease> = listOf()
     }
-
 }

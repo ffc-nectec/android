@@ -65,7 +65,9 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private var addLocationButton: FloatingActionButton? = null
     private val viewModel by lazy { viewModel<GeoViewModel>() }
-    private val preferences: SharedPreferences by lazy { context!!.getSharedPreferences("geomap-${org?.id}", Context.MODE_PRIVATE) }
+    private val preferences: SharedPreferences by lazy {
+        context!!.getSharedPreferences("geomap-${org?.id}", Context.MODE_PRIVATE)
+    }
     private val org by lazy { familyFolderActivity.org }
 
     private var lastCameraPosition: CameraPosition?
@@ -189,5 +191,4 @@ class GeoMapsFragment : PointMarloFragment() {
         val geojson = MutableLiveData<FeatureCollection<House>>()
         val exception = MutableLiveData<Throwable>()
     }
-
 }

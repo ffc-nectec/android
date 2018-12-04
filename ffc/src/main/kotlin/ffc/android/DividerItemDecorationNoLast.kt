@@ -27,7 +27,7 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
 
     private var mDivider: Drawable? = null
 
-    var startOffset : Int = 0
+    var startOffset: Int = 0
     var endOffset: Int = 0
 
     /**
@@ -41,7 +41,8 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
         val a = context?.obtainStyledAttributes(ATTRS)
         mDivider = a?.getDrawable(0)
         if (mDivider == null) {
-            Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this " + "DividerItemDecorationNoLast. Please set that attribute all call setDrawable()")
+            Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this " +
+                "DividerItemDecorationNoLast. Please set that attribute all call setDrawable()")
         }
         a?.recycle()
         setOrientation(orientation)
@@ -74,7 +75,7 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        if (parent?.layoutManager == null || mDivider == null) {
+        if (parent.layoutManager == null || mDivider == null) {
             return
         }
         if (mOrientation == VERTICAL) {
