@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/personNameView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/content_start_horizontal_padding"
         android:layout_marginTop="8dp"
@@ -49,6 +49,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="22sp"
+        app:autoSizeStepGranularity="2sp"
+        android:maxLines="1"
         tools:text="นายพิรุณ พานิชผล" />
 
     <TextView
