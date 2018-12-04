@@ -43,7 +43,7 @@
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginTop">12dp</item>
-        <item name="android:background">@drawable/card_background</item>
+        <item name="android:background">@drawable/bg_card</item>
     </style>
 
 

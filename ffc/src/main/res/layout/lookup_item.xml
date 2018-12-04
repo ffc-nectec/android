@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/card_background_dark"
+        android:background="@drawable/bg_label_dark"
         android:backgroundTint="@color/colorAccent"
         android:textColor="@color/text_secondary_inverse"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
