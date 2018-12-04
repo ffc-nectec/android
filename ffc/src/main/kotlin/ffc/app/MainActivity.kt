@@ -25,7 +25,6 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.transition.Fade
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -40,8 +39,12 @@ import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
 import ffc.app.location.housesOf
 import ffc.app.search.SearchActivity
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main_content.*
+import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.navView
+import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
+import kotlinx.android.synthetic.main.activity_main_content.searchButton
+import kotlinx.android.synthetic.main.activity_main_content.toolbar
+import kotlinx.android.synthetic.main.activity_main_content.versionView
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
@@ -111,34 +114,12 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.activity_main_option, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> {
-                toast(R.string.under_construction)
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_gallery -> {
-                toast(R.string.under_construction)
+            R.id.nav_main -> {
             }
-            R.id.nav_manage -> {
-                toast(R.string.under_construction)
-            }
-            R.id.nav_share -> {
-                toast(R.string.under_construction)
-            }
-            R.id.nav_send -> {
+            R.id.nav_achivement, R.id.nav_follow, R.id.nav_manual, R.id.nav_about, R.id.nav_settings -> {
                 toast(R.string.under_construction)
             }
             R.id.nav_logout -> {

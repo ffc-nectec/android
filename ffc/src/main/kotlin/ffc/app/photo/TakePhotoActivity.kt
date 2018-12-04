@@ -65,7 +65,7 @@ class TakePhotoActivity : FamilyFolderActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.house_activity, menu)
+        menuInflater.inflate(R.menu.house_option, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
