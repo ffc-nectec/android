@@ -45,8 +45,6 @@ class RelationshipView @JvmOverloads constructor(
                 else -> null
             }
             nameView.text = name
-            //avatarUrl?.let { avatarView.load(Uri.parse(it)) }
-            //age?.let { ageView.text = it }
         }
     }
 }

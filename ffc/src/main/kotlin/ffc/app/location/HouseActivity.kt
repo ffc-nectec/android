@@ -147,7 +147,7 @@ class HouseActivity : FamilyFolderActivity() {
     var photoMenu: MenuItem? = null
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.house_activity, menu)
+        menuInflater.inflate(R.menu.house_option, menu)
         photoMenu = menu.findItem(R.id.photoMenu)
         photoMenu!!.isEnabled = false
         return super.onCreateOptionsMenu(menu)

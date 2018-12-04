@@ -1,4 +1,5 @@
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,19 +24,30 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:drawablePadding="16dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:layout_marginTop="4dp"
             android:text="@string/health_status_caption"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView"
-            android:layout_marginTop="8dp"
+        <com.santalu.emptyview.EmptyView
+            android:id="@+id/emptyView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/hs_issue_item_small" />
+            app:ev_empty_drawable="@drawable/ic_not_found_black_24dp"
+            app:ev_empty_text="ข้อมูลไม่เพียงพอสำหรับวิเคราะห์"
+            app:ev_loading_text="@string/loading"
+            app:ev_loading_type="circular">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/hs_issue_item_small" />
+        </com.santalu.emptyview.EmptyView>
+
 
     </LinearLayout>
 

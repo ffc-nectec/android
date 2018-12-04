@@ -66,8 +66,10 @@
             app:autoSizeStepGranularity="2sp"
             app:autoSizeMaxTextSize="24sp"
             app:autoSizeTextType="uniform"
+            android:elegantTextHeight="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            tools:text="Puy" />
+            tools:text="Puy"
+            tools:targetApi="lollipop" />
     </LinearLayout>
 
 </FrameLayout>

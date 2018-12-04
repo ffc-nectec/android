@@ -47,14 +47,10 @@ open class FamilyFolderActivity : AppCompatActivity() {
         }
 
     val org: Organization?
-        get() {
-            return auth(this).org ?: devOrg
-        }
-
+        get() = auth(this).org ?: devOrg
     private val devOrg = if (isDev) Organization() else null
 
-    var savedInstanceState: Bundle? = null
-
+    protected var savedInstanceState: Bundle? = null
     private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }
 
     override fun setContentView(@LayoutRes layoutResID: Int) {
