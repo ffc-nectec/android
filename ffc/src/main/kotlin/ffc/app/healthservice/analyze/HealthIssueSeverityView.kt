@@ -44,7 +44,9 @@ class HealthIssueSeverityView @JvmOverloads constructor(
                     severity = value.severity
                 }
                 is HealthChecked -> {
-                    views.filter { listOf(R.id.severityLow, R.id.severityHi, R.id.severityVeryHi).contains(it.id) }.forEach { it.gone() }
+                    views.filter {
+                        listOf(R.id.severityLow, R.id.severityHi, R.id.severityVeryHi).contains(it.id)
+                    }.forEach { it.gone() }
                     severity = if (value.haveIssue) HealthIssue.Severity.MID else HealthIssue.Severity.OK
                 }
             }
@@ -70,5 +72,3 @@ class HealthIssueSeverityView @JvmOverloads constructor(
         views.forEach { it.setImageDrawable(ColorDrawable(tint)) }
     }
 }
-
-

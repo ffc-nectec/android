@@ -103,5 +103,4 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
     class HouseViewModel : ViewModel() {
         val houses = MutableLiveData<List<House>>()
     }
-
 }

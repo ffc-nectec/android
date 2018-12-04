@@ -40,4 +40,3 @@ class ValueAdapter(
         lastLabel = item.label
     }
 }
-

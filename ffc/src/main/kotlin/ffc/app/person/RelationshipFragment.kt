@@ -38,7 +38,9 @@ class RelationshipFragment : Fragment() {
         }
     }
 
-    class RelationshipAdapter(val relationships: List<Person.Relationship>) : RecyclerView.Adapter<RelationViewHolder>() {
+    class RelationshipAdapter(
+        val relationships: List<Person.Relationship>
+    ) : RecyclerView.Adapter<RelationViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, type: Int): RelationViewHolder {
             return RelationViewHolder(RelationshipView(parent.context))
         }
@@ -57,4 +59,3 @@ class RelationshipFragment : Fragment() {
 
     class RelationViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }
-

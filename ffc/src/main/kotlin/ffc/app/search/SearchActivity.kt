@@ -115,7 +115,7 @@ class SearchActivity : FamilyFolderActivity() {
         overridePendingTransition(0, 0)
     }
 
-    class SearchViewModel: ViewModel() {
+    class SearchViewModel : ViewModel() {
         val recentQuery = MutableLiveData<List<String>>()
         val recentPerson = MutableLiveData<List<Person>>()
     }
