@@ -19,6 +19,8 @@ package ffc.app.health.service.community
 
 import android.os.Bundle
 import android.util.Log
+import ffc.android.disable
+import ffc.android.enable
 import ffc.android.find
 import ffc.android.onClick
 import ffc.android.tag
@@ -75,7 +77,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
             }
         }
 
-        done.onClick { _ ->
+        done.onClick { done ->
             try {
                 val visit = HealthCareService(providerId, personId!!)
                 homeVisit.dataInto(visit)
@@ -84,18 +86,24 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 body.dataInto(visit)
                 photo.dataInto(visit)
 
-                healthCareServicesOf(personId!!, org!!.id).add(visit) { service, throwable ->
-                    throwable?.let { toast(it.message!!) }
-                    service?.let {
-                        Log.d(tag, it.toJson())
-                        toast("Services save")
+                done.disable()
+                healthCareServicesOf(personId!!, org!!.id).add(visit) {
+                    onComplete {
+                        dev { Log.d(tag, it.toJson()) }
+                        toast("บันทึกข้อมูลเรียบร้อย")
                         finish()
+                    }
+                    onFail {
+                        done.enable()
+                        toast(it.message ?: "Something went wrong")
                     }
                 }
             } catch (invalid: IllegalStateException) {
                 handle(invalid)
+                done.enable()
             } catch (throwable: Throwable) {
                 handle(throwable)
+                done.enable()
             }
         }
     }
