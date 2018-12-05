@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ความดันโลหิต"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +25,7 @@
                 android:id="@+id/bpSysField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ความดันโลหิต บน"
+                android:hint="ตัวบน"
                 android:inputType="numberDecimal"
                 android:maxLength="3" />
         </android.support.design.widget.TextInputLayout>
@@ -32,7 +39,49 @@
                 android:id="@+id/bpDiaField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ล่าง"
+                android:hint="ตัวล่าง"
+                android:inputType="numberDecimal"
+                android:maxLength="3" />
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ความดันโลหิต (ครั้งที่ 2) "
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/bpSysField2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ตัวบน"
+                android:inputType="numberDecimal"
+                android:maxLength="3" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/bpDiaField2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ตัวล่าง"
                 android:inputType="numberDecimal"
                 android:maxLength="3" />
         </android.support.design.widget.TextInputLayout>
@@ -48,7 +97,7 @@
             android:id="@+id/pulseField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="อัตราการเต้นหัวใจ (ครั้งต่อนาที)"
+            android:hint="ชีพจร (ครั้งต่อนาที)"
             android:inputType="number"
             android:maxLength="3" />
     </android.support.design.widget.TextInputLayout>
