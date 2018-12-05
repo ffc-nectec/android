@@ -6,6 +6,7 @@ import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
 import ffc.app.isDev
 import ffc.app.util.RepoCallback
+import ffc.app.util.TaskCallback
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
 import retrofit2.dsl.enqueue
@@ -13,20 +14,22 @@ import java.util.concurrent.ConcurrentHashMap
 
 internal interface HealthCareServices {
 
-    fun add(services: HealthCareService, callback: (HealthCareService?, Throwable?) -> Unit)
+    fun add(services: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit)
 
     fun all(dsl: RepoCallback<List<HealthCareService>>.() -> Unit)
 }
 
 private class InMemoryHealthCareServices(val personId: String) : HealthCareServices {
 
-    override fun add(services: HealthCareService, callback: (HealthCareService?, Throwable?) -> Unit) {
+    override fun add(services: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit) {
         require(services.patientId == personId) { "Not match patinet id" }
         Log.d(tag, "homevisit = ${services.toJson()}")
+
+        val callback = TaskCallback<HealthCareService>().apply(dslCallback)
         val list = repository[personId] ?: mutableListOf()
         list.add(services)
         repository[personId] = list
-        callback(services, null)
+        callback.result.invoke(services)
     }
 
     override fun all(dsl: RepoCallback<List<HealthCareService>>.() -> Unit) {
@@ -52,16 +55,18 @@ private class ApiHealthCareServices(
 
     val api = FfcCentral().service<HealthCareServiceApi>()
 
-    override fun add(services: HealthCareService, callback: (HealthCareService?, Throwable?) -> Unit) {
+    override fun add(services: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit) {
+        val callback = TaskCallback<HealthCareService>().apply(dslCallback)
+
         api.post(services, org).enqueue {
             onSuccess {
-                callback(body()!!, null)
+                callback.result.invoke(body()!!)
             }
             onError {
-                callback(null, ApiErrorException(this))
+                callback.expception?.invoke(ApiErrorException(this))
             }
             onFailure {
-                callback(null, it)
+                callback.expception?.invoke(it)
             }
         }
     }
