@@ -30,7 +30,9 @@ import ffc.app.health.service.HealthCareServivceForm
 import ffc.entity.healthcare.BloodPressure
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpDiaField
+import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpDiaField2
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpSysField
+import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpSysField2
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.pulseField
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.rrField
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.tempField
@@ -49,6 +51,10 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
             it.bloodPressure?.let { bp ->
                 bpSysField.setText("${bp.systolic}")
                 bpDiaField.setText("${bp.diastolic}")
+            }
+            it.bloodPressure2nd?.let { bp ->
+                bpSysField2.setText("${bp.systolic}")
+                bpDiaField2.setText("${bp.diastolic}")
             }
             it.respiratoryRate?.let { rr -> rrField.setText("$rr") }
             it.pulseRate?.let { pr -> pulseField.setText("$pr") }
@@ -77,6 +83,26 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
             that { isNotBlank }
             message = "กรุณาระบุ"
         }
+        bpSysField2.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 80..330 }
+            message = "ค่าต้องอยู่ระหว่าง 80-330"
+        }
+        bpSysField2.check {
+            on { bpDiaField.isNotBlank }
+            that { isNotBlank }
+            message = "กรุณาระบุ"
+        }
+        bpDiaField2.check {
+            on { isNotBlank }
+            that { text.toString().toDouble() in 30..135 }
+            message = "ค่าต้องอยู่ระหว่าง 30-135"
+        }
+        bpDiaField2.check {
+            on { bpSysField.isNotBlank }
+            that { isNotBlank }
+            message = "กรุณาระบุ"
+        }
         pulseField.check {
             on { isNotBlank }
             that { text.toString().toDouble() in 30..250 }
@@ -98,6 +124,10 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
                 bloodPressure = BloodPressure(
                     bpSysField.text.toString().toDouble(),
                     bpDiaField.text.toString().toDouble())
+            if (notEmpty(bpSysField2, bpDiaField2))
+                bloodPressure2nd = BloodPressure(
+                    bpSysField2.text.toString().toDouble(),
+                    bpDiaField2.text.toString().toDouble())
             if (notEmpty(rrField))
                 respiratoryRate = rrField.text.toString().toDouble()
             if (notEmpty(pulseField))
