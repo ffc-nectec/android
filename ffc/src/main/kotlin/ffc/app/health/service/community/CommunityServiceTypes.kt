@@ -19,79 +19,78 @@ package ffc.app.health.service.community
 
 import android.content.Context
 import ffc.android.connectivityManager
+import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
 import ffc.app.isConnected
+import ffc.app.util.RepoCallback
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.CommunityService
-import org.jetbrains.anko.toast
 import retrofit2.dsl.enqueue
 import java.io.File
 import java.io.IOException
 
-interface HomeVisitType {
+interface CommunityServiceTypes {
 
-    fun all(res: (List<CommunityService.ServiceType>, Throwable?) -> Unit)
+    fun all(callbackDsl: RepoCallback<List<CommunityService.ServiceType>>.() -> Unit)
 }
 
-internal fun homeVisitType(context: Context): HomeVisitType = HomeHealtServiceImpl(context)
+internal fun communityServiceTypes(context: Context): CommunityServiceTypes = CommunityServiceTypesImpl(context)
 
-private class HomeHealtServiceImpl(val context: Context) : HomeVisitType {
+private class CommunityServiceTypesImpl(val context: Context) : CommunityServiceTypes {
 
     private val localFile = File(context.filesDir, "homevisittype.json")
-
-    val api by lazy { FfcCentral().service<CommunityServicesApi>() }
-
-    var loading = false
+    private val api by lazy { FfcCentral().service<CommunityServicesApi>() }
+    private var loading = false
+    private var tmpCallback: RepoCallback<List<CommunityService.ServiceType>>? = null
 
     init {
-        if (homeVisitType.isEmpty()) {
+        if (serviceType.isEmpty()) {
             if (context.connectivityManager.isConnected) {
                 loading = true
                 api.getHomeHealthService().enqueue {
                     always {
+                        tmpCallback?.always?.invoke()
                         loading = false
                     }
                     onSuccess {
-                        context.toast("Request")
-                        homeVisitType = body()!!
-                        tempRes?.invoke(homeVisitType, null)
+                        serviceType = body()!!
+                        tmpCallback?.onFound?.invoke(serviceType)
                         try {
                             localFile.createNewFile()
                         } catch (ignore: IOException) {
                         }
-                        localFile.writeText(homeVisitType.toJson())
-                    }
-                    onRedirect {
-                        context.toast("Redirect")
+                        localFile.writeText(serviceType.toJson())
                     }
                     onError {
-                        tempRes?.invoke(listOf(), IllegalStateException("Request Error"))
+                        tmpCallback?.onFail!!.invoke(ApiErrorException(this))
                     }
                     onFailure {
-                        tempRes?.invoke(listOf(), it)
+                        tmpCallback?.onFail!!.invoke(it)
                     }
                 }
             }
             if (localFile.exists()) {
-                homeVisitType = localFile.readText().parseTo()
+                serviceType = localFile.readText().parseTo()
             }
         }
     }
 
-    var tempRes: ((List<CommunityService.ServiceType>, Throwable?) -> Unit)? = null
-
-    override fun all(res: (List<CommunityService.ServiceType>, Throwable?) -> Unit) {
+    override fun all(callbackDsl: RepoCallback<List<CommunityService.ServiceType>>.() -> Unit) {
+        val callback = RepoCallback<List<CommunityService.ServiceType>>().apply(callbackDsl)
         if (loading) {
-            tempRes = res
+            tmpCallback = callback
         } else {
-            res(homeVisitType, null)
+            callback.always?.invoke()
+            if (serviceType.isNotEmpty()) {
+                callback.onFound!!.invoke(serviceType)
+            } else {
+                callback.onNotFound!!.invoke()
+            }
         }
     }
 
     companion object {
-        var homeVisitType = listOf<CommunityService.ServiceType>()
+        var serviceType = listOf<CommunityService.ServiceType>()
     }
 }
-
-val notDefineCommunityService = CommunityService.ServiceType("null", "NULL")
