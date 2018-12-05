@@ -1,4 +1,4 @@
-package ffc.app.healthservice.analyze
+package ffc.app.health.analyze
 
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
