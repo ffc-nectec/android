@@ -1,4 +1,4 @@
-package ffc.app.healthservice
+package ffc.app.photo
 
 import android.app.Activity
 import android.content.Intent
@@ -10,15 +10,13 @@ import android.view.ViewGroup
 import ffc.android.onClick
 import ffc.app.R
 import ffc.app.dev
-import ffc.app.photo.PhotoType
-import ffc.app.photo.startTakePhotoActivity
-import ffc.app.photo.urls
+import ffc.app.health.service.HealthCareServivceForm
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.util.URLs
 import kotlinx.android.synthetic.main.hs_photo_fragment.counterView
 import kotlinx.android.synthetic.main.hs_photo_fragment.takePhoto
 
-class ServicePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
+class TakePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
     private val maxPhoto = 4
     private var photoUrls: List<String> = listOf()

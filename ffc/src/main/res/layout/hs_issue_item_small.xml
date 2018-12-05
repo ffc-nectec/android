@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ffc.app.healthservice.analyze.HealthIssueSeverityView
+    <ffc.app.health.analyze.HealthIssueSeverityView
         android:id="@+id/severity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -127,7 +127,7 @@
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
 
         <activity
-            android:name=".healthservice.HomeVisitActivity"
+            android:name="ffc.app.health.service.community.HomeVisitActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 

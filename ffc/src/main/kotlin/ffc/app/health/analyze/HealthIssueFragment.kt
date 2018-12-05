@@ -1,4 +1,4 @@
-package ffc.app.healthservice.analyze
+package ffc.app.health.analyze
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

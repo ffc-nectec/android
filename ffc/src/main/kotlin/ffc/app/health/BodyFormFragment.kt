@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.healthservice
+package ffc.app.health
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -26,6 +26,7 @@ import ffc.android.check
 import ffc.android.getInput
 import ffc.android.isNotBlank
 import ffc.app.R
+import ffc.app.health.service.HealthCareServivceForm
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.hs_body_form_fragment.*
 
