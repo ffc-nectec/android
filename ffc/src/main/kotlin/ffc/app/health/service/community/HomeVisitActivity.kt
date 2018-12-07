@@ -75,6 +75,14 @@ class HomeVisitActivity : FamilyFolderActivity() {
             onFound {
                 toast("visit ${it.name}")
             }
+            onNotFound {
+                toast("ไม่พบ")
+                finish()
+            }
+            onFail {
+                handle(it)
+                finish()
+            }
         }
 
         done.onClick { done ->
