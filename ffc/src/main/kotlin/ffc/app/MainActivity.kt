@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
 import kotlinx.android.synthetic.main.activity_main_content.searchButton
 import kotlinx.android.synthetic.main.activity_main_content.toolbar
 import kotlinx.android.synthetic.main.activity_main_content.versionView
+import org.jetbrains.anko.browse
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
@@ -119,7 +120,8 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         when (item.itemId) {
             R.id.nav_main -> {
             }
-            R.id.nav_achivement, R.id.nav_follow, R.id.nav_manual, R.id.nav_about, R.id.nav_settings -> {
+            R.id.nav_follow -> browse("https://www.facebook.com/FFC.NECTEC/", true)
+            R.id.nav_achivement, R.id.nav_manual, R.id.nav_about, R.id.nav_settings -> {
                 toast(R.string.under_construction)
             }
             R.id.nav_logout -> {
