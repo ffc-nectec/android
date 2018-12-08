@@ -34,7 +34,7 @@ internal class LoginInteractor(
 
     init {
         if (relogin) {
-            orgService.listOrgs(auth.org!!.displayName!!).enqueue {
+            orgService.listOrgs(auth.org!!.name).enqueue {
                 onSuccess {
                     org = body()!!.get(0)
                 }

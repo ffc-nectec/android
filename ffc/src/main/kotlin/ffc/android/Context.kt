@@ -1,6 +1,7 @@
 package ffc.android
 
 import android.content.Context
+import android.content.res.Configuration
 import android.support.annotation.RawRes
 import com.google.gson.Gson
 import ffc.entity.gson.ffcGson
@@ -11,3 +12,5 @@ inline fun <reified T> Context.rawAs(@RawRes rawId: Int, gson: Gson = ffcGson): 
     val reader = BufferedReader(InputStreamReader(resources.openRawResource(rawId)))
     return gson.fromJson(reader.readText(), T::class.java)
 }
+
+fun Context.isXLargeTablet(context: Context) = context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_XLARGE
