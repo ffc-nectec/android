@@ -94,6 +94,11 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkHouseNoLocation()
 
         with(navView.getHeaderView(0)) {
             val user = auth(context).user!!
@@ -101,11 +106,6 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
             user.avatarUrl?.let { find<ImageView>(R.id.userAvartarView).load(Uri.parse(it)) }
             find<TextView>(R.id.orgDisplayNameView).text = org!!.displayName
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        checkHouseNoLocation()
     }
 
     override fun onBackPressed() {
