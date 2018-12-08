@@ -13,4 +13,5 @@ inline fun <reified T> Context.rawAs(@RawRes rawId: Int, gson: Gson = ffcGson): 
     return gson.fromJson(reader.readText(), T::class.java)
 }
 
-fun Context.isXLargeTablet(context: Context) = context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_XLARGE
+fun Context.isXLargeTablet(context: Context) = context.resources.configuration.screenLayout and
+    Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_XLARGE

@@ -31,7 +31,6 @@ import ffc.app.R.layout
 import ffc.entity.Place
 import ffc.entity.gson.ffcGson
 import ffc.entity.gson.parseTo
-import ffc.entity.gson.toJson
 import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.dimen
@@ -45,7 +44,8 @@ class MarkLocationActivity : FamilyFolderActivity() {
 
     val REQ_TARGET = 10293
 
-    lateinit var targetPlace: Place
+    private lateinit var targetPlace: Place
+    private val preference by lazy { GeoPreferences(this, org) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +56,9 @@ class MarkLocationActivity : FamilyFolderActivity() {
         with(mapFragment) {
             setPaddingTop(dimen(R.dimen.maps_padding_top))
             setMaxPoint(1)
-            onMapReady {
-                findViewById(R.id.marlo_undo).visibility = View.GONE
-            }
+            preference.lastCameraPosition?.let { setStartLocation(it.target, it.zoom) }
+
+            onMapReady { findViewById(R.id.marlo_undo).visibility = View.GONE }
             setOnPointChange {
                 if (it.isEmpty())
                     toast("Please Mark location")
@@ -71,9 +71,7 @@ class MarkLocationActivity : FamilyFolderActivity() {
             }
             askMyLocationPermission()
         }
-        done.setOnClickListener {
-            updateHouse()
-        }
+        done.setOnClickListener { updateHouse() }
         done.hide()
         startActivityForResult<HouseNoLocationActivtiy>(REQ_TARGET)
     }
@@ -106,7 +104,6 @@ class MarkLocationActivity : FamilyFolderActivity() {
         when (resultCode) {
             Activity.RESULT_OK -> {
                 targetPlace = data?.getExtra<Place>("house")!!
-                toast("targeting ${targetPlace.toJson()}")
             }
             Activity.RESULT_CANCELED -> finish()
         }
