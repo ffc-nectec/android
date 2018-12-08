@@ -38,13 +38,15 @@ import ffc.app.R
 import ffc.app.auth.fragment.LoginExceptionPresenter
 import ffc.app.auth.fragment.LoginOrgFragment
 import ffc.app.auth.fragment.LoginUserFragment
+import ffc.app.dev
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class LoginActivity : FamilyFolderActivity(), LoginPresenter {
 
@@ -56,14 +58,11 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        initInstances()
+        blurBackgroundImage()
 
         val auth = auth(this)
-        if (auth.user != null) {
-            toast("Hello ${auth.user?.name}")
-            Log.d(tag, "User id = ${auth.user?.id}")
-        }
+        dev { Log.d(tag, "User id = ${auth.user?.id}") }
+
         interactor = LoginInteractor(this, auth, isRelogin)
 
         savedInstanceState?.let { saved ->
@@ -73,11 +72,7 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
         versionView.text = "V ${BuildConfig.VERSION_NAME}"
     }
 
-    private fun initInstances() {
-        blurImage()
-    }
-
-    private fun blurImage() {
+    private fun blurBackgroundImage() {
         Glide.with(this)
             .load(R.drawable.community)
             .apply(RequestOptions.bitmapTransform(BlurTransformation(4, 3)))
@@ -134,6 +129,18 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
                 .hide(orgFragment)
                 .addToBackStack(null)
                 .commit()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0)
+            super.onBackPressed()
+        else {
+            alert(Appcompat, "คุณต้องการปิดแอพ?", "ปิดแอพ") {
+                iconResource = R.drawable.ic_logout_color_24dp
+                positiveButton("ปิดแอพ") { finishAffinity() }
+                negativeButton("ไม่") {}
+            }.show()
         }
     }
 }
