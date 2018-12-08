@@ -1,0 +1,66 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/about"
+    >
+
+    <PreferenceCategory app:key="about">
+
+        <PreferenceScreen
+            android:icon="@mipmap/ic_launcher"
+            android:summary="@string/app_fullname"
+            android:title="@string/app_name" />
+
+        <PreferenceScreen
+            android:key="version"
+            android:summary="4.0"
+            android:title="Version" />
+
+        <PreferenceScreen
+            android:summary="Copyright 2018 NECTEC, Apache-2.0"
+            android:title="ลิขสิทธิ์">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ffc-nectec/android/blob/master/LICENSE" />
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_group_black_24dp"
+            android:summary="FFC เป็นโครงการ Open Source รอคุณมาร่วมกันพัฒนาให้ดียิ่งขึ้น"
+            android:title="การมีส่วนร่วม">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ffc-nectec/" />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="contract_us"
+        app:title="ติดต่อเรา">
+
+        <Preference android:title="Website">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://ffc.in.th/" />
+        </Preference>
+
+        <Preference
+            android:summary="ติดตามข้อมูลข่าวสารใหม่ๆ หรือสอบถามปัญหาต่างๆ"
+            android:title="Facebook">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.facebook.com/FFC.NECTEC/" />
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="เกี่ยวกับกฎหมาย">
+
+        <Preference app:title="ข้อตกลงการใช้งาน" />
+
+        <Preference app:title="นโยบายความเป็นส่วนตัว" />
+
+        <Preference app:title="Open Source License" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

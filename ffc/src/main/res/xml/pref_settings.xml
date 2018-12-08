@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:title="@string/action_settings">
+
+    <PreferenceScreen
+        app:summary="หาเมนู Font and screen zoom เพื่อปรับขนาดอักษรตามต้องการ"
+        app:title="ปรับขนาดตัวอักษร">
+        <intent android:action="android.settings.DISPLAY_SETTINGS" />
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        app:summary="แก้ไขการตั้งค่าที่เกี่ยวข้องกับระบบ เช่น ให้สิทธิ์ ล้างแคช แอพภายนอกที่เรียกใช้"
+        app:title="ตั้งค่าแอพ">
+        <intent
+            android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+            android:data="package:ffc.app" />
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_info_black_24dp"
+        app:fragment="ffc.app.AboutActivity$AboutPreferenceFragment"
+        android:summary="@string/app_fullname"
+        app:key="about"
+        app:title="@string/about" />
+
+</PreferenceScreen>
