@@ -49,6 +49,7 @@ import org.jetbrains.anko.browse
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -121,9 +122,11 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
             R.id.nav_main -> {
             }
             R.id.nav_follow -> browse("https://www.facebook.com/FFC.NECTEC/", true)
-            R.id.nav_achivement, R.id.nav_manual, R.id.nav_about, R.id.nav_settings -> {
+            R.id.nav_achivement, R.id.nav_manual -> {
                 toast(R.string.under_construction)
             }
+            R.id.nav_about -> startActivity<AboutActivity>()
+            R.id.nav_settings -> startActivity<SettingsActivity>()
             R.id.nav_logout -> {
                 auth(this).clear()
                 finish()
