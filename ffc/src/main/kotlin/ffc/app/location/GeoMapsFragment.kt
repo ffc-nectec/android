@@ -20,9 +20,7 @@ package ffc.app.location
 import android.app.Activity
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
@@ -34,10 +32,8 @@ import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.drawable
-import ffc.android.get
 import ffc.android.gone
 import ffc.android.observe
-import ffc.android.put
 import ffc.android.rawAs
 import ffc.android.sceneTransition
 import ffc.android.toBitmap
@@ -50,7 +46,6 @@ import ffc.entity.gson.toJson
 import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
 import me.piruin.geok.geometry.Point
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.doAsyncResult
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.intentFor
@@ -65,26 +60,13 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private var addLocationButton: FloatingActionButton? = null
     private val viewModel by lazy { viewModel<GeoViewModel>() }
-    private val preferences: SharedPreferences by lazy {
-        context!!.getSharedPreferences("geomap-${org?.id}", Context.MODE_PRIVATE)
-    }
+    private val preference by lazy { GeoPreferences(context!!, org) }
+
     private val org by lazy { familyFolderActivity.org }
-
-    private var lastCameraPosition: CameraPosition?
-        set(value) {
-            doAsync { preferences.edit().put("campos", value).apply() }
-        }
-        get() = preferences.get("campos")
-
-    private var geojsonCache: FeatureCollection<House>?
-        set(value) {
-            preferences.edit().put("geojson", value).apply()
-        }
-        get() = preferences.get("geojson")
 
     override fun onActivityCreated(bundle: Bundle?) {
         super.onActivityCreated(bundle)
-        setStartLocation(lastCameraPosition)
+        setStartLocation(preference.lastCameraPosition)
         addLocationButton = activity!!.find(R.id.addLocationButton)
         viewFinder.gone()
         hideToolsMenu()
@@ -94,7 +76,6 @@ class GeoMapsFragment : PointMarloFragment() {
     private fun observeViewModel() {
         observe(viewModel.geojson) {
             it?.let {
-                googleMap.clear()
                 val coordinates = (it.features[0].geometry as Point).coordinates
                 googleMap.animateCameraTo(
                     coordinates.latitude,
@@ -102,8 +83,9 @@ class GeoMapsFragment : PointMarloFragment() {
                     googleMap?.cameraPosition?.zoom?.takeIf { it >= preferZoomLevel }
                         ?: preferZoomLevel
                 )
+                googleMap.clear()
                 addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(it.toJson())))
-                geojsonCache = it
+                preference.geojsonCache = it
             }
         }
         observe(viewModel.exception) {
@@ -122,7 +104,7 @@ class GeoMapsFragment : PointMarloFragment() {
 
     override fun onMapReady(googleMap: GoogleMap?) {
         super.onMapReady(googleMap)
-        viewModel.geojson.value = doAsyncResult { geojsonCache }.get()
+        viewModel.geojson.value = doAsyncResult { preference.geojsonCache }.get()
         addLocationButton?.setOnClickListener {
             val intent = intentFor<MarkLocationActivity>(
                 "target" to googleMap!!.cameraPosition.target,
@@ -130,8 +112,8 @@ class GeoMapsFragment : PointMarloFragment() {
             )
             startActivityForResult(intent, REQ_ADD_LOCATION)
         }
-        loadGeoJson()
         askMyLocationPermission()
+        loadGeoJson()
     }
 
     private fun loadGeoJson() {
@@ -165,9 +147,7 @@ class GeoMapsFragment : PointMarloFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQ_ADD_LOCATION -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    loadGeoJson()
-                }
+                if (resultCode == Activity.RESULT_OK) loadGeoJson()
             }
         }
     }
@@ -176,9 +156,9 @@ class GeoMapsFragment : PointMarloFragment() {
         activity!!.handlePermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun onStop() {
-        super.onStop()
-        googleMap?.cameraPosition?.let { lastCameraPosition = it }
+    override fun onPause() {
+        super.onPause()
+        googleMap?.cameraPosition?.let { preference.lastCameraPosition = it }
     }
 
     fun bitmapOf(@DrawableRes resId: Int) = BitmapDescriptorFactory.fromBitmap(context!!.drawable(resId).toBitmap())
