@@ -37,7 +37,6 @@ import ffc.app.location.HouseActivity
 import ffc.app.location.HouseAdapter
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
-import ffc.app.util.alert.handle
 import ffc.entity.Person
 import ffc.entity.place.House
 import kotlinx.android.synthetic.main.activity_search_result.contentSwitcher
@@ -106,7 +105,6 @@ class SearchResultActivity : FamilyFolderActivity() {
         observe(personViewModel.pLoading) { if (it == true) emptyView.showLoading() }
         observe(personViewModel.pException) {
             it?.let {
-                handle(it)
                 emptyView.error(it).show()
             }
         }
@@ -123,7 +121,6 @@ class SearchResultActivity : FamilyFolderActivity() {
         observe(personViewModel.hLoading) { if (it == true) emptyView2.showLoading() }
         observe(personViewModel.hException) {
             it?.let { throwable ->
-                handle(throwable)
                 emptyView2.error(throwable).show()
             }
         }
