@@ -59,7 +59,9 @@
 
         <Preference app:title="นโยบายความเป็นส่วนตัว" />
 
-        <Preference app:title="Open Source License" />
+        <Preference
+            android:key="license"
+            app:title="Open Source License" />
 
     </PreferenceCategory>
 

@@ -2,6 +2,8 @@ package ffc.app
 
 import android.os.Bundle
 import android.support.v7.preference.PreferenceFragmentCompat
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import org.jetbrains.anko.support.v4.startActivity
 
 class AboutActivity : FamilyFolderActivity() {
 
@@ -24,6 +26,10 @@ class AboutActivity : FamilyFolderActivity() {
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
             findPreference("version").summary = BuildConfig.VERSION_NAME
+            findPreference("license").setOnPreferenceClickListener {
+                startActivity<OssLicensesMenuActivity>()
+                true
+            }
         }
     }
 }
