@@ -33,7 +33,7 @@ private class MockDiseases(val context: Context) : Diseases {
 
     init {
         if (disease.isEmpty()) {
-            disease = context.assetAs<List<Icd10>>("lookups/VisitIcd10.json")
+            disease = context.assetAs<List<Icd10>>("lookups/Disease.json")
         }
     }
 
