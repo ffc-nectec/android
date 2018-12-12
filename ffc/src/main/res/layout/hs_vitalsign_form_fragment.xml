@@ -124,9 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="อุณหภูมิร่างกาย"
-            android:inputType="numberDecimal"
-            android:maxLength="2" />
+            android:inputType="number|numberDecimal"
+            android:maxLength="4" />
     </android.support.design.widget.TextInputLayout>
-
-
 </LinearLayout>

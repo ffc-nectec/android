@@ -17,9 +17,20 @@ internal interface HealthCareServices {
     fun add(services: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit)
 
     fun all(dsl: RepoCallback<List<HealthCareService>>.() -> Unit)
+
+    fun update(service: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit)
 }
 
 private class InMemoryHealthCareServices(val personId: String) : HealthCareServices {
+
+    override fun update(service: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit) {
+        val callback = TaskCallback<HealthCareService>().apply(dslCallback)
+        repository[personId]?.let {
+            it.remove(service)
+            it.add(service)
+        }
+        callback.result(service)
+    }
 
     override fun add(services: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit) {
         require(services.patientId == personId) { "Not match patinet id" }
@@ -52,6 +63,15 @@ private class ApiHealthCareServices(
     val org: String,
     val person: String
 ) : HealthCareServices {
+
+    override fun update(service: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit) {
+        val callback = TaskCallback<HealthCareService>().apply(dslCallback)
+        api.put(org, service).enqueue {
+            onSuccess { callback.result(body()!!) }
+            onError { callback.expception?.invoke(ApiErrorException(this)) }
+            onFailure { callback.expception?.invoke(it) }
+        }
+    }
 
     val api = FfcCentral().service<HealthCareServiceApi>()
 

@@ -22,6 +22,7 @@ import android.util.Log
 import ffc.android.disable
 import ffc.android.enable
 import ffc.android.find
+import ffc.android.observe
 import ffc.android.onClick
 import ffc.android.tag
 import ffc.app.FamilyFolderActivity
@@ -29,15 +30,18 @@ import ffc.app.R
 import ffc.app.auth.auth
 import ffc.app.dev
 import ffc.app.health.BodyFormFragment
-import ffc.app.photo.TakePhotoFragment
 import ffc.app.health.VitalSignFormFragment
 import ffc.app.health.diagnosis.DiagnosisFormFragment
 import ffc.app.health.service.healthCareServicesOf
+import ffc.app.location.getExtra
 import ffc.app.person.mockPerson
 import ffc.app.person.personId
 import ffc.app.person.persons
+import ffc.app.photo.TakePhotoFragment
+import ffc.app.util.SimpleViewModel
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
+import ffc.entity.Person
 import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
@@ -54,6 +58,9 @@ class HomeVisitActivity : FamilyFolderActivity() {
 
     private val providerId by lazy { auth(this).user!!.id }
     private val personId get() = intent.personId
+    private val service get() = intent.getExtra<HealthCareService>("service")
+
+    private val viewModel by lazy { SimpleViewModel<Person>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,39 +78,51 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 intent.personId = mockPerson.id
         }
 
-        persons(org!!.id).person(personId!!) {
-            onFound {
-                toast("visit ${it.name}")
-            }
-            onNotFound {
-                toast("ไม่พบ")
-                finish()
-            }
-            onFail {
-                handle(it)
-                finish()
-            }
+        setupPersonInfo()
+
+        service?.let {
+            homeVisit.bind(it)
+            vitalSign.bind(it)
+            diagnosis.bind(it)
+            body.bind(it)
+            photo.bind(it)
         }
 
         done.onClick { done ->
             try {
-                val visit = HealthCareService(providerId, personId!!)
+                val visit = service ?: HealthCareService(providerId, personId!!)
                 homeVisit.dataInto(visit)
                 vitalSign.dataInto(visit)
                 diagnosis.dataInto(visit)
                 body.dataInto(visit)
                 photo.dataInto(visit)
 
+                Log.d(tag, "visit=" + visit.toJson())
+
                 done.disable()
-                healthCareServicesOf(personId!!, org!!.id).add(visit) {
-                    onComplete {
-                        dev { Log.d(tag, it.toJson()) }
-                        toast("บันทึกข้อมูลเรียบร้อย")
-                        finish()
+                if (visit.isTempId) {
+                    healthCareServicesOf(personId!!, org!!.id).add(visit) {
+                        onComplete {
+                            dev { Log.d(tag, it.toJson()) }
+                            toast("บันทึกข้อมูลเรียบร้อย")
+                            finish()
+                        }
+                        onFail {
+                            done.enable()
+                            toast(it.message ?: "Something went wrong")
+                        }
                     }
-                    onFail {
-                        done.enable()
-                        toast(it.message ?: "Something went wrong")
+                } else {
+                    healthCareServicesOf(personId!!, org!!.id).update(visit) {
+                        onComplete {
+                            dev { Log.d(tag, it.toJson()) }
+                            toast("บันทึกข้อมูลเรียบร้อย")
+                            finish()
+                        }
+                        onFail {
+                            done.enable()
+                            toast(it.message ?: "Something went wrong")
+                        }
                     }
                 }
             } catch (invalid: IllegalStateException) {
@@ -112,6 +131,29 @@ class HomeVisitActivity : FamilyFolderActivity() {
             } catch (throwable: Throwable) {
                 handle(throwable)
                 done.enable()
+            }
+        }
+    }
+
+    private fun setupPersonInfo() {
+        persons(org!!.id).person(personId!!) {
+            onFound { viewModel.content.value = it }
+            onNotFound { viewModel.content.value = null }
+            onFail { viewModel.exception.value = it }
+        }
+
+        observe(viewModel.content) {
+            if (it != null)
+                toast("visit ${it.name}")
+            else {
+                toast("ไม่พบ")
+                finish()
+            }
+        }
+        observe(viewModel.exception) {
+            it?.let {
+                handle(it)
+                finish()
             }
         }
     }

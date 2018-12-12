@@ -46,9 +46,12 @@ class TakePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareService> 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK)
             photoUrls = data!!.urls!!
-        }
+    }
+
+    override fun bind(service: HealthCareService) {
+        photoUrls = service.photosUrl
     }
 
     override fun dataInto(service: HealthCareService) {

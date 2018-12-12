@@ -39,6 +39,22 @@ import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.tempField
 
 internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
+    override fun bind(service: HealthCareService) {
+        with(service) {
+            bloodPressure?.let {
+                bpSysField.setText("${it.systolic}")
+                bpDiaField.setText("${it.diastolic}")
+            }
+            bloodPressure2nd?.let {
+                bpSysField2.setText("${it.systolic}")
+                bpDiaField2.setText("${it.diastolic}")
+            }
+            pulseRate?.let { pulseField.setText("$it") }
+            respiratoryRate?.let { rrField.setText("$it") }
+            bodyTemperature?.let { tempField.setText("$it") }
+        }
+    }
+
     var service: HealthCareService? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -89,7 +105,7 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
             message = "ค่าต้องอยู่ระหว่าง 80-330"
         }
         bpSysField2.check {
-            on { bpDiaField.isNotBlank }
+            on { bpDiaField2.isNotBlank }
             that { isNotBlank }
             message = "กรุณาระบุ"
         }
@@ -99,7 +115,7 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
             message = "ค่าต้องอยู่ระหว่าง 30-135"
         }
         bpDiaField2.check {
-            on { bpSysField.isNotBlank }
+            on { bpSysField2.isNotBlank }
             that { isNotBlank }
             message = "กรุณาระบุ"
         }

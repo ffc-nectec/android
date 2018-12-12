@@ -28,9 +28,18 @@ import ffc.android.isNotBlank
 import ffc.app.R
 import ffc.app.health.service.HealthCareServivceForm
 import ffc.entity.healthcare.HealthCareService
-import kotlinx.android.synthetic.main.hs_body_form_fragment.*
+import kotlinx.android.synthetic.main.hs_body_form_fragment.heightField
+import kotlinx.android.synthetic.main.hs_body_form_fragment.waistField
+import kotlinx.android.synthetic.main.hs_body_form_fragment.weightField
 
 class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
+    override fun bind(service: HealthCareService) {
+        with(service) {
+            height?.let { heightField.setText("$it") }
+            weight?.let { weightField.setText("$it") }
+            waist?.let { waistField.setText("$it") }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.hs_body_form_fragment, container, false)
@@ -52,17 +61,11 @@ class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
             that { text.toString().toDouble() in 15..500 }
             message = "ค่าต้องอยู่ระหว่าง 15-500"
         }
-        assField.check {
-            on { isNotBlank }
-            that { text.toString().toDouble() in 15..500 }
-            message = "ค่าต้องอยู่ระหว่าง 15-500"
-        }
 
         service.apply {
             heightField.getInput { height = it.toDouble() }
             weightField.getInput { weight = it.toDouble() }
             waistField.getInput { waist = it.toDouble() }
-            assField.getInput { ass = it.toDouble() }
         }
     }
 }

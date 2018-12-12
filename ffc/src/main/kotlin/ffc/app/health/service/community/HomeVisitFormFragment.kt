@@ -29,7 +29,9 @@ import ffc.app.R
 import ffc.app.health.service.HealthCareServivceForm
 import ffc.app.util.SimpleViewModel
 import ffc.app.util.datetime.th_TH
+import ffc.app.util.datetime.toCalendar
 import ffc.app.util.datetime.toLocalDate
+import ffc.app.util.setInto
 import ffc.entity.healthcare.CommunityService
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.HomeVisit
@@ -69,6 +71,18 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
             onNotFound { viewModel.content.value = listOf() }
             onFail { viewModel.exception.value = it }
         }
+    }
+
+    override fun bind(service: HealthCareService) {
+        service.communityServices.firstOrNull { it is HomeVisit }?.let {
+            it as HomeVisit
+            //communityServicesField.selectedItem = it.serviceType
+            it.detail.setInto(detailField)
+            it.result.setInto(resultField)
+            it.plan.setInto(planField)
+        }
+        service.syntom.setInto(syntomField)
+        service.nextAppoint?.let { appointField.calendar = it.toCalendar() }
     }
 
     override fun dataInto(services: HealthCareService) {

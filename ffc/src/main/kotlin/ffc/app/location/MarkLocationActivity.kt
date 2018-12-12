@@ -117,5 +117,5 @@ class MarkLocationActivity : FamilyFolderActivity() {
 }
 
 inline fun <reified T> Intent.getExtra(key: String, gson: Gson = ffcGson): T? {
-    return getStringExtra(key).parseTo<T>(gson)
+    return getStringExtra(key)?.parseTo<T>(gson)
 }
