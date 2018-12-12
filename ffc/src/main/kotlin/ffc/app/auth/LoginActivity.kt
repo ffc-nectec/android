@@ -43,7 +43,8 @@ import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
 import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.ivCommunity
+import kotlinx.android.synthetic.main.activity_login.versionView
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.startActivity
@@ -115,20 +116,23 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
             ?: LoginUserFragment()
         userPassFragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
         userPassFragment.org = org
-        val orgFragment = supportFragmentManager.find<LoginOrgFragment>("Org")
         userPassFragment.setTransition {
             enterTransition = Slide(Gravity.END).apply {
                 startDelay = 50
                 duration = enterDuration
             }
         }
+        val orgFragment = supportFragmentManager.find<LoginOrgFragment?>("Org")
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.contentContainer, userPassFragment, "Login")
-                .hide(orgFragment)
-                .addToBackStack(null)
-                .commit()
+            supportFragmentManager.beginTransaction().apply {
+                add(R.id.contentContainer, userPassFragment, "Login")
+                if (orgFragment != null) {
+                    //there no orgFragment for Relogin action
+                    hide(orgFragment)
+                    addToBackStack(null)
+                }
+            }.commit()
         }
     }
 
