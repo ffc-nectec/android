@@ -39,13 +39,15 @@ import java.io.IOException
 internal interface Diseases {
 
     fun all(res: RepoCallback<List<Disease>>.() -> Unit)
+
+    fun disease(id: String, res: RepoCallback<Disease>.() -> Unit)
 }
 
 internal fun diseases(context: Context): Diseases = MockDiseases(context)
 
 private class ApiDisease(context: Context) : Diseases {
 
-    private val localFile = File(context.filesDir, "disease.json")
+    private val localFile = File(context.filesDir, "diseases.json")
     private var loading = false
     private var tmpCallback: RepoCallback<List<Disease>>? = null
     private val api = FfcCentral().service<DiseaseApi>()
@@ -66,7 +68,7 @@ private class ApiDisease(context: Context) : Diseases {
             }
         }
         if (localFile.exists()) {
-            disease = localFile.readText().parseTo()
+            diseases = localFile.readText().parseTo()
         }
     }
 
@@ -99,39 +101,59 @@ private class ApiDisease(context: Context) : Diseases {
             tmpCallback = callback
         } else {
             callback.always?.invoke()
-            if (disease.isNotEmpty()) {
-                callback.onFound!!.invoke(disease)
+            if (diseases.isNotEmpty()) {
+                callback.onFound!!.invoke(diseases)
             } else {
                 callback.onNotFound!!.invoke()
             }
         }
     }
 
+    override fun disease(id: String, res: RepoCallback<Disease>.() -> Unit) {
+        val callback = RepoCallback<Disease>().apply(res)
+        val disease = diseases.firstOrNull { it.id == id }
+        if (disease != null) {
+            callback.onFound!!.invoke(disease)
+        } else {
+            callback.onNotFound!!.invoke()
+        }
+    }
+
     companion object {
-        var disease = listOf<Disease>()
+        var diseases = listOf<Disease>()
     }
 }
 
 private class MockDiseases(val context: Context) : Diseases {
 
     init {
-        if (disease.isEmpty()) {
-            disease = context.assetAs<List<Icd10>>("lookups/Disease.json")
+        if (diseases.isEmpty()) {
+            diseases = context.assetAs<List<Icd10>>("lookups/Disease.json")
         }
     }
 
     override fun all(res: RepoCallback<List<Disease>>.() -> Unit) {
         val callback = RepoCallback<List<Disease>>().apply(res)
-        callback.onFound!!.invoke(disease)
+        callback.onFound!!.invoke(diseases)
+    }
+
+    override fun disease(id: String, res: RepoCallback<Disease>.() -> Unit) {
+        val callback = RepoCallback<Disease>().apply(res)
+        val disease = diseases.firstOrNull { it.id == id }
+        if (disease != null) {
+            callback.onFound!!.invoke(disease)
+        } else {
+            callback.onNotFound!!.invoke()
+        }
     }
 
     companion object {
-        internal var disease: List<Disease> = listOf()
+        internal var diseases: List<Disease> = listOf()
     }
 }
 
 interface DiseaseApi {
 
-    @GET("disease")
+    @GET("diseases")
     fun get(@Query("page") page: Int = 1, @Query("per_page") perPage: Int = 10000): Call<List<Disease>>
 }
