@@ -17,6 +17,7 @@
 
 package ffc.app.health.service.community
 
+import android.arch.lifecycle.MutableLiveData
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -47,7 +48,7 @@ import org.jetbrains.anko.support.v4.toast
 internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
     val communityServicesField by lazy { find<Spinney<CommunityService.ServiceType>>(R.id.communityServiceField) }
-    val viewModel by lazy { viewModel<SimpleViewModel<List<CommunityService.ServiceType>>>() }
+    val serviceTypeViewModel by lazy { viewModel<ServicesTypeViewModel>() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.hs_homevisit_from_fragment, container, false)
@@ -59,24 +60,31 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
         communityServicesField.setItemPresenter { item, _ -> "${item.id} - ${item.name}" }
         communityServicesField.setItems(listOf())
 
-        observe(viewModel.content) {
-            if (!it.isNullOrEmpty())
+        observe(serviceTypeViewModel.content) {
+            if (!it.isNullOrEmpty()) {
                 communityServicesField.setSearchableItem(it)
+                serviceTypeViewModel.bindItem.value?.let { communityServicesField.selectedItem = it }
+            }
         }
-        observe(viewModel.exception) { toast(it?.message ?: "What happend") }
+        observe(serviceTypeViewModel.exception) { toast(it?.message ?: "What happend") }
+        observe(serviceTypeViewModel.bindItem) {
+            if (!serviceTypeViewModel.content.value.isNullOrEmpty()) {
+                communityServicesField.selectedItem = it
+            }
+        }
 
         appointField.setUndefinedAsDefault()
         communityServiceTypes(context!!).all {
-            onFound { viewModel.content.value = it }
-            onNotFound { viewModel.content.value = listOf() }
-            onFail { viewModel.exception.value = it }
+            onFound { serviceTypeViewModel.content.value = it }
+            onNotFound { serviceTypeViewModel.content.value = listOf() }
+            onFail { serviceTypeViewModel.exception.value = it }
         }
     }
 
     override fun bind(service: HealthCareService) {
         service.communityServices.firstOrNull { it is HomeVisit }?.let {
             it as HomeVisit
-            //communityServicesField.selectedItem = it.serviceType
+            serviceTypeViewModel.bindItem.value = it.serviceType
             it.detail.setInto(detailField)
             it.result.setInto(resultField)
             it.plan.setInto(planField)
@@ -97,7 +105,7 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
         }
 
         services.apply {
-            communityServices.add(HomeVisit(communityServicesField.selectedItem!!,
+            communityServices = mutableListOf(HomeVisit(communityServicesField.selectedItem!!,
                 detail = detailField.text.toString(),
                 result = resultField.text.toString(),
                 plan = planField.text.toString()
@@ -105,5 +113,9 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
             syntom = syntomField.text.toString()
             nextAppoint = appointField.calendar?.toLocalDate()
         }
+    }
+
+    class ServicesTypeViewModel : SimpleViewModel<List<CommunityService.ServiceType>>() {
+        val bindItem = MutableLiveData<CommunityService.ServiceType>()
     }
 }
