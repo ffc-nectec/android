@@ -27,6 +27,7 @@ import ffc.android.getInput
 import ffc.android.isNotBlank
 import ffc.app.R
 import ffc.app.health.service.HealthCareServivceForm
+import ffc.app.util.setInto
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.hs_body_form_fragment.heightField
 import kotlinx.android.synthetic.main.hs_body_form_fragment.waistField
@@ -35,9 +36,9 @@ import kotlinx.android.synthetic.main.hs_body_form_fragment.weightField
 class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
     override fun bind(service: HealthCareService) {
         with(service) {
-            height?.let { heightField.setText("$it") }
-            weight?.let { weightField.setText("$it") }
-            waist?.let { waistField.setText("$it") }
+            height.setInto(heightField)
+            weight.setInto(weightField)
+            waist.setInto(waistField)
         }
     }
 
@@ -48,17 +49,17 @@ class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
     override fun dataInto(service: HealthCareService) {
         heightField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 10..250 }
+            that { text.toString().toDouble() in 10.0..250.0 }
             message = "ค่าต้องอยู่ระหว่าง 10-250"
         }
         weightField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 2..250 }
+            that { text.toString().toDouble() in 2.0..250.0 }
             message = "ค่าต้องอยู่ระหว่าง 2-250"
         }
         waistField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 15..500 }
+            that { text.toString().toDouble() in 15.0..500.0 }
             message = "ค่าต้องอยู่ระหว่าง 15-500"
         }
 

@@ -27,6 +27,7 @@ import ffc.android.isNotBlank
 import ffc.android.notEmpty
 import ffc.app.R
 import ffc.app.health.service.HealthCareServivceForm
+import ffc.app.util.setInto
 import ffc.entity.healthcare.BloodPressure
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpDiaField
@@ -42,16 +43,16 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
     override fun bind(service: HealthCareService) {
         with(service) {
             bloodPressure?.let {
-                bpSysField.setText("${it.systolic}")
-                bpDiaField.setText("${it.diastolic}")
+                it.systolic.setInto(bpSysField)
+                it.diastolic.setInto(bpDiaField)
             }
             bloodPressure2nd?.let {
-                bpSysField2.setText("${it.systolic}")
-                bpDiaField2.setText("${it.diastolic}")
+                it.systolic.setInto(bpSysField)
+                it.diastolic.setInto(bpDiaField)
             }
-            pulseRate?.let { pulseField.setText("$it") }
-            respiratoryRate?.let { rrField.setText("$it") }
-            bodyTemperature?.let { tempField.setText("$it") }
+            pulseRate.setInto(pulseField)
+            respiratoryRate.setInto(rrField)
+            bodyTemperature.setInto(tempField)
         }
     }
 
