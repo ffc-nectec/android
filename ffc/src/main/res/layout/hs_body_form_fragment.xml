@@ -65,8 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/body_waist"
-            android:inputType="number"
-            android:maxLength="3" />
+            android:inputType="numberDecimal"
+            android:maxLength="5" />
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>
