@@ -5,5 +5,10 @@
         android:id="@+id/photoMenu"
         android:icon="@drawable/ic_camera_alt_black_24dp"
         android:title="@string/photo_take"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/locationMenu"
+        android:icon="@drawable/ic_add_location_black_24dp"
+        android:title="@string/mark_location"
+        app:showAsAction="never" />
 </menu>

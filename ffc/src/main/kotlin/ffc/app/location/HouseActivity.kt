@@ -49,6 +49,7 @@ import ffc.app.photo.urls
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
 import ffc.entity.Person
+import ffc.entity.gson.toJson
 import ffc.entity.place.House
 import ffc.entity.update
 import ffc.entity.util.URLs
@@ -59,6 +60,7 @@ import kotlinx.android.synthetic.main.activity_house.emptyView
 import kotlinx.android.synthetic.main.activity_house.recycleView
 import kotlinx.android.synthetic.main.activity_house.toolbarImage
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 class HouseActivity : FamilyFolderActivity() {
 
@@ -98,6 +100,7 @@ class HouseActivity : FamilyFolderActivity() {
                 finish()
             }
             photoMenu?.isEnabled = house != null
+            locationMenu?.isEnabled = house != null
         }
         observe(viewModel.resident) {
             if (it != null) {
@@ -145,17 +148,21 @@ class HouseActivity : FamilyFolderActivity() {
     }
 
     var photoMenu: MenuItem? = null
+    var locationMenu: MenuItem? = null
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.house_option, menu)
         photoMenu = menu.findItem(R.id.photoMenu)
         photoMenu!!.isEnabled = false
+        locationMenu = menu.findItem(R.id.locationMenu)
+        locationMenu!!.isEnabled = false
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.photoMenu -> startTakePhotoActivity(PhotoType.PLACE, viewModel.house.value?.imagesUrl)
+            R.id.locationMenu -> startActivity<MarkLocationActivity>("house" to viewModel.house.value?.toJson())
         }
         return super.onOptionsItemSelected(item)
     }
