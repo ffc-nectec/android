@@ -32,7 +32,7 @@ class TakePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareService> 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        counterView.text = "0/$maxPhoto"
+        counterView.text = "${photoUrls.size}/$maxPhoto"
         dev {
             photoUrls = listOf(
                 "https://upload.wikimedia.org/wikipedia/commons/0/06/Hotel_Wellington_Sherbrooke.jpg",
