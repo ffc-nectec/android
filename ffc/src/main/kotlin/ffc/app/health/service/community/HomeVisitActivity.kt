@@ -91,6 +91,10 @@ class HomeVisitActivity : FamilyFolderActivity() {
             photo.bind(it)
         }
 
+        if (service == null) {
+            diagnosis.addDefaultPrincipleDx()
+        }
+
         done.onClick { done ->
             try {
                 val visit = service ?: HealthCareService(providerId, personId!!)

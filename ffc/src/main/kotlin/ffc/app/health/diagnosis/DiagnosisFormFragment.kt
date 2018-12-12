@@ -51,6 +51,18 @@ class DiagnosisFormFragment : Fragment(), HealthCareServivceForm<HealthCareServi
         }
     }
 
+    fun addDefaultPrincipleDx() {
+        diseases(context!!).disease("Z71.8") {
+            onFound { z718 ->
+                container.addView(DiagnosisFormView(activity!!).apply {
+                    diagnosis = Diagnosis(z718, Diagnosis.Type.PRINCIPLE_DX)
+                })
+            }
+            onNotFound { } //do nothing
+            onFail { } // do nothing
+        }
+    }
+
     override fun dataInto(service: HealthCareService) {
         val diag = container.diagView
             .filter { it.diagnosis != null }
