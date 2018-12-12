@@ -22,6 +22,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import ffc.android.check
 import ffc.app.R
+import ffc.app.health.service.nameTh
 import ffc.entity.healthcare.Diagnosis
 import ffc.entity.healthcare.Disease
 import ffc.entity.healthcare.Icd10
@@ -44,12 +45,14 @@ class DiagnosisFormView @JvmOverloads constructor(
         dxTypeField = find(R.id.dxTypeField)
         dxTypeField.setItems(dxTypes)
         diseaseField = find(R.id.diseaseField)
-        diseases(context).all { list, _ ->
-            diseaseField.setItemPresenter { item, _ ->
-                item as Icd10
-                "${item.icd10} - ${item.name}"
+        diseases(context).all {
+            onFound {
+                diseaseField.setItemPresenter { item, _ ->
+                    item as Icd10
+                    "${item.icd10} - ${item.nameTh}"
+                }
+                diseaseField.setSearchableItem(it)
             }
-            diseaseField.setSearchableItem(list)
         }
     }
 
