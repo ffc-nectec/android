@@ -17,6 +17,7 @@
 
 package ffc.app.health.service.community
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import ffc.android.disable
@@ -39,12 +40,14 @@ import ffc.app.person.personId
 import ffc.app.person.persons
 import ffc.app.photo.TakePhotoFragment
 import ffc.app.util.SimpleViewModel
+import ffc.app.util.TaskCallback
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
 import ffc.entity.Person
 import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
+import ffc.entity.update
 import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_visit.done
 
@@ -91,40 +94,21 @@ class HomeVisitActivity : FamilyFolderActivity() {
         done.onClick { done ->
             try {
                 val visit = service ?: HealthCareService(providerId, personId!!)
-                homeVisit.dataInto(visit)
-                vitalSign.dataInto(visit)
-                diagnosis.dataInto(visit)
-                body.dataInto(visit)
-                photo.dataInto(visit)
-
+                visit.update {
+                    homeVisit.dataInto(visit)
+                    vitalSign.dataInto(visit)
+                    diagnosis.dataInto(visit)
+                    body.dataInto(visit)
+                    photo.dataInto(visit)
+                }
                 Log.d(tag, "visit=" + visit.toJson())
 
                 done.disable()
-                if (visit.isTempId) {
-                    healthCareServicesOf(personId!!, org!!.id).add(visit) {
-                        onComplete {
-                            dev { Log.d(tag, it.toJson()) }
-                            toast("บันทึกข้อมูลเรียบร้อย")
-                            finish()
-                        }
-                        onFail {
-                            done.enable()
-                            toast(it.message ?: "Something went wrong")
-                        }
-                    }
-                } else {
-                    healthCareServicesOf(personId!!, org!!.id).update(visit) {
-                        onComplete {
-                            dev { Log.d(tag, it.toJson()) }
-                            toast("บันทึกข้อมูลเรียบร้อย")
-                            finish()
-                        }
-                        onFail {
-                            done.enable()
-                            toast(it.message ?: "Something went wrong")
-                        }
-                    }
-                }
+                val healthCareServices = healthCareServicesOf(personId!!, org!!.id)
+                if (visit.isTempId)
+                    healthCareServices.add(visit, callback)
+                else
+                    healthCareServices.update(visit, callback)
             } catch (invalid: IllegalStateException) {
                 handle(invalid)
                 done.enable()
@@ -135,16 +119,23 @@ class HomeVisitActivity : FamilyFolderActivity() {
         }
     }
 
-    private fun setupPersonInfo() {
-        persons(org!!.id).person(personId!!) {
-            onFound { viewModel.content.value = it }
-            onNotFound { viewModel.content.value = null }
-            onFail { viewModel.exception.value = it }
+    val callback: TaskCallback<HealthCareService>.() -> Unit = {
+        onComplete {
+            dev { Log.d(tag, it.toJson()) }
+            toast("บันทึกข้อมูลเรียบร้อย")
+            setResult(Activity.RESULT_OK)
+            finish()
         }
+        onFail {
+            done.enable()
+            toast(it.message ?: "Something went wrong")
+        }
+    }
 
+    private fun setupPersonInfo() {
         observe(viewModel.content) {
             if (it != null)
-                toast("visit ${it.name}")
+                toast("${it.name}")
             else {
                 toast("ไม่พบ")
                 finish()
@@ -155,6 +146,11 @@ class HomeVisitActivity : FamilyFolderActivity() {
                 handle(it)
                 finish()
             }
+        }
+        persons(org!!.id).person(personId!!) {
+            onFound { viewModel.content.value = it }
+            onNotFound { viewModel.content.value = null }
+            onFail { viewModel.exception.value = it }
         }
     }
 }
