@@ -7,12 +7,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
 import ffc.android.drawable
 import ffc.android.getString
+import ffc.android.gone
 import ffc.android.onClick
+import ffc.android.visible
 import ffc.app.R
 import ffc.app.photo.asymmetric.bind
 import ffc.app.util.AdapterClickListener
@@ -30,6 +33,7 @@ import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.HomeVisit
 import ffc.entity.healthcare.SpecialPP
 import org.jetbrains.anko.find
+import org.joda.time.LocalDate
 
 class HealthCareServiceAdapter(
     val services: List<HealthCareService>,
@@ -51,6 +55,7 @@ class HealthCareServiceAdapter(
         holder.itemView.onClick {
             listener.onItemClick!!.invoke(holder.itemView, services[position])
         }
+        listener.bindOnViewClick(holder.itemView, services[position], holder.editButton)
     }
 }
 
@@ -61,10 +66,14 @@ class HealthCareServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val date = view.find<TextView>(R.id.serviceDateView)
     private val detailView = view.find<RecyclerView>(R.id.detailView)
     private val photos = view.find<AsymmetricRecyclerView>(R.id.photos)
+    val editButton = view.find<ImageButton>(R.id.editButton)
 
     init {
         detailView.layoutManager = LinearLayoutManager(itemView.context)
     }
+
+    private val HealthCareService.isEditable: Boolean
+        get() = time.toLocalDate().isEqual(LocalDate.now())
 
     fun bind(services: HealthCareService) {
         with(services) {
@@ -74,6 +83,11 @@ class HealthCareServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             icon.setImageDrawable(itemView.context.drawable(type.iconRes))
             photos.bind(photosUrl)
             detailView.adapter = ValueAdapter(toValue(), ValueAdapter.Style.SMALL, true)
+            if (type == ServiceType.HOME_VISIT && isEditable) {
+                editButton.visible()
+            } else {
+                editButton.gone()
+            }
         }
     }
 

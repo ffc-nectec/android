@@ -21,5 +21,7 @@ import ffc.entity.healthcare.HealthCareService
 
 interface HealthCareServivceForm<T : HealthCareService> {
 
+    fun bind(service: T)
+
     fun dataInto(service: T)
 }

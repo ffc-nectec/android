@@ -24,13 +24,14 @@ import android.view.View
 import android.view.ViewGroup
 import ffc.android.onClick
 import ffc.app.R
+import ffc.app.health.service.HealthCareServivceForm
 import ffc.entity.healthcare.Diagnosis
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.hs_diagnosis_fragment.addDiagnosis
 import kotlinx.android.synthetic.main.hs_diagnosis_fragment.container
 import org.jetbrains.anko.forEachChild
 
-class DiagnosisFormFragment : Fragment() {
+class DiagnosisFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.hs_diagnosis_fragment, container, false)
@@ -44,7 +45,13 @@ class DiagnosisFormFragment : Fragment() {
         }
     }
 
-    fun dataInto(service: HealthCareService) {
+    override fun bind(service: HealthCareService) {
+        service.diagnosises.forEach {
+            container.addView(DiagnosisFormView(activity!!).apply { diagnosis = it })
+        }
+    }
+
+    override fun dataInto(service: HealthCareService) {
         val diag = container.diagView
             .filter { it.diagnosis != null }
             .map { it.diagnosis!! }

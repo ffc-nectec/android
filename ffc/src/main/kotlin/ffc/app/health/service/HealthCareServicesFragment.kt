@@ -33,15 +33,18 @@ import ffc.android.observe
 import ffc.android.viewModel
 import ffc.app.R
 import ffc.app.familyFolderActivity
+import ffc.app.health.service.community.HomeVisitActivity
 import ffc.app.person.personId
 import ffc.app.util.alert.handle
 import ffc.app.util.value.Value
 import ffc.app.util.value.ValueAdapter
+import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.healthcare.bloodPressureLevel
 import kotlinx.android.synthetic.main.hs_services_list_card.emptyView
 import kotlinx.android.synthetic.main.hs_services_list_card.vitalSign
 import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 
 class HealthCareServicesFragment : Fragment() {
@@ -49,6 +52,9 @@ class HealthCareServicesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     private lateinit var viewModel: ServicesViewModel
+
+    private val personId: String?
+        get() = arguments!!.personId
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.hs_services_list_card, container, false)
@@ -92,7 +98,7 @@ class HealthCareServicesFragment : Fragment() {
     private fun loadHealthcareServices() {
         viewModel.loading.value = true
 
-        healthCareServicesOf(arguments!!.personId!!, familyFolderActivity.org!!.id).all {
+        healthCareServicesOf(personId!!, familyFolderActivity.org!!.id).all {
             always { viewModel.loading.value = false }
             onFound { viewModel.services.value = it.sortedByDescending { it.time } }
             onNotFound { viewModel.services.value = emptyList() }
@@ -105,6 +111,11 @@ class HealthCareServicesFragment : Fragment() {
         recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = HealthCareServiceAdapter(services) {
             onItemClick { toast(R.string.under_construction) }
+            onViewClick { view, healthCareService ->
+                startActivity<HomeVisitActivity>(
+                    "personId" to personId,
+                    "service" to healthCareService.toJson())
+            }
         }
     }
 

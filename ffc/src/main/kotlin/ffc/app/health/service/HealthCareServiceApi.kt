@@ -32,10 +32,10 @@ interface HealthCareServiceApi {
 
     @PUT("org/{orgId}/healthcareservice/{serviceId}")
     fun put(
-        @Body services: HealthCareService,
         @Path("orgId") orgId: String,
-        @Path("serviceId") serviceId: String
-    )
+        @Body services: HealthCareService,
+        @Path("serviceId") serviceId: String = services.id
+    ): Call<HealthCareService>
 
     @GET("org/{orgId}/person/{personId}/healthcareservice")
     fun get(@Path("orgId") orgId: String, @Path("personId") personId: String): Call<List<HealthCareService>>
