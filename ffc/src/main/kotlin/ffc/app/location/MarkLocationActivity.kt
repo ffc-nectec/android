@@ -21,6 +21,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import ffc.android.find
 import ffc.api.FfcCentral
@@ -31,6 +32,7 @@ import ffc.app.R.layout
 import ffc.entity.Place
 import ffc.entity.gson.ffcGson
 import ffc.entity.gson.parseTo
+import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.dimen
@@ -44,7 +46,7 @@ class MarkLocationActivity : FamilyFolderActivity() {
 
     val REQ_TARGET = 10293
 
-    private lateinit var targetPlace: Place
+    private var targetPlace: Place? = null
     private val preference by lazy { GeoPreferences(this, org) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,20 +54,29 @@ class MarkLocationActivity : FamilyFolderActivity() {
 
         setContentView(layout.activity_add_location)
 
+        targetPlace = intent.getExtra<Place>("house")
+
         val mapFragment = supportFragmentManager.find<PointMarloFragment>(id.mapFragment)
         with(mapFragment) {
             setPaddingTop(dimen(R.dimen.maps_padding_top))
             setMaxPoint(1)
             preference.lastCameraPosition?.let { setStartLocation(it.target, it.zoom) }
 
-            onMapReady { findViewById(R.id.marlo_undo).visibility = View.GONE }
+            onMapReady {
+                findViewById(R.id.marlo_undo).visibility = View.GONE
+                targetPlace?.location?.let {
+                    val latLng = LatLng(it.coordinates.latitude, it.coordinates.longitude)
+                    mapFragment.setStartLocation(latLng)
+                    mapFragment.mark(latLng)
+                }
+            }
             setOnPointChange {
                 if (it.isEmpty())
                     toast("Please Mark location")
                 else {
                     this@MarkLocationActivity.done.show()
                     with(it[0].position) {
-                        targetPlace.location = toPoint()
+                        targetPlace!!.update { location = toPoint() }
                     }
                 }
             }
@@ -73,13 +84,15 @@ class MarkLocationActivity : FamilyFolderActivity() {
         }
         done.setOnClickListener { updateHouse() }
         done.hide()
-        startActivityForResult<HouseNoLocationActivtiy>(REQ_TARGET)
+
+        if (targetPlace == null)
+            startActivityForResult<HouseNoLocationActivtiy>(REQ_TARGET)
     }
 
     private fun updateHouse() {
-        val dialog = indeterminateProgressDialog("updating")
+        val dialog = indeterminateProgressDialog("ปรับปรุงพิกัด...")
 
-        FfcCentral().service<PlaceService>().updateHouse(org!!.id, targetPlace).enqueue {
+        FfcCentral().service<PlaceService>().updateHouse(org!!.id, targetPlace!!).enqueue {
             always { dialog.dismiss() }
             onSuccess {
                 setResult(Activity.RESULT_OK)

@@ -113,4 +113,5 @@
     <string name="follow">ติดตาม</string>
     <string name="main_page">หน้าหลัก</string>
     <string name="achievement">เป้าหมาย</string>
+    <string name="mark_location">พิกัดบ้าน</string>
 </resources>
