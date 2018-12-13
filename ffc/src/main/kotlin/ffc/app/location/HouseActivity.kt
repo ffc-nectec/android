@@ -64,7 +64,7 @@ import org.jetbrains.anko.startActivity
 
 class HouseActivity : FamilyFolderActivity() {
 
-    val houseId: String
+    val houseId: String?
         get() = intent.getStringExtra("houseId")
 
     lateinit var viewModel: HouseViewModel
@@ -80,7 +80,7 @@ class HouseActivity : FamilyFolderActivity() {
         }
 
         dev {
-            intent.putExtra("houseId", generateTempId())
+            if (houseId == null) intent.putExtra("houseId", generateTempId())
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -140,7 +140,7 @@ class HouseActivity : FamilyFolderActivity() {
 
     override fun onResume() {
         super.onResume()
-        housesOf(org!!).house(houseId) {
+        housesOf(org!!).house(houseId!!) {
             onFound { viewModel.house.value = it }
             onNotFound { viewModel.house.value = null }
             onFail { viewModel.exception.value = it }

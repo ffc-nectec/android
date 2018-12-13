@@ -28,12 +28,12 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="content_start_horizontal_padding">56dp</dimen>
+    <dimen name="content_start_horizontal_padding">72dp</dimen>
 
     <dimen name="banner_height">248dp</dimen>
     <dimen name="text_appbar_title">18sp</dimen>
 
     <dimen name="card_padding_vertical">10dp</dimen>
     <dimen name="card_padding_horizontal">16dp</dimen>
-    <dimen name="card_margin_vertical">16dp</dimen>
+    <dimen name="card_margin_vertical">24dp</dimen>
 </resources>
