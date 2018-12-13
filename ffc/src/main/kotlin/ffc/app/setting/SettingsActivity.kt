@@ -1,10 +1,11 @@
-package ffc.app
+package ffc.app.setting
 
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
-import java.lang.IllegalArgumentException
+import ffc.app.FamilyFolderActivity
+import ffc.app.R
 
 class SettingsActivity : FamilyFolderActivity(),
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {

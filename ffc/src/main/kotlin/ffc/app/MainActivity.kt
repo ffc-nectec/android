@@ -39,6 +39,8 @@ import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
 import ffc.app.location.housesOf
 import ffc.app.search.SearchActivity
+import ffc.app.setting.AboutActivity
+import ffc.app.setting.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navView
 import kotlinx.android.synthetic.main.activity_main_content.addLocationButton

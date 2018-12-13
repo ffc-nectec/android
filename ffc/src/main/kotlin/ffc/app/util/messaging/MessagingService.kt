@@ -17,9 +17,9 @@
 
 package ffc.app.util.messaging
 
-import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import timber.log.Timber
 
 class MessagingService : FirebaseMessagingService() {
 
@@ -27,13 +27,13 @@ class MessagingService : FirebaseMessagingService() {
         if (remoteMessage == null) {
             return
         }
-        Log.d(TAG, "From: " + remoteMessage.from!!)
+        Timber.d("From: %s", remoteMessage.from!!)
         if (remoteMessage.data.isNotEmpty()) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.data)
+            Timber.d("Message data payload: %s", remoteMessage.data)
         }
 
         if (remoteMessage.notification != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+            Timber.d("Message Notification Body: %s", remoteMessage.notification!!.body!!)
         }
     }
 
