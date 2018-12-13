@@ -83,6 +83,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
         setupPersonInfo()
 
         service?.let {
+            Timber.d("Edit visit=${it.toJson()}")
             homeVisit.bind(it)
             vitalSign.bind(it)
             diagnosis.bind(it)

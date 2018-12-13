@@ -48,8 +48,8 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
                 it.diastolic.setInto(bpDiaField)
             }
             bloodPressure2nd?.let {
-                it.systolic.setInto(bpSysField)
-                it.diastolic.setInto(bpDiaField)
+                it.systolic.setInto(bpSysField2)
+                it.diastolic.setInto(bpDiaField2)
             }
             pulseRate.setInto(pulseField)
             respiratoryRate.setInto(rrField)
