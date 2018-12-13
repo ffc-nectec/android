@@ -2,7 +2,7 @@ package ffc.app.person
 
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.app.isDev
+import ffc.app.mockRepository
 import ffc.app.util.RepoCallback
 import ffc.app.util.TaskCallback
 import ffc.entity.Lang
@@ -128,7 +128,7 @@ val mockPerson = Person("5b9770e029191b0004c91a56").apply {
 }
 
 internal fun Person.manipulator(org: Organization): PersonManipulator {
-    return if (isDev)
+    return if (mockRepository)
         DummyPersonManipulator(org.id, this)
     else
         ApiPersonManipulator(org.id, this)
@@ -138,4 +138,4 @@ fun Person.pushTo(org: Organization, callbackDsl: TaskCallback<Person>.() -> Uni
     manipulator(org).update(callbackDsl)
 }
 
-fun persons(orgId: String): Persons = if (isDev) InMemoryPersons() else ApiPersons(orgId)
+fun persons(orgId: String): Persons = if (mockRepository) InMemoryPersons() else ApiPersons(orgId)

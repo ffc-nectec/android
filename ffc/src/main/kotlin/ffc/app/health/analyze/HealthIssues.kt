@@ -2,7 +2,7 @@ package ffc.app.health.analyze
 
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.app.isDev
+import ffc.app.mockRepository
 import ffc.app.util.RepoCallback
 import ffc.entity.Person
 import ffc.entity.healthcare.analyze.HealthAnalyzer
@@ -19,7 +19,7 @@ interface HealthIssues {
     fun issueOf(person: Person, dsl: RepoCallback<Collection<HealthIssue>>.() -> Unit)
 }
 
-fun healthIssues(): HealthIssues = if (isDev) DummyHealthIssue() else ApiHealthIssues()
+fun healthIssues(): HealthIssues = if (mockRepository) DummyHealthIssue() else ApiHealthIssues()
 
 internal class DummyHealthIssue : HealthIssues {
 

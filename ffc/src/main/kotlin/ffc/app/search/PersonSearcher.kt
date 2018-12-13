@@ -19,7 +19,7 @@ package ffc.app.search
 
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.app.isDev
+import ffc.app.mockRepository
 import ffc.app.person.mockPerson
 import ffc.app.util.RepoCallback
 import ffc.entity.Person
@@ -34,7 +34,7 @@ interface PersonSearcher {
     fun search(query: String, dsl: RepoCallback<List<Person>>.() -> Unit)
 }
 
-fun personSearcher(orgId: String): PersonSearcher = if (isDev)
+fun personSearcher(orgId: String): PersonSearcher = if (mockRepository)
     InMemoryPersonSearcher() else ApiPersonSearcher(orgId)
 
 private class InMemoryPersonSearcher : PersonSearcher {

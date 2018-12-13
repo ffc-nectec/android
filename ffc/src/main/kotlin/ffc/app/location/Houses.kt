@@ -2,7 +2,7 @@ package ffc.app.location
 
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.app.isDev
+import ffc.app.mockRepository
 import ffc.app.person.mockPerson
 import ffc.app.util.RepoCallback
 import ffc.app.util.TaskCallback
@@ -24,7 +24,7 @@ interface HouseManipulator {
     fun update(callbackDsl: TaskCallback<House>.() -> Unit)
 }
 
-fun housesOf(org: Organization): Houses = if (isDev) DummyHouses() else ApiHouses(org)
+fun housesOf(org: Organization): Houses = if (mockRepository) DummyHouses() else ApiHouses(org)
 
 private class ApiHouses(val org: Organization) : Houses {
 
@@ -112,7 +112,7 @@ private class DummyHouses(val house: House? = null) : Houses, HouseManipulator {
 internal fun House.resident(orgId: String, callbackDsl: RepoCallback<List<Person>>.() -> Unit) {
     val callback = RepoCallback<List<Person>>().apply(callbackDsl)
 
-    if (isDev) {
+    if (mockRepository) {
         callback.onFound!!.invoke(listOf(mockPerson))
     } else {
         FfcCentral().service<HouseApi>().personInHouse(orgId, this.id).enqueue {
@@ -125,7 +125,7 @@ internal fun House.resident(orgId: String, callbackDsl: RepoCallback<List<Person
 }
 
 fun House.manipulator(org: Organization): HouseManipulator {
-    return if (isDev) DummyHouses(this) else ApiHouseManipulator(org, this)
+    return if (mockRepository) DummyHouses(this) else ApiHouseManipulator(org, this)
 }
 
 internal fun House.pushTo(org: Organization, callbackDsl: TaskCallback<House>.() -> Unit) {
