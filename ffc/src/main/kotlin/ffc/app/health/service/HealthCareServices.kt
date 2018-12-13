@@ -4,7 +4,7 @@ import android.util.Log
 import ffc.android.tag
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.app.isDev
+import ffc.app.mockRepository
 import ffc.app.util.RepoCallback
 import ffc.app.util.TaskCallback
 import ffc.entity.gson.toJson
@@ -110,5 +110,5 @@ private class ApiHealthCareServices(
     }
 }
 
-internal fun healthCareServicesOf(personId: String, orgId: String): HealthCareServices = if (isDev)
+internal fun healthCareServicesOf(personId: String, orgId: String): HealthCareServices = if (mockRepository)
     InMemoryHealthCareServices(personId) else ApiHealthCareServices(orgId, personId)

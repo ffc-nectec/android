@@ -6,7 +6,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
-import ffc.app.isDev
+import ffc.app.mockRepository
 import ffc.entity.Organization
 import ffc.entity.gson.ffcGson
 import ffc.genogram.Family
@@ -29,7 +29,7 @@ internal class ApiFamilies(val org: Organization, val personId: String) : Famili
     override fun family(callbackDsl: Families.Callback.() -> Unit) {
         val callback = Families.Callback().apply(callbackDsl)
 
-        val call = if (isDev) api.demo() else api.get(org.id, personId)
+        val call = if (mockRepository) api.demo() else api.get(org.id, personId)
         call.enqueue {
             onSuccess { callback.onSuccess(body()!!) }
             onError { callback.onFail(ApiErrorException(this)) }

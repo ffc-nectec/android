@@ -29,6 +29,7 @@ import ffc.app.R
 import ffc.app.health.service.HealthCareServivceForm
 import ffc.app.util.setInto
 import ffc.entity.healthcare.HealthCareService
+import ffc.entity.update
 import kotlinx.android.synthetic.main.hs_body_form_fragment.heightField
 import kotlinx.android.synthetic.main.hs_body_form_fragment.waistField
 import kotlinx.android.synthetic.main.hs_body_form_fragment.weightField
@@ -63,7 +64,7 @@ class BodyFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
             message = "ค่าต้องอยู่ระหว่าง 15-500"
         }
 
-        service.apply {
+        service.update {
             heightField.getInput { height = it.toDouble() }
             weightField.getInput { weight = it.toDouble() }
             waistField.getInput { waist = it.toDouble() }

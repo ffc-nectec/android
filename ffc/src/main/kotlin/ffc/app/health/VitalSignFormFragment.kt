@@ -30,6 +30,7 @@ import ffc.app.health.service.HealthCareServivceForm
 import ffc.app.util.setInto
 import ffc.entity.healthcare.BloodPressure
 import ffc.entity.healthcare.HealthCareService
+import ffc.entity.update
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpDiaField
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpDiaField2
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.bpSysField
@@ -82,7 +83,7 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
     override fun dataInto(service: HealthCareService) {
         bpSysField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 80..330 }
+            that { text.toString().toDouble() in 80.0..330.0 }
             message = "ค่าต้องอยู่ระหว่าง 80-330"
         }
         bpSysField.check {
@@ -92,7 +93,7 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
         }
         bpDiaField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 30..135 }
+            that { text.toString().toDouble() in 30.0..135.0 }
             message = "ค่าต้องอยู่ระหว่าง 30-135"
         }
         bpDiaField.check {
@@ -102,7 +103,7 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
         }
         bpSysField2.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 80..330 }
+            that { text.toString().toDouble() in 80.0..330.0 }
             message = "ค่าต้องอยู่ระหว่าง 80-330"
         }
         bpSysField2.check {
@@ -112,7 +113,7 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
         }
         bpDiaField2.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 30..135 }
+            that { text.toString().toDouble() in 30.0..135.0 }
             message = "ค่าต้องอยู่ระหว่าง 30-135"
         }
         bpDiaField2.check {
@@ -122,21 +123,21 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
         }
         pulseField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 30..250 }
+            that { text.toString().toDouble() in 30.0..250.0 }
             message = "ค่าต้องอยู่ระหว่าง 30-250"
         }
         rrField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 5..40 }
+            that { text.toString().toDouble() in 5.0..40.0 }
             message = "ค่าต้องอยู่ระหว่าง 5-40"
         }
         tempField.check {
             on { isNotBlank }
-            that { text.toString().toDouble() in 35..45 }
+            that { text.toString().toDouble() in 35.0..45.0 }
             message = "ค่าต้องอยู่ระหว่าง 35-45"
         }
 
-        service.apply {
+        service.update {
             if (notEmpty(bpSysField, bpDiaField))
                 bloodPressure = BloodPressure(
                     bpSysField.text.toString().toDouble(),
