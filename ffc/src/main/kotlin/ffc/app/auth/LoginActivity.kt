@@ -20,7 +20,6 @@ package ffc.app.auth
 import android.os.Bundle
 import android.transition.Explode
 import android.transition.Slide
-import android.util.Log
 import android.view.Gravity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -30,7 +29,6 @@ import ffc.android.exit
 import ffc.android.find
 import ffc.android.findFirst
 import ffc.android.setTransition
-import ffc.android.tag
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
@@ -38,7 +36,6 @@ import ffc.app.R
 import ffc.app.auth.fragment.LoginExceptionPresenter
 import ffc.app.auth.fragment.LoginOrgFragment
 import ffc.app.auth.fragment.LoginUserFragment
-import ffc.app.dev
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
@@ -48,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_login.versionView
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.startActivity
+import timber.log.Timber
 
 class LoginActivity : FamilyFolderActivity(), LoginPresenter {
 
@@ -62,7 +60,7 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
         blurBackgroundImage()
 
         val auth = auth(this)
-        dev { Log.d(tag, "User id = ${auth.user?.id}") }
+        Timber.d("User id = ${auth.user?.id}")
 
         interactor = LoginInteractor(this, auth, isRelogin)
 

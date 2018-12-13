@@ -1,8 +1,11 @@
-package ffc.app
+package ffc.app.setting
 
 import android.os.Bundle
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import ffc.app.BuildConfig
+import ffc.app.FamilyFolderActivity
+import ffc.app.R
 import org.jetbrains.anko.support.v4.startActivity
 
 class AboutActivity : FamilyFolderActivity() {

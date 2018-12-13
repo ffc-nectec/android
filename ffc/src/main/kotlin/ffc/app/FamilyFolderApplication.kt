@@ -22,12 +22,20 @@ import ffc.api.FfcCentral
 import ffc.entity.Lookup
 import me.piruin.spinney.Spinney
 import okhttp3.Cache
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 class FamilyFolderApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        } else {
+            //Timber.plant(CrashReportingTree())
+        }
 
         Spinney.setDefaultItemPresenter { item, position ->
             if (item is Lookup) item.name else item.toString()

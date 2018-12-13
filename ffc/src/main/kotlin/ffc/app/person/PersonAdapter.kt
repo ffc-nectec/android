@@ -19,7 +19,6 @@ package ffc.app.person
 
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import ffc.android.layoutInflater
@@ -31,6 +30,7 @@ import kotlinx.android.synthetic.main.person_list_item.view.personAgeView
 import kotlinx.android.synthetic.main.person_list_item.view.personDeadLabel
 import kotlinx.android.synthetic.main.person_list_item.view.personImageView
 import kotlinx.android.synthetic.main.person_list_item.view.personNameView
+import timber.log.Timber
 
 class PersonAdapter(
     var persons: List<Person>,
@@ -45,13 +45,12 @@ class PersonAdapter(
     }
 
     override fun getItemCount(): Int {
-        Log.d("adapter", "person size ${persons.size}")
+        Timber.d("person size ${persons.size}")
         return persons.size
     }
 
     override fun onBindViewHolder(holder: PersonHolder, position: Int) {
         holder.bind(persons[position], listener)
-        Log.d("adapter", "bind person $position")
     }
 
     fun update(update: List<Person>) {

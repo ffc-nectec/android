@@ -19,13 +19,11 @@ package ffc.app.health.service.community
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import ffc.android.disable
 import ffc.android.enable
 import ffc.android.find
 import ffc.android.observe
 import ffc.android.onClick
-import ffc.android.tag
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.auth.auth
@@ -50,6 +48,7 @@ import ffc.entity.healthcare.HealthCareService
 import ffc.entity.update
 import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_visit.done
+import timber.log.Timber
 
 class HomeVisitActivity : FamilyFolderActivity() {
 
@@ -105,7 +104,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
                     body.dataInto(visit)
                     photo.dataInto(visit)
                 }
-                Log.d(tag, "visit=" + visit.toJson())
+                Timber.d("visit=%s", visit.toJson())
 
                 done.disable()
                 val healthCareServices = healthCareServicesOf(personId!!, org!!.id)
@@ -125,7 +124,7 @@ class HomeVisitActivity : FamilyFolderActivity() {
 
     val callback: TaskCallback<HealthCareService>.() -> Unit = {
         onComplete {
-            dev { Log.d(tag, it.toJson()) }
+            Timber.d("post/put service = %s", it.toJson())
             toast("บันทึกข้อมูลเรียบร้อย")
             setResult(Activity.RESULT_OK)
             finish()

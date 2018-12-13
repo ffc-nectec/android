@@ -163,14 +163,14 @@
             android:theme="@style/AppTheme.Gallery" />
         <activity android:name=".person.genogram.GenogramActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".setting.SettingsActivity"
             android:exported="true"
             android:label="@string/action_settings"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.Settings"></activity>
 
         <activity
-            android:name=".AboutActivity"
+            android:name=".setting.AboutActivity"
             android:exported="true"
             android:label="@string/about"
             android:parentActivityName=".MainActivity"

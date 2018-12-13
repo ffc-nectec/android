@@ -6,9 +6,9 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import timber.log.Timber
 
 /**
  * [Link](https://gist.github.com/mohsenoid/8ffdfa53f0465533833b0b44257aa641)
@@ -41,8 +41,10 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
         val a = context?.obtainStyledAttributes(ATTRS)
         mDivider = a?.getDrawable(0)
         if (mDivider == null) {
-            Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this " +
-                "DividerItemDecorationNoLast. Please set that attribute all call setDrawable()")
+            Timber.w("""
+                @android:attr/listDivider was not set in the theme used for this DividerItemDecorationNoLast.
+                Please set that attribute all call setDrawable()
+                """.trimIndent())
         }
         a?.recycle()
         setOrientation(orientation)

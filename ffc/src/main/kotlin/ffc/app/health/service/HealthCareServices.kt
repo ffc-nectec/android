@@ -1,7 +1,5 @@
 package ffc.app.health.service
 
-import android.util.Log
-import ffc.android.tag
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
 import ffc.app.mockRepository
@@ -10,6 +8,7 @@ import ffc.app.util.TaskCallback
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
 import retrofit2.dsl.enqueue
+import timber.log.Timber
 import java.util.concurrent.ConcurrentHashMap
 
 internal interface HealthCareServices {
@@ -34,7 +33,7 @@ private class InMemoryHealthCareServices(val personId: String) : HealthCareServi
 
     override fun add(services: HealthCareService, dslCallback: TaskCallback<HealthCareService>.() -> Unit) {
         require(services.patientId == personId) { "Not match patinet id" }
-        Log.d(tag, "homevisit = ${services.toJson()}")
+        Timber.d("homevisit = %s", services.toJson())
 
         val callback = TaskCallback<HealthCareService>().apply(dslCallback)
         val list = repository[personId] ?: mutableListOf()

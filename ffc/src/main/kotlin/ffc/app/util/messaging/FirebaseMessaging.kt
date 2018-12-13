@@ -19,12 +19,11 @@ package ffc.app.util.messaging
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
-import ffc.android.tag
 import ffc.api.FfcCentral
 import ffc.app.auth.auth
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.dsl.enqueue
+import timber.log.Timber
 
 internal class FirebaseMessaging(val application: Application) : Messaging {
 
@@ -43,7 +42,7 @@ internal class FirebaseMessaging(val application: Application) : Messaging {
             }
             check(org != null)
             service.updateToken(org!!.id, mapOf("firebaseToken" to token!!)).enqueue {
-                always { Log.d(tag, "Register token $token") }
+                always { Timber.d("Register token $token") }
                 onSuccess { preferences.lastToken = token }
             }
         } catch (ex: IllegalStateException) {
