@@ -59,6 +59,9 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
 
         communityServicesField.setItemPresenter { item, _ -> "${item.id} - ${item.name}" }
         communityServicesField.setItems(listOf())
+        if (appointField.tag == null) {
+            appointField.setUndefinedAsDefault()
+        }
 
         observe(serviceTypeViewModel.content) {
             if (!it.isNullOrEmpty()) {
@@ -73,7 +76,6 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
             }
         }
 
-        appointField.setUndefinedAsDefault()
         communityServiceTypes(context!!).all {
             onFound { serviceTypeViewModel.content.value = it }
             onNotFound { serviceTypeViewModel.content.value = listOf() }
@@ -90,7 +92,10 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
             it.plan.setInto(planField)
         }
         service.syntom.setInto(syntomField)
-        service.nextAppoint?.let { appointField.calendar = it.toCalendar() }
+        service.nextAppoint?.let {
+            appointField.tag = it
+            appointField.calendar = it.toCalendar()
+        }
     }
 
     override fun dataInto(services: HealthCareService) {
