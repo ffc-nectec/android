@@ -48,7 +48,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="16dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
@@ -56,7 +55,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </android.support.v4.widget.NestedScrollView>
 

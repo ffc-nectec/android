@@ -166,15 +166,13 @@
             android:name=".setting.SettingsActivity"
             android:exported="true"
             android:label="@string/action_settings"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.Settings"></activity>
+            android:parentActivityName=".MainActivity"></activity>
 
         <activity
             android:name=".setting.AboutActivity"
             android:exported="true"
             android:label="@string/about"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.Settings"></activity>
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -18,7 +18,7 @@
 
     <PreferenceScreen
         android:icon="@drawable/ic_info_black_24dp"
-        app:fragment="ffc.app.AboutActivity$AboutPreferenceFragment"
+        app:fragment="ffc.app.setting.AboutActivity$AboutPreferenceFragment"
         android:summary="@string/app_fullname"
         app:key="about"
         app:title="@string/about" />

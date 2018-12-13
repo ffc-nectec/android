@@ -24,16 +24,14 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/personImageView"
-        android:layout_width="0dp"
+        android:layout_width="32dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_account_circle_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/personNameView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +39,7 @@
         android:id="@+id/personNameView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/content_start_horizontal_padding"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"

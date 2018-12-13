@@ -47,7 +47,7 @@ import kotlinx.android.synthetic.main.activity_search.recentPerson
 import kotlinx.android.synthetic.main.activity_search.recentPersonCard
 import kotlinx.android.synthetic.main.activity_search.recentQuery
 import kotlinx.android.synthetic.main.activity_search.recentQueryCard
-import org.jetbrains.anko.dip
+import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 
 class SearchActivity : FamilyFolderActivity() {
@@ -74,7 +74,7 @@ class SearchActivity : FamilyFolderActivity() {
                 val values = recent.map { Value(value = it, iconRes = R.drawable.ic_search_black_24dp) }
                 with(recentQuery) {
                     layoutManager = LinearLayoutManager(context)
-                    addVeriticalItemDivider(dip(48), dip(16))
+                    addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
                     adapter = ValueAdapter(values, ValueAdapter.Style.NORMAL, limit = 5) {
                         onItemClick { v -> searchView.setQuery(v.value, true) }
                     }
@@ -88,6 +88,7 @@ class SearchActivity : FamilyFolderActivity() {
             if (!it.isNullOrEmpty()) {
                 with(recentPerson) {
                     layoutManager = LinearLayoutManager(context)
+                    addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
                     adapter = PersonAdapter(it) {
                         onItemClick { p ->
                             startPersonActivityOf(p, null,

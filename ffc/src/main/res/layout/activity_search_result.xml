@@ -69,7 +69,6 @@
                 android:id="@+id/emptyView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_padding_horizontal"
                 android:layout_marginTop="@dimen/card_margin_vertical"
                 android:minHeight="120dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -82,7 +81,8 @@
                     android:id="@+id/searchResultView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:paddingStart="@dimen/card_padding_horizontal"
+                    android:paddingEnd="@dimen/card_padding_horizontal"
                     android:visibility="visible"
                     tools:listitem="@layout/person_list_item" />
 
@@ -93,7 +93,6 @@
                 android:id="@+id/emptyView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_padding_horizontal"
                 android:layout_marginTop="@dimen/card_margin_vertical"
                 android:minHeight="120dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -107,7 +106,8 @@
                     android:id="@+id/searchResultView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:paddingStart="@dimen/card_padding_horizontal"
+                    android:paddingEnd="@dimen/card_padding_horizontal"
                     android:visibility="visible"
                     tools:listitem="@layout/person_list_item" />
 
