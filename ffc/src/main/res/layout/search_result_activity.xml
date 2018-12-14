@@ -48,29 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/card_padding_vertical">
-
-
-            <fragment
-                android:id="@+id/personResult"
-                android:name="ffc.app.search.PersonSearchResultFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/card_margin_vertical" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:listDivider" />
-
-            <fragment
-                android:id="@+id/houseResult"
-                android:name="ffc.app.search.HouseSearchResultFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/card_margin_vertical" />
-        </LinearLayout>
+            android:paddingTop="@dimen/card_margin_vertical"
+            android:paddingBottom="@dimen/card_margin_vertical" />
 
     </android.support.v4.widget.NestedScrollView>
 
