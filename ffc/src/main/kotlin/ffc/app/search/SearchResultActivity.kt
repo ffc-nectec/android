@@ -27,9 +27,12 @@ import android.support.design.widget.TabLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageView
 import ffc.android.addVeriticalItemDivider
+import ffc.android.gone
 import ffc.android.observe
+import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.android.viewModel
+import ffc.android.visible
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
@@ -42,12 +45,14 @@ import ffc.entity.place.House
 import kotlinx.android.synthetic.main.activity_search_result.contentSwitcher
 import kotlinx.android.synthetic.main.activity_search_result.emptyView
 import kotlinx.android.synthetic.main.activity_search_result.emptyView2
+import kotlinx.android.synthetic.main.activity_search_result.moreHouseButton
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView
 import kotlinx.android.synthetic.main.activity_search_result.searchResultView2
 import kotlinx.android.synthetic.main.activity_search_result.tabLayout
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 
 class SearchResultActivity : FamilyFolderActivity() {
 
@@ -116,6 +121,7 @@ class SearchResultActivity : FamilyFolderActivity() {
             } else {
                 emptyView2.showContent()
                 bindHouseAdapter(it)
+
             }
         }
         observe(personViewModel.hLoading) { if (it == true) emptyView2.showLoading() }
@@ -130,9 +136,15 @@ class SearchResultActivity : FamilyFolderActivity() {
         with(searchResultView2) {
             layoutManager = LinearLayoutManager(context)
             addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
-            adapter = HouseAdapter(it) {
+            adapter = HouseAdapter(it, limit = 5) {
                 val intent = intentFor<HouseActivity>("houseId" to it.id)
                 startActivity(intent, sceneTransition())
+            }
+            if (it.size > 5) {
+                moreHouseButton.visible()
+                moreHouseButton.onClick { toast("show more house") }
+            } else {
+                moreHouseButton.gone()
             }
         }
     }
@@ -156,7 +168,7 @@ class SearchResultActivity : FamilyFolderActivity() {
             }
 
             personViewModel.hLoading.value = true
-            houseSearcher(org!!.id).search(query!!) {
+            houseSearcher(org!!.id).search(query) {
                 always { personViewModel.hLoading.value = false }
                 onFound { personViewModel.houses.value = it }
                 onNotFound { personViewModel.houses.value = listOf() }
@@ -171,7 +183,7 @@ class SearchResultActivity : FamilyFolderActivity() {
     private fun bindAdapter(persons: List<Person>) {
         searchResultView.layoutManager = LinearLayoutManager(this)
         searchResultView.addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
-        searchResultView.adapter = PersonAdapter(persons) {
+        searchResultView.adapter = PersonAdapter(persons, limit = 5) {
             onItemClick { p ->
                 startPersonActivityOf(p, null,
                     find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile))
