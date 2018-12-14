@@ -21,10 +21,15 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import ffc.android.find
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
+import org.jetbrains.anko.bundleOf
 
 class SearchResultActivity : FamilyFolderActivity() {
 
@@ -36,7 +41,7 @@ class SearchResultActivity : FamilyFolderActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_result)
+        setContentView(R.layout.search_result_activity)
         dev {
             if (intent.query == null) {
                 intent.action = Intent.ACTION_SEARCH
@@ -47,7 +52,10 @@ class SearchResultActivity : FamilyFolderActivity() {
         with(supportActionBar!!) {
             title = intent.query
             setDisplayHomeAsUpEnabled(true)
-            onToolbarClick { onBackPressed() }
+            onToolbarClick {
+                finish()
+                overridePendingTransition(android.R.anim.fade_in, 0)
+            }
         }
         handleIntent(intent)
     }
@@ -63,10 +71,10 @@ class SearchResultActivity : FamilyFolderActivity() {
                 .saveRecentQuery(query, null)
             supportActionBar!!.title = query
 
-            val personResult = supportFragmentManager.find<PersonSearchResultFragment>(R.id.personResult)
-            personResult.query = query
-            val houseResult = supportFragmentManager.find<HouseSearchResultFragment>(R.id.houseResult)
-            houseResult.query = query
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.contentContainer, ResultFragment().apply {
+                    arguments = bundleOf("query" to query)
+                }, "result").commit()
         } else {
         }
     }
@@ -80,5 +88,24 @@ class SearchResultActivity : FamilyFolderActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(android.R.anim.fade_in, 0)
+    }
+}
+
+class ResultFragment : Fragment() {
+
+    val query: String
+        get() = arguments!!.getString("query")!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.search_result_main_fragment, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val personResult = childFragmentManager.find<PersonSearchResultFragment>(R.id.personResult)
+        personResult.query = query
+        val houseResult = childFragmentManager.find<HouseSearchResultFragment>(R.id.houseResult)
+        houseResult.query = query
     }
 }

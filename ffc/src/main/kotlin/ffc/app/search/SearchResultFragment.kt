@@ -39,8 +39,8 @@ abstract class SearchResultFragment<T : Entity> : Fragment() {
 
     val viewModel by lazy { viewModel<SimpleViewModel<List<T>>>() }
 
-    var limit = 5
-    var query: String? = null
+    open val limit = 4
+    open var query: String? = null
         set(value) {
             field = value
             value?.let { onSearchFor(viewModel, it) }
@@ -64,7 +64,10 @@ abstract class SearchResultFragment<T : Entity> : Fragment() {
             } else {
                 onBindAdapter(recycleView, it)
                 emptyView.showContent()
-                if (it.size > limit) moreButton.visible()
+                if (it.size > limit)
+                    moreButton.visible()
+                else
+                    moreButton.gone()
             }
         }
         observe(viewModel.loading) { if (it == true) emptyView.showLoading() }
@@ -74,8 +77,10 @@ abstract class SearchResultFragment<T : Entity> : Fragment() {
         header.drawableStart = drawable(iconRes)
         moreButton.onClick {
             activity?.let {
+                val fragment = onCreateMoreResultFragment(viewModel.content.value!!)
                 it.supportFragmentManager.beginTransaction()
-                    .replace(containerId, onMoreFragmentCreate())
+                    .hide(it.supportFragmentManager.findFragmentByTag("result")!!)
+                    .add(containerId, fragment)
                     .addToBackStack(null)
                     .commit()
             }
@@ -84,21 +89,12 @@ abstract class SearchResultFragment<T : Entity> : Fragment() {
         query?.let { onSearchFor(viewModel, it) }
     }
 
-    abstract fun onMoreFragmentCreate(): Fragment
-
-    abstract fun onSearchFor(viewModel: SimpleViewModel<List<T>>, query: String);
-
+    abstract fun onSearchFor(viewModel: SimpleViewModel<List<T>>, query: String)
     abstract fun onBindAdapter(recycleView: RecyclerView, content: List<T>)
+    abstract fun onCreateMoreResultFragment(content: List<T>): Fragment
 }
 
-class PersonSearchResultFragment : SearchResultFragment<Person>() {
-
-    override fun onMoreFragmentCreate(): Fragment {
-        return PersonSearchResultFragment().apply {
-            this.query = query
-            this.limit = Int.MAX_VALUE
-        }
-    }
+open class PersonSearchResultFragment : SearchResultFragment<Person>() {
 
     override val iconRes: Int
         get() = R.drawable.ic_account_circle_black_24dp
@@ -128,17 +124,15 @@ class PersonSearchResultFragment : SearchResultFragment<Person>() {
             }
         }
     }
-}
 
-class HouseSearchResultFragment : SearchResultFragment<House>() {
-    override fun onMoreFragmentCreate(): Fragment {
-        val q = query
-        return HouseSearchResultFragment().apply {
-            this.query = q
-            this.limit = Int.MAX_VALUE
+    override fun onCreateMoreResultFragment(content: List<Person>): Fragment {
+        return PersonMoreResultFragment().apply {
+            setArgument(this@PersonSearchResultFragment.query!!, content)
         }
     }
+}
 
+open class HouseSearchResultFragment : SearchResultFragment<House>() {
     override val iconRes: Int
         get() = R.drawable.ic_home_black_24px
     override val title: String
@@ -162,6 +156,12 @@ class HouseSearchResultFragment : SearchResultFragment<House>() {
                 val intent = intentFor<HouseActivity>("houseId" to it.id)
                 startActivity(intent, activity?.sceneTransition())
             }
+        }
+    }
+
+    override fun onCreateMoreResultFragment(content: List<House>): Fragment {
+        return HouseMoreResultFragment().apply {
+            setArgument(this@HouseSearchResultFragment.query!!, content)
         }
     }
 }

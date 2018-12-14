@@ -22,6 +22,7 @@ import android.os.Bundle
 import ffc.android.disable
 import ffc.android.enable
 import ffc.android.find
+import ffc.android.getExtra
 import ffc.android.observe
 import ffc.android.onClick
 import ffc.app.FamilyFolderActivity
@@ -32,7 +33,6 @@ import ffc.app.health.BodyFormFragment
 import ffc.app.health.VitalSignFormFragment
 import ffc.app.health.diagnosis.DiagnosisFormFragment
 import ffc.app.health.service.healthCareServicesOf
-import ffc.app.location.getExtra
 import ffc.app.person.mockPerson
 import ffc.app.person.personId
 import ffc.app.person.persons

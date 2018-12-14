@@ -22,16 +22,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
-import com.google.gson.Gson
 import ffc.android.find
+import ffc.android.getExtra
 import ffc.api.FfcCentral
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.R.id
 import ffc.app.R.layout
 import ffc.entity.Place
-import ffc.entity.gson.ffcGson
-import ffc.entity.gson.parseTo
 import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
@@ -127,8 +125,4 @@ class MarkLocationActivity : FamilyFolderActivity() {
         super.onBackPressed()
         overridePendingTransition(0, 0)
     }
-}
-
-inline fun <reified T> Intent.getExtra(key: String, gson: Gson = ffcGson): T? {
-    return getStringExtra(key)?.parseTo<T>(gson)
 }
