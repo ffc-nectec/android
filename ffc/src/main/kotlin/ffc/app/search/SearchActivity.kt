@@ -75,7 +75,7 @@ class SearchActivity : FamilyFolderActivity() {
                 with(recentQuery) {
                     layoutManager = LinearLayoutManager(context)
                     addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
-                    adapter = ValueAdapter(values, ValueAdapter.Style.NORMAL, limit = 5) {
+                    adapter = ValueAdapter(values, ValueAdapter.Style.NORMAL, limit = 4) {
                         onItemClick { v -> searchView.setQuery(v.value, true) }
                     }
                 }
@@ -89,7 +89,7 @@ class SearchActivity : FamilyFolderActivity() {
                 with(recentPerson) {
                     layoutManager = LinearLayoutManager(context)
                     addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
-                    adapter = PersonAdapter(it) {
+                    adapter = PersonAdapter(it, limit = 4) {
                         onItemClick { p ->
                             startPersonActivityOf(p, null,
                                 find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile))
