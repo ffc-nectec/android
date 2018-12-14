@@ -65,6 +65,7 @@ class PersonAdapter(
                 itemView.personNameView.text = name
                 itemView.personAgeView.text = "$age ปี"
                 itemView.personDeadLabel.visibility = if (isDead) View.VISIBLE else View.GONE
+                itemView.personImageView.setImageResource(R.drawable.ic_account_circle_black_24dp)
                 avatarUrl?.let { itemView.personImageView.load(Uri.parse(it)) }
                 listener.bindOnItemClick(itemView, person)
             }
