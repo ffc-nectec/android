@@ -8,6 +8,7 @@ import ffc.entity.place.House
 
 class HouseAdapter(
     private val houses: List<House>,
+    val limit: Int = Int.MAX_VALUE,
     private val onItemClick: (House) -> Unit
 ) : RecyclerView.Adapter<HouseViewHolder>() {
 
@@ -33,7 +34,7 @@ class HouseAdapter(
         val size = filteredHouse.size
         if (size == 0)
             onEmptyHouse?.invoke()
-        return filteredHouse.size
+        return filteredHouse.size.takeIf { it < limit } ?: limit
     }
 
     override fun onBindViewHolder(holder: HouseViewHolder, position: Int) {

@@ -34,6 +34,7 @@ import timber.log.Timber
 
 class PersonAdapter(
     var persons: List<Person>,
+    var limit: Int = Int.MAX_VALUE,
     onClickDsl: AdapterClickListener<Person>.() -> Unit
 ) : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
 
@@ -46,7 +47,7 @@ class PersonAdapter(
 
     override fun getItemCount(): Int {
         Timber.d("person size ${persons.size}")
-        return persons.size
+        return persons.size.takeIf { it < limit } ?: limit
     }
 
     override fun onBindViewHolder(holder: PersonHolder, position: Int) {
