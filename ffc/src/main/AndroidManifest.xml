@@ -86,12 +86,12 @@
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".auth.LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus"
+            android:theme="@style/AppTheme.TranslucentStatus"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -102,19 +102,18 @@
         <activity
             android:name=".location.MarkLocationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".location.HouseNoLocationActivtiy"
             android:label="เลือกบ้านไม่มีพิกัด"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".location.HouseActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".health.service.community.HomeVisitActivity"
             android:exported="true"
@@ -148,7 +147,7 @@
             android:name=".person.PersonActivitiy"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus" />
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".photo.TakePhotoActivity"
             android:label="@string/photo"
