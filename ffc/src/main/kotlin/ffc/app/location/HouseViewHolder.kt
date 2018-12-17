@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.item_house.view.houseNo
 class HouseViewHolder(view: View, val onItemClick: (House) -> Unit) : RecyclerView.ViewHolder(view) {
     fun bind(address: House) {
         with(address) {
-            itemView.houseNo.text = no
+            itemView.houseNo.text = StringBuilder(no!!).apply { villageName?.let { append(" · $it") } }
             itemView.setOnClickListener { onItemClick(this) }
         }
     }
