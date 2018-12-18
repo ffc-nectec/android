@@ -104,6 +104,7 @@
                         app:autoSizeMaxTextSize="24sp"
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform"
+                        android:maxLines="1"
                         tools:text="พิรุณ พานิชผล" />
 
                     <LinearLayout
