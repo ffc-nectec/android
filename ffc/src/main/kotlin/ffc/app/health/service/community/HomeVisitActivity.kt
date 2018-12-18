@@ -18,11 +18,13 @@
 package ffc.app.health.service.community
 
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import ffc.android.disable
 import ffc.android.enable
 import ffc.android.find
 import ffc.android.getExtra
+import ffc.android.loadDrawableBottom
 import ffc.android.observe
 import ffc.android.onClick
 import ffc.app.FamilyFolderActivity
@@ -48,6 +50,7 @@ import ffc.entity.healthcare.HealthCareService
 import ffc.entity.update
 import ffc.entity.util.generateTempId
 import kotlinx.android.synthetic.main.activity_visit.done
+import kotlinx.android.synthetic.main.activity_visit.personName
 import timber.log.Timber
 
 class HomeVisitActivity : FamilyFolderActivity() {
@@ -138,10 +141,11 @@ class HomeVisitActivity : FamilyFolderActivity() {
 
     private fun setupPersonInfo() {
         observe(viewModel.content) {
-            if (it != null)
-                toast("${it.name}")
-            else {
-                toast("ไม่พบ")
+            if (it != null) {
+                personName.text = it.name
+                it.avatarUrl?.let { personName.loadDrawableBottom(Uri.parse(it)) }
+            } else {
+                toast("ไม่พบข้อมูลบุคคล")
                 finish()
             }
         }
