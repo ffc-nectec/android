@@ -43,10 +43,10 @@ import ffc.app.person.startPersonActivityOf
 import ffc.app.util.value.Value
 import ffc.app.util.value.ValueAdapter
 import ffc.entity.Person
-import kotlinx.android.synthetic.main.activity_search.recentPerson
-import kotlinx.android.synthetic.main.activity_search.recentPersonCard
-import kotlinx.android.synthetic.main.activity_search.recentQuery
-import kotlinx.android.synthetic.main.activity_search.recentQueryCard
+import kotlinx.android.synthetic.main.search_activity.recentPerson
+import kotlinx.android.synthetic.main.search_activity.recentPersonCard
+import kotlinx.android.synthetic.main.search_activity.recentQuery
+import kotlinx.android.synthetic.main.search_activity.recentQueryCard
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
 
@@ -56,7 +56,7 @@ class SearchActivity : FamilyFolderActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        setContentView(R.layout.search_activity)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
