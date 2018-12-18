@@ -124,7 +124,6 @@ class HouseActivity : FamilyFolderActivity() {
                 onItemClick {
                     startPersonActivityOf(it, viewModel.house.value,
                         appbar to getString(R.string.transition_appbar),
-                        this to getString(R.string.transition_card),
                         find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile)
                     )
                 }
