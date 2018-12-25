@@ -112,10 +112,10 @@ dependencies {
     implementation 'com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.6.0'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation "com.github.chrisbanes:PhotoView:2.1.3"
-    implementation 'com.github.ffc-nectec:entities:1.0.0-alpha13'
+    implementation 'com.github.ffc-nectec:entities:61ebf124c8'
     implementation 'com.github.ffc-nectec.genogram:genogram-android:1.0.0-alpha4'
     implementation 'com.github.piruin:AsymmetricGridView:7faa393d0e'
-    implementation 'com.github.piruin.geok:geok-gson:1.0.0-alpha-2'
+    implementation 'com.github.piruin.geok:geok-gson:1.0.0'
     implementation 'com.github.piruin:retrofit-dsl:1.2'
     implementation 'com.github.santalu:emptyview:1.3.6'
     implementation 'com.github.sembozdemir:PermissionsKt:1.0.0'
