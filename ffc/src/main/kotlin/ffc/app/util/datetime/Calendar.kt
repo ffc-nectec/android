@@ -9,6 +9,6 @@ fun Calendar.toLocalDate(): LocalDate? {
 
 fun LocalDate.toCalendar(): Calendar {
     return Calendar.getInstance().apply {
-        set(year, monthOfYear, dayOfMonth)
+        set(year, monthOfYear - 1, dayOfMonth)
     }
 }
