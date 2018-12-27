@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal"
+    tools:showIn="@layout/photo_avatar_activity">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2" />
+
+    <Button
+        android:id="@+id/takePhoto"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/ic_camera_alt_black_24dp"
+        android:paddingStart="24dp"
+        android:text="@string/photo_take" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2" />
+
+    <Button
+        android:id="@+id/choosePhoto"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/ic_photo_library_black_24dp"
+        android:paddingStart="24dp"
+        android:text="@string/photo_choose" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2" />
+</LinearLayout>

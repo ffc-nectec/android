@@ -16,23 +16,23 @@ import ffc.app.R
 import ffc.app.dev
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
-import kotlinx.android.synthetic.main.activity_photo_avatar.avatarView
-import kotlinx.android.synthetic.main.activity_photo_avatar.choosePhoto
-import kotlinx.android.synthetic.main.activity_photo_avatar.takePhoto
+import kotlinx.android.synthetic.main.photo_action_bar.choosePhoto
+import kotlinx.android.synthetic.main.photo_action_bar.takePhoto
+import kotlinx.android.synthetic.main.photo_avatar_activity.avatarView
 import me.piruin.phototaker.PhotoSize
 import me.piruin.phototaker.PhotoTaker
 import me.piruin.phototaker.PhotoTakerListener
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.toast
 
 class AvatarPhotoActivity : FamilyFolderActivity() {
 
     private val photoTaker by lazy {
-        PhotoTaker(this, PhotoSize(1024, 1024)).apply {
+        PhotoTaker(this, PhotoSize(dip(1024), dip(1024))).apply {
             setListener(object : PhotoTakerListener {
                 override fun onFinish(intent: Intent) {
-                    photoUri = TakePhotoActivity.UriPhoto(intent.data!!)
+                    photoUri = UriPhoto(intent.data!!)
                     avatarView.load(intent.data!!)
                 }
 
@@ -43,20 +43,20 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
         }
     }
 
-    private var previousPhotoUrl: TakePhotoActivity.UrlPhoto? = null
-    var photoUri: TakePhotoActivity.UriPhoto? = null
+    private var previousPhotoUrl: UrlPhoto? = null
+    var photoUri: Photo? = null
 
     private val storage: PhotoStorage
         get() = org!!.photoStorageFor(intent.photoType)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_photo_avatar)
+        setContentView(R.layout.photo_avatar_activity)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         intent.data?.let {
-            previousPhotoUrl = TakePhotoActivity.UrlPhoto(it.toString())
+            previousPhotoUrl = UrlPhoto(it.toString())
             avatarView.load(it)
         }
 
@@ -95,7 +95,7 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun upload(photo: TakePhotoActivity.Photo) {
+    private fun upload(photo: Photo) {
         val dialog = indeterminateProgressDialog("บันทึกภาพถ่าย").apply { show() }
         storage.save(photo.uri) {
             onComplete {
@@ -110,7 +110,7 @@ class AvatarPhotoActivity : FamilyFolderActivity() {
         }
     }
 
-    private fun delete(photo: TakePhotoActivity.Photo?) {
+    private fun delete(photo: Photo?) {
         photo?.let { photo ->
             storage.delete(photo.uri) {
                 onComplete { dev { toast("Deleted ${photo.uri}") } }

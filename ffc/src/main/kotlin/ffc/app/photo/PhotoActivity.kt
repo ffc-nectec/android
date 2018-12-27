@@ -6,7 +6,7 @@ import ffc.android.load
 import ffc.android.setTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
-import kotlinx.android.synthetic.main.activity_photo.photo
+import kotlinx.android.synthetic.main.photo_activity.photo
 
 class PhotoActivity : FamilyFolderActivity() {
 
@@ -16,8 +16,7 @@ class PhotoActivity : FamilyFolderActivity() {
         setTransition {
             enterTransition = Fade()
         }
-
-        setContentView(R.layout.activity_photo)
+        setContentView(R.layout.photo_activity)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val uri = intent.data
