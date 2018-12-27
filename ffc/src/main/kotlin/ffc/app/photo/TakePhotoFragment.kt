@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.hs_photo_fragment.takePhoto
 
 class TakePhotoFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
-    private val maxPhoto = 4
+    private val maxPhoto = 2
     private var photoUrls: List<String> = listOf()
         set(value) {
             field = value
