@@ -10,7 +10,11 @@ import org.joda.time.format.DateTimeFormat
 internal class FirebasePhotoStorage(val org: Organization, val photoType: PhotoType) : PhotoStorage {
 
     val storage by lazy { FirebaseStorage.getInstance() }
-    val folder by lazy { storage.getReference("images").child(photoType.folder) }
+    val folder by lazy {
+        storage.getReference("images")
+            .child(org.id)
+            .child(photoType.folder)
+    }
 
     override fun save(uri: Uri, callback: TaskCallback<Uri>.() -> Unit) {
         val taskCallback = TaskCallback<Uri>().apply(callback)
