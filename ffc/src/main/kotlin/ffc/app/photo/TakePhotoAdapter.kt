@@ -12,17 +12,17 @@ import kotlinx.android.synthetic.main.item_photo_take.view.delBtn
 import kotlinx.android.synthetic.main.item_photo_take.view.image
 
 internal class TakePhotoAdapter(
-    var photoUrl: List<TakePhotoActivity.Photo>,
-    block: AdapterClickListener<TakePhotoActivity.Photo>.() -> Unit
+    var photoUrl: List<Photo>,
+    block: AdapterClickListener<Photo>.() -> Unit
 ) : RecyclerView.Adapter<TakePhotoAdapter.TakePhotoHolder>() {
 
-    private val listener = AdapterClickListener<TakePhotoActivity.Photo>()
+    private val listener = AdapterClickListener<Photo>()
 
     init {
         listener.apply(block)
     }
 
-    fun update(photos: List<TakePhotoActivity.Photo>) {
+    fun update(photos: List<Photo>) {
         photoUrl = photos
         notifyDataSetChanged()
     }
@@ -39,10 +39,10 @@ internal class TakePhotoAdapter(
 
     internal class TakePhotoHolder(
         view: View,
-        private val listener: AdapterClickListener<TakePhotoActivity.Photo>
+        private val listener: AdapterClickListener<Photo>
     ) : RecyclerView.ViewHolder(view) {
 
-        fun bind(photo: TakePhotoActivity.Photo) {
+        fun bind(photo: Photo) {
             with(itemView) {
                 photo.showOn(image)
                 onClick { listener.onItemClick?.invoke(itemView, photo) }

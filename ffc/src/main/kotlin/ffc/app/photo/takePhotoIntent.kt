@@ -27,6 +27,12 @@ internal fun Activity.takePhoto(requestCode: Int = REQUEST_TAKE_PHOTO): Uri {
     return uri
 }
 
+internal fun Activity.choosePhoto(requestCode: Int = REQUEST_PICK_PHOTO) {
+    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    intent.type = "image/*"
+    startActivityForResult(intent, requestCode)
+}
+
 fun Context.viewPhoto(uri: Uri, bundle: Bundle? = null) {
     val intent = intentFor<PhotoActivity>()
     intent.data = uri

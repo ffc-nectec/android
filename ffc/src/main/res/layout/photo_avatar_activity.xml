@@ -17,45 +17,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <include
+        layout="@layout/photo_action_bar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3" />
-
-        <Button
-            android:id="@+id/takePhoto"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/ic_camera_alt_black_24dp"
-            android:text="@string/photo_take" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3" />
-
-        <Button
-            android:id="@+id/choosePhoto"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/ic_photo_library_black_24dp"
-            android:text="@string/photo_choose" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3" />
-    </LinearLayout>
+        android:layout_gravity="bottom" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatarView"

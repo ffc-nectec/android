@@ -9,23 +9,25 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
 import android.widget.LinearLayout
 import ffc.android.SpacesItemDecoration
-import ffc.android.load
+import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.util.alert.handle
-import kotlinx.android.synthetic.main.activity_photo_take.photos
+import kotlinx.android.synthetic.main.photo_action_bar.choosePhoto
+import kotlinx.android.synthetic.main.photo_action_bar.takePhoto
+import kotlinx.android.synthetic.main.photo_take_activity.photos
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.support.v4.intentFor
 
-class TakePhotoActivity : FamilyFolderActivity() {
+val REQUEST_TAKE_PHOTO = 2034
+val REQUEST_PICK_PHOTO = 2035
 
-    private val reqPhotoCode = 1928
+class TakePhotoActivity : FamilyFolderActivity() {
 
     private var photoList = mutableListOf<Photo>()
     private var targetImageUri: Uri? = null
@@ -40,14 +42,10 @@ class TakePhotoActivity : FamilyFolderActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_photo_take)
+        setContentView(R.layout.photo_take_activity)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         intent.urls?.forEach {
             photoList.add(UrlPhoto(it))
-        }
-        if (photoList.isEmpty()) {
-            targetImageUri = takePhoto(reqPhotoCode)
         }
         with(photos) {
             addItemDecoration(SpacesItemDecoration(dip(16)))
@@ -55,24 +53,33 @@ class TakePhotoActivity : FamilyFolderActivity() {
             adapter = TakePhotoAdapter(photoList) {
                 onViewClick { view, photo ->
                     when (view.id) {
-                        R.id.image -> viewPhoto(photo.uri,
-                            sceneTransition(view to getString(R.string.transition_photo)))
+                        R.id.image -> viewPhoto(photo.uri, sceneTransition(view to getString(R.string.transition_photo)))
                         R.id.delBtn -> removeImage(photo)
                     }
                 }
             }
         }
+        takePhoto.onClick { targetImageUri = takePhoto(REQUEST_TAKE_PHOTO) }
+        choosePhoto.onClick { choosePhoto(REQUEST_PICK_PHOTO) }
+
+        if (photoList.isEmpty()) {
+            takePhoto.performClick()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.house_option, menu)
+        menuInflater.inflate(R.menu.photo_take, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
+            R.id.done,
             android.R.id.home -> {
-                val dialog = indeterminateProgressDialog("บันทึกภาพถ่าย").apply { show() }
+                val dialog = indeterminateProgressDialog("บันทึกภาพถ่าย") {
+                    setCancelable(false)
+                    show()
+                }
                 photoList.upload {
                     dialog.dismiss()
                     val intent = Intent().apply {
@@ -81,9 +88,6 @@ class TakePhotoActivity : FamilyFolderActivity() {
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }
-            }
-            R.id.photoMenu -> {
-                targetImageUri = takePhoto(reqPhotoCode)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -120,22 +124,21 @@ class TakePhotoActivity : FamilyFolderActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == reqPhotoCode) {
-            onTakePhotoResult(resultCode)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, result: Intent?) {
+        super.onActivityResult(requestCode, resultCode, result)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_TAKE_PHOTO -> addPhoto(targetImageUri!!)
+                REQUEST_PICK_PHOTO -> result?.data?.let { addPhoto(it) }
+            }
         }
     }
 
-    private fun onTakePhotoResult(resultCode: Int) {
-        when (resultCode) {
-            Activity.RESULT_OK -> {
-                if (photoList.size == maxPhotoSize)
-                    photoList.removeAt(0)
-                photoList.add(UriPhoto(targetImageUri!!))
-                photos.takePhotoAdapter.update(photoList)
-            }
-        }
+    private fun addPhoto(uri: Uri) {
+        if (photoList.size == maxPhotoSize)
+            photoList.removeAt(0)
+        photoList.add(UriPhoto(uri))
+        photos.takePhotoAdapter.update(photoList)
     }
 
     private fun removeImage(photo: Photo) {
@@ -165,20 +168,6 @@ class TakePhotoActivity : FamilyFolderActivity() {
         setResult(Activity.RESULT_CANCELED)
         super.onBackPressed()
     }
-
-    interface Photo {
-        val uri: Uri
-
-        fun showOn(imageView: ImageView) {
-            imageView.load(uri)
-        }
-    }
-
-    class UrlPhoto(val url: String) : Photo {
-        override val uri: Uri get() = Uri.parse(url)
-    }
-
-    class UriPhoto(override val uri: Uri) : Photo
 }
 
 var Intent.urls: List<String>?
@@ -229,5 +218,3 @@ fun Fragment.startTakePhotoActivity(
     intent.limit = limit
     startActivityForResult(intent, requestCode)
 }
-
-val REQUEST_TAKE_PHOTO = 2034
