@@ -33,4 +33,11 @@
         android:transitionName="@string/transition_photo"
         tools:ignore="UnusedAttribute" />
 
+    <View
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="?actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_scrim_bottom" />
+
 </android.support.design.widget.CoordinatorLayout>
