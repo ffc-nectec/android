@@ -140,7 +140,10 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
         else {
             alert(Appcompat, "คุณต้องการปิดแอพ?", "ปิดแอพ") {
                 iconResource = R.drawable.ic_logout_color_24dp
-                positiveButton("ปิดแอพ") { finishAffinity() }
+                positiveButton("ปิดแอพ") {
+                    finishAffinity()
+                    if (isRelogin) auth(this@LoginActivity).clear()
+                }
                 negativeButton("ไม่") {}
             }.show()
         }
