@@ -17,6 +17,7 @@
 
 package ffc.app.health.service.community
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
@@ -108,12 +109,13 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun TextInputEditText.setTemplateAdapter(template: List<Template>) {
         onLongClick { view ->
             val dialog = SpinneyDialog(view.context)
             dialog.setAdapter(SpinneyAdapter(view.context, template.map { it.value }))
             dialog.setOnItemSelectedListener { item, _ ->
-                view.setText(item as String)
+                view.setText("${view.text ?: ""} ${item as String}".trim())
                 true
             }
             dialog.show()
