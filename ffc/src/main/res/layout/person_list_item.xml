@@ -66,15 +66,30 @@
         app:layout_constraintTop_toBottomOf="@+id/personNameView"
         tools:text="30 ปี" />
 
-    <TextView
+    <ImageView
         android:id="@+id/personDeadLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/bg_label_dark"
+        android:src="@drawable/ic_gravestone_black_24dp"
         android:text="@string/dead"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/white"
-        app:layout_constraintBaseline_toBaselineOf="@+id/personAgeView"
-        app:layout_constraintStart_toEndOf="@+id/personAgeView" />
+        app:layout_constraintBottom_toBottomOf="@+id/personAgeView"
+        app:layout_constraintStart_toEndOf="@+id/personAgeView"
+        app:layout_constraintTop_toTopOf="@+id/personAgeView" />
+
+    <LinearLayout
+        android:id="@+id/personStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="right|center_vertical|end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/personDeadLabel"
+        app:layout_constraintTop_toBottomOf="@+id/personNameView"></LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
