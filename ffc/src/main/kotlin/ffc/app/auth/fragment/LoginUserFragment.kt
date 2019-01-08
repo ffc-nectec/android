@@ -37,7 +37,13 @@ import ffc.app.dev
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
-import kotlinx.android.synthetic.main.fragment_login_user.*
+import kotlinx.android.synthetic.main.fragment_login_user.btnBack
+import kotlinx.android.synthetic.main.fragment_login_user.btnLogin
+import kotlinx.android.synthetic.main.fragment_login_user.emptyView
+import kotlinx.android.synthetic.main.fragment_login_user.errorView
+import kotlinx.android.synthetic.main.fragment_login_user.etPwd
+import kotlinx.android.synthetic.main.fragment_login_user.etUsername
+import kotlinx.android.synthetic.main.fragment_login_user.tvHospitalName
 import org.jetbrains.anko.bundleOf
 
 internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
@@ -90,7 +96,7 @@ internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
             } catch (handled: IllegalStateException) {
             }
         }
-        btnBack.onClick { fragmentManager!!.popBackStack() }
+        btnBack.onClick { activity?.onBackPressed() }
 
         org!!.let { tvHospitalName.text = it.displayName }
 
