@@ -21,15 +21,21 @@ import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import ffc.android.getString
 import ffc.android.layoutInflater
 import ffc.android.load
 import ffc.app.R
+import ffc.app.health.analyze.toIconTitlePair
 import ffc.app.util.AdapterClickListener
 import ffc.entity.Person
 import kotlinx.android.synthetic.main.person_list_item.view.personAgeView
 import kotlinx.android.synthetic.main.person_list_item.view.personDeadLabel
 import kotlinx.android.synthetic.main.person_list_item.view.personImageView
 import kotlinx.android.synthetic.main.person_list_item.view.personNameView
+import kotlinx.android.synthetic.main.person_list_item.view.personStatus
+import org.jetbrains.anko.dip
 import timber.log.Timber
 
 class PersonAdapter(
@@ -67,6 +73,19 @@ class PersonAdapter(
                 itemView.personAgeView.text = "$age ปี"
                 itemView.personDeadLabel.visibility = if (isDead) View.VISIBLE else View.GONE
                 itemView.personImageView.setImageResource(R.drawable.ic_account_circle_black_24dp)
+                itemView.personStatus.removeAllViews()
+                person.healthAnalyze?.result?.filterValues { it.haveIssue }?.forEach {
+                    val layoutParam = LinearLayout.LayoutParams(itemView.dip(16), itemView.dip(16)).apply {
+                        marginStart = itemView.dip(4)
+                        marginEnd = itemView.dip(4)
+                    }
+
+                    val pair = it.value.issue.toIconTitlePair() ?: return@forEach
+                    itemView.personStatus.addView(ImageView(itemView.context).apply {
+                        setImageResource(pair.first)
+                        contentDescription = getString(pair.second)
+                    }, layoutParam)
+                }
                 avatarUrl?.let { itemView.personImageView.load(Uri.parse(it)) }
                 listener.bindOnItemClick(itemView, person)
             }
