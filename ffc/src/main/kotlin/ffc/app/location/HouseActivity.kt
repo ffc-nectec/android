@@ -103,8 +103,8 @@ class HouseActivity : FamilyFolderActivity() {
             locationMenu?.isEnabled = house != null
         }
         observe(viewModel.resident) {
-            if (it != null) {
-                (recycleView.adapter as PersonAdapter).update(it)
+            if (!it.isNullOrEmpty()) {
+                (recycleView.adapter as PersonAdapter).update(it.sortedByDescending { it.age })
                 emptyView.content().show()
             } else {
                 emptyView.empty().show()
