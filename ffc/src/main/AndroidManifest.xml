@@ -87,8 +87,9 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentStatus" />
+
         <activity
-            android:name=".auth.LoginActivity"
+            android:name=".SplashScreenActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentStatus"
@@ -99,6 +100,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".auth.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentStatus"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".location.MarkLocationActivity"
             android:screenOrientation="portrait"
