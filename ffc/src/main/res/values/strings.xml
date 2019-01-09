@@ -116,4 +116,8 @@
     <string name="mark_location">พิกัดบ้าน</string>
     <string name="more">เพิ่มเติม</string>
     <string name="done">เสร็จสิ้น</string>
+    <string name="update">อัพเดท</string>
+    <string name="close_app">ปิดแอพ</string>
+    <string name="no">ไม่</string>
+    <string name="r_u_sure_to_close_app">คุณต้องการปิดแอพ?</string>
 </resources>

@@ -138,13 +138,13 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
         if (supportFragmentManager.backStackEntryCount > 0)
             super.onBackPressed()
         else {
-            alert(Appcompat, "คุณต้องการปิดแอพ?", "ปิดแอพ") {
+            alert(Appcompat, R.string.r_u_sure_to_close_app, R.string.close_app) {
                 iconResource = R.drawable.ic_logout_color_24dp
-                positiveButton("ปิดแอพ") {
+                positiveButton(R.string.close_app) {
                     finishAffinity()
                     if (isRelogin) auth(this@LoginActivity).clear()
                 }
-                negativeButton("ไม่") {}
+                negativeButton(R.string.no) {}
             }.show()
         }
     }

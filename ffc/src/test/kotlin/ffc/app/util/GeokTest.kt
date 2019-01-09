@@ -17,9 +17,9 @@
 
 package ffc.app.util
 
-import ffc.entity.House
 import ffc.entity.ThaiHouseholdId
 import ffc.entity.gson.parseTo
+import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
 import me.piruin.geok.geometry.Point
 import org.amshove.kluent.shouldEqual
