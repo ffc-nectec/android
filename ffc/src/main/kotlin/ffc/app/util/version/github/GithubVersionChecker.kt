@@ -26,7 +26,7 @@ internal class GithubVersionChecker(val currentVersion: Version) : VersionChecke
                 }
                 latestRelease.let {
                     val latestVersion = Version(it.tag_name)
-                    if (latestVersion > currentVersion)
+                    if (!it.prerelease && latestVersion > currentVersion)
                         checkerCallback.onFound!!.invoke(latestVersion)
                     else
                         checkerCallback.onNotFound!!.invoke()
