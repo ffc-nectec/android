@@ -8,7 +8,7 @@ class Version(name: String) : Comparable<Version> {
     val patch: Int
 
     init {
-        val pattern = Pattern.compile("^(\\d+\\.)(\\d+\\.)(\\*|\\d+)(.*)")
+        val pattern = Pattern.compile("^v?(\\d+\\.)(\\d+\\.)(\\*|\\d+)(.*)")
         val matcher = pattern.matcher(name.trim())
 
         if (matcher.matches()) {
