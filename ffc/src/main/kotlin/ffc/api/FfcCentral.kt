@@ -29,6 +29,7 @@ var url_ploy = "https://ffc-test.herokuapp.com/v0/"
 var url_max = "https://ffc-nectec.herokuapp.com/v0/"
 var url_puy = "https://ffc-api-test.herokuapp.com/v0/"
 var url_beta = "https://ffc-beta.herokuapp.com/v0/"
+var url_maekawtom ="https://ffcmaekawtom.herokuapp.com/v0/"
 
 class FfcCentral(val url: String = url_beta, val gson: Gson = ffcGson) {
 
