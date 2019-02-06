@@ -32,6 +32,7 @@ import ffc.android.connectivityManager
 import ffc.android.onClick
 import ffc.app.auth.auth
 import ffc.entity.Organization
+import ffc.entity.User
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
@@ -48,7 +49,10 @@ open class FamilyFolderActivity : AppCompatActivity() {
 
     val org: Organization?
         get() = auth(this).org ?: devOrg
+    val currentUser: User?
+        get() = auth(this).user ?: devUser
     private val devOrg = if (isDev) Organization() else null
+    private val devUser = if (isDev) User().apply { orgId = devOrg?.id } else null
 
     protected var savedInstanceState: Bundle? = null
     private val connectivityChange by lazy { ConnectivityChangeReceiver { isOnline = it } }

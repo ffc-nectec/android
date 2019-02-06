@@ -18,6 +18,8 @@
 package ffc.app
 
 import android.support.multidex.MultiDexApplication
+import android.util.Log
+import com.google.firebase.FirebaseApp
 import ffc.api.FfcCentral
 import ffc.entity.Lookup
 import me.piruin.spinney.Spinney
@@ -46,6 +48,9 @@ class FamilyFolderApplication : MultiDexApplication() {
             .setFontAttrId(R.attr.fontPath)
             .build()
         )
+
+        FirebaseApp.initializeApp(this)
+        Log.i("FFC", "Initialized Firebase")
         FfcCentral.cache = Cache(cacheDir, 10 * 1024 * 1024) //10 MB
     }
 }
