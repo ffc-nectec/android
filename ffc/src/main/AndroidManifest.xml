@@ -175,13 +175,17 @@
             android:name=".setting.SettingsActivity"
             android:exported="true"
             android:label="@string/action_settings"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".setting.AboutActivity"
             android:exported="true"
             android:label="@string/about"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".auth.legal.LegalActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
