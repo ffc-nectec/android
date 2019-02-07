@@ -36,6 +36,7 @@ import ffc.app.R
 import ffc.app.auth.fragment.LoginExceptionPresenter
 import ffc.app.auth.fragment.LoginOrgFragment
 import ffc.app.auth.fragment.LoginUserFragment
+import ffc.app.auth.legal.LegalActivity
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
@@ -96,6 +97,7 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
         if (!isRelogin) {
             startActivity<MainActivity>()
         }
+        startActivity<LegalActivity>()
         finish()
     }
 

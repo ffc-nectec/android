@@ -22,13 +22,12 @@ class LegalActivity : FamilyFolderActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.legal_activity)
 
-
         observe(viewModel.activeType) {
             if (it == null) {
-                toast("agreement with all document")
+                finish()
             } else {
                 val fragment = LegalDocumentFragment().apply {
-                    url = api.latest(LegalType.privacy).request().url().toString()
+                    url = api.latest(it).request().url().toString()
                     onAccept = { version ->
                         api.agreeWith(it, version, currentUser!!.id, currentUser!!.orgId!!).enqueue {
                             onSuccess {
@@ -54,8 +53,8 @@ class LegalActivity : FamilyFolderActivity() {
         checkAgreement(LegalType.terms)
     }
 
-    val requireDoc = 2
-    var responseDoc = 0
+    private val requireDoc = 2
+    private var responseDoc = 0
         set(value) {
             if (value == requireDoc) {
                 viewModel.activeType.value = viewModel.queueType.value?.getOrNull(0)

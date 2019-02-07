@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ffc.android.onClick
+import ffc.android.onScrolledToBottom
 import ffc.app.R
 import ffc.app.util.md5
 import kotlinx.android.synthetic.main.legal_fragment.agreement
@@ -27,10 +28,9 @@ class LegalDocumentFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         thread {
-            URL(url).openStream().reader().use { it.readText() }.trim().let {
-                onUiThread { onDocumentLoaded(it) }
+            URL(url).openStream().reader().use { it.readText() }.let {
+                onUiThread { onDocumentLoaded(it.trim()) }
             }
         }
     }
@@ -38,18 +38,13 @@ class LegalDocumentFragment : Fragment() {
     private fun onDocumentLoaded(it: String) {
         docContent = it
         content.loadMarkdown(it)
-        scrollView.viewTreeObserver.addOnScrollChangedListener {
-            if (scrollView.getChildAt(0).bottom <= (scrollView.height + scrollView.scrollY)) {
-                //scroll view is at bottom
-                onScrolledToBottom()
-            } else {
-                //scroll view is not at bottom
+        scrollView.onScrolledToBottom {
+            //this block also fire when fragment was replaced. So, We need to check view nullness
+            //Note: removeOnScrollChangedListener at fragment's onStop() not help
+            agreement?.let {
+                it.isEnabled = true
+                it.onClick { onAccept!!.invoke(docContent!!.md5()) }
             }
         }
-    }
-
-    private fun onScrolledToBottom() {
-        agreement.isEnabled = true
-        agreement.onClick { onAccept!!.invoke(docContent!!.md5()) }
     }
 }
