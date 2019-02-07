@@ -100,13 +100,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".auth.LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentStatus"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".auth.legal.LegalActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.Transparent"
+            android:exported="true"/>
         <activity
             android:name=".location.MarkLocationActivity"
             android:screenOrientation="portrait"
@@ -182,9 +186,7 @@
             android:exported="true"
             android:label="@string/about"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".auth.legal.LegalActivity"
-            android:exported="true" />
+
 
     </application>
 
