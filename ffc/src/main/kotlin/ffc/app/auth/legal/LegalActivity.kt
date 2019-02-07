@@ -25,11 +25,13 @@ class LegalActivity : FamilyFolderActivity() {
         observe(viewModel.activeType) {
             if (it == null) {
                 finish()
+                overridePendingTransition(0, R.anim.design_bottom_sheet_slide_out)
             } else {
                 val fragment = LegalDocumentFragment().apply {
                     url = api.latest(it).request().url().toString()
                     onAccept = { version ->
-                        api.agreeWith(it, version, currentUser!!.id, currentUser!!.orgId!!).enqueue {
+                        api.agreeWith(it, version, currentUser!!.id,
+                            currentUser!!.orgId!!).enqueue {
                             onSuccess {
                                 val queue = viewModel.queueType.value
                                 queue?.remove(it)
@@ -74,6 +76,11 @@ class LegalActivity : FamilyFolderActivity() {
             onFailure { viewModel.exception.value = it }
             finally { responseDoc++ }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(0, R.anim.design_bottom_sheet_slide_out)
     }
 
     class AgreementViewModel : ViewModel() {

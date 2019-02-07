@@ -1,37 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scrollView"
+    android:layout_height="match_parent"
+    >
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="48dp">
-
-        <br.tiagohm.markdownview.MarkdownView
-            android:id="@+id/content"
+        >
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="48dp"
+            >
 
-    </android.support.v4.widget.NestedScrollView>
+            <br.tiagohm.markdownview.MarkdownView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/bg_scrim_bottom" />
+        </android.support.v4.widget.NestedScrollView>
 
-    <Button
-        android:id="@+id/agreement"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"
-        android:enabled="false"
-        android:text="กรุณาอ่าน" />
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            />
 
-</android.support.design.widget.CoordinatorLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="48dp"
+            android:background="@drawable/bg_scrim_bottom"
+            />
+
+        <Button
+            android:id="@+id/agreement"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:enabled="false"
+            android:text="กรุณาอ่าน"
+            style="@style/Widget.AppCompat.Button.Colored"
+            />
+
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.card.MaterialCardView>
 

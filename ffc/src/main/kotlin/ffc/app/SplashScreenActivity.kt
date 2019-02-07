@@ -40,7 +40,6 @@ class SplashScreenActivity : FamilyFolderActivity() {
             }
         }, 1500)
 
-
         observe(viewModel.content) {
             if (it != null) {
                 //Show update dialog
