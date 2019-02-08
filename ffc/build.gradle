@@ -140,7 +140,7 @@ dependencies {
     implementation 'me.piruin:phototaker:1.2'
     implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$ankoVersion"
     implementation "org.jetbrains.anko:anko-design:$ankoVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "th.or.nectec.android:marlo:0.5.3"
     implementation "th.or.nectec.android:thai-widget:0.6.2"
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
