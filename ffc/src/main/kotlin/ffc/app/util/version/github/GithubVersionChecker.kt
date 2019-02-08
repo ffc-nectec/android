@@ -37,6 +37,3 @@ internal class GithubVersionChecker(val currentVersion: Version) : VersionChecke
         }
     }
 }
-
-
-

@@ -53,7 +53,8 @@ class TakePhotoActivity : FamilyFolderActivity() {
             adapter = TakePhotoAdapter(photoList) {
                 onViewClick { view, photo ->
                     when (view.id) {
-                        R.id.image -> viewPhoto(photo.uri, sceneTransition(view to getString(R.string.transition_photo)))
+                        R.id.image -> viewPhoto(photo.uri,
+                            sceneTransition(view to getString(R.string.transition_photo)))
                         R.id.delBtn -> removeImage(photo)
                     }
                 }
