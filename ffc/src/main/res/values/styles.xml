@@ -26,10 +26,6 @@
         <item name="colorControlActivated">@color/green_300</item>
     </style>
 
-    <style name="CircularProgress" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/light_green_500</item>
-    </style>
-
     <style name="Appbar">
         <item name="android:theme">@style/Base.ThemeOverlay.AppCompat.ActionBar</item>
         <item name="android:layout_width">match_parent</item>

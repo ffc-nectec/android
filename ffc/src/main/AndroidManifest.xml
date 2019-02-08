@@ -97,7 +97,7 @@
             android:name=".SplashScreenActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatus"
+            android:theme="@style/AppTheme.Splash"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
