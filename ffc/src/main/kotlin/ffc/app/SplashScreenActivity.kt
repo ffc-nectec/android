@@ -2,8 +2,6 @@ package ffc.app
 
 import android.os.Bundle
 import android.os.Handler
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import ffc.android.browsePlayStore
 import ffc.android.observe
 import ffc.android.viewModel
@@ -14,8 +12,7 @@ import ffc.app.auth.legal.LegalAgreementActivity
 import ffc.app.util.SimpleViewModel
 import ffc.app.util.version.Version
 import ffc.app.util.version.versionCheck
-import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.activity_login.ivCommunity
+import kotlinx.android.synthetic.main.splash_screen_activity.versionView
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
@@ -26,8 +23,7 @@ class SplashScreenActivity : FamilyFolderActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        blurBackgroundImage()
+        setContentView(R.layout.splash_screen_activity)
 
         Handler().postDelayed({
             versionCheck().checkForUpdate {
@@ -38,7 +34,7 @@ class SplashScreenActivity : FamilyFolderActivity() {
                     viewModel.exception.value = it
                 }
             }
-        }, 1500)
+        }, 1700)
 
         observe(viewModel.content) {
             if (it != null) {
@@ -59,6 +55,8 @@ class SplashScreenActivity : FamilyFolderActivity() {
         observe(viewModel.exception) {
             Timber.i(it, "Can't check latest release version")
         }
+
+        versionView.text = "V ${BuildConfig.VERSION_NAME}"
     }
 
     private fun gotoNextActivity() {
@@ -70,15 +68,9 @@ class SplashScreenActivity : FamilyFolderActivity() {
             startActivity<LegalAgreementActivity>()
         } else {
             startActivity<LoginActivity>()
-            overridePendingTransition(0, android.R.anim.fade_out)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         finish()
     }
 
-    private fun blurBackgroundImage() {
-        Glide.with(this)
-            .load(R.drawable.community)
-            .apply(RequestOptions.bitmapTransform(BlurTransformation(4, 3)))
-            .into(ivCommunity)
-    }
 }
