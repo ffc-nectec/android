@@ -10,7 +10,6 @@ import ffc.api.FfcCentral
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.util.alert.handle
-import ffc.app.util.alert.toast
 import retrofit2.dsl.enqueue
 
 class LegalActivity : FamilyFolderActivity() {
@@ -50,7 +49,6 @@ class LegalActivity : FamilyFolderActivity() {
         }
         viewModel.queueType.value = mutableListOf()
 
-        toast("checking...")
         checkAgreement(LegalType.privacy)
         checkAgreement(LegalType.terms)
     }
