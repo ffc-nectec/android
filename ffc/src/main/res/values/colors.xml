@@ -39,7 +39,10 @@
 
     <color name="colorPrimary">#f8fdfc</color>
     <color name="colorPrimaryDark">#BDBDBD</color>
-    <color name="colorAccent">#339900</color>
+
+    <color name="colorAccent">#4CBD94</color>
+    <color name="colorAccentLight">#79BD96</color>
+    <color name="colorAccentUltraLight">#D1E8C6</color>
 
     <color name="overlay_black">#79000000</color>
     <color name="overlay_white">#DDFFFFFF</color>
