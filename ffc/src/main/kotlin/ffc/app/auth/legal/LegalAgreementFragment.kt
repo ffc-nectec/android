@@ -20,7 +20,7 @@ import org.jetbrains.anko.support.v4.onUiThread
 import java.net.URL
 import kotlin.concurrent.thread
 
-class LegalDocumentFragment : Fragment() {
+class LegalAgreementFragment : Fragment() {
 
     var url: String? = null
     var onAccept: ((version: String) -> Unit)? = null

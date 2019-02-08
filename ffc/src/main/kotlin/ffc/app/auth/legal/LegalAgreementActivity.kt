@@ -12,7 +12,7 @@ import ffc.app.R
 import ffc.app.util.alert.handle
 import retrofit2.dsl.enqueue
 
-class LegalActivity : FamilyFolderActivity() {
+class LegalAgreementActivity : FamilyFolderActivity() {
 
     val api = FfcCentral().service<LegalAgreementApi>()
     val viewModel by lazy { viewModel<AgreementViewModel>() }
@@ -26,7 +26,7 @@ class LegalActivity : FamilyFolderActivity() {
                 finish()
                 overridePendingTransition(0, R.anim.design_bottom_sheet_slide_out)
             } else {
-                val fragment = LegalDocumentFragment().apply {
+                val fragment = LegalAgreementFragment().apply {
                     url = api.latest(it).request().url().toString()
                     onAccept = { version ->
                         api.agreeWith(it, version, currentUser!!.id,
