@@ -50,7 +50,7 @@ class LegalDocumentFragment : Fragment() {
     }
 
     private fun onDocumentLoaded(it: String) {
-        content.loadMarkdown(it)
+        content.markdown = it
         scrollView.onScrolledToBottom {
             //this block also fire when fragment was replaced. So, We need to check view nullness
             //Note: removeOnScrollChangedListener at fragment's onStop() not help
