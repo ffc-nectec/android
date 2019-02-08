@@ -10,7 +10,7 @@ import ffc.android.viewModel
 import ffc.api.FfcCentral
 import ffc.app.auth.LoginActivity
 import ffc.app.auth.auth
-import ffc.app.auth.legal.LegalActivity
+import ffc.app.auth.legal.LegalAgreementActivity
 import ffc.app.util.SimpleViewModel
 import ffc.app.util.version.Version
 import ffc.app.util.version.versionCheck
@@ -67,7 +67,7 @@ class SplashScreenActivity : FamilyFolderActivity() {
             FfcCentral.token = auth.token
             startActivity<MainActivity>()
             overridePendingTransition(0, android.R.anim.slide_out_right)
-            startActivity<LegalActivity>()
+            startActivity<LegalAgreementActivity>()
         } else {
             startActivity<LoginActivity>()
             overridePendingTransition(0, android.R.anim.fade_out)
