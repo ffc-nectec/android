@@ -8,4 +8,5 @@ class GithubRelease(
     val body: String,
     val prerelease: Boolean,
     val created_at: DateTime,
-    val published_at: DateTime)
+    val published_at: DateTime
+)
