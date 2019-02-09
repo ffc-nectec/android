@@ -109,6 +109,7 @@
         <activity
             android:name=".auth.LoginActivity"
             android:launchMode="singleTop"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentStatus"
             android:windowSoftInputMode="stateHidden"/>
