@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ffc.app.auth.LoginActivity"
+    tools:context=".SplashScreenActivity"
     android:background="@drawable/login_bg_1"
     >
     <TextView
@@ -29,9 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="22dp"
-        android:gravity="right"
         android:layout_gravity="end"
-        android:text="V 4.0.0"
+        tools:text="V 4.0.0"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/text_secondary_inverse"
         />
@@ -48,20 +47,20 @@
         android:layout_gravity="center"
         android:adjustViewBounds="false"
         android:src="@drawable/ffc_logo_white"
+        android:contentDescription="@string/app_fullname"
         />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="160dp"
         android:layout_height="16dp"
-        android:layout_below="@+id/icon"
-        android:layout_centerHorizontal="true"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:indeterminate="true"
         android:indeterminateTint="@color/white"
         android:layout_gravity="center"
         style="?android:attr/progressBarStyleHorizontal"
+        tools:ignore="UnusedAttribute"
         />
     <View
         android:layout_weight="1"
@@ -71,7 +70,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_margin="4dp"
         android:gravity="center"
         android:text="@string/copyright_nectec"
