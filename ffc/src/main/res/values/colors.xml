@@ -44,6 +44,8 @@
     <color name="colorAccentLight">#79BD96</color>
     <color name="colorAccentUltraLight">#D1E8C6</color>
 
+    <color name="colorAccentLegacy">#339900</color>
+
     <color name="overlay_black">#79000000</color>
     <color name="overlay_white">#DDFFFFFF</color>
 
