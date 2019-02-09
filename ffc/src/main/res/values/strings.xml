@@ -34,9 +34,7 @@
     <string name="organization">หน่วยงาน</string>
     <string name="next">ถัดไป</string>
     <string name="you_offline">คุณไม่ได้ต่อเน็ต</string>
-    <string name="community_image">Community Image</string>
     <string name="version_4_0">Version 4.0</string>
-    <string name="overlay_background">Overlay Background</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

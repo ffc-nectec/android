@@ -19,26 +19,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_bg_1"
     android:orientation="vertical"
     tools:context=".SplashScreenActivity"
-    android:background="@drawable/login_bg_1"
     >
     <TextView
         android:id="@+id/versionView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="22dp"
         android:layout_gravity="end"
-        tools:text="V 4.0.0"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/text_secondary_inverse"
+        tools:text="V 4.0.0"
         />
 
     <View
-        android:layout_weight="0.6"
         android:layout_width="1dp"
         android:layout_height="0dp"
+        android:layout_weight="0.6"
         />
     <ImageView
         android:id="@+id/appLogo"
@@ -46,28 +46,28 @@
         android:layout_height="240dp"
         android:layout_gravity="center"
         android:adjustViewBounds="false"
+        android:contentDescription="@string/app_fullname"
         android:src="@drawable/ffc_logo_white"
         android:transitionName="@string/transition_app_logo"
-        android:contentDescription="@string/app_fullname"
-        tools:ignore="UnusedAttribute"
+        tools:targetApi="lollipop"
         />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="160dp"
         android:layout_height="16dp"
+        android:layout_gravity="center"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:indeterminate="true"
         android:indeterminateTint="@color/white"
-        android:layout_gravity="center"
         style="?android:attr/progressBarStyleHorizontal"
-        tools:ignore="UnusedAttribute"
+        tools:targetApi="lollipop"
         />
     <View
-        android:layout_weight="1"
         android:layout_width="1dp"
         android:layout_height="0dp"
+        android:layout_weight="1"
         />
     <TextView
         android:layout_width="match_parent"
