@@ -24,7 +24,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import ffc.android.check
+import ffc.android.hideSoftKeyboard
 import ffc.android.invisible
 import ffc.android.isNotBlank
 import ffc.android.observe
@@ -77,6 +79,14 @@ internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
             }
         }
 
+        etPwd.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                btnLogin.performClick()
+                v.hideSoftKeyboard()
+                return@setOnEditorActionListener true
+            } else return@setOnEditorActionListener false
+        }
+
         btnLogin.onClick {
             try {
                 viewModel.exception.value = null
@@ -99,6 +109,7 @@ internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
         btnBack.onClick { activity?.onBackPressed() }
 
         org!!.let { tvHospitalName.text = it.displayName }
+
 
         dev {
             btnLogin.onLongClick {

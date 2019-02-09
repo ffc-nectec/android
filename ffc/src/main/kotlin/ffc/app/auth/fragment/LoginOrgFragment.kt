@@ -24,8 +24,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import ffc.android.check
 import ffc.android.error
+import ffc.android.hideSoftKeyboard
 import ffc.android.invisible
 import ffc.android.isNotBlank
 import ffc.android.observe
@@ -86,6 +88,14 @@ internal class LoginOrgFragment : Fragment(), LoginExceptionPresenter {
                 emptyView.showLoading()
             else
                 emptyView.showContent()
+        }
+        etOrganization.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                btnNext.performClick()
+                v.hideSoftKeyboard()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
         }
 
         btnNext.onClick {
