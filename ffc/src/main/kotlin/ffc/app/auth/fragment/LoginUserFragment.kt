@@ -37,13 +37,13 @@ import ffc.app.dev
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
-import kotlinx.android.synthetic.main.fragment_login_user.btnBack
-import kotlinx.android.synthetic.main.fragment_login_user.btnLogin
-import kotlinx.android.synthetic.main.fragment_login_user.emptyView
-import kotlinx.android.synthetic.main.fragment_login_user.errorView
-import kotlinx.android.synthetic.main.fragment_login_user.etPwd
-import kotlinx.android.synthetic.main.fragment_login_user.etUsername
-import kotlinx.android.synthetic.main.fragment_login_user.tvHospitalName
+import kotlinx.android.synthetic.main.login_user_fragment.btnBack
+import kotlinx.android.synthetic.main.login_user_fragment.btnLogin
+import kotlinx.android.synthetic.main.login_user_fragment.emptyView
+import kotlinx.android.synthetic.main.login_user_fragment.errorView
+import kotlinx.android.synthetic.main.login_user_fragment.etPwd
+import kotlinx.android.synthetic.main.login_user_fragment.etUsername
+import kotlinx.android.synthetic.main.login_user_fragment.tvHospitalName
 import org.jetbrains.anko.bundleOf
 
 internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
@@ -58,7 +58,7 @@ internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
         get() = arguments?.getString("organization")?.parseTo()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login_user, container, false)
+        return inflater.inflate(R.layout.login_user_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

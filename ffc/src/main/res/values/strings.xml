@@ -35,7 +35,6 @@
     <string name="next">ถัดไป</string>
     <string name="you_offline">คุณไม่ได้ต่อเน็ต</string>
     <string name="community_image">Community Image</string>
-    <string name="application_logo">Application Logo</string>
     <string name="version_4_0">Version 4.0</string>
     <string name="overlay_background">Overlay Background</string>
 
@@ -64,6 +63,10 @@
 
     <string name="transition_appbar">appbar_transition</string>
     <string name="transition_photo">photo_transition</string>
+    <string name="transition_app_logo">app_logo_transition</string>
+    <string name="transition_person_profile">person_profile_transition</string>
+    <string name="transition_card">transition_card</string>
+
     <string name="hs_empty">ไม่มีประวัติการรับบริการ</string>
     <string name="hs_services">บริการสาธารณสุข</string>
     <string name="body_height">ส่วนสูง (ซม.)</string>
@@ -74,8 +77,7 @@
     <string name="resident_not_found">ไม่พบข้อมูลผู้อยู่อาศัย</string>
     <string name="save">บันทึก</string>
     <string name="photo_take">ถ่ายภาพ</string>
-    <string name="transition_person_profile">person_profile_transition</string>
-    <string name="transition_card">transition_card</string>
+
     <string name="delete_photo">ลบภาพ</string>
     <string name="resident">ผู้อยู่อาศัยในบ้าน</string>
     <string name="photo">รูปภาพ</string>
