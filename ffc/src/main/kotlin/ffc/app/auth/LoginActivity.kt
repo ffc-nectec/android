@@ -19,11 +19,11 @@ package ffc.app.auth
 
 import android.os.Bundle
 import android.transition.Explode
+import android.transition.Fade
 import android.transition.Slide
 import android.view.Gravity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import ffc.android.allowTransitionOverlap
+import ffc.android.enter
 import ffc.android.enterDuration
 import ffc.android.exit
 import ffc.android.find
@@ -40,9 +40,7 @@ import ffc.app.auth.legal.LegalAgreementActivity
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
-import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.activity_login.ivCommunity
-import kotlinx.android.synthetic.main.activity_login.versionView
+import kotlinx.android.synthetic.main.login_activity.versionView
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.startActivity
@@ -57,8 +55,11 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        blurBackgroundImage()
+        setContentView(R.layout.login_activity)
+
+        setTransition {
+            enterTransition = Fade().enter().addTarget(R.id.overlay)
+        }
 
         val auth = auth(this)
         Timber.d("User id = ${auth.user?.id}")
@@ -70,13 +71,6 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
             org?.let { interactor.org = org }
         }
         versionView.text = "V ${BuildConfig.VERSION_NAME}"
-    }
-
-    private fun blurBackgroundImage() {
-        Glide.with(this)
-            .load(R.drawable.community)
-            .apply(RequestOptions.bitmapTransform(BlurTransformation(4, 3)))
-            .into(ivCommunity)
     }
 
     override fun showOrgSelector() {

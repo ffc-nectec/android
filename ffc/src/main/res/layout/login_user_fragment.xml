@@ -11,12 +11,11 @@
     tools:context="ffc.app.auth.fragment.LoginUserFragment">
 
     <ImageView
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="@dimen/content_start_horizontal_padding"
         android:layout_marginEnd="@dimen/content_start_horizontal_padding"
-        android:contentDescription="@string/application_logo"
         android:src="@drawable/logo_hospital" />
 
     <TextView

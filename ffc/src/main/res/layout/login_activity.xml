@@ -16,36 +16,34 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="ffc.app.auth.LoginActivity">
+    android:background="@drawable/login_bg_1"
+    tools:context=".auth.LoginActivity"
+    >
 
     <ImageView
-        android:id="@+id/ivCommunity"
+        android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/community_image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/community" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.75"
+        android:alpha="0.5"
         android:background="@android:color/black"
-        android:contentDescription="@string/overlay_background" />
+        android:contentDescription="@string/overlay_background"
+        />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        >
 
         <FrameLayout
             android:id="@+id/contentContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
     </android.support.v4.widget.NestedScrollView>
 
@@ -58,28 +56,31 @@
         android:background="@color/overlay_black"
         android:visibility="gone"
         app:ev_loading_text="@string/searching"
-        app:ev_loading_type="circular" />
+        app:ev_loading_type="circular"
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
         android:layout_margin="4dp"
-        android:textColor="@color/text_secondary_inverse"
+        android:gravity="center"
         android:text="@string/copyright_nectec"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/text_secondary_inverse"
+        />
 
     <TextView
         android:id="@+id/versionView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="22dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="22dp"
         android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/text_secondary_inverse"
-        android:text="V 4.0.0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        tools:text="V 4.0.0"
+        />
 
 </RelativeLayout>

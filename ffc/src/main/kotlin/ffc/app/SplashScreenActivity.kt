@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import ffc.android.browsePlayStore
 import ffc.android.observe
+import ffc.android.sceneTransition
 import ffc.android.viewModel
 import ffc.api.FfcCentral
 import ffc.app.auth.LoginActivity
@@ -12,8 +13,10 @@ import ffc.app.auth.legal.LegalAgreementActivity
 import ffc.app.util.SimpleViewModel
 import ffc.app.util.version.Version
 import ffc.app.util.version.versionCheck
+import kotlinx.android.synthetic.main.splash_screen_activity.appLogo
 import kotlinx.android.synthetic.main.splash_screen_activity.versionView
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
@@ -68,7 +71,10 @@ class SplashScreenActivity : FamilyFolderActivity() {
             startActivity<LegalAgreementActivity>()
         } else {
             startActivity<LoginActivity>()
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            startActivity(intentFor<LoginActivity>(), sceneTransition(
+                appLogo to getString(R.string.transition_app_logo)
+            ))
+            //overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         finish()
     }

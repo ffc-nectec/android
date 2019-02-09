@@ -37,7 +37,10 @@ import ffc.app.auth.orgs
 import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.entity.Organization
-import kotlinx.android.synthetic.main.fragment_login_org.*
+import kotlinx.android.synthetic.main.login_org_fragment.btnNext
+import kotlinx.android.synthetic.main.login_org_fragment.emptyView
+import kotlinx.android.synthetic.main.login_org_fragment.errorView
+import kotlinx.android.synthetic.main.login_org_fragment.etOrganization
 import me.piruin.spinney.Spinney
 import me.piruin.spinney.SpinneyAdapter
 import me.piruin.spinney.SpinneyDialog
@@ -49,7 +52,7 @@ internal class LoginOrgFragment : Fragment(), LoginExceptionPresenter {
     lateinit var viewModel: OrgViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login_org, container, false)
+        return inflater.inflate(R.layout.login_org_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
