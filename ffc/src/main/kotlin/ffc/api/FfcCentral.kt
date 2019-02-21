@@ -17,27 +17,33 @@
 
 package ffc.api
 
+import android.content.Context
+import android.net.Uri
+import android.widget.Toast
 import com.google.gson.Gson
+import ffc.android.put
+import ffc.app.BuildConfig
 import ffc.entity.gson.ffcGson
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
-var url_staging = "https://api-staging.ffc.in.th/v1/"
-var url_beta = "https://api-beta.ffc.in.th/v1/"
-var url_production = "https://api.ffc.in.th/v1/"
+private var url_staging = "https://ffc-staging-pr-37.herokuapp.com/v1/"
+private var url_beta = "https://api-beta.ffc.in.th/v0/"
+private var url_production = "https://api.ffc.in.th/v1/"
 
-class FfcCentral(val url: String = url_staging, val gson: Gson = ffcGson) {
+class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
 
     val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
 
     inline fun <reified T> service(): T {
         val httpBuilder = OkHttpClient.Builder().apply {
-            readTimeout(60, SECONDS)
-            writeTimeout(60, SECONDS)
-            connectTimeout(30, SECONDS)
+            readTimeout(30, SECONDS)
+            writeTimeout(30, SECONDS)
+            connectTimeout(15, SECONDS)
             addInterceptor(DefaultInterceptor())
             cache?.let { cache(it) }
             token?.let { addInterceptor(AuthTokenInterceptor(it)) }
@@ -51,7 +57,29 @@ class FfcCentral(val url: String = url_staging, val gson: Gson = ffcGson) {
     }
 
     companion object {
+        private val defaultUrl: String = if (BuildConfig.BUILD_TYPE == "release") url_production else url_staging
+
         var token: String? = null
         var cache: Cache? = null
+        var url: String = defaultUrl
+            private set
+
+        fun loadUrl(context: Context) {
+
+            if (BuildConfig.DEBUG) {
+                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+                FfcCentral.url = context.defaultSharedPreferences.getString("url", defaultUrl)
+            }
+            Toast.makeText(context, "url=${FfcCentral.url}", Toast.LENGTH_LONG).show()
+        }
+
+        fun saveUrl(context: Context, url: Uri) {
+            require(BuildConfig.DEBUG) { "Can't url on not debuggable app" }
+            require(url.scheme == "https") { "url must be http" }
+            require(url.path.endsWith("/")) { "url must end with /" }
+
+            context.defaultSharedPreferences.edit().put("url", url.toString()).apply()
+            FfcCentral.url = url.toString()
+        }
     }
 }

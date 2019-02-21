@@ -49,8 +49,10 @@ class LegalAgreementActivity : FamilyFolderActivity() {
         }
         viewModel.queueType.value = mutableListOf()
 
-        checkAgreement(LegalType.privacy)
-        checkAgreement(LegalType.terms)
+        if (currentUser != null) {
+            checkAgreement(LegalType.privacy)
+            checkAgreement(LegalType.terms)
+        }
     }
 
     private val requireDoc = 2

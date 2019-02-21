@@ -1,5 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     app:title="@string/action_settings">
 
     <PreferenceScreen
@@ -15,6 +16,10 @@
             android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
             android:data="package:ffc.app" />
     </PreferenceScreen>
+
+    <EditTextPreference
+        android:key="api_url"
+        android:title="ที่อยู่ API" />
 
     <PreferenceScreen
         android:icon="@drawable/ic_info_black_24dp"

@@ -52,5 +52,6 @@ class FamilyFolderApplication : MultiDexApplication() {
         FirebaseApp.initializeApp(this)
         Log.i("FFC", "Initialized Firebase")
         FfcCentral.cache = Cache(cacheDir, 10 * 1024 * 1024) //10 MB
+        FfcCentral.loadUrl(this)
     }
 }
