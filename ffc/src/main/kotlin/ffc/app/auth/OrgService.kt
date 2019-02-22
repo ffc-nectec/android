@@ -19,7 +19,9 @@ package ffc.app.auth
 
 import ffc.entity.Organization
 import ffc.entity.Token
+import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -37,6 +39,7 @@ interface OrgService {
     @POST("org/{orgId}/authorize")
     fun createAuthorize(
         @Path("orgId") id: String,
-        @Header("Authorization") authorize: String
+        @Header("Authorization") authorize: String,
+        @Body emptyBody: RequestBody
     ): Call<Token>
 }
