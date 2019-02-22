@@ -28,6 +28,7 @@ import ffc.android.enterDuration
 import ffc.android.exit
 import ffc.android.find
 import ffc.android.findFirst
+import ffc.android.onLongClick
 import ffc.android.setTransition
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
@@ -37,6 +38,7 @@ import ffc.app.auth.fragment.LoginExceptionPresenter
 import ffc.app.auth.fragment.LoginOrgFragment
 import ffc.app.auth.fragment.LoginUserFragment
 import ffc.app.auth.legal.LegalAgreementActivity
+import ffc.app.setting.SettingsActivity
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
@@ -70,7 +72,11 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
             val org = saved.getString("org")?.parseTo<Organization>()
             org?.let { interactor.org = org }
         }
-        versionView.text = "V ${BuildConfig.VERSION_NAME}"
+        versionView.text = "v${BuildConfig.VERSION_NAME}"
+        versionView.onLongClick {
+            startActivity<SettingsActivity>()
+            true
+        }
     }
 
     override fun showOrgSelector() {
