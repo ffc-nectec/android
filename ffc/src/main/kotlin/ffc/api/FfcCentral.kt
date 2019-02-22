@@ -31,8 +31,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
-private var url_staging = "https://ffc-staging-pr-37.herokuapp.com/v1/"
-private var url_beta = "https://api-beta.ffc.in.th/v0/"
+private var url_debug = "https://ffc-staging-pr-37.herokuapp.com/v1/"
+private var url_staging = "https://api-staging.ffc.in.th/v1/"
+private var url_beta = "https://api-beta.ffc.in.th/v1/"
 private var url_production = "https://api.ffc.in.th/v1/"
 
 class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
@@ -57,7 +58,7 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
     }
 
     companion object {
-        private val defaultUrl: String = if (BuildConfig.BUILD_TYPE == "release") url_production else url_staging
+        private val defaultUrl: String = if (BuildConfig.BUILD_TYPE == "release") url_production else url_debug
 
         var token: String? = null
         var cache: Cache? = null
@@ -65,7 +66,6 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
             private set
 
         fun loadUrl(context: Context) {
-
             if (BuildConfig.DEBUG) {
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                 FfcCentral.url = context.defaultSharedPreferences.getString("url", defaultUrl)
