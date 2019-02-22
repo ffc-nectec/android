@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.os.Handler
 import ffc.android.browsePlayStore
 import ffc.android.observe
+import ffc.android.onLongClick
 import ffc.android.sceneTransition
 import ffc.android.viewModel
 import ffc.api.FfcCentral
 import ffc.app.auth.LoginActivity
 import ffc.app.auth.auth
 import ffc.app.auth.legal.LegalAgreementActivity
+import ffc.app.setting.SettingsActivity
 import ffc.app.util.SimpleViewModel
 import ffc.app.util.version.Version
 import ffc.app.util.version.versionCheck
@@ -59,7 +61,11 @@ class SplashScreenActivity : FamilyFolderActivity() {
             Timber.i(it, "Can't check latest release version")
         }
 
-        versionView.text = "V ${BuildConfig.VERSION_NAME}"
+        versionView.text = "v${BuildConfig.VERSION_NAME}"
+        versionView.onLongClick {
+            startActivity<SettingsActivity>()
+            true
+        }
     }
 
     private fun gotoNextActivity() {
