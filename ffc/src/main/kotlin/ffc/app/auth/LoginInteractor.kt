@@ -22,6 +22,9 @@ import ffc.app.auth.exception.LoginErrorException
 import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
 import okhttp3.Credentials
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import okio.BufferedSink
 import retrofit2.dsl.enqueue
 import java.nio.charset.Charset
 
@@ -67,7 +70,7 @@ internal class LoginInteractor(
     fun doLogin(username: String, password: String) {
         check(org != null) { "Must set org before" }
         val basicToken = Credentials.basic(username.trim(), password.trim(), utf8)
-        orgService.createAuthorize(org!!.id, basicToken).enqueue {
+        orgService.createAuthorize(org!!.id, basicToken, EmptyJsonBody()).enqueue {
             onSuccess {
                 val authorize = body()!!
                 FfcCentral.token = authorize.token
@@ -90,6 +93,19 @@ internal class LoginInteractor(
                 presenter.onError(LoginFailureException(it.message
                     ?: "เกิดข้อผิดพลาดไม่สามารถระบุได้"))
             }
+        }
+    }
+
+    /**
+     * Prevent 400 Bad Request because content-length is require when using http1.1
+     */
+    private class EmptyJsonBody : RequestBody() {
+        override fun contentType(): MediaType? = MediaType.parse("application/json")
+
+        override fun contentLength(): Long = 0
+
+        override fun writeTo(sink: BufferedSink) {
+            sink.emit()
         }
     }
 }
