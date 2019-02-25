@@ -1,12 +1,12 @@
 package ffc.app.setting
 
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.preference.EditTextPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.widget.Toast
 import ffc.api.FfcCentral
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
@@ -46,7 +46,7 @@ class SettingsActivity : FamilyFolderActivity(),
         }
     }
 
-    class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+    class SettingsFragment : PreferenceFragmentCompat() {
 
         override fun onCreatePreferences(bundle: Bundle?, rootKey: String?) {
             setPreferencesFromResource(ffc.app.R.xml.pref_settings, rootKey)
@@ -62,26 +62,19 @@ class SettingsActivity : FamilyFolderActivity(),
                 summary = FfcCentral.url
                 text = FfcCentral.url
                 isVisible = BuildConfig.DEBUG
-            }
-        }
-
-        override fun onResume() {
-            super.onResume()
-            preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        }
-
-        override fun onPause() {
-            super.onPause()
-            preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-        }
-
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-            when (key) {
-                "api_url" -> {
-                    toast("updated API address!")
-                    val newValue = sharedPreferences!!.getString(key, null)
-                    findPreference("api_url").summary = newValue
-                    FfcCentral.saveUrl(context!!, Uri.parse(newValue!!))
+                setOnPreferenceChangeListener { preference, input ->
+                    try {
+                        input as String
+                        require(input.startsWith("https://")) { "must start with https://" }
+                        FfcCentral.saveUrl(context!!, Uri.parse(input))
+                        preference as EditTextPreference
+                        preference.summary = input
+                        toast("updated API address!")
+                        return@setOnPreferenceChangeListener true
+                    } catch (ex: IllegalArgumentException) {
+                        Toast.makeText(context!!, "Url ${ex.message}", Toast.LENGTH_SHORT).show()
+                        return@setOnPreferenceChangeListener false
+                    }
                 }
             }
         }
