@@ -18,7 +18,6 @@
 package ffc.app
 
 import android.support.multidex.MultiDexApplication
-import android.util.Log
 import com.google.firebase.FirebaseApp
 import ffc.api.FfcCentral
 import ffc.entity.Lookup
@@ -50,7 +49,8 @@ class FamilyFolderApplication : MultiDexApplication() {
         )
 
         FirebaseApp.initializeApp(this)
-        Log.i("FFC", "Initialized Firebase")
+        Timber.i("Initialized Firebase")
+
         FfcCentral.cache = Cache(cacheDir, 10 * 1024 * 1024) //10 MB
         FfcCentral.loadUrl(this)
     }
