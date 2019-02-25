@@ -19,7 +19,6 @@ package ffc.api
 
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import com.google.gson.Gson
 import ffc.android.put
 import ffc.app.BuildConfig
@@ -29,12 +28,13 @@ import okhttp3.OkHttpClient
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
 
-private var url_debug = "https://ffc-staging-pr-37.herokuapp.com/v1/"
 private var url_staging = "https://api-staging.ffc.in.th/v1/"
 private var url_beta = "https://api-beta.ffc.in.th/v1/"
 private var url_production = "https://api.ffc.in.th/v1/"
+private var url_debug = url_staging
 
 class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
 
@@ -69,8 +69,8 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
             if (BuildConfig.DEBUG) {
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                 FfcCentral.url = context.defaultSharedPreferences.getString("url", defaultUrl)
+                Timber.d("url=$url")
             }
-            Toast.makeText(context, "url=${FfcCentral.url}", Toast.LENGTH_LONG).show()
         }
 
         fun saveUrl(context: Context, url: Uri) {
