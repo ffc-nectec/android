@@ -110,7 +110,6 @@ internal class LoginUserFragment : Fragment(), LoginExceptionPresenter {
 
         org!!.let { tvHospitalName.text = it.displayName }
 
-
         dev {
             btnLogin.onLongClick {
                 etUsername.setText("puy")
