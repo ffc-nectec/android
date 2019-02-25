@@ -50,8 +50,7 @@
                 android:layout_marginBottom="?android:actionBarSize"
                 android:padding="0dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/community"
-                android:tint="#77000000"
+                android:src="@drawable/detail_header"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7"
                 tools:targetApi="lollipop" />
