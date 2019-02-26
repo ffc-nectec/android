@@ -29,6 +29,7 @@ import ffc.android.find
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.dev
+import ffc.app.util.Analytics
 import org.jetbrains.anko.bundleOf
 
 class SearchResultActivity : FamilyFolderActivity() {
@@ -66,7 +67,8 @@ class SearchResultActivity : FamilyFolderActivity() {
 
     private fun handleIntent(intent: Intent) {
         val query = intent.query
-        if (Intent.ACTION_SEARCH == intent.action && intent.query != null) {
+        if (Intent.ACTION_SEARCH == intent.action && query != null) {
+            Analytics.instance?.search(term = query)
             SearchRecentSuggestions(this, RecentSearchProvider.AUTHORITY, RecentSearchProvider.MODE)
                 .saveRecentQuery(query, null)
             supportActionBar!!.title = query
@@ -75,7 +77,6 @@ class SearchResultActivity : FamilyFolderActivity() {
                 .replace(R.id.contentContainer, ResultFragment().apply {
                     arguments = bundleOf("query" to query)
                 }, "result").commit()
-        } else {
         }
     }
 

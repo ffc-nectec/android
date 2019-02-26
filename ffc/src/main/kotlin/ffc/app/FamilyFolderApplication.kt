@@ -20,6 +20,7 @@ package ffc.app
 import android.support.multidex.MultiDexApplication
 import com.google.firebase.FirebaseApp
 import ffc.api.FfcCentral
+import ffc.app.util.Analytics
 import ffc.entity.Lookup
 import me.piruin.spinney.Spinney
 import okhttp3.Cache
@@ -50,8 +51,16 @@ class FamilyFolderApplication : MultiDexApplication() {
 
         FirebaseApp.initializeApp(this)
         Timber.i("Initialized Firebase")
+        if (BuildConfig.BUILD_TYPE == "release") {
+            Analytics.init(this)
+        }
 
         FfcCentral.cache = Cache(cacheDir, 10 * 1024 * 1024) //10 MB
         FfcCentral.loadUrl(this)
+    }
+
+    override fun onTerminate() {
+        Analytics.close()
+        super.onTerminate()
     }
 }

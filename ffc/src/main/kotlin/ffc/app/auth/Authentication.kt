@@ -22,6 +22,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import ffc.android.get
 import ffc.android.put
+import ffc.app.util.Analytics
 import ffc.entity.Organization
 import ffc.entity.User
 import ffc.entity.gson.toJson
@@ -66,10 +67,12 @@ private class PreferenceAuthen(context: Context) : Authentication {
                 FirebaseAuth.getInstance().signInAnonymously()
                 Crashlytics.setUserIdentifier(value.id)
                 Crashlytics.setUserName(value.name)
+                Analytics.setUserProperty(org, user)
             } else {
                 FirebaseAuth.getInstance().signOut()
                 Crashlytics.setUserIdentifier(null)
                 Crashlytics.setUserName(null)
+                Analytics.setUserProperty(null, null)
             }
         }
 

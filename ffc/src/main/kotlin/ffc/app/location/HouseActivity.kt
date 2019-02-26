@@ -46,6 +46,7 @@ import ffc.app.photo.PhotoType
 import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startTakePhotoActivity
 import ffc.app.photo.urls
+import ffc.app.util.Analytics
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
 import ffc.entity.Person
@@ -95,6 +96,7 @@ class HouseActivity : FamilyFolderActivity() {
                     onNotFound { viewModel.resident.value = null }
                     onFail { viewModel.exception.value = it }
                 }
+                Analytics.instance?.view(house)
             } else {
                 emptyView.error(Error("ไม่พบข้อมูล")).show()
                 finish()
