@@ -24,6 +24,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'io.fabric'
 
 android {
@@ -128,6 +129,7 @@ dependencies {
     implementation "com.google.firebase:firebase-core:16.0.7"
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-perf:16.2.3'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.jakewharton.timber:timber:4.7.1'
