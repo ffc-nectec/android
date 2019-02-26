@@ -39,6 +39,7 @@ import ffc.app.person.mockPerson
 import ffc.app.person.personId
 import ffc.app.person.persons
 import ffc.app.photo.TakePhotoFragment
+import ffc.app.util.Analytics
 import ffc.app.util.SimpleViewModel
 import ffc.app.util.TaskCallback
 import ffc.app.util.alert.handle
@@ -112,10 +113,13 @@ class HomeVisitActivity : FamilyFolderActivity() {
 
                 done.disable()
                 val healthCareServices = healthCareServicesOf(personId!!, org!!.id)
-                if (visit.isTempId)
+                if (visit.isTempId) {
                     healthCareServices.add(visit, callback)
-                else
+
+                    Analytics.instance?.service(visit, viewModel.content.value)
+                } else {
                     healthCareServices.update(visit, callback)
+                }
             } catch (invalid: IllegalStateException) {
                 handle(invalid)
                 done.enable()

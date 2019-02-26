@@ -49,6 +49,7 @@ import ffc.app.photo.PhotoType
 import ffc.app.photo.REQUEST_TAKE_PHOTO
 import ffc.app.photo.startAvatarPhotoActivity
 import ffc.app.search.RecentPersonProvider
+import ffc.app.util.Analytics
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
 import ffc.entity.Person
@@ -106,6 +107,7 @@ class PersonActivitiy : FamilyFolderActivity() {
         observe(viewModel.person) {
             if (it != null) {
                 bind(it)
+                Analytics.instance?.view(it)
             } else {
                 toast("ไม่พบข้อมูล")
                 finish()
