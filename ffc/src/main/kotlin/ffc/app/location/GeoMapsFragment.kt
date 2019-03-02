@@ -20,14 +20,17 @@ package ffc.app.location
 import android.app.Activity
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.data.geojson.GeoJsonFeature
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import com.sembozdemir.permissionskt.handlePermissionsResult
@@ -41,7 +44,9 @@ import ffc.android.viewModel
 import ffc.app.R
 import ffc.app.dev
 import ffc.app.familyFolderActivity
+import ffc.app.location.GeoMapsInfo.ELDER
 import ffc.app.util.alert.handle
+import ffc.app.util.md5
 import ffc.entity.gson.toJson
 import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
@@ -63,6 +68,7 @@ class GeoMapsFragment : PointMarloFragment() {
     private val preference by lazy { GeoPreferences(context!!, org) }
 
     private val org by lazy { familyFolderActivity.org }
+    lateinit var markerStyles: MarkerStyles
 
     override fun onActivityCreated(bundle: Bundle?) {
         super.onActivityCreated(bundle)
@@ -71,6 +77,7 @@ class GeoMapsFragment : PointMarloFragment() {
         viewFinder.gone()
         hideToolsMenu()
         observeViewModel()
+        markerStyles = ChronicMarkerStyles(context!!)
     }
 
     private fun observeViewModel() {
@@ -84,7 +91,8 @@ class GeoMapsFragment : PointMarloFragment() {
                         ?: preferZoomLevel
                 )
                 googleMap.clear()
-                addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(it.toJson())))
+                viewModel.json.value = JSONObject(it.toJson())
+                addGeoJsonLayer(GeoJsonLayer(googleMap, viewModel.json.value))
                 preference.geojsonCache = it
             }
         }
@@ -105,13 +113,13 @@ class GeoMapsFragment : PointMarloFragment() {
     override fun onMapReady(googleMap: GoogleMap?) {
         super.onMapReady(googleMap)
         viewModel.geojson.value = doAsyncResult { preference.geojsonCache }.get()
-        addLocationButton?.setOnClickListener {
-            val intent = intentFor<MarkLocationActivity>(
-                "target" to googleMap!!.cameraPosition.target,
-                "zoom" to googleMap.cameraPosition.zoom
-            )
-            startActivityForResult(intent, REQ_ADD_LOCATION)
-        }
+//        addLocationButton?.setOnClickListener {
+//            val intent = intentFor<MarkLocationActivity>(
+//                "target" to googleMap!!.cameraPosition.target,
+//                "zoom" to googleMap.cameraPosition.zoom
+//            )
+//            startActivityForResult(intent, REQ_ADD_LOCATION)
+//        }
         askMyLocationPermission()
         loadGeoJson()
     }
@@ -128,13 +136,7 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private fun addGeoJsonLayer(layer: GeoJsonLayer) {
         with(layer) {
-            features.forEach {
-                it.pointStyle = GeoJsonPointStyle().apply {
-                    icon = if (it.getProperty("haveChronic") == "true") chronicHomeIcon else homeIcon
-                    title = "บ้านเลขที่ ${it.getProperty("no")}"
-                    snippet = it.getProperty("coordinates")?.trimMargin()
-                }
-            }
+            features.forEach { it.pointStyle = markerStyles.pointStyleOf(it) }
             setOnFeatureClickListener { feature ->
                 val intent = intentFor<HouseActivity>("houseId" to feature.getProperty("id"))
                 startActivityForResult(intent, REQ_ADD_LOCATION, activity!!.sceneTransition())
@@ -161,14 +163,67 @@ class GeoMapsFragment : PointMarloFragment() {
         googleMap?.cameraPosition?.let { preference.lastCameraPosition = it }
     }
 
-    fun bitmapOf(@DrawableRes resId: Int) = BitmapDescriptorFactory.fromBitmap(context!!.drawable(resId).toBitmap())
+    fun showInfo(info: GeoMapsInfo) {
+        markerStyles = when (info) {
+            ELDER -> ElderMarkerStyle(context!!)
+            else -> ChronicMarkerStyles(context!!)
+        }
 
-    private val homeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_green_24dp) }
-
-    private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_red_24dp) }
+        viewModel.json.value?.let {
+            googleMap.clear()
+            addGeoJsonLayer(GeoJsonLayer(googleMap, it))
+        }
+    }
 
     class GeoViewModel : ViewModel() {
         val geojson = MutableLiveData<FeatureCollection<House>>()
+        val json = MutableLiveData<JSONObject>()
         val exception = MutableLiveData<Throwable>()
+    }
+
+    interface MarkerStyles {
+
+        val context: Context
+
+        fun bitmapOf(@DrawableRes resId: Int): BitmapDescriptor =
+            BitmapDescriptorFactory.fromBitmap(context.drawable(resId).toBitmap())
+
+        fun pointStyleOf(it: GeoJsonFeature): GeoJsonPointStyle
+    }
+
+    class ChronicMarkerStyles(override val context: Context) : MarkerStyles {
+
+        private val homeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_green_24dp) }
+
+        private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_red_24dp) }
+
+        override fun pointStyleOf(it: GeoJsonFeature): GeoJsonPointStyle {
+            return GeoJsonPointStyle().apply {
+                icon = if (it.getProperty("haveChronic") == "true") chronicHomeIcon else homeIcon
+                title = "บ้านเลขที่ ${it.getProperty("no")}"
+                snippet = it.getProperty("coordinates")?.trimMargin()
+            }
+        }
+    }
+
+    class ElderMarkerStyle(override val context: Context) : MarkerStyles {
+
+        private val notElderIcon by lazy { bitmapOf(R.drawable.ic_marker_home_grey_24dp) }
+        private val socialIcon by lazy { bitmapOf(R.drawable.ic_marker_home_green_24dp) }
+        private val stayIcon by lazy { bitmapOf(R.drawable.ic_marker_home_yellow_24dp) }
+        private val bedIcon by lazy { bitmapOf(R.drawable.ic_marker_home_red_24dp) }
+
+        override fun pointStyleOf(it: GeoJsonFeature): GeoJsonPointStyle {
+            return GeoJsonPointStyle().apply {
+                val md5 = it.getProperty("no").md5().toLowerCase()
+                icon = when (md5[0]) {
+                    '1' -> bedIcon
+                    '4', '5' -> stayIcon
+                    '6', '8', 'a' -> socialIcon
+                    else -> notElderIcon
+                }
+                title = md5
+            }
+        }
     }
 }

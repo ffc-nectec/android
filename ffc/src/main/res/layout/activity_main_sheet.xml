@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="12dp"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="68dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:gravity="center"
+            android:text="peek"
+            android:textColor="@android:color/white"
+            />
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            app:orientation="horizontal"
+            app:columnCount="3"
+
+            app:useDefaultMargins="true"
+            app:alignmentMode="alignMargins"
+            android:textColor="@android:color/white"
+            >
+
+            <ImageButton
+                android:id="@+id/elderMapInfo"
+                app:layout_gravity="fill_horizontal"
+                android:src="@drawable/ic_elder_couple_color_24dp"
+                />
+
+            <ImageButton
+                android:id="@+id/cvdMapInfo"
+                app:layout_gravity="fill_horizontal"
+                android:src="@drawable/ic_heart_cvd_color_24dp"
+                />
+
+            <ImageButton
+                app:layout_gravity="fill_horizontal"
+                android:src="@drawable/ic_knee_black_24dp"
+                />
+
+
+        </android.support.v7.widget.GridLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.design.card.MaterialCardView>

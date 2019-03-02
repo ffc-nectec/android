@@ -37,6 +37,7 @@ import ffc.android.setTransition
 import ffc.android.viewModel
 import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
+import ffc.app.location.GeoMapsInfoSheet
 import ffc.app.location.housesOf
 import ffc.app.search.SearchActivity
 import ffc.app.setting.AboutActivity
@@ -87,6 +88,8 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         observe(viewModel.houseNoLocation) {
             if (it == true) addLocationButton.show() else addLocationButton.hide()
         }
+
+        GeoMapsInfoSheet(this, geoMapsFragment)
     }
 
     private fun setupNavigationDrawer() {
