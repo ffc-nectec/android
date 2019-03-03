@@ -2,17 +2,17 @@
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="true"
-    android:focusable="true"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="240dp"
     android:background="@android:color/darker_gray"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="12dp"
     app:behavior_hideable="true"
     app:behavior_peekHeight="@dimen/map_info_sheet_peek"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="12dp"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     >
 
@@ -29,16 +29,24 @@
 
 
         <ProgressBar
-            android:layout_marginTop="-6dp"
             android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:progress="10"
-            android:padding="0dp"
+            android:layout_marginTop="-6dp"
             android:max="100"
+            android:padding="0dp"
+            tools:progress="10"
             style="?android:attr/progressBarStyleHorizontal"
             />
 
+        <View
+            android:layout_marginTop="@dimen/map_info_sheet_peek"
+            android:background="?android:attr/listDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            />
+
+        <!--android:background="@color/thwig_separator"-->
         <android.support.v7.widget.GridLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -52,27 +60,23 @@
 
             <ImageButton
                 android:id="@+id/elderMapInfo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:padding="16dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_elder_couple_color_24dp"
                 app:layout_gravity="fill_horizontal"
                 />
 
             <ImageButton
                 android:id="@+id/cvdMapInfo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:padding="16dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_heart_cvd_color_24dp"
                 app:layout_gravity="fill_horizontal"
                 />
-
-            <ImageButton
-                android:src="@drawable/ic_knee_black_24dp"
-                app:layout_gravity="fill_horizontal"
-                />
-
-            <ffc.app.location.LegendItem
-                android:layout_height="wrap_content"
-                app:layout_gravity="fill_horizontal"
-                >
-
-            </ffc.app.location.LegendItem>
 
 
         </android.support.v7.widget.GridLayout>
