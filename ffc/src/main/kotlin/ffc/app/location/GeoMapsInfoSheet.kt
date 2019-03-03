@@ -5,7 +5,9 @@ import android.support.design.widget.BottomSheetBehavior.BottomSheetCallback
 import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.ProgressBar
+import ffc.android.layoutInflater
 import ffc.android.onClick
 import ffc.app.MainActivity
 import ffc.app.R
@@ -18,6 +20,7 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
 
     private val fab = actvity.find<FloatingActionButton>(R.id.addLocationButton)
     private val progress = actvity.find<ProgressBar>(R.id.progress)
+    val peek = actvity.find<ViewGroup>(R.id.mapInfoPeek)
     private val behavior = BottomSheetBehavior.from(actvity.find<View>(R.id.bottom_sheet))!!
 
     var currentInfo: GeoMapsInfo = NORMAL
@@ -35,9 +38,13 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
                 progress.progress = (it * 100.0).toInt()
                 if (it == 1.0) {
                     progress.animate().scaleX(0f).setDuration(150).start()
+                    peek.removeAllViews()
+                    peek.addView(newInfo.getLegendView())
                 }
             }
             progress.animate().scaleX(1f).setDuration(50).setStartDelay(300).start()
+            peek.removeAllViews()
+            peek.addView(loadingPeek)
         }
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -65,6 +72,18 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
         fab.onClick {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
+    }
+
+    fun GeoMapsInfo.getLegendView(): View {
+        val layoutId = when (this) {
+            Chronic -> R.layout.maps_info_chronic_peek
+            else -> R.layout.maps_info_chronic_peek
+        }
+        return peek.layoutInflater.inflate(layoutId, peek, false)
+    }
+
+    val loadingPeek: View by lazy {
+        peek.layoutInflater.inflate(R.layout.maps_info_peek_loading, peek, false)
     }
 }
 

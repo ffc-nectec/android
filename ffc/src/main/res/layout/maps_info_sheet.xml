@@ -12,15 +12,22 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="12dp"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="68dp"
+    app:behavior_peekHeight="@dimen/map_info_sheet_peek"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     >
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
+        <FrameLayout
+            android:id="@+id/mapInfoPeek"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/map_info_sheet_peek"
+            />
+
+
         <ProgressBar
             android:layout_marginTop="-6dp"
             android:id="@+id/progress"
@@ -32,19 +39,12 @@
             style="?android:attr/progressBarStyleHorizontal"
             />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="peek"
-            />
-
-
         <android.support.v7.widget.GridLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             app:orientation="horizontal"
+            android:layout_marginTop="@dimen/map_info_sheet_peek"
             app:columnCount="3"
             app:useDefaultMargins="true"
             app:alignmentMode="alignMargins"
@@ -71,7 +71,7 @@
         </android.support.v7.widget.GridLayout>
 
 
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 
 </android.support.design.card.MaterialCardView>

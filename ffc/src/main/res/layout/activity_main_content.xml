@@ -69,7 +69,7 @@
         tools:text="version 4.0.0-10-6167342-photo-dirty" />
 
 
-    <include layout="@layout/activity_main_sheet"/>
+    <include layout="@layout/maps_info_sheet"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addLocationButton"

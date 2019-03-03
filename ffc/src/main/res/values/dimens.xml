@@ -36,4 +36,5 @@
     <dimen name="card_padding_vertical">10dp</dimen>
     <dimen name="card_padding_horizontal">16dp</dimen>
     <dimen name="card_margin_vertical">24dp</dimen>
+    <dimen name="map_info_sheet_peek">72dp</dimen>
 </resources>
