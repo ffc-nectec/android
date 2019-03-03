@@ -26,7 +26,6 @@
             android:layout_height="68dp"
             android:gravity="center"
             android:text="peek"
-            android:textColor="@android:color/white"
             />
 
         <android.support.v7.widget.GridLayout
@@ -35,10 +34,8 @@
             android:gravity="center"
             app:orientation="horizontal"
             app:columnCount="3"
-
             app:useDefaultMargins="true"
             app:alignmentMode="alignMargins"
-            android:textColor="@android:color/white"
             >
 
             <ImageButton

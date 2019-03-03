@@ -28,14 +28,10 @@ import android.support.design.widget.FloatingActionButton
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.data.geojson.GeoJsonFeature
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
-import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.drawable
-import ffc.android.gone
 import ffc.android.observe
 import ffc.android.rawAs
 import ffc.android.sceneTransition
@@ -46,18 +42,20 @@ import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.app.location.GeoMapsInfo.ELDER
 import ffc.app.util.alert.handle
+import ffc.app.util.forEachChunk
 import ffc.app.util.md5
 import ffc.entity.gson.toJson
 import ffc.entity.place.House
 import me.piruin.geok.geometry.FeatureCollection
 import me.piruin.geok.geometry.Point
-import org.jetbrains.anko.doAsyncResult
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.intentFor
+import org.jetbrains.anko.support.v4.onUiThread
 import org.json.JSONObject
-import th.or.nectec.marlo.PointMarloFragment
+import timber.log.Timber
 
-class GeoMapsFragment : PointMarloFragment() {
+class GeoMapsFragment : BaseMapsFragment() {
 
     val REQ_ADD_LOCATION = 1032
 
@@ -65,17 +63,13 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private var addLocationButton: FloatingActionButton? = null
     private val viewModel by lazy { viewModel<GeoViewModel>() }
-    private val preference by lazy { GeoPreferences(context!!, org) }
 
-    private val org by lazy { familyFolderActivity.org }
     lateinit var markerStyles: MarkerStyles
 
-    override fun onActivityCreated(bundle: Bundle?) {
-        super.onActivityCreated(bundle)
-        setStartLocation(preference.lastCameraPosition)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         addLocationButton = activity!!.find(R.id.addLocationButton)
-        viewFinder.gone()
-        hideToolsMenu()
+
         observeViewModel()
         markerStyles = ChronicMarkerStyles(context!!)
     }
@@ -93,7 +87,6 @@ class GeoMapsFragment : PointMarloFragment() {
                 googleMap.clear()
                 viewModel.json.value = JSONObject(it.toJson())
                 addGeoJsonLayer(GeoJsonLayer(googleMap, viewModel.json.value))
-                preference.geojsonCache = it
             }
         }
         observe(viewModel.exception) {
@@ -101,18 +94,11 @@ class GeoMapsFragment : PointMarloFragment() {
         }
     }
 
-    private fun setStartLocation(lastPosition: CameraPosition?) {
-        if (lastPosition != null) {
-            setStartLocation(lastPosition.target, lastPosition.zoom)
-        } else {
-            setStartLocation(LatLng(13.76498, 100.538335), 5.0f)
-            setStartAtCurrentLocation(true)
-        }
-    }
+
 
     override fun onMapReady(googleMap: GoogleMap?) {
         super.onMapReady(googleMap)
-        viewModel.geojson.value = doAsyncResult { preference.geojsonCache }.get()
+//        viewModel.geojson.value = doAsyncResult { preference.geojsonCache }.get()
 //        addLocationButton?.setOnClickListener {
 //            val intent = intentFor<MarkLocationActivity>(
 //                "target" to googleMap!!.cameraPosition.target,
@@ -120,7 +106,6 @@ class GeoMapsFragment : PointMarloFragment() {
 //            )
 //            startActivityForResult(intent, REQ_ADD_LOCATION)
 //        }
-        askMyLocationPermission()
         loadGeoJson()
     }
 
@@ -143,6 +128,7 @@ class GeoMapsFragment : PointMarloFragment() {
             }
             addLayerToMap()
         }
+        viewModel.layer.value = layer
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -154,30 +140,34 @@ class GeoMapsFragment : PointMarloFragment() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        activity!!.handlePermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        googleMap?.cameraPosition?.let { preference.lastCameraPosition = it }
-    }
-
-    fun showInfo(info: GeoMapsInfo) {
+    fun showInfo(info: GeoMapsInfo, onProgress: (Double) -> Unit) {
         markerStyles = when (info) {
             ELDER -> ElderMarkerStyle(context!!)
             else -> ChronicMarkerStyles(context!!)
         }
 
-        viewModel.json.value?.let {
-            googleMap.clear()
-            addGeoJsonLayer(GeoJsonLayer(googleMap, it))
+        viewModel.layer.value?.let { layer ->
+            googleMap.uiSettings.setAllGesturesEnabled(false)
+            doAsync {
+                layer.features.forEachChunk(200, 150) { progress, list ->
+                    onUiThread {
+                        list.forEach {
+                            it.pointStyle = markerStyles.pointStyleOf(it)
+                        }
+                        onProgress(progress)
+                    }
+                }
+                Timber.d("finish")
+                onUiThread { googleMap.uiSettings.setAllGesturesEnabled(true) }
+            }
         }
     }
+
 
     class GeoViewModel : ViewModel() {
         val geojson = MutableLiveData<FeatureCollection<House>>()
         val json = MutableLiveData<JSONObject>()
+        val layer = MutableLiveData<GeoJsonLayer>()
         val exception = MutableLiveData<Throwable>()
     }
 
@@ -227,3 +217,4 @@ class GeoMapsFragment : PointMarloFragment() {
         }
     }
 }
+

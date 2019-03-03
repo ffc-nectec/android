@@ -4,16 +4,36 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetBehavior.BottomSheetCallback
 import android.support.design.widget.FloatingActionButton
 import android.view.View
+import android.view.View.OnClickListener
 import ffc.android.onClick
 import ffc.app.MainActivity
 import ffc.app.R
+import ffc.app.location.GeoMapsInfo.Chronic
+import ffc.app.location.GeoMapsInfo.ELDER
+import ffc.app.location.GeoMapsInfo.NORMAL
 import org.jetbrains.anko.find
-import org.jetbrains.anko.toast
 
-class GeoMapsInfoSheet(val actvity: MainActivity, geoMapsFragment: GeoMapsFragment) {
+class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) {
 
     val fab = actvity.find<FloatingActionButton>(R.id.addLocationButton)
-    val behavior = BottomSheetBehavior.from(actvity.find<View>(R.id.bottom_sheet))
+    private val behavior = BottomSheetBehavior.from(actvity.find<View>(R.id.bottom_sheet))!!
+
+    var currentInfo: GeoMapsInfo = NORMAL
+
+    val onClick = OnClickListener {
+        val newInfo = when (it.id) {
+            R.id.elderMapInfo -> ELDER
+            R.id.cvdMapInfo -> Chronic
+            else -> NORMAL
+        }
+        if (newInfo != currentInfo) {
+            geoMapsFragment.showInfo(newInfo) {
+                //TODO implement progress bar
+            }
+            currentInfo = newInfo
+        }
+        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+    }
 
     init {
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -29,17 +49,8 @@ class GeoMapsInfoSheet(val actvity: MainActivity, geoMapsFragment: GeoMapsFragme
                 }
             }
         })
-        actvity.find<View>(R.id.elderMapInfo).onClick {
-            actvity.toast("elder")
-            geoMapsFragment.showInfo(GeoMapsInfo.ELDER)
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-        actvity.find<View>(R.id.cvdMapInfo).onClick {
-            actvity.toast("chronic")
-            geoMapsFragment.showInfo(GeoMapsInfo.Chronic)
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-
+        actvity.find<View>(R.id.elderMapInfo).setOnClickListener(onClick)
+        actvity.find<View>(R.id.cvdMapInfo).setOnClickListener(onClick)
 
         fab.onClick {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -48,5 +59,5 @@ class GeoMapsInfoSheet(val actvity: MainActivity, geoMapsFragment: GeoMapsFragme
 }
 
 enum class GeoMapsInfo {
-    ELDER, Chronic, Disability
+    NORMAL, ELDER, Chronic, Disability
 }
