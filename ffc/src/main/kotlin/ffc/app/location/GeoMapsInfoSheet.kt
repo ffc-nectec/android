@@ -6,7 +6,9 @@ import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
+import ffc.android.drawable
 import ffc.android.layoutInflater
 import ffc.android.onClick
 import ffc.app.MainActivity
@@ -23,7 +25,7 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
     val peek = actvity.find<ViewGroup>(R.id.mapInfoPeek)
     private val behavior = BottomSheetBehavior.from(actvity.find<View>(R.id.bottom_sheet))!!
 
-    var currentInfo: GeoMapsInfo = NORMAL
+    var currentInfo: GeoMapsInfo = Chronic
 
     val onClick = OnClickListener { view ->
         val newInfo = when (view.id) {
@@ -72,14 +74,33 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
         fab.onClick {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
+
+        peek.addView(currentInfo.getLegendView())
     }
 
     fun GeoMapsInfo.getLegendView(): View {
-        val layoutId = when (this) {
-            Chronic -> R.layout.maps_info_chronic_peek
-            else -> R.layout.maps_info_chronic_peek
+        val view = peek.layoutInflater.inflate(R.layout.maps_info_legend_peek, peek, false)
+        val legend = view.find<LegendView>(R.id.mapInfoLegend)
+        val icon = view.find<ImageView>(R.id.mapsInfoIcon)
+        icon.onClick { behavior.state = BottomSheetBehavior.STATE_EXPANDED }
+        when (this) {
+            ELDER -> {
+                legend.setLegend(
+                    R.color.colorAccentLegacy to R.string.elder_socialist,
+                    R.color.yellow_500 to R.string.elder_home,
+                    R.color.red_500 to R.string.elder_immobilised
+                )
+                icon.setImageDrawable(view.drawable(R.drawable.ic_elder_couple_color_24dp))
+            }
+            Chronic -> {
+                legend.setLegend(
+                    R.color.colorAccentLegacy to R.string.normal,
+                    R.color.red_500 to R.string.chronic
+                )
+                icon.setImageDrawable(view.drawable(R.drawable.ic_heart_cvd_color_24dp))
+            }
         }
-        return peek.layoutInflater.inflate(layoutId, peek, false)
+        return view
     }
 
     val loadingPeek: View by lazy {

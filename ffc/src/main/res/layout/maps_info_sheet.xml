@@ -42,30 +42,37 @@
         <android.support.v7.widget.GridLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            app:orientation="horizontal"
             android:layout_marginTop="@dimen/map_info_sheet_peek"
-            app:columnCount="3"
-            app:useDefaultMargins="true"
+            android:gravity="center"
             app:alignmentMode="alignMargins"
+            app:columnCount="3"
+            app:orientation="horizontal"
+            app:useDefaultMargins="true"
             >
 
             <ImageButton
                 android:id="@+id/elderMapInfo"
-                app:layout_gravity="fill_horizontal"
                 android:src="@drawable/ic_elder_couple_color_24dp"
+                app:layout_gravity="fill_horizontal"
                 />
 
             <ImageButton
                 android:id="@+id/cvdMapInfo"
-                app:layout_gravity="fill_horizontal"
                 android:src="@drawable/ic_heart_cvd_color_24dp"
+                app:layout_gravity="fill_horizontal"
                 />
 
             <ImageButton
-                app:layout_gravity="fill_horizontal"
                 android:src="@drawable/ic_knee_black_24dp"
+                app:layout_gravity="fill_horizontal"
                 />
+
+            <ffc.app.location.LegendItem
+                android:layout_height="wrap_content"
+                app:layout_gravity="fill_horizontal"
+                >
+
+            </ffc.app.location.LegendItem>
 
 
         </android.support.v7.widget.GridLayout>
