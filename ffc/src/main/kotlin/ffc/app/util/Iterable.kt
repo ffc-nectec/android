@@ -8,6 +8,6 @@ inline fun <T> Iterable<T>.forEachChunk(
     val chunked = chunked(size)
     chunked.forEachIndexed { index, list ->
         Thread.sleep(delay)
-        action(index / chunked.size.toDouble(), list)
+        action((index + 1) / chunked.size.toDouble(), list)
     }
 }
