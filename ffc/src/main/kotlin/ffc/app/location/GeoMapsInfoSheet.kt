@@ -14,6 +14,7 @@ import ffc.android.onClick
 import ffc.app.MainActivity
 import ffc.app.R
 import ffc.app.location.GeoMapsInfo.Chronic
+import ffc.app.location.GeoMapsInfo.Disability
 import ffc.app.location.GeoMapsInfo.ELDER
 import ffc.app.location.GeoMapsInfo.NORMAL
 import org.jetbrains.anko.find
@@ -31,6 +32,7 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
         val newInfo = when (view.id) {
             R.id.elderMapInfo -> ELDER
             R.id.cvdMapInfo -> Chronic
+            R.id.disabilityMapInfo -> Disability
             else -> NORMAL
         }
         if (newInfo != currentInfo) {
@@ -67,6 +69,7 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
         })
         actvity.find<View>(R.id.elderMapInfo).setOnClickListener(onClick)
         actvity.find<View>(R.id.cvdMapInfo).setOnClickListener(onClick)
+        actvity.find<View>(R.id.disabilityMapInfo).setOnClickListener(onClick)
 
         progress.max = 100
         progress.animate().scaleX(0f).setDuration(0).start()
@@ -98,6 +101,13 @@ class GeoMapsInfoSheet(actvity: MainActivity, geoMapsFragment: GeoMapsFragment) 
                     R.color.red_500 to R.string.chronic
                 )
                 icon.setImageDrawable(view.drawable(R.drawable.ic_heart_cvd_color_24dp))
+            }
+            Disability -> {
+                legend.setLegend(
+                    R.color.grey_300 to R.string.normal,
+                    R.color.purple_300 to R.string.disability
+                )
+                icon.setImageDrawable(view.drawable(R.drawable.ic_wheelchair_color_24dp))
             }
         }
         return view

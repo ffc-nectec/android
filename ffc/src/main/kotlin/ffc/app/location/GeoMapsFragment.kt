@@ -23,6 +23,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
 import com.google.android.gms.maps.GoogleMap
@@ -35,11 +36,13 @@ import ffc.android.drawable
 import ffc.android.observe
 import ffc.android.rawAs
 import ffc.android.sceneTransition
+import ffc.android.tint
 import ffc.android.toBitmap
 import ffc.android.viewModel
 import ffc.app.R
 import ffc.app.dev
 import ffc.app.familyFolderActivity
+import ffc.app.location.GeoMapsInfo.Disability
 import ffc.app.location.GeoMapsInfo.ELDER
 import ffc.app.util.alert.handle
 import ffc.app.util.forEachChunk
@@ -143,6 +146,7 @@ class GeoMapsFragment : BaseMapsFragment() {
     fun showInfo(info: GeoMapsInfo, onProgress: (Double) -> Unit) {
         markerStyles = when (info) {
             ELDER -> ElderMarkerStyle(context!!)
+            Disability -> DisabilityMarkerStyle(context!!)
             else -> ChronicMarkerStyles(context!!)
         }
 
@@ -175,8 +179,11 @@ class GeoMapsFragment : BaseMapsFragment() {
 
         val context: Context
 
-        fun bitmapOf(@DrawableRes resId: Int): BitmapDescriptor =
-            BitmapDescriptorFactory.fromBitmap(context.drawable(resId).toBitmap())
+        fun bitmapOf(@DrawableRes resId: Int, @ColorInt color: Int? = null): BitmapDescriptor {
+            val drawable = context.drawable(resId)
+            color?.let { drawable.tint(color) }
+            return BitmapDescriptorFactory.fromBitmap(drawable.toBitmap())
+        }
 
         fun pointStyleOf(it: GeoJsonFeature): GeoJsonPointStyle
     }
@@ -210,6 +217,23 @@ class GeoMapsFragment : BaseMapsFragment() {
                     '1' -> bedIcon
                     '4', '5' -> stayIcon
                     '6', '8', 'a' -> socialIcon
+                    else -> notElderIcon
+                }
+                title = md5
+            }
+        }
+    }
+
+    class DisabilityMarkerStyle(override val context: Context) : MarkerStyles {
+
+        private val notElderIcon by lazy { bitmapOf(R.drawable.ic_marker_home_grey_24dp) }
+        private val disabilityIcon by lazy { bitmapOf(R.drawable.ic_marker_home_purple_24dp) }
+
+        override fun pointStyleOf(it: GeoJsonFeature): GeoJsonPointStyle {
+            return GeoJsonPointStyle().apply {
+                val md5 = it.getProperty("no").md5().toLowerCase()
+                icon = when (md5[0]) {
+                    '1' -> disabilityIcon
                     else -> notElderIcon
                 }
                 title = md5

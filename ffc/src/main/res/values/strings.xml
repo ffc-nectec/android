@@ -133,4 +133,5 @@
     <string name="elder_immobilised">ติดเตียง</string>
     <string name="normal">ปกติ</string>
     <string name="chronic">โรคเรื้อรัง</string>
+    <string name="disability">พิการ</string>
 </resources>
