@@ -97,8 +97,6 @@ class GeoMapsFragment : BaseMapsFragment() {
         }
     }
 
-
-
     override fun onMapReady(googleMap: GoogleMap?) {
         super.onMapReady(googleMap)
 //        viewModel.geojson.value = doAsyncResult { preference.geojsonCache }.get()
@@ -166,7 +164,6 @@ class GeoMapsFragment : BaseMapsFragment() {
             }
         }
     }
-
 
     class GeoViewModel : ViewModel() {
         val geojson = MutableLiveData<FeatureCollection<House>>()
@@ -241,4 +238,3 @@ class GeoMapsFragment : BaseMapsFragment() {
         }
     }
 }
-
