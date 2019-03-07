@@ -22,9 +22,11 @@ import android.net.Uri
 import com.google.gson.Gson
 import ffc.android.put
 import ffc.app.BuildConfig
+import ffc.app.dev
 import ffc.entity.gson.ffcGson
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -46,6 +48,7 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
             writeTimeout(30, SECONDS)
             connectTimeout(15, SECONDS)
             addInterceptor(DefaultInterceptor())
+            dev { addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }) }
             cache?.let { cache(it) }
             token?.let { addInterceptor(AuthTokenInterceptor(it)) }
         }

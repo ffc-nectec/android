@@ -21,7 +21,6 @@ import ffc.api.FfcCentral
 import ffc.app.auth.exception.LoginErrorException
 import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
-import okhttp3.Credentials
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
@@ -69,8 +68,8 @@ internal class LoginInteractor(
 
     fun doLogin(username: String, password: String) {
         check(org != null) { "Must set org before" }
-        val basicToken = Credentials.basic(username.trim(), password.trim(), utf8)
-        orgService.createAuthorize(org!!.id, basicToken, EmptyJsonBody()).enqueue {
+        val loginService = FfcCentral().service<AuthService>()
+        loginService.createAuthorize(org!!.id, LoginBody(username.trim(), password.trim())).enqueue {
             onSuccess {
                 val authorize = body()!!
                 FfcCentral.token = authorize.token
