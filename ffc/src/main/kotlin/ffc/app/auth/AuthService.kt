@@ -17,16 +17,19 @@
 
 package ffc.app.auth
 
-import ffc.entity.Organization
+import ffc.entity.Token
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Body
+import retrofit2.http.POST
+import retrofit2.http.Path
 
-interface OrgService {
+interface AuthService {
 
-    @GET("org")
-    fun listOrgs(@Query("query") query: String? = null): Call<List<Organization>>
-
-    @GET("org?my=true")
-    fun myOrg(): Call<List<Organization>>
+    @POST("org/{orgId}/authorize")
+    fun createAuthorize(
+        @Path("orgId") id: String,
+        @Body body: LoginBody
+    ): Call<Token>
 }
+
+class LoginBody(val username: String, val password: String)
