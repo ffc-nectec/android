@@ -24,7 +24,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.google.gms:google-services:4.2.0'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.9.4'
         classpath 'com.google.firebase:firebase-plugins:1.1.5'
@@ -46,9 +46,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
-    distributionUrl = distributionUrl.replace("bin", "all")
 }
