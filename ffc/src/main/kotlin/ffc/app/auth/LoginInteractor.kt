@@ -21,6 +21,7 @@ import ffc.api.FfcCentral
 import ffc.app.auth.exception.LoginErrorException
 import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
+import ffc.entity.Token
 import retrofit2.dsl.enqueue
 import java.nio.charset.Charset
 
@@ -63,24 +64,38 @@ internal class LoginInteractor(
 
     private val utf8 = Charset.forName("UTF-8")
 
+    private var credential: LoginBody? = null
+
     fun doLogin(username: String, password: String) {
         check(org != null) { "Must set org before" }
         val loginService = FfcCentral().service<AuthService>()
         loginService.createAuthorize(org!!.id, LoginBody(username.trim(), password.trim())).enqueue {
             onSuccess {
-                val authorize = body()!!
-                FfcCentral.token = authorize.token
-                auth.org = org
-                auth.token = authorize.token
-                auth.user = authorize.user
-                users().user(username) { user, t ->
-                    if (user != null) {
-                        presenter.onLoginSuccess()
-                    } else {
-                        presenter.onError(t
-                            ?: IllegalStateException("เกิดข้อผิดพลาดไม่สามารถระบุได้"))
-                    }
+                onAuthorized(body()!!)
+            }
+            onError {
+                val error = errorBody<AuthError>()
+                if (!error?.redirect.isNullOrBlank()) {
+                   credential = LoginBody(username.trim(), password.trim())
+                   presenter.onActivateRequire()
+                } else {
+                    presenter.onError(LoginErrorException(this))
                 }
+            }
+            onFailure {
+                presenter.onError(LoginFailureException(it.message
+                    ?: "เกิดข้อผิดพลาดไม่สามารถระบุได้"))
+            }
+        }
+    }
+
+    fun doActivate(otp: String) {
+        check(org != null) { "Must set org before" }
+        check(credential != null) { "Must login before" }
+        val service = FfcCentral().service<AuthService>()
+        service.activateUser(org!!.id, ActivateBody(otp, credential!!)).enqueue {
+            onSuccess {
+                onAuthorized(body()!!)
             }
             onError {
                 presenter.onError(LoginErrorException(this))
@@ -91,4 +106,25 @@ internal class LoginInteractor(
             }
         }
     }
+
+    private fun onAuthorized(credential: Token) {
+        FfcCentral.token = credential.token
+        auth.org = org
+        auth.token = credential.token
+        auth.user = credential.user
+        users().user(credential.user.name) { user, t ->
+            if (user != null) {
+                presenter.onLoginSuccess()
+            } else {
+                presenter.onError(LoginFailureException(t?.message
+                    ?: "เกิดข้อผิดพลาดไม่สามารถระบุได้"))
+            }
+        }
+    }
 }
+
+data class AuthError(
+    val code: Int,
+    val message: String,
+    val redirect: String?
+)

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.auth.fragment
+package ffc.app.auth
 
 internal interface LoginExceptionPresenter {
 

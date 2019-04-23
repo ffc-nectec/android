@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ffc.app.auth.fragment
+package ffc.app.auth
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -35,7 +35,6 @@ import ffc.android.onClick
 import ffc.android.viewModel
 import ffc.android.visible
 import ffc.app.R
-import ffc.app.auth.orgs
 import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.entity.Organization

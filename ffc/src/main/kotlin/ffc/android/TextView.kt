@@ -28,6 +28,8 @@
 package ffc.android
 
 import android.graphics.drawable.Drawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.TextView
 
 fun TextView.getDouble(default: Double? = null): Double? {
@@ -74,3 +76,38 @@ private fun TextView.compoundDrawablesRelativeWithIntrinsicBounds(
 ) {
     setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end, bottom)
 }
+
+class TextWatcherDsl : TextWatcher {
+    private var afterChanged: ((Editable?) -> Unit)? = null
+    private var beforeChanged: ((s: CharSequence?, start: Int, count: Int, after: Int) -> Unit)? = null
+    private var onChanged: ((s: CharSequence?, start: Int, before: Int, count: Int) -> Unit)? = null
+
+    override fun afterTextChanged(s: Editable?) {
+        afterChanged?.invoke(s)
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        beforeChanged?.invoke(s, start, count, after)
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        onChanged?.invoke(s, start, before, count)
+    }
+
+    fun afterTextChanged(block: (s: Editable?) -> Unit) {
+        afterChanged = block
+    }
+
+    fun beforeTextChanged(block: (s: CharSequence?, start: Int, count: Int, after: Int) -> Unit) {
+        beforeChanged = block
+    }
+
+    fun onTextChanged(block: (s: CharSequence?, start: Int, before: Int, count: Int) -> Unit) {
+        onChanged = block
+    }
+}
+
+fun TextView.addTextWatcher(block: TextWatcherDsl.() -> Unit) {
+    addTextChangedListener(TextWatcherDsl().apply(block))
+}
+
