@@ -30,6 +30,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.dsl.RetrofitDslConfig
 import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
 
@@ -53,11 +54,12 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
             token?.let { addInterceptor(AuthTokenInterceptor(it)) }
         }
 
-        return retrofitBuilder
+        val retrofit = retrofitBuilder
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(httpBuilder.build())
             .build()
-            .create(T::class.java)
+        RetrofitDslConfig.retrofit = retrofit
+        return retrofit.create(T::class.java)
     }
 
     companion object {

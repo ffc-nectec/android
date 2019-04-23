@@ -27,9 +27,19 @@ interface AuthService {
 
     @POST("org/{orgId}/authorize")
     fun createAuthorize(
-        @Path("orgId") id: String,
+        @Path("orgId") orgId: String,
         @Body body: LoginBody
+    ): Call<Token>
+
+    @POST("org/{orgId}/activate/user")
+    fun activateUser(
+        @Path("orgId") orgId: String,
+        @Body body: ActivateBody
     ): Call<Token>
 }
 
 class LoginBody(val username: String, val password: String)
+
+class ActivateBody(val otp: String, val username: String, val password: String) {
+    constructor(otp: String, login: LoginBody) : this(otp, login.username, login.password)
+}

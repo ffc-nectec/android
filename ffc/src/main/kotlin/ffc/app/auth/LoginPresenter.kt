@@ -27,5 +27,7 @@ internal interface LoginPresenter {
 
     fun onOrgSelected(org: Organization)
 
+    fun onActivateRequire()
+
     fun onError(throwable: Throwable)
 }

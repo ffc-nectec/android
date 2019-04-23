@@ -36,13 +36,13 @@
     <string name="you_offline">คุณไม่ได้ต่อเน็ต</string>
     <string name="version_4_0">Version 4.0</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hospital_name">รพ.สต. ลำพูน</string>
     <string name="username">ชื่อผู้ใช้งาน</string>
     <string name="password">รหัสผ่าน</string>
     <string name="login">เข้าสู่ระบบ</string>
     <string name="back">ย้อนกลับ</string>
+    <string name="otp">OTP (One-Time Password)</string>
+    <string name="otp_hint">กรุณาใส่หรัสผ่าน OTP ที่ได้จาก FFC AirSync เพื่อเป็นการยืนยันตันตนว่าคุณเป็นเจ้าของบัญชีผู้ใช้งาน</string>
+    <string name="authenticate">ยืนยันตัวตน</string>
     <string name="diagnosis">วินิจฉัย</string>
     <string name="vital_sign">สัญญาณชีพ</string>
     <string name="home_visit">เยี่ยมบ้าน</string>

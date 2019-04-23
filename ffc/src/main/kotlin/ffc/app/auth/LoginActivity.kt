@@ -24,7 +24,6 @@ import android.transition.Slide
 import android.view.Gravity
 import ffc.android.allowTransitionOverlap
 import ffc.android.enter
-import ffc.android.enterDuration
 import ffc.android.exit
 import ffc.android.find
 import ffc.android.findFirst
@@ -34,9 +33,6 @@ import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
 import ffc.app.MainActivity
 import ffc.app.R
-import ffc.app.auth.fragment.LoginExceptionPresenter
-import ffc.app.auth.fragment.LoginOrgFragment
-import ffc.app.auth.fragment.LoginUserFragment
 import ffc.app.auth.legal.LegalAgreementActivity
 import ffc.app.setting.SettingsActivity
 import ffc.entity.Organization
@@ -108,7 +104,7 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
 
     override fun onError(throwable: Throwable) {
         supportFragmentManager
-            .findFirst<LoginExceptionPresenter>("Login", "Org")?.onException(throwable)
+            .findFirst<LoginExceptionPresenter>("otp", "Login", "Org")?.onException(throwable)
     }
 
     override fun onOrgSelected(org: Organization) {
@@ -117,10 +113,8 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
         userPassFragment.onLogin = { user, pass -> interactor.doLogin(user, pass) }
         userPassFragment.org = org
         userPassFragment.setTransition {
-            enterTransition = Slide(Gravity.END).apply {
-                startDelay = 50
-                duration = enterDuration
-            }
+            enterTransition = Slide(Gravity.END).enter(delay = 50)
+            exitTransition = Explode().exit()
         }
         val orgFragment = supportFragmentManager.find<LoginOrgFragment?>("Org")
 
@@ -130,6 +124,26 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
                 if (orgFragment != null) {
                     //there no orgFragment for Relogin action
                     hide(orgFragment)
+                    addToBackStack(null)
+                }
+            }.commit()
+        }
+    }
+
+    override fun onActivateRequire() {
+        val otpFragment = supportFragmentManager.find("otp") ?: OtpFragment()
+        otpFragment.onOtpSend = { interactor.doActivate(it) }
+        otpFragment.setTransition {
+            enterTransition = Slide(Gravity.END).enter(delay = 50)
+        }
+
+        val userPassFragment = supportFragmentManager.find<LoginUserFragment?>("Login")
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().apply {
+                add(R.id.contentContainer, otpFragment, "otp")
+                if (userPassFragment != null) {
+                    //there no orgFragment for Relogin action
+                    hide(userPassFragment)
                     addToBackStack(null)
                 }
             }.commit()
