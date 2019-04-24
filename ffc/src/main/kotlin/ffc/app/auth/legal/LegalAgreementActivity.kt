@@ -29,8 +29,7 @@ class LegalAgreementActivity : FamilyFolderActivity() {
                 val fragment = LegalAgreementFragment().apply {
                     url = api.latest(it).request().url().toString()
                     onAccept = { version ->
-                        api.agreeWith(it, version, currentUser!!.id,
-                            currentUser!!.orgId!!).enqueue {
+                        api.agreeWith(it, version, currentUser!!.id, currentUser!!.orgId!!).enqueue {
                             onSuccess {
                                 val queue = viewModel.queueType.value
                                 queue?.remove(it)
