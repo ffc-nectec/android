@@ -21,6 +21,7 @@ import ffc.entity.Token
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface AuthService {
@@ -31,7 +32,7 @@ interface AuthService {
         @Body body: LoginBody
     ): Call<Token>
 
-    @POST("org/{orgId}/activate/user")
+    @PUT("org/{orgId}/user/activate")
     fun activateUser(
         @Path("orgId") orgId: String,
         @Body body: ActivateBody
