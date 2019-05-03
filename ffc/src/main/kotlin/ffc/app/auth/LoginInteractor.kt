@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ import ffc.app.auth.exception.LoginFailureException
 import ffc.entity.Organization
 import ffc.entity.Token
 import retrofit2.dsl.enqueue
-import java.nio.charset.Charset
 
 internal class LoginInteractor(
     var presenter: LoginPresenter,
@@ -63,8 +62,6 @@ internal class LoginInteractor(
             if (value != null) presenter.onOrgSelected(value)
         }
 
-    private val utf8 = Charset.forName("UTF-8")
-
     private var credential: LoginBody? = null
 
     fun doLogin(username: String, password: String) {
@@ -77,10 +74,10 @@ internal class LoginInteractor(
             onError {
                 val error = errorBody<ErrorResponse>()
                 if ("NotActivateUserException" == error?.tType) {
-                   credential = LoginBody(username.trim(), password.trim())
-                   presenter.onActivateRequire()
+                    credential = LoginBody(username.trim(), password.trim())
+                    presenter.onActivateRequire()
                 } else {
-                    presenter.onError(LoginErrorException(errorBody<ErrorResponse>()!!))
+                    presenter.onError(LoginErrorException(error!!))
                 }
             }
             onFailure {

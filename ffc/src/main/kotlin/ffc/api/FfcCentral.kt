@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 private var url_staging = "https://api-staging.ffc.in.th/v1/"
 private var url_beta = "https://api-beta.ffc.in.th/v1/"
 private var url_production = "https://api.ffc.in.th/v1/"
-private var url_debug = url_staging
+private var url_debug = "https://ffc-staging-pr-48.herokuapp.com/v1/"
 
 class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
 
