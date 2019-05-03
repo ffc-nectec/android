@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 NECTEC
+  ~   National Electronics and Computer Technology Center, Thailand
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,10 +36,11 @@
         android:layout_marginStart="@dimen/content_start_horizontal_padding"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/content_start_horizontal_padding"
+        android:drawablePadding="4dp"
+        android:drawableTop="@drawable/ic_info_white_24dp"
         android:text="@string/otp_hint"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/text_primary_inverse" />
-
 
     <com.santalu.emptyview.EmptyView
         android:id="@+id/emptyView"
@@ -52,12 +70,12 @@
                     android:layout_height="wrap_content"
                     android:freezesText="true"
                     android:hint="@string/otp"
+                    android:imeOptions="actionSend"
                     android:inputType="numberDecimal"
                     android:maxLength="6"
                     android:maxLines="1"
                     android:textAlignment="center"
                     android:textColor="@color/text_primary_inverse"
-                    android:imeOptions="actionSend"
                     tools:text="151275" />
 
             </android.support.design.widget.TextInputLayout>
