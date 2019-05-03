@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,7 @@ package ffc.app.auth
 import ffc.entity.Token
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -27,12 +28,14 @@ import retrofit2.http.Path
 interface AuthService {
 
     @POST("org/{orgId}/authorize")
+    @Headers("Authorization: ") //clear authorization header
     fun createAuthorize(
         @Path("orgId") orgId: String,
         @Body body: LoginBody
     ): Call<Token>
 
     @PUT("org/{orgId}/user/activate")
+    @Headers("Authorization: ") //clear authorization header
     fun activateUser(
         @Path("orgId") orgId: String,
         @Body body: ActivateBody
