@@ -37,9 +37,13 @@ import kotlinx.android.synthetic.main.login_otp_fragment.authenBtn
 import kotlinx.android.synthetic.main.login_otp_fragment.btnBack
 import kotlinx.android.synthetic.main.login_otp_fragment.emptyView
 import kotlinx.android.synthetic.main.login_otp_fragment.errorView
+import kotlinx.android.synthetic.main.login_otp_fragment.otpHint
 import kotlinx.android.synthetic.main.login_otp_fragment.otpInput
+import org.jetbrains.anko.support.v4.browse
 
 class OtpFragment : Fragment(), LoginExceptionPresenter {
+
+    private val otpHintAnimate = "https://raw.githubusercontent.com/ffc-nectec/assets/master/manual/otp.gif"
 
     val viewModel by lazy { viewModel<OtpViewModel>() }
 
@@ -87,6 +91,8 @@ class OtpFragment : Fragment(), LoginExceptionPresenter {
                 onTextChanged { text, _, _, _ -> viewModel.otp.value = text?.toString() }
             }
         }
+        otpHint.onClick { browse(otpHintAnimate, true) }
+
         btnBack.onClick { activity?.onBackPressed() }
     }
 
