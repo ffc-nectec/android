@@ -17,22 +17,14 @@
 
 package ffc.app.auth.exception
 
+import ffc.api.ErrorResponse
 import ffc.app.BuildConfig
-import retrofit2.Response
 
 class LoginErrorException(
-    response: Response<*>,
-    message: String? = when (response.code()) {
-        400 -> "ชื่อผู้ใช้หรือรหัสผ่านไม่อยู่ในรูปแบบที่รองรับ"
-        401 -> "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
-        403 -> "ผู้ใช้นี้ไม่อณุญาติให้เข้าใช้งาน"
-        404 -> "ไม่พบข้อมูล"
-        else -> "${response.code()}-เกิดข้อผิดพลาดไม่สามารถยืนยันตัวตนได้"
-    }
-) : RuntimeException(message) {
+    val body: ErrorResponse
+) : RuntimeException(body.message) {
 
-    val code = response.code()
-    val body = response.errorBody()?.string()
+    val code = body.code
 
     init {
         if (BuildConfig.DEBUG) {

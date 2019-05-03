@@ -17,6 +17,7 @@
 
 package ffc.app.auth
 
+import ffc.api.ErrorResponse
 import ffc.api.FfcCentral
 import ffc.app.auth.exception.LoginErrorException
 import ffc.app.auth.exception.LoginFailureException
@@ -74,12 +75,12 @@ internal class LoginInteractor(
                 onAuthorized(body()!!)
             }
             onError {
-                val error = errorBody<AuthError>()
-                if (!error?.redirect.isNullOrBlank()) {
+                val error = errorBody<ErrorResponse>()
+                if ("NotActivateUserException" == error?.tType) {
                    credential = LoginBody(username.trim(), password.trim())
                    presenter.onActivateRequire()
                 } else {
-                    presenter.onError(LoginErrorException(this))
+                    presenter.onError(LoginErrorException(errorBody<ErrorResponse>()!!))
                 }
             }
             onFailure {
@@ -98,7 +99,7 @@ internal class LoginInteractor(
                 onAuthorized(body()!!)
             }
             onError {
-                presenter.onError(LoginErrorException(this))
+                presenter.onError(LoginErrorException(errorBody<ErrorResponse>()!!))
             }
             onFailure {
                 presenter.onError(LoginFailureException(it.message
@@ -122,9 +123,3 @@ internal class LoginInteractor(
         }
     }
 }
-
-data class AuthError(
-    val code: Int,
-    val message: String,
-    val redirect: String?
-)
