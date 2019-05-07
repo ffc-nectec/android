@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2019 NECTEC
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ffc.app.auth.legal
 
 import android.os.Bundle
@@ -16,13 +33,12 @@ import kotlinx.android.synthetic.main.legal_fragment.agreement
 import kotlinx.android.synthetic.main.legal_fragment.content
 import kotlinx.android.synthetic.main.legal_fragment.progress
 import kotlinx.android.synthetic.main.legal_fragment.scrollView
-import org.jetbrains.anko.support.v4.onUiThread
-import java.net.URL
-import kotlin.concurrent.thread
+import retrofit2.Call
+import retrofit2.dsl.enqueue
 
 class LegalAgreementFragment : Fragment() {
 
-    var url: String? = null
+    var legalDocCall: Call<String>? = null
     var onAccept: ((version: String) -> Unit)? = null
 
     private val viewModel by lazy { viewModel<SimpleViewModel<String>>() }
@@ -40,12 +56,16 @@ class LegalAgreementFragment : Fragment() {
         observe(viewModel.loading) {
             if (it == true) progress.show() else progress.hide()
         }
+        observe(viewModel.exception) {
+            it?.let { viewModel.content.value = it.message }
+        }
 
         viewModel.loading.value = true
-        thread {
-            URL(url).openStream().reader().use { it.readText() }.let {
-                onUiThread { viewModel.content.value = it.trim() }
-            }
+
+        legalDocCall!!.enqueue {
+            onSuccess { viewModel.content.value = body()!! }
+            onError { viewModel.content.value = errorBody<String>()!! }
+            onFailure { viewModel.exception.value = it }
         }
     }
 

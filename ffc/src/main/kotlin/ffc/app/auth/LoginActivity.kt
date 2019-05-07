@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,6 @@ import ffc.android.onLongClick
 import ffc.android.setTransition
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
-import ffc.app.MainActivity
 import ffc.app.R
 import ffc.app.auth.legal.LegalAgreementActivity
 import ffc.app.setting.SettingsActivity
@@ -91,9 +90,9 @@ class LoginActivity : FamilyFolderActivity(), LoginPresenter {
 
     override fun onLoginSuccess() {
         if (!isRelogin) {
-            startActivity<MainActivity>()
+            startActivity<LegalAgreementActivity>()
+            overridePendingTransition(0, 0)
         }
-        startActivity<LegalAgreementActivity>()
         finish()
     }
 

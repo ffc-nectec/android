@@ -120,8 +120,9 @@
         <activity
             android:name=".auth.legal.LegalAgreementActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Transparent"/>
+            android:theme="@style/AppTheme.TranslucentStatus" />
 
         <activity
             android:name=".location.MarkLocationActivity"

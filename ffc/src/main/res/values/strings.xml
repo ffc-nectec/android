@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2018 NECTEC
+  ~ Copyright (c) 2019 NECTEC
   ~   National Electronics and Computer Technology Center, Thailand
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -127,4 +127,5 @@
     <string name="contract_us">ติดต่อเรา</string>
     <string name="copyright">ลิขสิทธิ์</string>
     <string name="contribution">การมีส่วนร่วม</string>
+    <string name="please_read">กรุณาอ่านและทำความเข้าใจ</string>
 </resources>

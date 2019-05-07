@@ -30,6 +30,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.anko.defaultSharedPreferences
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.dsl.RetrofitDslConfig
 import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
@@ -39,7 +40,7 @@ private var url_beta = "https://api-beta.ffc.in.th/v1/"
 private var url_production = "https://api.ffc.in.th/v1/"
 private var url_debug = "https://ffc-staging-pr-48.herokuapp.com/v1/"
 
-class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
+class FfcCentral(url: String = FfcCentral.url, val gson: Gson? = ffcGson) {
 
     val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
 
@@ -54,10 +55,12 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
             token?.let { addInterceptor(AuthTokenInterceptor(it)) }
         }
 
-        val retrofit = retrofitBuilder
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .client(httpBuilder.build())
-            .build()
+        val retrofit = retrofitBuilder.apply {
+            client(httpBuilder.build())
+            addConverterFactory(ScalarsConverterFactory.create()) //For plain-text
+            addConverterFactory(GsonConverterFactory.create(gson))
+        }.build()
+
         RetrofitDslConfig.retrofit = retrofit
         return retrofit.create(T::class.java)
     }

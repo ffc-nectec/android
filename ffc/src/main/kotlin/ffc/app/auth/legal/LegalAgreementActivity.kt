@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2019 NECTEC
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ffc.app.auth.legal
 
 import android.arch.lifecycle.MutableLiveData
@@ -8,8 +25,10 @@ import ffc.android.viewModel
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
 import ffc.app.FamilyFolderActivity
+import ffc.app.MainActivity
 import ffc.app.R
 import ffc.app.util.alert.handle
+import org.jetbrains.anko.startActivity
 import retrofit2.dsl.enqueue
 
 class LegalAgreementActivity : FamilyFolderActivity() {
@@ -23,11 +42,12 @@ class LegalAgreementActivity : FamilyFolderActivity() {
 
         observe(viewModel.activeType) {
             if (it == null) {
-                finish()
+                startActivity<MainActivity>()
                 overridePendingTransition(0, R.anim.design_bottom_sheet_slide_out)
+                finish()
             } else {
                 val fragment = LegalAgreementFragment().apply {
-                    url = api.latest(it).request().url().toString()
+                    legalDocCall = api.latest(it)
                     onAccept = { version ->
                         api.agreeWith(it, version, currentUser!!.id, currentUser!!.orgId!!).enqueue {
                             onSuccess {
@@ -40,7 +60,7 @@ class LegalAgreementActivity : FamilyFolderActivity() {
                         }
                     }
                 }
-                supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commit()
             }
         }
         observe(viewModel.exception) {
