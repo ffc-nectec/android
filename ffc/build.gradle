@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -148,7 +148,6 @@ dependencies {
     implementation "ru.noties:markwon-view:2.0.1"
     implementation "th.or.nectec.android:marlo:0.5.3"
     implementation "th.or.nectec.android:thai-widget:0.6.2"
-    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.amshove.kluent:kluent:1.41'

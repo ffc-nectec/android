@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,6 @@ import me.piruin.spinney.Spinney
 import okhttp3.Cache
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 class FamilyFolderApplication : MultiDexApplication() {
 
@@ -42,12 +41,6 @@ class FamilyFolderApplication : MultiDexApplication() {
         Spinney.setDefaultItemPresenter { item, position ->
             if (item is Lookup) item.name else item.toString()
         }
-
-        CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
-            .setDefaultFontPath("fonts/Kanit-Light.ttf")
-            .setFontAttrId(R.attr.fontPath)
-            .build()
-        )
 
         FirebaseApp.initializeApp(this)
         Timber.i("Initialized Firebase")
