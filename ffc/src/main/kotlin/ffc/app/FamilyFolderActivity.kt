@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@
 package ffc.app
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -35,7 +34,6 @@ import ffc.entity.Organization
 import ffc.entity.User
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 @SuppressLint("Registered")
 open class FamilyFolderActivity : AppCompatActivity() {
@@ -73,9 +71,6 @@ open class FamilyFolderActivity : AppCompatActivity() {
         findViewById<Toolbar>(R.id.toolbar).onClick(block)
     }
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
