@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,9 +32,11 @@ class DefaultInterceptor : Interceptor {
 
         val builder = original.newBuilder()
             .addHeader("User-Agent", USER_AGENT)
-            .addHeader("Accept", "application/json; charset=utf-8")
             .addHeader("Accept-Charset", "utf-8")
             .addHeader("X-Requested-By", "ffc-v3")
+
+        if (original.headers().get("Accept") != null)
+            builder.addHeader("Accept", "application/json; charset=utf-8")
 
         return chain.proceed(builder.build())
     }
