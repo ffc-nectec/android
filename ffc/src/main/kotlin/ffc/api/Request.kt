@@ -17,18 +17,15 @@
 
 package ffc.api
 
-import okhttp3.Interceptor
-import okhttp3.Response
-import java.io.IOException
+import okhttp3.Request
 
-class AuthTokenInterceptor(private val token: String) : Interceptor {
-
-    @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val original = chain.request()
-        val builder = original.newBuilder()
-            .addHeaderOptional("Authorization", "Bearer $token")
-
-        return chain.proceed(builder.build())
+/**
+ * Sets the header named {@code name} to {@code value}. If this request not already has any headers
+ * with that name.
+ */
+internal fun Request.Builder.addHeaderOptional(name: String, value: String): Request.Builder {
+    if (build().header(name) == null) {
+        this.header(name, value)
     }
+    return this
 }

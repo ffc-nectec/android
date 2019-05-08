@@ -40,9 +40,9 @@ private var url_beta = "https://api-beta.ffc.in.th/v1/"
 private var url_production = "https://api.ffc.in.th/v1/"
 private var url_debug = "https://ffc-staging-pr-48.herokuapp.com/v1/"
 
-class FfcCentral(url: String = FfcCentral.url, val gson: Gson? = ffcGson) {
+class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
 
-    val retrofitBuilder = Retrofit.Builder().baseUrl(url)!!
+    val retrofitBuilder = Retrofit.Builder().baseUrl(url)
 
     inline fun <reified T> service(): T {
         val httpBuilder = OkHttpClient.Builder().apply {
@@ -76,7 +76,7 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson? = ffcGson) {
         fun loadUrl(context: Context) {
             if (BuildConfig.DEBUG) {
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-                FfcCentral.url = context.defaultSharedPreferences.getString("url", defaultUrl)
+                url = context.defaultSharedPreferences.getString("url", defaultUrl)
                 Timber.d("url=$url")
             }
         }
