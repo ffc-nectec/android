@@ -34,9 +34,7 @@ class DefaultInterceptor : Interceptor {
             .addHeader("User-Agent", USER_AGENT)
             .addHeader("Accept-Charset", "utf-8")
             .addHeader("X-Requested-By", "ffc-v3")
-
-        if (original.headers().get("Accept") != null)
-            builder.addHeader("Accept", "application/json; charset=utf-8")
+            .addHeaderOptional("Accept", "application/json; charset=utf-8")
 
         return chain.proceed(builder.build())
     }
@@ -47,3 +45,4 @@ class DefaultInterceptor : Interceptor {
         private val USER_AGENT = "FFC/${BuildConfig.VERSION_NAME} ($ANDROID; $DEVICE)"
     }
 }
+
