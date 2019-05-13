@@ -71,7 +71,6 @@ open class FamilyFolderActivity : AppCompatActivity() {
         findViewById<Toolbar>(R.id.toolbar).onClick(block)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isOnline = connectivityManager.isConnected
