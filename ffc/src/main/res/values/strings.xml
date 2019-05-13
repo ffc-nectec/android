@@ -40,8 +40,8 @@
     <string name="password">รหัสผ่าน</string>
     <string name="login">เข้าสู่ระบบ</string>
     <string name="back">ย้อนกลับ</string>
-    <string name="otp">OTP (One-Time Password)</string>
-    <string name="otp_hint">กรุณาใส่หรัสผ่าน OTP ที่ได้จาก FFC AirSync เพื่อเป็นการยืนยันตันตนว่าคุณเป็นเจ้าของบัญชีผู้ใช้งาน</string>
+    <string name="otp">OTP</string>
+    <string name="otp_hint">กรุณาใส่รหัสผ่าน OTP ที่ได้จาก FFC AirSync เพื่อเป็นการยืนยันตัวตนว่าคุณเป็นเจ้าของบัญชีผู้ใช้งาน</string>
     <string name="authenticate">ยืนยันตัวตน</string>
     <string name="diagnosis">วินิจฉัย</string>
     <string name="vital_sign">สัญญาณชีพ</string>
