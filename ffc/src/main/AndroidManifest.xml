@@ -49,6 +49,10 @@
             android:resource="@color/colorAccent"/>
 
         <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="@string/firebase_pref_enable" />
+
+        <meta-data
             android:name="firebase_performance_collection_enabled"
             android:value="@string/firebase_pref_enable" />
 
