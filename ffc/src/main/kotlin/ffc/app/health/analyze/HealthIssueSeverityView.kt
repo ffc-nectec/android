@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2019 NECTEC
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ffc.app.health.analyze
 
 import android.content.Context
@@ -9,6 +26,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import ffc.android.gone
 import ffc.app.R
+import ffc.entity.healthcare.Severity
 import ffc.entity.healthcare.analyze.HealthChecked
 import ffc.entity.healthcare.analyze.HealthIssue
 import ffc.entity.healthcare.analyze.HealthProblem
@@ -47,22 +65,22 @@ class HealthIssueSeverityView @JvmOverloads constructor(
                     views.filter {
                         listOf(R.id.severityLow, R.id.severityHi, R.id.severityVeryHi).contains(it.id)
                     }.forEach { it.gone() }
-                    severity = if (value.haveIssue) HealthIssue.Severity.MID else HealthIssue.Severity.OK
+                    severity = if (value.haveIssue) Severity.MID else Severity.OK
                 }
             }
         }
 
-    var severity: HealthIssue.Severity = HealthIssue.Severity.UNDEFINED
+    var severity: Severity = Severity.UNDEFINED
         private set(value) {
             field = value
             tintAll()
             val mappedId: Int = when (value) {
-                HealthIssue.Severity.OK -> R.id.severityOk
-                HealthIssue.Severity.LOW -> R.id.severityLow
-                HealthIssue.Severity.UNDEFINED -> R.id.severityMid
-                HealthIssue.Severity.MID -> R.id.severityMid
-                HealthIssue.Severity.HI -> R.id.severityHi
-                HealthIssue.Severity.VERY_HI -> R.id.severityVeryHi
+                Severity.OK -> R.id.severityOk
+                Severity.LOW -> R.id.severityLow
+                Severity.UNDEFINED -> R.id.severityMid
+                Severity.MID -> R.id.severityMid
+                Severity.HI -> R.id.severityHi
+                Severity.VERY_HI -> R.id.severityVeryHi
             }
             val highlightView = views.first { it.id == mappedId }
             highlightView.setImageDrawable(null)
