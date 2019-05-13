@@ -45,4 +45,3 @@ class DefaultInterceptor : Interceptor {
         private val USER_AGENT = "FFC/${BuildConfig.VERSION_NAME} ($ANDROID; $DEVICE)"
     }
 }
-
