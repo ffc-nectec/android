@@ -82,7 +82,7 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
         }
 
         fun saveUrl(context: Context, url: Uri) {
-            require(BuildConfig.DEBUG) { "Can't url on not debuggable app" }
+            require(BuildConfig.DEBUG) { "Can't edit url on not debuggable app" }
             require(url.scheme == "https") { "url must be http" }
             require(url.path.endsWith("/")) { "url must end with /" }
 

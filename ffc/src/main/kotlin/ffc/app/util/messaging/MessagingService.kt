@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,7 @@ class MessagingService : FirebaseMessagingService() {
         }
     }
 
-    companion object {
-        private val TAG = "messaging"
+    override fun onNewToken(token: String?) {
+        messagingModule(application).subscribe(token)
     }
 }

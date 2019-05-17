@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,7 @@
 package ffc.app.auth
 
 import android.content.Context
+import com.crashlytics.android.BuildConfig
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import ffc.android.get
@@ -65,14 +66,18 @@ private class PreferenceAuthen(context: Context) : Authentication {
             if (value != null) {
                 //Firebase Anonymously sign for Upload Photo to FB's Storage
                 FirebaseAuth.getInstance().signInAnonymously()
-                Crashlytics.setUserIdentifier(value.id)
-                Crashlytics.setUserName(value.name)
-                Analytics.setUserProperty(org, user)
+                if (BuildConfig.BUILD_TYPE == "release") {
+                    Crashlytics.setUserIdentifier(value.id)
+                    Crashlytics.setUserName(value.name)
+                    Analytics.setUserProperty(org, user)
+                }
             } else {
                 FirebaseAuth.getInstance().signOut()
-                Crashlytics.setUserIdentifier(null)
-                Crashlytics.setUserName(null)
-                Analytics.setUserProperty(null, null)
+                if (BuildConfig.BUILD_TYPE == "release") {
+                    Crashlytics.setUserIdentifier(null)
+                    Crashlytics.setUserName(null)
+                    Analytics.setUserProperty(null, null)
+                }
             }
         }
 

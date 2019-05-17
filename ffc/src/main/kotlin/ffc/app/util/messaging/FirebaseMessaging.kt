@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,13 +27,13 @@ import timber.log.Timber
 
 internal class FirebaseMessaging(val application: Application) : Messaging {
 
-    private val service by lazy { FfcCentral().service<TokenService>() }
+    private val service by lazy { FfcCentral().service<MessingingTokenService>() }
 
     private val preferences by lazy { application.defaultSharedPreferences }
 
     private val org by lazy { auth(application).org }
 
-    override fun subscripbe(token: String?) {
+    override fun subscribe(token: String?) {
         try {
             val newToken = if (token == null) preferences.tempToken else token
             require(newToken != null)
@@ -41,7 +41,7 @@ internal class FirebaseMessaging(val application: Application) : Messaging {
                 unsubscribe()
             }
             check(org != null)
-            service.updateToken(org!!.id, mapOf("firebaseToken" to token!!)).enqueue {
+            service.updateToken(org!!.id, mapOf("firebaseToken" to newToken!!)).enqueue {
                 always { Timber.d("Register token $token") }
                 onSuccess { preferences.lastToken = token }
             }
