@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 NECTEC
+ * Copyright (c) 2019 NECTEC
  *   National Electronics and Computer Technology Center, Thailand
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,16 +17,22 @@
 
 package ffc.app.util.messaging
 
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.iid.FirebaseInstanceIdService
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.POST
+import retrofit2.http.Path
 
-class InstanceIdService : FirebaseInstanceIdService() {
+internal interface MessingingTokenService {
+    @POST("org/{orgId}/mobileFirebaseToken")
+    fun updateToken(
+        @Path("orgId") orgId: String,
+        @Body token: Map<String, Any>
+    ): Call<Unit>
 
-    override fun onTokenRefresh() {
-        super.onTokenRefresh()
-        val refreshedToken = FirebaseInstanceId.getInstance().token
-
-        val messaging = messagingModule(application)
-        messaging.subscripbe(refreshedToken)
-    }
+    @DELETE("org/{orgId}/mobileFirebaseToken/{token}")
+    fun removeToken(
+        @Path("orgId") orgId: String,
+        @Path("token") token: String
+    ): Call<Unit>
 }
