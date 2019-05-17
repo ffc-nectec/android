@@ -18,11 +18,11 @@
 package ffc.app.auth
 
 import android.content.Context
-import com.crashlytics.android.BuildConfig
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import ffc.android.get
 import ffc.android.put
+import ffc.app.BuildConfig
 import ffc.app.util.Analytics
 import ffc.entity.Organization
 import ffc.entity.User

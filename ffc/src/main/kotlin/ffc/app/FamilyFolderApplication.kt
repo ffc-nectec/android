@@ -18,10 +18,12 @@
 package ffc.app
 
 import android.support.multidex.MultiDexApplication
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.FirebaseApp
 import ffc.api.FfcCentral
 import ffc.app.util.Analytics
 import ffc.entity.Lookup
+import io.fabric.sdk.android.Fabric
 import me.piruin.spinney.Spinney
 import okhttp3.Cache
 import timber.log.Timber
@@ -46,6 +48,11 @@ class FamilyFolderApplication : MultiDexApplication() {
         Timber.i("Initialized Firebase")
         if (BuildConfig.BUILD_TYPE == "release") {
             Analytics.init(this)
+            val fabric = Fabric.Builder(this)
+                .debuggable(BuildConfig.DEBUG)
+                .kits(Crashlytics())
+                .build()
+            Fabric.with(fabric)
         }
 
         FfcCentral.cache = Cache(cacheDir, 10 * 1024 * 1024) //10 MB
