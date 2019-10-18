@@ -33,7 +33,7 @@ open class BaseMapsFragment : MarloFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setStartLocation(preference.lastCameraPosition!!)
+        preference.lastCameraPosition?.let { setStartLocation(it) }
         viewFinder.gone()
         hideToolsMenu()
     }
