@@ -47,8 +47,11 @@ open class BaseMapsFragment : MarloFragment() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-        grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         activity!!.handlePermissionsResult(requestCode, permissions, grantResults)
     }
 
