@@ -37,6 +37,7 @@ import ffc.android.setTransition
 import ffc.android.viewModel
 import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
+import ffc.app.location.GeoMapsInfoSheet
 import ffc.app.location.housesOf
 import ffc.app.search.SearchActivity
 import ffc.app.setting.AboutActivity
@@ -46,7 +47,6 @@ import kotlinx.android.synthetic.main.activity_main.navView
 import kotlinx.android.synthetic.main.activity_main_content.addLocationButton
 import kotlinx.android.synthetic.main.activity_main_content.searchButton
 import kotlinx.android.synthetic.main.activity_main_content.toolbar
-import kotlinx.android.synthetic.main.activity_main_content.versionView
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
@@ -75,7 +75,6 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         }
 
         setupNavigationDrawer()
-        versionView.text = BuildConfig.VERSION_NAME
 
         with(geoMapsFragment) { setPaddingTop(dimen(R.dimen.maps_padding_top)) }
         supportFragmentManager
@@ -87,6 +86,8 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         observe(viewModel.houseNoLocation) {
             if (it == true) addLocationButton.show() else addLocationButton.hide()
         }
+
+        GeoMapsInfoSheet(this, geoMapsFragment)
     }
 
     private fun setupNavigationDrawer() {
