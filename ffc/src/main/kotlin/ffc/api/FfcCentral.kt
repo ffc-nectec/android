@@ -35,10 +35,20 @@ import retrofit2.dsl.RetrofitDslConfig
 import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
 
-private var url_staging = "https://api-staging.ffc.in.th/v1/"
-private var url_beta = "https://api-beta.ffc.in.th/v1/"
-private var url_production = "https://api.ffc.in.th/v1/"
-private var url_debug = "https://ffc-staging-pr-48.herokuapp.com/v1/"
+//private var url_staging = "https://api-staging.ffc.in.th/v1/"
+//private var url_beta = "https://api-beta.ffc.in.th/v1/"
+//private var url_production = "https://api.ffc.in.th/v1/"
+//private var url_debug = "https://ffc-staging-pr-48.herokuapp.com/v1/"
+
+private var url_staging = "https://infinite-sea-82636.herokuapp.com/v1/"
+private var url_beta = "https://infinite-sea-82636.herokuapp.com/v1/"
+private var url_production = "https://infinite-sea-82636.herokuapp.com/v1/"
+private var url_debug = "https://infinite-sea-82636.herokuapp.com/v1/"
+//
+//private var url_staging = "https://ffc-temp-test.herokuapp.com/v1/"
+//private var url_beta = "https://ffc-temp-test.herokuapp.com/v1/"
+//private var url_production = "https://ffc-temp-test.herokuapp.com/v1/"
+//private var url_debug = "https://ffc-temp-test.herokuapp.com/v1/"
 
 class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
 

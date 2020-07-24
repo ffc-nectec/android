@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/personImageView"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_account_circle_black_24dp"
+        app:civ_fill_color="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/personNameView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/content_start_horizontal_padding"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="นายพิรุณ พานิชผล" />
+
+    <TextView
+        android:id="@+id/personAgeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:textColor="@color/text_secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/personNameView"
+        app:layout_constraintTop_toBottomOf="@+id/personNameView"
+        tools:text="30 ปี" />
+
+    <ImageView
+        android:id="@+id/personDeadLabel"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_gravestone_black_24dp"
+        android:text="@string/dead"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/personAgeView"
+        app:layout_constraintStart_toEndOf="@+id/personAgeView"
+        app:layout_constraintTop_toTopOf="@+id/personAgeView" />
+
+    <LinearLayout
+        android:id="@+id/personStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="right|center_vertical|end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/personDeadLabel"
+        app:layout_constraintTop_toBottomOf="@+id/personNameView"></LinearLayout>
+</android.support.constraint.ConstraintLayout>

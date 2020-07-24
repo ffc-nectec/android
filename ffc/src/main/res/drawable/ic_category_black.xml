@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Becris from www.flaticon.com
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:viewportWidth="511.989"
+    android:viewportHeight="511.989"
+    android:width="24dp"
+    android:height="24dp">
+    <path android:fillColor="#000000" android:pathData="m0 113.292969h113.292969v-113.292969h-113.292969zm30.003906-83.289063h53.289063v53.289063h-53.289063zm0 0"/>
+    <path android:fillColor="#000000" android:pathData="m149.296875 0v113.292969h362.703125v-113.292969zm332.699219 83.292969h-302.695313v-53.289063h302.695313zm0 0"/>
+    <path android:fillColor="#000000" android:pathData="m0 260.300781h113.292969v-113.292969h-113.292969zm30.003906-83.292969h53.289063v53.289063h-53.289063zm0 0"/>
+    <path android:fillColor="#000000" android:pathData="m149.296875 260.300781h362.703125v-113.292969h-362.703125zm30.003906-83.292969h302.695313v53.289063h-302.695313zm0 0"/>
+    <path android:fillColor="#000000" android:pathData="m0 407.308594h113.292969v-113.296875h-113.292969zm30.003906-83.292969h53.289063v53.289063h-53.289063zm0 0"/>
+    <path android:fillColor="#000000" android:pathData="m149.296875 407.308594h362.703125v-113.296875h-362.703125zm30.003906-83.292969h302.695313v53.289063h-302.695313zm0 0"/>
+</vector>

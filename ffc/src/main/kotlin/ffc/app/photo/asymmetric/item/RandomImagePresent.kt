@@ -3,7 +3,7 @@ package ffc.app.photo.asymmetric.item
 import ffc.app.photo.asymmetric.ImageItem
 
 /**
- * Modified from MainActivity.java at abhisheklunagaria/FacebookTypeImageGrid
+ * Modified from DeviceMainActivity.java at abhisheklunagaria/FacebookTypeImageGrid
  */
 internal class RandomImagePresent(val urls: List<String>) : ImagePresent {
 

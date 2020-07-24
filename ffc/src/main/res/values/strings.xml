@@ -57,6 +57,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="device_efdv470">เครื่องมือวัด</string>
     <string name="action_settings">ตั้งค่า</string>
 
     <string name="transition_appbar">appbar_transition</string>
@@ -128,4 +129,26 @@
     <string name="copyright">ลิขสิทธิ์</string>
     <string name="contribution">การมีส่วนร่วม</string>
     <string name="please_read">กรุณาอ่านและทำความเข้าใจ</string>
+
+    <string name="report">รายงานเหตุ</string>
+    <string name="category">หมวดหมู่</string>
+    <string name="scene">จุดเกิดเหตุ</string>
+    <string name="detail">รายละเอียด</string>
+    <string name="picture_video">รูปภาพ/วีดีโอ</string>
+    <string name="title_activity_report">ReportActivity</string>
+    <string name="send_report">ส่งรายงาน</string>
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="search_devices">Search Devices</string>
+    <string name="asm"> อสม </string>
+    <string name="asmMessage"> ยินดีต้อนรับคุณ </string>
+    <string name="incident">แจ้งเหตุ</string>
+    <string name="specifyTheReason">ระบุเหตุ</string>
+    <string name="specifyLocation">กรุณาระบุพิกัด</string>
+    <string name="specifyDetail">พิมพ์รายละเอียดรายงานเหตุที่นี่</string>
+    <string name="homelist">รายการบ้าน</string>
+
+    <string name="risk_health">พฤติกรรมเสี่ยงต่อสุขภาพ</string>
+    <string name="data_not_complete_effect_to_genogram">แจ้งเตือน: พบข้อมูลบางส่วนไม่สมบูรณ์\nอาจทำให้การแสดงผังเครือญาติผิดพลาด</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

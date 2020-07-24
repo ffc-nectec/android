@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:id="@+id/llAbout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/llabouttitle">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:padding="3dp"
+            android:gravity="center"
+            android:textColor="@color/overlay_black"
+            android:text="About"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <TextView
+        android:paddingTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/tvFWverison"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/overlay_black"
+        android:gravity="center"
+        android:text="Firmware Version: -.--.--.--"
+        />
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:id="@+id/tvHWverison"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/overlay_black"
+        android:gravity="center"
+        android:text="Hardware Version: -.--"
+        />
+
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:id="@+id/tvDEMOverison"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/overlay_black"
+        android:gravity="center"
+        android:text="Demo Version: v2.2"
+        />
+
+    <TextView
+        android:textSize="12sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/overlay_black"
+        android:text="Click to fetch about information."
+        />
+
+</LinearLayout>

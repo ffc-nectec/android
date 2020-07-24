@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/llecgtitle">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:padding="3dp"
+            android:gravity="center"
+            android:textColor="@color/overlay_black"
+            android:text="ECG"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <TextView
+        android:padding="10dp"
+        android:id="@+id/tvECGinfo"
+        android:textSize="18sp"
+        android:layout_below="@id/btnBtCtr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/overlay_black"
+        android:gravity="center"
+        android:text="Heart Rate:--  Resp Rate:-- "
+        />
+
+    <com.berry_med.monitordemo.view.WaveformView
+        android:id="@+id/wfECG"
+        app:maxValue="250"
+        app:pointStep="0.5dp"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/colorAccent"/>
+
+</LinearLayout>

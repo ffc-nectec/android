@@ -16,7 +16,7 @@
  */
 
 package ffc.app.person
-
+import android.app.Activity
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -27,9 +27,11 @@ import ffc.android.getString
 import ffc.android.layoutInflater
 import ffc.android.load
 import ffc.app.R
+import ffc.app.auth.auth
 import ffc.app.health.analyze.toIconTitlePair
 import ffc.app.util.AdapterClickListener
 import ffc.entity.Person
+import ffc.entity.User
 import kotlinx.android.synthetic.main.person_list_item.view.personAgeView
 import kotlinx.android.synthetic.main.person_list_item.view.personDeadLabel
 import kotlinx.android.synthetic.main.person_list_item.view.personImageView
@@ -87,7 +89,7 @@ class PersonAdapter(
                     }, layoutParam)
                 }
                 avatarUrl?.let { itemView.personImageView.load(Uri.parse(it)) }
-                listener.bindOnItemClick(itemView, person)
+               listener.bindOnItemClick(itemView, person)
             }
         }
     }

@@ -35,4 +35,7 @@
     <dimen name="card_padding_vertical">10dp</dimen>
     <dimen name="card_padding_horizontal">16dp</dimen>
     <dimen name="card_margin_vertical">24dp</dimen>
+
+    <dimen name="header_personal_height">200dp</dimen>
+    <dimen name="card_personal_padding_horizontal">20dp</dimen>
 </resources>

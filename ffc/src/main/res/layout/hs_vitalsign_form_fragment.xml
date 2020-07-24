@@ -86,4 +86,11 @@
             android:inputType="number|numberDecimal"
             android:maxLength="4" />
     </android.support.design.widget.TextInputLayout>
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/btnMeasuringTools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/device_efdv470" />
 </LinearLayout>

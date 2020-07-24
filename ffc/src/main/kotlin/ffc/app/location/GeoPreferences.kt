@@ -22,7 +22,7 @@ class GeoPreferences(context: Context, val org: Organization?) {
         }
         get() = preferences.get("campos")
 
-    var geojsonCache: FeatureCollection<House>?
+    var geojsonCache: FeatureCollectionFilter<House>?
         set(value) {
             preferences.edit().put("geojson", value).apply()
         }

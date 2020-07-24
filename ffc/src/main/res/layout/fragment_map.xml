@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mapFragment">
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingBottom="56dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:id="@+id/currentLocationView">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="68dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_location"
+            android:id="@+id/locationIcon"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shareLayout"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/currentLocationView"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="กดเพื่อแจ้งตำแหน่งที่อยู่"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ตำแหน่งปัจจุบันของคุณ"
+                android:textSize="20dp"
+                android:id="@+id/locationTextView"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
