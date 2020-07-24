@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/lldisease"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_background"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="รายการกลุ่มโรค"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <ImageView
+            android:id="@+id/imageView0"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="73dp"
+            android:background="@drawable/ic_eye_glasses_color_24dp"
+
+            />
+
+        <Switch
+            android:id="@+id/swDisease0"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="right"
+            android:text="ทั้งหมด"
+            android:textSize="15dp"
+
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="33dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="27dp"
+        android:layout_height="29dp"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="73dp"
+        android:background="@drawable/ic_marker_home_green_24dp"
+
+         />
+
+        <Switch
+            android:id="@+id/swDisease1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="10dp"
+            android:text="สุขภาพดี"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="33dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:background="@color/window_background">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="31dp"
+            android:background="@drawable/ic_marker_home_red_24dp"/>
+
+        <Switch
+            android:id="@+id/swDisease2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="ความดัน"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="73dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:background="@color/window_background">
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="31dp"
+            android:background="@drawable/ic_marker_home_red_24dp"/>
+
+        <Switch
+            android:id="@+id/swDisease3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="เบาหวาน"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="73dp" />
+
+
+    </LinearLayout> <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    android:background="@color/window_background">
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="27dp"
+        android:layout_height="29dp"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="31dp"
+        android:background="@drawable/ic_marker_home_red_24dp"/>
+
+    <Switch
+        android:id="@+id/swDisease4"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="หือหอบ"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="73dp" />
+
+
+</LinearLayout> <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    android:background="@color/window_background">
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="27dp"
+        android:layout_height="29dp"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="31dp"
+        android:background="@drawable/ic_marker_home_red_24dp"/>
+
+    <Switch
+        android:id="@+id/swDisease5"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="ไตวาย"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="73dp" />
+
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:background="@color/window_background">
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="31dp"
+            android:background="@drawable/ic_marker_home_purple_24dp"/>
+
+        <Switch
+            android:id="@+id/swDisease6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="พิการ"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="73dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:background="@color/window_background">
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="31dp"
+            android:background="@drawable/ic_marker_home_gray_24dp"/>
+
+        <Switch
+            android:id="@+id/swDisease7"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="ผู้สูงอายุ"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="73dp" />
+
+
+    </LinearLayout>
+</LinearLayout>

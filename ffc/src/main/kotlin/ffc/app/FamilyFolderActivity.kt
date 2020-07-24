@@ -35,6 +35,7 @@ import ffc.entity.User
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
 
+
 @SuppressLint("Registered")
 open class FamilyFolderActivity : AppCompatActivity() {
 

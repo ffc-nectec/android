@@ -1,28 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2019 NECTEC
-  ~   National Electronics and Computer Technology Center, Thailand
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~    http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ffc.app">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:name=".FamilyFolderApplication"
@@ -32,33 +19,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".asm.HomeListActivity"></activity>
+        <activity android:name=".MapActivity" />
+        <activity android:name=".report.IncidentReportActivity" />
+        <activity android:name=".AsmMenuActivity" />
+        <activity android:name="com.berry_med.monitordemo.activity.DeviceMainActivity" />
+        <activity android:name=".person.genogram.personPopupActivity" /> <!-- <activity android:name=".PersonPopup" /> -->
+        <activity android:name=".report.ReportActivity" /> <!-- <activity -->
+        <!-- android:name=".ReportActivity" -->
+        <!-- android:label="@string/title_activity_report" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar" /> -->
         <meta-data
             android:name="android.app.searchable"
-            android:resource="@xml/searchable"/>
-
+            android:resource="@xml/searchable" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
-
+            android:value="@string/google_maps_key" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent"/>
-
+            android:resource="@color/colorAccent" />
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="@string/firebase_pref_enable" />
-
         <meta-data
             android:name="firebase_performance_collection_enabled"
             android:value="@string/firebase_pref_enable" />
 
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false"/>
+            android:required="false" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -67,24 +59,23 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
-
         <provider
             android:name=".search.RecentSearchProvider"
-            android:authorities="ffc.app.search.RecentSearchProvider"/>
+            android:authorities="ffc.app.search.RecentSearchProvider" />
 
         <receiver
             android:name=".ConnectivityChangeReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
         <service android:name=".util.messaging.MessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -93,8 +84,7 @@
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatus"/>
-
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".SplashScreenActivity"
             android:launchMode="singleTop"
@@ -102,50 +92,43 @@
             android:theme="@style/AppTheme.Splash"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".auth.LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentStatus"
-            android:windowSoftInputMode="stateHidden"/>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".auth.legal.LegalAgreementActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentStatus" />
-
         <activity
             android:name=".location.MarkLocationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatus"/>
-
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".location.HouseNoLocationActivtiy"
             android:label="เลือกบ้านไม่มีพิกัด"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".location.HouseActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatus"/>
-
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".health.service.community.HomeVisitActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".search.SearchActivity"
             android:launchMode="singleTop"
@@ -153,9 +136,8 @@
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".search.SearchResultActivity"/>
+                android:value=".search.SearchResultActivity" />
         </activity>
-
         <activity
             android:name=".search.SearchResultActivity"
             android:exported="true"
@@ -163,56 +145,48 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".search.SearchResultActivity"/>
+                android:value=".search.SearchResultActivity" />
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
         </activity>
-
         <activity
             android:name=".person.PersonActivitiy"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatus"/>
-
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".photo.TakePhotoActivity"
             android:label="@string/photo"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".photo.AvatarPhotoActivity"
             android:label="@string/photo"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".photo.PhotoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Gallery"/>
-
-        <activity android:name=".person.genogram.GenogramActivity"/>
-
+            android:theme="@style/AppTheme.Gallery" />
+        <activity android:name=".person.genogram.GenogramActivity" />
         <activity
             android:name=".setting.SettingsActivity"
             android:exported="true"
             android:label="@string/action_settings"
-            android:parentActivityName=".MainActivity"/>
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".setting.AboutActivity"
             android:exported="true"
             android:label="@string/about"
-            android:parentActivityName=".MainActivity"/>
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".setting.LegalViewActivity"
             android:label="@string/about_legal"
-            android:parentActivityName=".setting.AboutActivity"/>
+            android:parentActivityName=".setting.AboutActivity" />
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ import retrofit2.dsl.enqueue
 
 interface PlaceGeoJson {
 
-    fun all(callbackDsl: RepoCallback<FeatureCollection<House>>.() -> Unit)
+    fun all(callbackDsl: RepoCallback<FeatureCollectionFilter<House>>.() -> Unit)
 }
 
 fun placeGeoJson(org: Organization): PlaceGeoJson = ApiPlaceGeoJson(org)
@@ -19,8 +19,8 @@ private class ApiPlaceGeoJson(val org: Organization) : PlaceGeoJson {
 
     val api = FfcCentral().service<PlaceService>()
 
-    override fun all(callbackDsl: RepoCallback<FeatureCollection<House>>.() -> Unit) {
-        val callback = RepoCallback<FeatureCollection<House>>().apply(callbackDsl)
+    override fun all(callbackDsl: RepoCallback<FeatureCollectionFilter<House>>.() -> Unit) {
+        val callback = RepoCallback<FeatureCollectionFilter<House>>().apply(callbackDsl)
 
         api.listHouseGeoJson(org.id).enqueue {
             onSuccess { callback.onFound!!.invoke(body()!!) }
