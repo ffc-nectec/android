@@ -137,7 +137,7 @@ class GenogramActivity : FamilyFolderActivity() {
                             // In portrait
                             size = it.toDouble()*1.25
                             if(size<200){
-                                size=400.0;
+                                size=300.0;
                             }
                             scale = getScale(size)
                             view.setInitialScale(scale)
