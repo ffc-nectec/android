@@ -53,11 +53,14 @@ import ffc.app.search.SearchActivity
 import ffc.app.setting.AboutActivity
 import ffc.app.setting.SettingsActivity
 import ffc.entity.User
+import kotlinx.android.synthetic.main.activity_asm_menu.*
 import kotlinx.android.synthetic.main.activity_asm_menu.view.*
+import kotlinx.android.synthetic.main.activity_asm_menu.view.tvAsmName
 
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navView
 import kotlinx.android.synthetic.main.activity_main_content.*
+import kotlinx.android.synthetic.main.activity_main_content.toolbar
 import kotlinx.android.synthetic.main.activity_main_content.view.*
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.dimen
@@ -79,8 +82,15 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
         asm  = findViewById(R.id.asmMenu);
         map  = findViewById(R.id.map);
         if(user.roles[0]== User.Role.SURVEYOR){
+            var info = user.displayName;
             asm.visibility = View.VISIBLE;
-            asm.tvAsmName.setText(user.name);
+            if(user.tel!=null){
+                info = info+"\nเบอร์โทรศัพท์:"+user.tel
+            }
+            else{
+                info = info+"\nเบอร์โทรศัพท์:";
+            }
+            tvAsmName.setText(info)
             if(user.avatarUrl!=null) {
                 asm.avatarView.load(Uri.parse(user.avatarUrl))
             }

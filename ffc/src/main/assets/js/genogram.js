@@ -340,10 +340,10 @@ function genogramSymbol(data, spouse,twin,idCard) {
         //return result;
     }
     function compare( a, b ) {
-        if ( a.age > b.age ){
+        if ( a.age*1 > b.age*1 ){
           return -1;
         }
-        if ( a.age < b.age ){
+        if ( a.age*1 < b.age*1){
           return 1;
         }
         return 0;
@@ -553,7 +553,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
                     this.genderMain = "Male";
                 }
                 else if(dataMother.length>0){
-                    this.Female(dataMother[0].id, 200, 200);
+                    this.CFemale(dataMother[0].id, 200, 200);
                     dataParent = dataMother;
                     this.genderMain = "Female";
                 }
@@ -568,6 +568,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
                 //this.genderMain = "Male";
                 this.lstObjLevelIntSort = this.lstObjLevel.sort(function (a, b) { return parseInt(a.y) - parseInt(b.y) });
                 for (var i = 0; i < this.lstObjLevelIntSort.length; i++) {
+                    
                     this.AdjustPosition(this.lstObjLevelIntSort[i].id, level);
                     level = level + 1;
                 }
@@ -597,6 +598,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
                 
                     this.lstObjLevelIntSort = this.lstObjLevel.sort(function (a, b) { return parseInt(a.y) - parseInt(b.y) });
                     for (var i = 0; i < this.lstObjLevelIntSort.length; i++) {
+                        
                         this.AdjustPosition(this.lstObjLevelIntSort[i].id, level);
                         level = level + 1;
                     }
@@ -834,7 +836,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
                      ||(father != null && mother == null)
                      ||(father == null && mother != null)
                     ) {
-                    width = (lineX2 - lineX1) * 1;
+                    width = Math.abs(lineX2 - lineX1) * 1;
                     medium = (lineX1 + lineX2) / 2;
                     if(seqNo>1)
                     {
@@ -884,6 +886,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
                             lastPositionX = beginX + (i * distinct);
                             lstSameLevel[i].x.baseVal.value = beginX + (i * distinct);
                             var n = 0;
+                           
                             while (this.isOverlap(level,lstSameLevel[i].x.baseVal.value) && n<this.hisPosition.length )
                             {
                                lstSameLevel[i].x.baseVal.value = beginX + ((i+n) * distinct);
@@ -891,11 +894,11 @@ function genogramSymbol(data, spouse,twin,idCard) {
                                var id = data[0].id;
                                var max = data[1];
                                var obj = document.getElementById(id);
-                                if(lstSameLevel[i].x.baseVal.value-max >100)
+                              if(lstSameLevel[i].x.baseVal.value-max >100)
                                 {   
                                     if(obj !=null){
                                         if(obj.constructor.name == "SVGCircleElement"){
-                                            lstSameLevel[i].x.baseVal.value=max+150;
+                                            lstSameLevel[i].x.baseVal.value=max+100;
                                         }
                                         else{
                                             lstSameLevel[i].x.baseVal.value=max+100;
@@ -948,32 +951,37 @@ function genogramSymbol(data, spouse,twin,idCard) {
                                 objRecText.y.baseVal.value = objTxt.y.baseVal[0].value-12;
                             }
                             if(objTxtAge !=null){
-                                objTxtAge.x.baseVal[0].value = lstSameLevel[i].x.baseVal.value + (lstSameLevel[i].width.baseVal.value / 2) - (objTxtAge.textLength.baseVal.value / 2) -20;
-                                objTxtAge.y.baseVal[0].value = lstSameLevel[i].y.baseVal.value + (lstSameLevel[i].height.baseVal.value / 2) - (objTxtAge.getBBox().height / 2) -20;
+                                objTxtAge.x.baseVal[0].value = lstSameLevel[i].x.baseVal.value + (lstSameLevel[i].width.baseVal.value / 2) - (objTxtAge.textLength.baseVal.value / 2) -38;
+                                objTxtAge.y.baseVal[0].value = lstSameLevel[i].y.baseVal.value + (lstSameLevel[i].height.baseVal.value / 2) - (objTxtAge.getBBox().height / 2) -10;
                             }
                             if(objRecTextAge!=null){
                                 objRecTextAge.x.baseVal.value = objTxtAge.x.baseVal[0].value;
                                 objRecTextAge.y.baseVal.value = objTxtAge.y.baseVal[0].value-13;
                             }
+           
                             if (l != null) {
-                                l.x1.baseVal.value = beginX + (i * distinct);
-                                l.x2.baseVal.value = beginX + (i * distinct) + 50;
+                                // l.x1.baseVal.value = beginX + (i * distinct);
+                                // l.x2.baseVal.value = beginX + (i * distinct) + 50;
+                                l.x1.baseVal.value = lstSameLevel[i].x.baseVal.value;
+                                l.x2.baseVal.value = lstSameLevel[i].x.baseVal.value+50;
                             } if (r != null) {
-                                r.x1.baseVal.value = beginX + (i * distinct);
-                                r.x2.baseVal.value = beginX + (i * distinct) + 50;
+                                // r.x1.baseVal.value = beginX + (i * distinct);
+                                // r.x2.baseVal.value = beginX + (i * distinct) + 50;
+                                r.x1.baseVal.value = lstSameLevel[i].x.baseVal.value;
+                                r.x2.baseVal.value = lstSameLevel[i].x.baseVal.value + 50;
                             }
                         }
                         else if (lstSameLevel[i].constructor.name == "SVGCircleElement") {
                             lastPositionX = beginX + (i * distinct) + 25;
                             lstSameLevel[i].cx.baseVal.value = beginX + (i * distinct) + 25;
                             var n = 0;
+                            
                             while (this.isOverlap(level,lstSameLevel[i].cx.baseVal.value) && n<this.hisPosition.length)
                             {
                                 lstSameLevel[i].cx.baseVal.value = beginX + ((i+n) * distinct) + 25;
                                 // var max=this.GetMaxXPosition(level,this.hisPosition);
                                 // if(lstSameLevel[i].cx.baseVal.value-max >50)
                                 // {
-                                //     debugger;
                                 //     if(objMax.name.constructor=="SVGCircleElement"){
                                 //         lstSameLevel[i].cx.baseVal.value=max+50;
                                 //     }
@@ -981,24 +989,27 @@ function genogramSymbol(data, spouse,twin,idCard) {
                                 //         lstSameLevel[i].cx.baseVal.value=max+100;
                                 //     }
                                 // }
-                                var data =this.GetMaxXPosition(level,this.hisPosition);
+                               var data =this.GetMaxXPosition(level,this.hisPosition);
                                var id = data[0].id;
                                var max = data[1];
                                var obj = document.getElementById(id);
-                                if(lstSameLevel[i].cx.baseVal.value-max >100)
+                               
+                                if(lstSameLevel[i].cx.baseVal.value-max >25)
                                 {
                                     if(obj !=null){
                                         if(obj.constructor.name=="SVGCircleElement"){
-                                            lstSameLevel[i].cx.baseVal.value=max+100;
+                                            lstSameLevel[i].cx.baseVal.value=max+125;  // G
                                         }
                                         else{
-                                            lstSameLevel[i].cx.baseVal.value=max+125;
+                                            lstSameLevel[i].cx.baseVal.value=max+125 ;
                                         }
-                                   }
+                                    }
                                 }
+                               
                                 n++;
                             } 
-                            this.hisPosition.push({level:level, id:lstSameLevel[i].id, x:lstSameLevel[i].cx.baseVal.value});
+                             
+                            this.hisPosition.push({level:level, id:lstSameLevel[i].id, x:lstSameLevel[i].cx.baseVal.value-25});
                             this.keepWidthMinMax(lstSameLevel[i].cx.baseVal.value);
                             console.log("i:" + i + ", id:" + lstSameLevel[i].id + ", x:" + lstSameLevel[i].cx.baseVal.value);
                             var l = document.getElementById("l" + lstSameLevel[i].id);
@@ -1021,8 +1032,8 @@ function genogramSymbol(data, spouse,twin,idCard) {
                                 }
                             }
                             if (objTxtAge != null) {
-                                objTxtAge.x.baseVal[0].value = lstSameLevel[i].cx.baseVal.value - (objTxtAge.textLength.baseVal.value / 2)-20;
-                                objTxtAge.y.baseVal[0].value = lstSameLevel[i].cy.baseVal.value - (objTxtAge.getBBox().height / 2) -20;
+                                objTxtAge.x.baseVal[0].value = lstSameLevel[i].cx.baseVal.value - (objTxtAge.textLength.baseVal.value / 2)-38;
+                                objTxtAge.y.baseVal[0].value = lstSameLevel[i].cy.baseVal.value - (objTxtAge.getBBox().height / 2)-10;
                             }
                             if(objRecTextAge!=null){
                                 objRecTextAge.x.baseVal.value = objTxtAge.x.baseVal[0].value;
@@ -1039,12 +1050,17 @@ function genogramSymbol(data, spouse,twin,idCard) {
                                 objRecText.y.baseVal.value = objTxt.y.baseVal[0].value-12;
                             }
                             if (l != null) {
-                                l.x1.baseVal.value = beginX + (i * distinct);
-                                l.x2.baseVal.value = beginX + (i * distinct) + 50;
+                                // l.x1.baseVal.value = beginX + (i * distinct);
+                                // l.x2.baseVal.value = beginX + (i * distinct) + 50;
+                                l.x1.baseVal.value = lstSameLevel[i].cx.baseVal.value - 25;
+                                l.x2.baseVal.value = lstSameLevel[i].cx.baseVal.value - 25 + 50;
                             }
                             if (r != null) {
-                                r.x1.baseVal.value = beginX + (i * distinct);
-                                r.x2.baseVal.value = beginX + (i * distinct) + 50;
+                                // r.x1.baseVal.value = beginX + (i * distinct);
+                                // r.x2.baseVal.value = beginX + (i * distinct) + 50;
+
+                                r.x1.baseVal.value = lstSameLevel[i].cx.baseVal.value - 25;
+                                r.x2.baseVal.value = lstSameLevel[i].cx.baseVal.value - 25 + 50;
                             }
                         }
                         else if (lstSameLevel[i].constructor.name == "SVGPolygonElement") {
@@ -1053,14 +1069,14 @@ function genogramSymbol(data, spouse,twin,idCard) {
                             lstSameLevel[i].points[1].x = beginX + (i * distinct) + 25;
                             lstSameLevel[i].points[2].x = beginX + (i * distinct) + 50;
                             var n = 0;
-                            while (this.isOverlap(level,lstSameLevel[i].points[1].x) && n<this.hisPosition.length)
-                            {
-                                this.CreateVertical(beginX);
-                                lstSameLevel[i].points[0].x = beginX + ((i+n) * distinct);
-                                lstSameLevel[i].points[1].x = beginX + ((i+n) * distinct) + 25;
-                                lstSameLevel[i].points[2].x = beginX + ((i+n) * distinct) + 50;
-                                n++;
-                            } 
+                            // while (this.isOverlap(level,lstSameLevel[i].points[1].x) && n<this.hisPosition.length)
+                            // {
+                            //     this.CreateVertical(beginX);
+                            //     lstSameLevel[i].points[0].x = beginX + ((i+n) * distinct);
+                            //     lstSameLevel[i].points[1].x = beginX + ((i+n) * distinct) + 25;
+                            //     lstSameLevel[i].points[2].x = beginX + ((i+n) * distinct) + 50;
+                            //     n++;
+                            // } 
                             this.hisPosition.push({level:level, id:lstSameLevel[i].id, x:lstSameLevel[i].points[1].x});
                             
                             this.keepWidthMinMax(lstSameLevel[i].points[0].x);
@@ -1081,8 +1097,8 @@ function genogramSymbol(data, spouse,twin,idCard) {
                                 }
                             }
                             if (objTxtAge != null) {
-                                objTxtAge.x.baseVal[0].value = beginX + (i * distinct) + 25 - 20;
-                                objTxtAge.y.baseVal[0].value = lstSameLevel[i].points[1].y - 20 ;
+                                objTxtAge.x.baseVal[0].value = beginX + (i * distinct) + 25;
+                                objTxtAge.y.baseVal[0].value = lstSameLevel[i].points[1].y + 20 ;
                             }
                             var objImage = document.getElementById("image" + lstSameLevel[i].id);
                             if (objImage != null) {
@@ -1106,14 +1122,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
 
                             }
                         } 
-                        // else if (lstSameLevel[i].constructor.name == "SVGImageElement")
-                        // {
-                        //     lastPositionX = beginX + (i * distinct);
-                        //     lstSameLevel[i].x.baseVal.value = beginX + (i * distinct);
-                        //     debugger;
-                        // }
                     }
-
                     console.log('lastPositionX:' + lastPositionX);
                 }
             }
@@ -1596,14 +1605,17 @@ function genogramSymbol(data, spouse,twin,idCard) {
         return this.minX;
     }
     this.isOverlap = function(level,x){
-        
         var isOverlap = false;
         if(level!==0){
             for(var i = 0;i <this.hisPosition.length; i++){
                 
             if( level == this.hisPosition[i].level 
-                //&& x>=this.hisPosition[i].x && x<=this.hisPosition[i].x+50
-                && (x-25<=(this.hisPosition[i].x+25))
+                
+                && (
+                    // (x-25<=(this.hisPosition[i].x+25)) 
+                    // || 
+                    (this.hisPosition[i].x<=x && x<=this.hisPosition[i].x+75)
+                    )
                 )
                 {
                 isOverlap=true;
@@ -1748,6 +1760,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
         var name = o.name;
         var relation = o.relation;
         var objLine = document.createElementNS(svgns, 'line');
+      
         if (relation == "Marriage") {
             objLine.setAttributeNS(null, 'x1', x1);
             objLine.setAttributeNS(null, 'y1', y1);
@@ -1766,7 +1779,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "10 5 10 5");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "1% 0.50% 1% 0.50%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine)
 
@@ -1779,7 +1792,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "10 5 10 5");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "1% 0.50% 1% 0.50%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine)
 
@@ -1846,7 +1859,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "8 3 3 3");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.8% 0.3% 0.3% 0.3%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
         }
@@ -1858,7 +1871,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "8 3 3 3");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.8% 0.3% 0.3% 0.3%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
 
@@ -1882,7 +1895,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "8 3 3 3");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.8% 0.3% 0.3% 0.3%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
 
@@ -1905,7 +1918,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "5 5 5");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.5% 0.5% 0.5%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
         }
@@ -1917,7 +1930,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "5 2 2 2 2 2");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.5% 0.2% 0.2% 0.2% 0.2% 0.2%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
 
@@ -1930,7 +1943,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "5 5 5");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.5% 0.5% 0.5%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
         }
@@ -1942,7 +1955,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "2 2 2 2 5 2");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.2% 0.2% 0.2% 0.2% 0.5% 0.2%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
 
@@ -1955,7 +1968,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "2 2 2 2 5 2");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.2% 0.2% 0.2% 0.2% 0.5% 0.2%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
 
@@ -1978,7 +1991,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "2 2 2");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.2% 0.2% 0.2%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
 
@@ -1992,7 +2005,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "2 2 2");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.2% 0.2% 0.2%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
         }
@@ -2004,7 +2017,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'y2', y2);
             objLine.setAttributeNS(null, 'stroke', 'blue');
             objLine.setAttributeNS(null, 'stroke-width', 2);
-            objLine.setAttributeNS(null, 'stroke-dasharray', "2 6 6 6");
+            objLine.setAttributeNS(null, 'stroke-dasharray', "0.2% 0.6% 0.6% 0.6%");
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
         }
@@ -2091,6 +2104,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             document.getElementById('svgOne').appendChild(objM);
         }
         else if (relation == "LegalSeparation") {
+           
             var objLine = document.createElementNS(svgns, 'line');
             objLine.setAttributeNS(null, 'x1', x1);
             objLine.setAttributeNS(null, 'y1', y1);
@@ -2100,6 +2114,16 @@ function genogramRelationship(spouse,twin,hisPosition) {
             objLine.setAttributeNS(null, 'stroke-width', 2);
             objLine.setAttributeNS(null, 'id', 'line' + name);
             document.getElementById('svgOne').appendChild(objLine);
+
+            var objM = document.createElementNS(svgns, 'line');
+            objM.setAttributeNS(null, 'x1', ((x1 + x2) / 2) + 10);
+            objM.setAttributeNS(null, 'y1', y1 - 10);
+            objM.setAttributeNS(null, 'x2', ((x1 + x2) / 2) - 10);
+            objM.setAttributeNS(null, 'y2', y2 + 10);
+            objM.setAttributeNS(null, 'stroke', '#810d00');
+            objM.setAttributeNS(null, 'stroke-width', 2);
+            objM.setAttributeNS(null, 'id', 'lineM' + name);
+            document.getElementById('svgOne').appendChild(objM);
         }
         else if (relation == "LoveAffair") {
             var objLine = document.createElementNS(svgns, 'line');
@@ -2208,16 +2232,16 @@ function genogramRelationship(spouse,twin,hisPosition) {
         else if(obj1==null && obj2!=null){
             obj1=obj2;
         }
-        var distinct = 30;
+        var distinct = 40;
         var x1, x2, y1, y2;
         var x1, x2, y1, y2;
         var util = new Utility();
         var data = util.GetPositionXY(obj1);
         x1 = data[0].x;
-        y1 = data[0].y+5;
+        y1 = data[0].y+15;
         var data = util.GetPositionXY(obj2);
         x2 = data[0].x;
-        y2 = data[0].y+5;
+        y2 = data[0].y+15;
         return [
             {
                 "id1": objId1,
@@ -2512,7 +2536,7 @@ function genogramRelationship(spouse,twin,hisPosition) {
             o.relation = relation;
             this.AddLineRelation(o);
             this.AddLineLeftRight(o);
-            this.AddSeparationObject(o, '#810d00');
+            //this.AddSeparationObject(o, '#810d00');
         }
     }
     this.LoveAffair = function (objId1, objId2) {

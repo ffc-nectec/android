@@ -11,6 +11,7 @@ import retrofit2.dsl.enqueue
 interface PlaceGeoJson {
 
     fun all(callbackDsl: RepoCallback<FeatureCollectionFilter<House>>.() -> Unit)
+    fun noLocation(callbackDsl: RepoCallback<List<House>>.() -> Unit)
 }
 
 fun placeGeoJson(org: Organization): PlaceGeoJson = ApiPlaceGeoJson(org)
@@ -23,6 +24,16 @@ private class ApiPlaceGeoJson(val org: Organization) : PlaceGeoJson {
         val callback = RepoCallback<FeatureCollectionFilter<House>>().apply(callbackDsl)
 
         api.listHouseGeoJson(org.id).enqueue {
+            onSuccess { callback.onFound!!.invoke(body()!!) }
+            onError { callback.onFail!!.invoke(ApiErrorException(this)) }
+            onFailure { callback.onFail!!.invoke(it) }
+        }
+    }
+    // Call<List<House>>
+    override fun noLocation(callbackDsl: RepoCallback<List<House>>.() -> Unit) {
+        val callback = RepoCallback<List<House>>().apply(callbackDsl)
+
+        api.listHouseNoLocation(org.id).enqueue {
             onSuccess { callback.onFound!!.invoke(body()!!) }
             onError { callback.onFail!!.invoke(ApiErrorException(this)) }
             onFailure { callback.onFail!!.invoke(it) }

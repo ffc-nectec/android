@@ -23,9 +23,11 @@ import android.widget.*
 import ffc.android.onClick
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.auth.auth
 import ffc.app.person.personId
 import ffc.app.util.alert.handle
 import ffc.entity.Organization
+import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
 import kotlinx.android.synthetic.main.activity_genogram.*
@@ -136,8 +138,8 @@ class GenogramActivity : FamilyFolderActivity() {
                         } else {
                             // In portrait
                             size = it.toDouble()*1.25
-                            if(size<200){
-                                size=300.0;
+                            if(size<600){
+                                size=600.0;
                             }
                             scale = getScale(size)
                             view.setInitialScale(scale)
@@ -239,10 +241,12 @@ class GenogramActivity : FamilyFolderActivity() {
         }
         @JavascriptInterface
         fun showPersonalInfo(id:String,personId:String) {
-
-            intent.putExtra("id", id)
-            intent.putExtra("personId", personId)
-            mContext.startActivity(intent)
+            var user = auth(mContext).user
+            if (user!!.roles[0] != User.Role.SURVEYOR ) {
+                intent.putExtra("id", id)
+                intent.putExtra("personId", personId)
+                mContext.startActivity(intent)
+            }
 //            val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)  as LayoutInflater
 //            val view = inflater.inflate(layout.popup_person_info,null)
 //

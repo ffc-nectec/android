@@ -49,4 +49,7 @@
     <color name="overlay_black">#79000000</color>
     <color name="overlay_white">#DDFFFFFF</color>
 
+    <color name="systolic_pressure">#1771b5</color>
+    <color name="diastolic_pressure">#ff3f00</color>
+
 </resources>

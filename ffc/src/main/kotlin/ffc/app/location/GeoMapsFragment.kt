@@ -18,7 +18,6 @@
 package ffc.app.location
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
@@ -26,9 +25,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
-import android.support.transition.Slide
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -39,20 +38,14 @@ import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import com.sembozdemir.permissionskt.handlePermissionsResult
 import ffc.android.*
 import ffc.app.R
-import ffc.app.auth.Users
 import ffc.app.auth.auth
-import ffc.app.auth.users
 import ffc.app.dev
 import ffc.app.familyFolderActivity
 import ffc.app.util.alert.handle
-import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.place.House
-import kotlinx.android.synthetic.main.disease_filter.*
 import me.piruin.geok.geometry.Feature
-import me.piruin.geok.geometry.FeatureCollection
 import me.piruin.geok.geometry.Point
-import org.jetbrains.anko.doAsyncResult
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.intentFor
 import org.json.JSONObject
@@ -228,23 +221,115 @@ class GeoMapsFragment : PointMarloFragment() {
                             ?: preferZoomLevel
                     )
                     googleMap.clear()
-                    if (disease1 == true && disease2 == false) {
-                        var features = data?.features?.filter { it.properties?.haveChronic != true }
+                    googleMap.setOnMapClickListener {
+                        if(isShow) {
+                            window.dismiss();
+                            isShow=false;
+                        }
+                    }
+                    /*
+
+                    chronic = โรคเรื้อรัง
+                    disable = มีคนพิการอยู่ในบ้าน
+                     */
+                    var lstDisease = ArrayList<String>()
+                    if(disease1){
+                        lstDisease.add("[]");
+                    }
+                    if(disease2){
+                        lstDisease.add("chronic");
+                    }
+                    if(disease3){
+                       lstDisease.add("chronic");
+                    }
+                    if(disease4){
+                       lstDisease.add("chronic");
+                    }
+                    if(disease5){
+                       lstDisease.add("chronic");
+                    }
+                    if(disease6){
+                       lstDisease.add("disable");
+                    }
+                    if(disease7){
+                        lstDisease.add("old");
+                    }
+                    if(lstDisease.size==0){
+                        var features = data?.features?.filter { it.properties?.tags!!.indexOf("----")>-1 }
+                        Log.d("Filter----> :",features.size.toString());
                         data.features = features!!
-                        Log.d("filter", "haveChronic:false---->" + features?.size);
-                    } else if (disease2 == true && disease1 == false) {
-                        var features = data?.features?.filter { it.properties?.haveChronic == true }
+                    }
+
+                    if(lstDisease.size==1){
+                        //var features = data?.features?.filter { it.properties?.tags!!.indexOf(lstDisease[0].toString())>-1 }
+                        var features = data?.features?.filter {
+                            it.properties?.tags.toString().indexOf(lstDisease[0])>-1 }
+                        Log.d("Filter----> :",features.size.toString());
                         data.features = features!!
-                        Log.d("filter", "haveChronic:true---->" + features?.size);
-                    } else if (disease2 == false && disease1 == false) {
-                        var features = data?.features?.filter { it.properties?.haveChronic.toString() == "empty" }
+                    }
+                    if(lstDisease.size==2){
+                        var features = data?.features?.filter {
+                                   it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
+                                || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
+                        }
+                        Log.d("Filter----> :",features.size.toString());
                         data.features = features!!
-                        Log.d("filter", "haveChronic:empty---->" + features?.size);
-                    } else if (disease1 == true && disease2 == true) {
-                        Log.d("filter", "All:---->" + data?.features?.size);
+                    }
+                    if(lstDisease.size==3){
+                        var features = data?.features?.filter {
+                                   it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
+                                || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
+                                || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1}
+                        Log.d("Filter----> :",features.size.toString());
+                        data.features = features!!
+                    }
+                    if(lstDisease.size==4){
+                        var features = data?.features?.filter {
+                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
+                        }
+                        Log.d("Filter----> :",features.size.toString());
+                        data.features = features!!
+                    }
+                    if(lstDisease.size==5){
+                        var features = data?.features?.filter {
+                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[4].toString())>-1
+                        }
+                        Log.d("Filter----> :",features.size.toString());
+                        data.features = features!!
+                    }
+                    if(lstDisease.size==6){
+                        var features = data?.features?.filter {
+                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[4].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[5].toString())>-1
+                        }
+                        Log.d("Filter----> :",features.size.toString());
+                        data.features = features!!
+                    }
+                    if(lstDisease.size==7){
+                        var features = data?.features?.filter {
+                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[4].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[5].toString())>-1
+                            || it.properties?.tags!!.toString().indexOf(lstDisease[6].toString())>-1
+                        }
+                        Log.d("Filter----> :",features.size.toString());
+                        data.features = features!!
                     }
                     addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(data?.toJson())));
-
                     preference.geojsonCache = data
                 }
             }
@@ -289,7 +374,7 @@ class GeoMapsFragment : PointMarloFragment() {
     }
 
     private fun addGeoJsonLayer(layer: GeoJsonLayer) {
-
+        var i= 0;
         with(layer) {
             features.forEach {
 //                it.pointStyle = GeoJsonPointStyle().apply {
@@ -297,22 +382,59 @@ class GeoMapsFragment : PointMarloFragment() {
 //                    title = "บ้านเลขที่ ${it.getProperty("no")}"
 //                    snippet = it.getProperty("coordinates")?.trimMargin()
 //                }
-                if(disease2 &&  it.getProperty("haveChronic") == "true") {
-                    it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  chronicHomeIcon
-                        title = "บ้านเลขที่ ${it.getProperty("no")}"
-                        snippet = it.getProperty("coordinates")?.trimMargin()
-                    }
-                }
-                else if(disease1 &&  it.getProperty("haveChronic") !=="true"){
+
+                i = i +1;
+                Log.d("tags---->:"," no:"+i+" id:"+it.getProperty("id")+ " --> length:"+it.getProperty("tags").toString().length.toString()+" -> "+it.getProperty("tags").toString());
+                if(disease1  && it.getProperty("tags").indexOf("[]")>-1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
                         icon =  homeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
                 }
+                else if(disease2 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                    it.pointStyle = GeoJsonPointStyle().apply {
+                        icon =  chronicHomeIcon
+                        title = "บ้านเลขที่ ${it.getProperty("no")}"
+                        snippet = it.getProperty("coordinates")?.trimMargin()
+                    }
+                }
+                else if(disease3 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                    it.pointStyle = GeoJsonPointStyle().apply {
+                        icon =  chronicHomeIcon
+                        title = "บ้านเลขที่ ${it.getProperty("no")}"
+                        snippet = it.getProperty("coordinates")?.trimMargin()
+                    }
+                }
+                else if(disease4 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                    it.pointStyle = GeoJsonPointStyle().apply {
+                        icon =  chronicHomeIcon
+                        title = "บ้านเลขที่ ${it.getProperty("no")}"
+                        snippet = it.getProperty("coordinates")?.trimMargin()
+                    }
+                }
+                else if(disease5 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                    it.pointStyle = GeoJsonPointStyle().apply {
+                        icon =  chronicHomeIcon
+                        title = "บ้านเลขที่ ${it.getProperty("no")}"
+                        snippet = it.getProperty("coordinates")?.trimMargin()
+                    }
+                }
+                else if(disease6 &&  it.getProperty("tags").indexOf("disable")>-1){
+                    it.pointStyle = GeoJsonPointStyle().apply {
+                        icon =  disableHomeIcon
+                        title = "บ้านเลขที่ ${it.getProperty("no")}"
+                        snippet = it.getProperty("coordinates")?.trimMargin()
+                    }
+                }
+                else if(disease7 &&  it.getProperty("tags").indexOf("old")>-1){
+                    it.pointStyle = GeoJsonPointStyle().apply {
+                        icon =  oldHomeIcon
+                        title = "บ้านเลขที่ ${it.getProperty("no")}"
+                        snippet = it.getProperty("coordinates")?.trimMargin()
+                    }
+                }
                 else{
-
                     it.pointStyle = GeoJsonPointStyle().apply {
                         icon =  null
                         title = null
@@ -355,8 +477,13 @@ class GeoMapsFragment : PointMarloFragment() {
 
     private val chronicHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_red_24dp) }
 
+    private val disableHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_purple_24dp) }
+
+    private val oldHomeIcon by lazy { bitmapOf(R.drawable.ic_marker_home_gray_24dp) }
+
     class GeoViewModel : ViewModel() {
         val geojson = MutableLiveData<FeatureCollectionFilter<House>>()
+        val lstHome = MutableLiveData<List<House>>()
         val exception = MutableLiveData<Throwable>()
     }
 }

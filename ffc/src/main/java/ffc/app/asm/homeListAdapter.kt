@@ -1,20 +1,26 @@
 package ffc.app.asm
 
 import android.content.Context
+import android.content.Intent
+import android.support.v4.app.ActivityCompat.startActivityForResult
+import android.support.v4.content.ContextCompat.startActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
+import ffc.android.onClick
+import ffc.android.sceneTransition
 import ffc.app.R
+import ffc.app.location.HouseActivity
+import org.jetbrains.anko.startActivity
 
 
 class homeListAdapter(context: Context?, hl: ArrayList<homeModel>) : BaseAdapter() {
 
+    var REQ_ADD_LOCATION = 1032;
     private var mHomeList =  hl
     private var mInflater: LayoutInflater? = LayoutInflater.from(context)
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var  homeModel = mHomeList.get(position)
         var homeItem:LinearLayout;
@@ -26,12 +32,15 @@ class homeListAdapter(context: Context?, hl: ArrayList<homeModel>) : BaseAdapter
         {
             homeItem  = mInflater!!.inflate(R.layout.homeitem,null)  as LinearLayout
         }
-        var villageNo = homeItem.findViewById(R.id.villageNo) as TextView
+        var homeId = homeItem.findViewById(R.id.lblhomeId) as TextView
+//        var villageNo = homeItem.findViewById(R.id.villageNo) as TextView
         var homeNo = homeItem.findViewById(R.id.homeNo) as TextView
-        var members = homeItem.findViewById(R.id.tvMembers) as TextView
-        villageNo.setText(homeModel.villageNo.toString())
+        var villageName = homeItem.findViewById(R.id.tvVillageName) as TextView
+//        villageNo.setText(homeModel.villageNo.toString())
         homeNo.setText(homeModel.homeNo)
-        members.setText(homeModel.members.toString())
+        villageName.setText(homeModel.vilageName.toString())
+        homeId.setText(homeModel.id);
+
         return homeItem
     }
 

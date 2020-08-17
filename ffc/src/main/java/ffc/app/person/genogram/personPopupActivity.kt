@@ -13,26 +13,25 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.ColorUtils
-import android.support.v4.widget.ContentLoadingProgressBar
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
-import android.widget.TableRow
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -42,15 +41,22 @@ import ffc.android.*
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
 import ffc.app.health.service.healthCareServicesOf
-import ffc.app.person.*
+import ffc.app.person.PersonActivitiy
+import ffc.app.person.persons
+import ffc.app.person.pushTo
 import ffc.app.photo.REQUEST_TAKE_PHOTO
+import ffc.app.util.alert.toast
 import ffc.entity.Person
+import ffc.entity.healthcare.Frequency
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.update
+import ffc.genogram.getResourceAs
 import kotlinx.android.synthetic.main.activity_person_popup.*
+import org.joda.time.DateTime
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class personPopupActivity : FamilyFolderActivity() {
@@ -59,6 +65,10 @@ class personPopupActivity : FamilyFolderActivity() {
     private var CAMERA_REQUEST_CODE=2034;
     lateinit var personViewModel: PersonActivitiy.PersonViewModel
     private var mStorage: StorageReference? = null
+    var maxYBloodPressure =0.0f
+    var maxYBloodSugar = 0.0f
+    var lstDate: ArrayList<String>? =null;
+    var lstDateSugar: ArrayList<String>? =null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_person_popup)
@@ -92,6 +102,8 @@ class personPopupActivity : FamilyFolderActivity() {
                 setWindowFlag(this, false)
             }
         }
+        lstDate = ArrayList<String>()
+        lstDateSugar  = ArrayList<String>()
         viewModel = viewModel()
         personViewModel = viewModel();
         observe(personViewModel.person){
@@ -123,6 +135,38 @@ class personPopupActivity : FamilyFolderActivity() {
         }
         loadPerson(personId)
         loadHealthcareServices(personId)
+        var drink = findViewById<TextView>(R.id.drink)
+        var smoking = findViewById<TextView>(R.id.smoking)
+        var sugar = findViewById<TextView>(R.id.sugar)
+        var salt = findViewById<TextView>(R.id.salt)
+        var exercise = findViewById<TextView>(R.id.exercise)
+        var buyYourOwnMedicien = findViewById<TextView>(R.id.buyYourOwnMedicien)
+        var energyDrink= findViewById<TextView>(R.id.energyDrink)
+        var accident = findViewById<TextView>(R.id.accident)
+        drink.onClick {
+            Toast.makeText(this,"ดืมสุรา",Toast.LENGTH_LONG).show();
+        }
+        smoking.onClick {
+            Toast.makeText(this,"สูบบุหรี่",Toast.LENGTH_LONG).show();
+        }
+        sugar.onClick {
+            Toast.makeText(this,"ทานหวาน",Toast.LENGTH_LONG).show();
+        }
+        salt.onClick {
+            Toast.makeText(this,"ทานเค็ม",Toast.LENGTH_LONG).show();
+        }
+        exercise.onClick {
+            Toast.makeText(this,"ออกกำลังกาย",Toast.LENGTH_LONG).show();
+        }
+        buyYourOwnMedicien.onClick {
+            Toast.makeText(this,"ซื้อยาทานเอง",Toast.LENGTH_LONG).show();
+        }
+        energyDrink.onClick {
+            Toast.makeText(this,"ดื่มเครื่องดื่มชูกำลัง",Toast.LENGTH_LONG).show();
+        }
+        accident.onClick {
+            Toast.makeText(this,"ประสบอุบัติเหตุใหญ่",Toast.LENGTH_LONG).show();
+        }
     }
     private fun setWindowFlag(activity: Activity, on: Boolean) {
         val win = activity.window
@@ -226,205 +270,324 @@ class personPopupActivity : FamilyFolderActivity() {
         }
         name.text = data.name
         age.text = data.age.toString()+" ปี"
-    }
-    private fun bind(data:List<HealthCareService>){
-        if(data!=null){
-            if(data[0].photosUrl!=null) {
-                var uri: Uri = Uri.parse(data[0].photosUrl.toString())
-                //avatarView.load(uri)
-            }
-            if(data[0].ncdScreen!=null){
-                var smoke = findViewById<TextView>(R.id.smikingLevel)
-                var img: Drawable = drawable(R.drawable.ic_unknown_black);
-                img = drawable(R.drawable.ic_unknown_black)
-                smoke.drawableStart = img
-                if(data[0].ncdScreen?.smoke!=null){
+//        Log.d("Behavior:","=========================")
+//        Log.d("alcohol:",data.behavior!!.alcohol.toString());
+//        Log.d("exercise:",data.behavior!!.exercise.toString());
+//        Log.d("bigaccidentever:",data.behavior!!.bigaccidentever.toString());
+//        Log.d("tonic:",data.behavior!!.tonic.toString());
+//        Log.d("drugbyyourseft:",data.behavior!!.drugbyyourseft.toString());
+//        Log.d("sugar:",data.behavior!!.sugar.toString());
+//        Log.d("salt:",data.behavior!!.salt.toString());
+        if(data.behavior!=null){
+            var smoke = findViewById<TextView>(R.id.smikingLevel)
+            var img: Drawable = drawable(R.drawable.ic_unknown_black)
+            img.setBounds(0, 0, 60, 70)
+            smoke.setCompoundDrawables(img,null,null,null);
+            if(data.behavior!!.smoke!=null){
 
-                    if(data[0].ncdScreen?.smoke.toString()=="NEVER"){
-                        img = drawable(R.drawable.ic_level_blue1)
-                    }
-                    else if(data[0].ncdScreen?.smoke.toString()=="RARELY"){
-                        img = drawable(R.drawable.ic_level_blue2)
-                    }
-                    else if(data[0].ncdScreen?.smoke.toString()=="OCCASIONALLY"){
-                        img = drawable(R.drawable.ic_level_blue3)
-                    }
-                    else if(data[0].ncdScreen?.smoke.toString()=="USUALLY"){
-                        img = drawable(R.drawable.ic_level_blue4)
-                    }
-                    else if(data[0].ncdScreen?.smoke.toString()=="UNKNOWN"){
-                        img = drawable(R.drawable.ic_unknown_black)
-                    }
-                    smoke.drawableStart = img
+                if(data.behavior!!.smoke == Frequency.NEVER){
+                    img = drawable(R.drawable.speed_level_1)
+                    img.setBounds(0, 0, 100, 70)
                 }
-
-                if(data[0].ncdScreen?.alcohol!=null){
-                    var alcohol = findViewById<TextView>(R.id.dringLevel)
-                    var img: Drawable = drawable(R.drawable.ic_level_blue0);
+                else if(data.behavior!!.smoke == Frequency.RARELY){
+                    img = drawable(R.drawable.speed_level_2)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.smoke == Frequency.OCCASIONALLY){
+                    img = drawable(R.drawable.speed_level_3)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.smoke == Frequency.USUALLY){
+                    img = drawable(R.drawable.speed_level_4)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.smoke == Frequency.UNKNOWN){
                     img = drawable(R.drawable.ic_unknown_black)
-                    if(data[0].ncdScreen?.alcohol.toString()=="NEVER"){
-                        img = drawable(R.drawable.ic_level_blue1)
-                    }
-                    else if(data[0].ncdScreen?.alcohol.toString()=="RARELY"){
-                        img = drawable(R.drawable.ic_level_blue2)
-                    }
-                    else if(data[0].ncdScreen?.alcohol.toString()=="OCCASIONALLY"){
-                        img = drawable(R.drawable.ic_level_blue3)
-                    }
-                    else if(data[0].ncdScreen?.alcohol.toString()=="USUALLY"){
-                        img = drawable(R.drawable.ic_level_blue4)
-                    }
-                    else if(data[0].ncdScreen?.alcohol.toString()=="UNKNOWN"){
-                        img = drawable(R.drawable.ic_level_blue0)
-                    }
-                    alcohol.drawableStart = img
+                    img.setBounds(0, 0, 60, 60)
                 }
-                if(data[0].ncdScreen?.bloodSugar!=null){
-                    var alcohol = findViewById<TextView>(R.id.sugarLevel)
-                    var img: Drawable = drawable(R.drawable.ic_level_blue0);
-                    img = drawable(R.drawable.ic_unknown_black)
-                    if(data[0].ncdScreen?.bloodSugar!!>0){
-
-                    }
-                }
+                //smoke.background = img
+                smoke.setCompoundDrawables(img,null,null,null);
             }
-            else{
-                var smoke = findViewById<TextView>(R.id.smikingLevel)
+            if(data.behavior?.alcohol!=null){
                 var alcohol = findViewById<TextView>(R.id.dringLevel)
-                var sugar = findViewById<TextView>(R.id.sugarLevel)
-                var salt = findViewById<TextView>(R.id.saltLevel)
+                var img: Drawable = drawable(R.drawable.ic_unknown_black)
+                img.setBounds(0, 0, 60, 60)
+                //alcohol.background = img
+                if(data.behavior?.alcohol == Frequency.NEVER){
+                    img = drawable(R.drawable.speed_level_1)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.alcohol == Frequency.RARELY){
+                    img = drawable(R.drawable.speed_level_2)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.alcohol ==Frequency.OCCASIONALLY){
+                    img = drawable(R.drawable.speed_level_3)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.alcohol ==Frequency.USUALLY){
+                    img = drawable(R.drawable.speed_level_4)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.alcohol ==Frequency.UNKNOWN){
+                    img = drawable(R.drawable.ic_unknown_black)
+                    img.setBounds(0, 0, 60, 60)
+                }
+                //alcohol.background = img
+                alcohol.setCompoundDrawables(img,null,null,null);
+            }
+            if(data.behavior?.exercise!=null){
                 var exercise = findViewById<TextView>(R.id.exerciseLevel)
-                var buyMedic = findViewById<TextView>(R.id.buyYourOwnMedicienLevel)
-                var drinkEnergy = findViewById<TextView>(R.id.energyDrinkLevel)
-                var accident = findViewById<TextView>(R.id.accidentLevel)
-                var img: Drawable = drawable(R.drawable.ic_unknown_black);
-                smoke.drawableStart = img
-                alcohol.drawableStart = img
-                sugar.drawableStart = img
-                salt.drawableStart = img
-                exercise.drawableStart = img
-                try {
-                    var sizeInDp = 8
-                    val scale = resources.displayMetrics.density
-                    val dpAsPixels = (sizeInDp * scale + 0.5f)
-                    buyMedic.drawableStart = img
-                    buyMedic.setPadding(dpAsPixels.toInt(), 0, 0, 0)
-                    drinkEnergy.drawableStart = img
-                    drinkEnergy.setPadding(dpAsPixels.toInt(), 0, 0, 0)
-                    accident.drawableStart = img
-                    accident.setPadding(dpAsPixels.toInt(), 0, 0, 0)
+                var img: Drawable = drawable(R.drawable.ic_unknown_black)
+                img.setBounds(0, 0, 60, 60)
+                if(data.behavior?.exercise == Frequency.NEVER){
+                    img = drawable(R.drawable.speed_level_4)
+                    img.setBounds(0, 0, 100, 70)
                 }
-                catch(ex: Exception){
-                    Toast.makeText(applicationContext,ex.message,Toast.LENGTH_SHORT).show()
+                else if(data.behavior?.exercise == Frequency.RARELY){
+                    img = drawable(R.drawable.speed_level_3)
+                    img.setBounds(0, 0, 100, 70)
                 }
+                else if(data.behavior?.exercise == Frequency.OCCASIONALLY){
+                    img = drawable(R.drawable.speed_level_2)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.exercise == Frequency.USUALLY){
+                    img = drawable(R.drawable.speed_level_1)
+                    img.setBounds(0, 0, 100, 70)
+                }
+                else if(data.behavior?.exercise == Frequency.UNKNOWN){
+                    img = drawable(R.drawable.ic_unknown_black)
+                    img.setBounds(0, 0, 60, 60)
+                }
+                //exercise.background = img
+                exercise.setCompoundDrawables(img,null,null,null);
+            }
+            if(data.behavior?.bigaccidentever!=null){
+                var bigaccidentever = findViewById<TextView>(R.id.accidentLevel)
+                var img: Drawable = drawable(R.drawable.ic_unknown_black)
+                if(data.behavior?.bigaccidentever==true){
+                    var img: Drawable =drawable(R.drawable.ic_yes_black)
+                    img.setBounds(0, 0, 60, 60)
+                    bigaccidentever.setCompoundDrawables(img,null,null,null);
+                }else{
+                    img = drawable(R.drawable.ic_no_black)
+                    img.setBounds(0, 0, 60, 60)
+                    bigaccidentever.setCompoundDrawables(img,null,null,null);
+                }
+            }
+            if(data.behavior?.tonic!=null){
+                var tonic = findViewById<TextView>(R.id.energyDrinkLevel)
+                var img: Drawable = drawable(R.drawable.ic_unknown_black)
+                if(data.behavior?.tonic==true){
+                    img = drawable(R.drawable.ic_yes_black)
+                    img.setBounds(0, 0, 60, 60)
+                    tonic.setCompoundDrawables(img,null,null,null);
+                }else{
+                    img = drawable(R.drawable.ic_no_black)
+                    img.setBounds(0, 0, 60, 60)
+                    tonic.setCompoundDrawables (img,null,null,null);
+                }
+            }
+            if(data.behavior?.drugbyyourseft!=null){
+                var drugbyyourseft = findViewById<TextView>(R.id.buyYourOwnMedicienLevel)
+                var img: Drawable = drawable(R.drawable.ic_unknown_black)
+                if(data.behavior?.drugbyyourseft==true){
+                    img = drawable(R.drawable.ic_yes_black)
+                    img.setBounds(0, 0, 60, 60)
+                    drugbyyourseft.setCompoundDrawables(img,null,null,null);
 
-            }
-            var  tvBMI:TextView = findViewById(R.id.tvBMIResult)
-            tvBMI.text="BMI kg/m2 = "+data[0].bmi!!.value+"";
-            var descript="";
-            if(data.size>0) {
-                if (data[0].bmi!!.value < 18.5) {
-                    descript = "น้ำหนักตำกว่าเกณฑ์";
-                    imgBMI.setImageResource(R.drawable.ic_slim)
-//                    val tr = findViewById<TableRow>(R.id.bmi_revel1)
-//                    var tv = findViewById<TextView>(R.id.bmi_revel1_cell1)
-//                    if (tr != null) {
-//                        tr.setBackgroundColor(Color.parseColor("#e74c3c"))
-//                        tv.text=tv.text.toString()+" ("+data[0].bmi!!.value+")"
-//
-//                    }
-                }
-                if (data[0].bmi!!.value >= 18.5 && data[0].bmi!!.value <= 22.90) {
-                    descript = "สมส่วน"
-                    imgBMI.setImageResource(R.drawable.ic_weight_loss)
-//                    val tr = findViewById<TableRow>(R.id.bmi_revel2)
-//                    var tv = findViewById<TextView>(R.id.bmi_revel2_cell1)
-//                    if (tr != null) {
-//
-//                        tr.setBackgroundColor(Color.parseColor("#e67e22"))
-//                        tv.text=tv.text.toString()+" ("+data[0].bmi!!.value+")"
-//                    }
-                }
-                if (data[0].bmi!!.value >= 23 && data[0].bmi!!.value <= 24.90) {
-                    descript = "น้ำหนักเกิน"
-                    imgBMI.setImageResource(R.drawable.ic_fat)
-//                    val tr = findViewById<TableRow>(R.id.bmi_revel3)
-//                    var tv = findViewById<TextView>(R.id.bmi_revel3_cell1)
-//                    if (tr != null) {
-//                        tr.setBackgroundColor(Color.parseColor("#2ecc71"))
-//                        tv.text=tv.text.toString()+" ("+data[0].bmi!!.value+")"
-//                    }
-                }
-                if (data[0].bmi!!.value >= 25 && data[0].bmi!!.value <= 29.90) {
-                    descript = "โรคอ้วน"
-                    imgBMI.setImageResource(R.drawable.ic_fat)
-//                    val tr = findViewById<TableRow>(R.id.bmi_revel4)
-//                    var tv = findViewById<TextView>(R.id.bmi_revel4_cell1)
-//                    if (tr != null) {
-//                        tr.setBackgroundColor(Color.parseColor("#f1c40f"))
-//                        tv.text=tv.text.toString()+" ("+data[0].bmi!!.value+")"
-//                    }
-                }
-                if (data[0].bmi!!.value >= 30) {
-                    descript ="โรคอ้วนอันตราย"
-                    imgBMI.setImageResource(R.drawable.ic_obesity)
-//                    val tr = findViewById<TableRow>(R.id.bmi_revel5)
-//                    var tv = findViewById<TextView>(R.id.bmi_revel5_cell1)
-//                    if (tr != null) {
-//                        tr.setBackgroundColor(Color.parseColor("#f49c13"))
-//                        tv.text=tv.text.toString()+" ("+data[0].bmi!!.value+")"
-//                    }
+                }else{
+                    img = drawable(R.drawable.ic_no_black)
+                    img.setBounds(0, 0, 60, 60)
+                    drugbyyourseft.setCompoundDrawables(img,null,null,null);
                 }
             }
-            tvBMI.text="BMI kg/m2 = "+data[0].bmi!!.value+" "+descript;
-            bloosePressure(data)
-            blooseGlucose(data)
+            if(data.behavior?.sugar!=null){
+                var sugarLevel = findViewById<TextView>(R.id.sugarLevel)
+                var img: Drawable = drawable(R.drawable.ic_unknown_black)
+                if(data.behavior?.sugar==true){
+                    img = drawable(R.drawable.ic_yes_black)
+                    img.setBounds(0, 0, 60, 60)
+                    sugarLevel.setCompoundDrawables(img,null,null,null);
+
+                }else{
+                    img = drawable(R.drawable.ic_no_black)
+                    img.setBounds(0, 0, 60, 60)
+                    sugarLevel.setCompoundDrawables(img,null,null,null);
+                }
+            }
+            if(data.behavior?.salt!=null){
+                var saltLevel = findViewById<TextView>(R.id.saltLevel)
+                var img: Drawable = drawable(R.drawable.ic_unknown_black)
+                if(data.behavior?.salt==true){
+                    img = drawable(R.drawable.ic_yes_black)
+                    img.setBounds(0, 0, 60, 60)
+                    saltLevel.setCompoundDrawables(img,null,null,null);
+                }else{
+                    img = drawable(R.drawable.ic_no_black)
+                    img.setBounds(0, 0, 60, 60)
+                    saltLevel.setCompoundDrawables(img,null,null,null);
+                }
+            }
+        }
+        else{
+            var smoke = findViewById<TextView>(R.id.smikingLevel)
+            var alcohol = findViewById<TextView>(R.id.dringLevel)
+            var sugar = findViewById<TextView>(R.id.sugarLevel)
+            var salt = findViewById<TextView>(R.id.saltLevel)
+            var exercise = findViewById<TextView>(R.id.exerciseLevel)
+            var buyMedic = findViewById<TextView>(R.id.buyYourOwnMedicienLevel)
+            var drinkEnergy = findViewById<TextView>(R.id.energyDrinkLevel)
+            var accident = findViewById<TextView>(R.id.accidentLevel)
+            var img: Drawable = drawable(R.drawable.ic_unknown_black);
+            smoke.background = img
+            alcohol.background = img
+            sugar.background = img
+            salt.background = img
+            exercise.background = img
+            try {
+                var sizeInDp = 8
+                val scale = resources.displayMetrics.density
+                val dpAsPixels = (sizeInDp * scale + 0.5f)
+                buyMedic.drawableStart = img
+                buyMedic.setPadding(dpAsPixels.toInt(), 0, 0, 0)
+                drinkEnergy.drawableStart = img
+                drinkEnergy.setPadding(dpAsPixels.toInt(), 0, 0, 0)
+                accident.drawableStart = img
+                accident.setPadding(dpAsPixels.toInt(), 0, 0, 0)
+            }
+            catch(ex: Exception){
+                Toast.makeText(applicationContext,ex.message,Toast.LENGTH_SHORT).show()
+            }
 
         }
     }
-    private fun bloosePressure(data:List<HealthCareService>)
+    private fun bind(data:List<HealthCareService>){
+        if(data!=null){
+//            if(data[0].photosUrl!=null) {
+//                var uri: Uri = Uri.parse(data[0].photosUrl.toString())
+//                avatarView.load(uri)
+//            }
+            var  tvBMI:TextView = findViewById(R.id.tvBMIResult)
+            var tvBMIMessage = findViewById<TextView>(R.id.bmiMessage)
+            tvBMI.text="";
+            var descript="";
+            var imgBMI = findViewById<ImageView>(R.id.imgBMI);
+            if(data.size>0) {
+                if (data[0].bmi != null)
+                {
+                    if (data[0].bmi!!.value < 18.5) {
+                        descript = "น้ำหนักตำกว่าเกณฑ์";
+                        imgBMI.setImageResource(R.drawable.bmi_1)
+                        tvBMIMessage.setTextColor(getResources().getColor(R.color.green_100))
+                    }
+                    if (data[0].bmi!!.value >= 18.5 && data[0].bmi!!.value <= 22.90) {
+                        descript = "สมส่วน"
+                        imgBMI.setBackgroundResource(R.drawable.bmi_2)
+                        tvBMIMessage.setTextColor(getResources().getColor(R.color.green_500))
+                    }
+                    if (data[0].bmi!!.value >= 23 && data[0].bmi!!.value <= 24.90) {
+                        descript = "น้ำหนักเกิน"
+                        imgBMI.setBackgroundResource(R.drawable.bmi_3)
+                        tvBMIMessage.setTextColor(getResources().getColor(R.color.yellow_700))
+                    }
+                    if (data[0].bmi!!.value >= 25 && data[0].bmi!!.value <= 29.90) {
+                        descript = "โรคอ้วน"
+                        imgBMI.setBackgroundResource(R.drawable.bmi_4)
+                        tvBMIMessage.setTextColor(getResources().getColor(R.color.orange_500))
+                    }
+                    if (data[0].bmi!!.value >= 30) {
+                        descript = "โรคอ้วนอันตราย"
+                        imgBMI.setBackgroundResource(R.drawable.bmi_5)
+                        tvBMIMessage.setTextColor(getResources().getColor(R.color.red_500))
+                    }
+                    val output = DateFormat(data[0].time)
+                    var date = "\nข้อมูลเมื่อวันที่: "+output;
+                    tvBMI.text = "BMI (" + data[0].weight + "/" + (data[0].height?.div(100)) + "^2) kg/m2 = " + data[0].bmi!!.value +date;
+                    tvBMIMessage.text = descript
+                    tvBMIMessage.textSize= 16F
+
+
+                }
+                else
+                {
+                    tvBMI.text = "ไม่มีข้อมูล BMI";
+                }
+            }
+            bloodPressure(data)
+            bloodSugar(data)
+
+        }
+    }
+    private fun bloodPressure(data:List<HealthCareService>)
     {
         try {
+            var myLineData = LineData(getDataBloodPressure(data))
             var chart = findViewById(R.id.chartBloosePressure) as LineChart
             chart.setTouchEnabled(true)
             chart.setPinchZoom(true)
+
+            // enable touch gestures
+            chart.setTouchEnabled(true)
+
             val xAxis: XAxis = chart.getXAxis()
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.textSize = 12f
             xAxis.enableGridDashedLine(1f, 1f, 0f)
-            xAxis.axisMaximum = 5f
+           // xAxis.axisMaximum = lstDate!!.size.toFloat();
             xAxis.axisMinimum = 0f
+            xAxis.granularity = 1f;
             xAxis.setDrawLimitLinesBehindData(true)
+            val l: Legend = chart.getLegend()
+            l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+            l.orientation = Legend.LegendOrientation.VERTICAL
+            l.setDrawInside(true)
+            //l.typeface = tfLight
+            l.yOffset = 0f
+            l.xOffset = 10f
+            l.yEntrySpace = 0f
+            l.textSize = 8f
 
-            val ll1 = LimitLine(120f, "Max")
-            ll1.lineWidth = 4f
+            val ll1 = LimitLine(120f, "120")
+            ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll1.textSize = 12f
+            ll1.lineColor =  ContextCompat.getColor(this,R.color.systolic_pressure)
 
-            val ll2 = LimitLine(80f, "Min")
-            ll2.lineWidth = 4f
+            val ll2 = LimitLine(80f, "80")
+            ll2.lineWidth = 1f
             ll2.enableDashedLine(10f, 10f, 0f)
             ll2.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
             ll2.textSize = 12f
-            ll2.lineColor =  ContextCompat.getColor(this, R.color.orange_400)
+            ll2.lineColor =  ContextCompat.getColor(this, R.color.diastolic_pressure)
 
             val yAxisRight: YAxis = chart.getAxisRight()
             yAxisRight.isEnabled = false
 
             val yAxisLeft: YAxis = chart.getAxisLeft()
             yAxisLeft.removeAllLimitLines()
-//            yAxisLeft.addLimitLine(ll1)
-//            yAxisLeft.addLimitLine(ll2)
+
+            yAxisLeft.addLimitLine(ll1)
+            yAxisLeft.addLimitLine(ll2)
+
             yAxisLeft.granularity = 1f
-            yAxisLeft.axisMaximum = 200f
+            yAxisLeft.axisMaximum = maxYBloodPressure
             yAxisLeft.axisMinimum = 0f
             yAxisLeft.textSize = 12f
             yAxisLeft.enableGridDashedLine(10f,10f,0f)
             yAxisLeft.setDrawZeroLine(false)
             yAxisLeft.setDrawLimitLinesBehindData(false)
 
-            chart.data = LineData(getDataBloosePressure(data))
+            // create marker to display box when values are selected
+            val mv = MyMarkerView(this,R.layout.custom_marker_view);
+            mv.lstDate = lstDate;
+            chart.marker = mv
+            mv.chartView = chart
+            mv.chartType = "Line"
+            chart.data = myLineData
             chart.animateX(2500)
             chart.invalidate()
             chart.getAxisRight().setEnabled(false)
@@ -433,7 +596,7 @@ class personPopupActivity : FamilyFolderActivity() {
             Toast.makeText(applicationContext,ex.message, Toast.LENGTH_SHORT).show()
         }
     }
-    private fun getDataBloosePressure(data:List<HealthCareService>): java.util.ArrayList<ILineDataSet>? {
+    private fun getDataBloodPressure(data:List<HealthCareService>): java.util.ArrayList<ILineDataSet>? {
 
         var lineDataSets:  java.util.ArrayList<ILineDataSet> = java.util.ArrayList<ILineDataSet>()
 
@@ -443,32 +606,31 @@ class personPopupActivity : FamilyFolderActivity() {
             ArrayList<Entry>()
         if(data!=null) {
             if (data.size > 0) {
-                if (data[0].bloodPressure != null) {
-
-                    var pSystolic1 = data[0].bloodPressure!!.systolic
-                    var pDiastolic1 = data[0].bloodPressure!!.diastolic
-                    if (pSystolic1 != null) {
-                        line1.add(Entry(1f, pSystolic1.toFloat()))
-                        line2.add(Entry(1f, pDiastolic1.toFloat()))
-                    }
-                }
-                if(data.size>1){
-                    if (data[1].bloodPressure != null) {
-                        var pSystolic2 = data[0].bloodPressure!!.systolic
-                        var pDiastolic2 = data[0].bloodPressure!!.diastolic
-                        if (pSystolic2 != null) {
-                            line1.add(Entry(2f, pSystolic2.toFloat()))
-                            line2.add(Entry(2f, pDiastolic2.toFloat()))
+                var icount = 0;
+                for(i in data.size-1 downTo 0)
+                {
+                    if (data[i].bloodPressure != null) {
+                        if(maxYBloodPressure<data[i].bloodPressure!!.systolic){
+                            maxYBloodPressure = data[i].bloodPressure!!.systolic.toFloat() +50f;
+                        }
+                        var pSystolic1 = data[i].bloodPressure!!.systolic
+                        var pDiastolic1 = data[i].bloodPressure!!.diastolic
+                        if (pSystolic1 != null) {
+                            line1.add(Entry((icount ).toFloat(), pSystolic1.toString().split(".")[0].toFloat()))
+                            line2.add(Entry((icount ).toFloat(), pDiastolic1.toString().split(".")[0].toFloat()))
+                            lstDate!!.add(DateFormat(data[i].time));
+                            icount = icount + 1;
                         }
                     }
                 }
+
                 var ds1: LineDataSet = LineDataSet(line1, "Systolic")
-                ds1.color = ContextCompat.getColor(this, R.color.blue_400)
+                ds1.color = ContextCompat.getColor(this, R.color.systolic_pressure)
                 ds1.valueTextSize = 12f
                 ds1.lineWidth = 4f
 
                 var ds2: LineDataSet = LineDataSet(line2, "Diastolic")
-                ds2.color = ContextCompat.getColor(this, R.color.orange_400)
+                ds2.color = ContextCompat.getColor(this, R.color.diastolic_pressure)
                 ds2.valueTextSize = 12f
                 ds2.lineWidth = 4f
                 lineDataSets.add(ds1)
@@ -477,25 +639,44 @@ class personPopupActivity : FamilyFolderActivity() {
         }
         return lineDataSets
     }
-    private fun blooseGlucose(data:List<HealthCareService>)
+    private fun DateFormat(date: DateTime ):String{
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val output = formatter.format(parser.parse(date.toString()))
+        return output;
+    }
+    private fun bloodSugar(data:List<HealthCareService>)
     {
         try {
-            var chart = findViewById(R.id.chartBlooseGlucose) as LineChart
+            var myBarData = BarData(getDataSugar(data))
+            var chart = findViewById(R.id.chartBloodSugar) as BarChart
             chart.setTouchEnabled(true)
             chart.setPinchZoom(true)
             val xAxis: XAxis = chart.getXAxis()
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.textSize = 12f
             xAxis.enableGridDashedLine(1f, 1f, 0f)
-            xAxis.axisMaximum = 5f
+            //xAxis.axisMaximum = 5f
             xAxis.axisMinimum = 0f
+            xAxis.granularity = 1f
             xAxis.setDrawLimitLinesBehindData(true)
 
-            val ll1 = LimitLine(100f, "Max")
-            ll1.lineWidth = 4f
+            val l: Legend = chart.getLegend()
+            l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+            l.orientation = Legend.LegendOrientation.VERTICAL
+            l.setDrawInside(true)
+            l.yOffset = 0f
+            l.xOffset = 10f
+            l.yEntrySpace = 0f
+            l.textSize = 8f
+
+            val ll1 = LimitLine(100f, "100")
+            ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll1.textSize = 12f
+            ll1.lineColor =  ContextCompat.getColor(this, R.color.systolic_pressure)
 
             val ll2 = LimitLine(70f, "Min")
             ll2.lineWidth = 4f
@@ -509,46 +690,69 @@ class personPopupActivity : FamilyFolderActivity() {
 
             val yAxisLeft: YAxis = chart.getAxisLeft()
             yAxisLeft.removeAllLimitLines()
-//            yAxisLeft.addLimitLine(ll1)
+            yAxisLeft.addLimitLine(ll1)
 //            yAxisLeft.addLimitLine(ll2)
             yAxisLeft.granularity = 1f
-            yAxisLeft.axisMaximum = 150f
+            yAxisLeft.axisMaximum = maxYBloodSugar
             yAxisLeft.axisMinimum = 0f
             yAxisLeft.textSize = 12f
             yAxisLeft.enableGridDashedLine(10f,10f,0f)
             yAxisLeft.setDrawZeroLine(false)
             yAxisLeft.setDrawLimitLinesBehindData(false)
 
-            chart.data = LineData(getDataGlucose(data))
+            chart.data = myBarData
+            val mv = MyMarkerView(this,R.layout.custom_marker_view);
+            mv.lstDate = lstDateSugar;
+            mv.chartType = "Bar";
+            chart.marker = mv
+            mv.chartView = chart
             chart.animateX(2500)
             chart.invalidate()
             chart.getAxisRight().setEnabled(false)
+
         }
         catch (ex:Exception){
             Toast.makeText(applicationContext,ex.message, Toast.LENGTH_SHORT).show()
         }
     }
-    private fun getDataGlucose(data:List<HealthCareService>): java.util.ArrayList<ILineDataSet>? {
+    private fun getDataSugar(data:List<HealthCareService>): java.util.ArrayList<IBarDataSet>? {
 
-        var lineDataSets:  java.util.ArrayList<ILineDataSet> = java.util.ArrayList<ILineDataSet>()
+        var lineDataSets:  java.util.ArrayList<IBarDataSet> = java.util.ArrayList<IBarDataSet>()
 
         val line1 =
-            ArrayList<Entry>()
+            ArrayList<BarEntry>()
         val line2 =
-            ArrayList<Entry>()
+            ArrayList<BarEntry>()
+        var lstColor = ArrayList<Int>()
         if(data!=null) {
-            if(data[0].ncdScreen!=null) {
-                if (data[0].ncdScreen!!.bloodSugar != null) {
-                    var pbloodSugar1 = data[0].ncdScreen!!.bloodSugar
-                    if (pbloodSugar1 != null) {
-                        line1.add(Entry(1f, pbloodSugar1.toFloat()))
+            if(data.size>0) {
+                var icount = 0;
+                for(i in data.size-1 downTo 0)
+                {
+                    if (data[i].sugarLab != null) {
+                        var sugar = data[i].sugarLab
+                            icount = icount + 1;
+                            line1.add(BarEntry((icount ).toFloat(), sugar!!.toFloat()))
+                            if(maxYBloodSugar<sugar!!.toFloat()){
+                                maxYBloodSugar = sugar!!.toFloat()+20;
+                            }
+                            if(sugar>100){
+                                lstColor.add(Color.rgb(255, 52, 51));
+                            }else {
+                                lstColor.add(Color.rgb(102, 204, 0));
+                            }
+                            val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                            val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                            val output = formatter.format(parser.parse(data[i].time.toString()))
+                            lstDateSugar!!.add(output);
                     }
                 }
-                var ds1: LineDataSet = LineDataSet(line1, "Glocose")
-                ds1.color = ContextCompat.getColor(this, R.color.blue_400)
-                ds1.valueTextSize = 12f
-                ds1.lineWidth = 4f
-                lineDataSets.add(ds1)
+                var ds1: BarDataSet = BarDataSet(line1, "Blood Sugar")
+                    //ds1.color = ContextCompat.getColor(this, R.color.blue_400)
+                    ds1.valueTextSize = 12f
+                    ds1.setColors(lstColor);
+                    //ds1.lineWidth = 4f
+                    lineDataSets.add(ds1)
             }
         }
         return lineDataSets
@@ -568,3 +772,8 @@ class personPopupActivity : FamilyFolderActivity() {
         }
     }
 }
+
+private fun <E> ArrayList<E>.add(element: Int) {
+
+}
+

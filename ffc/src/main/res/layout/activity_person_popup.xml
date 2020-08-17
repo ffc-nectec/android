@@ -228,7 +228,7 @@ tools:context=".person.genogram.personPopupActivity"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/dring"
+                    android:id="@+id/drink"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -241,8 +241,17 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_level_blue0"
-                    android:padding="8sp" />
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_unknown_black"
+                    android:paddingLeft="10sp" />
+
+<!--                <android.support.v7.widget.AppCompatImageView-->
+<!--                    android:id="@+id/dringLevel"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:background="@drawable/ic_unknown_black" />-->
 
                 <TextView
                     android:id="@+id/smoking"
@@ -251,15 +260,25 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_weight="0.5"
                     android:drawableLeft="@drawable/ic_smoking2"
-                    android:paddingLeft="10sp" />
+                    android:paddingLeft="12sp" />
 
                 <TextView
                     android:id="@+id/smikingLevel"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_level_blue3"
-                    android:padding="8sp" />
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_unknown_black"
+                    android:paddingLeft="10sp" />
+<!--                <android.support.v7.widget.AppCompatImageView-->
+<!--                    android:id="@+id/smikingLevel"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/speed_level_1"-->
+<!--                    />-->
+
 
                 <TextView
                     android:id="@+id/sugar"
@@ -268,15 +287,24 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_weight="0.5"
                     android:drawableLeft="@drawable/ic_sugar2"
-                    android:paddingLeft="10sp" />
+                    android:paddingLeft="12sp" />
 
                 <TextView
                     android:id="@+id/sugarLevel"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_level_blue3"
-                    android:padding="8sp" />
+                    android:drawableLeft="@drawable/ic_unknown_black"
+                    android:layout_gravity="center"
+                    android:paddingLeft="12sp" />
+<!--                <android.support.v7.widget.AppCompatImageView-->
+<!--                    android:id="@+id/sugarLevel"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/speed_level_4"-->
+<!--                    />-->
                 <TextView
                     android:id="@+id/salt"
                     android:layout_width="fill_parent"
@@ -284,15 +312,24 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_weight="0.5"
                     android:drawableLeft="@drawable/ic_salt_black"
-                    android:paddingLeft="10sp" />
+                    android:paddingLeft="12sp" />
 
                 <TextView
                     android:id="@+id/saltLevel"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_level_blue1"
-                    android:padding="8sp" />
+                    android:drawableLeft="@drawable/ic_unknown_black"
+                    android:layout_gravity="center"
+                    android:paddingLeft="12sp" />
+<!--                <android.support.v7.widget.AppCompatImageView-->
+<!--                    android:id="@+id/saltLevel"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/speed_level_2"-->
+<!--                    />-->
             </LinearLayout>
 
             <LinearLayout
@@ -315,8 +352,17 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_level_blue0"
-                    android:padding="8sp" />
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_unknown_black"
+                    android:paddingLeft="10sp" />
+<!--                <android.support.v7.widget.AppCompatImageView-->
+<!--                    android:id="@+id/exerciseLevel"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/speed_level_1"-->
+<!--                    />-->
 
                 <TextView
                     android:id="@+id/buyYourOwnMedicien"
@@ -325,15 +371,25 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_weight="0.5"
                     android:drawableLeft="@drawable/ic_medicine_black"
-                    android:paddingLeft="10sp" />
+                    android:paddingLeft="12sp" />
 
                 <TextView
                     android:id="@+id/buyYourOwnMedicienLevel"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_yes_black"
-                    android:paddingLeft="12sp" />
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_unknown_black"
+                    android:paddingLeft="10sp" />
+
+<!--                <android.support.v7.widget.AppCompatImageView-->
+<!--                    android:id="@+id/buyYourOwnMedicienLevel"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    -->
+<!--                    android:background="@drawable/ic_yes_black"-->
+<!--                    />-->
 
                 <TextView
                     android:id="@+id/energyDrink"
@@ -342,15 +398,15 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_weight="0.5"
                     android:drawableLeft="@drawable/ic_energy_drink_black"
-                    android:paddingLeft="10sp" />
+                    android:paddingLeft="12sp" />
 
                 <TextView
                     android:id="@+id/energyDrinkLevel"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_yes_black"
-
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_unknown_black"
                     android:paddingLeft="12sp" />
 
                 <TextView
@@ -359,6 +415,7 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_weight="0.5"
+                    android:paddingLeft="5sp"
                     android:drawableLeft="@drawable/ic_car_accident_black" />
 
                 <TextView
@@ -366,12 +423,22 @@ tools:context=".person.genogram.personPopupActivity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/ic_no_black"
-
+                    android:drawableLeft="@drawable/ic_unknown_black"
+                    android:layout_gravity="center"
                     android:paddingLeft="12sp" />
+<!--                <android.support.v7.widget.AppCompatImageView-->
+<!--                    android:id="@+id/accidentLevel"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:scaleType="centerCrop"-->
+<!--                    android:background="@drawable/ic_no_black"-->
+<!--                    />-->
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -394,6 +461,7 @@ tools:context=".person.genogram.personPopupActivity"
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:layout_weight="0.3">
             <TextView
                 android:id="@+id/tvBMIResult"
@@ -408,179 +476,62 @@ tools:context=".person.genogram.personPopupActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:gravity="center_horizontal">
+                android:orientation="vertical">
             <ImageView
                 android:id="@+id/imgBMI"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_marginTop="15dp"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                />
+                <TextView
+                    android:id="@+id/bmiMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    />
             </LinearLayout>
         </LinearLayout>
         </LinearLayout>
-<!--        <TableLayout-->
-<!--            android:id="@+id/tbBMI"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
 
-<!--            >-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/LevelNCD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ระดับความเสี่ยงต่อการเป็นโรค NCDs"
+                android:textSize="16dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                />
+            <TextView
+                android:id="@+id/LevelNCDMessage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_unknown_black"
+                android:gravity="center"
 
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="#E0DEDE">-->
+                />
+            </LinearLayout>
+        </LinearLayout>
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_column="1"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:textSize="16dp"-->
-<!--                    android:text="BMI kg/m2">-->
-
-<!--                </TextView>-->
-<!--                <TextView android:text="ภาวะน้ำหนักตัว"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:gravity="center"-->
-<!--                    android:textSize="16dp"-->
-<!--                    android:layout_weight="0.5"></TextView>-->
-
-<!--            </TableRow>-->
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:id="@+id/bmi_revel1"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel1_cell1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_column="1"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:text="น้อยกว่า 18.50"-->
-<!--                    android:textSize="15dp" />-->
-
-<!--                <TextView-->
-<!--                    android:padding="3dip"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="น้ำหนักตำกว่าเกณฑ์"/>-->
-
-<!--            </TableRow>-->
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:id="@+id/bmi_revel2"  >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel2_cell1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_column="1"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="ระหว่าง 18.50 - 22.90">-->
-
-<!--                </TextView>-->
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel2_cell2"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="สมส่วน"></TextView>-->
-
-<!--            </TableRow>-->
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:id="@+id/bmi_revel3"  >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel3_cell1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_column="1"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="ระหว่าง 23 - 24.90">-->
-
-<!--                </TextView>-->
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel3_cell2"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="น้ำหนักเกิน"/>-->
-
-<!--            </TableRow>-->
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:id="@+id/bmi_revel4" >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel4_cell1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_column="1"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="ระหว่าง 25 - 29.90">-->
-
-<!--                </TextView>-->
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel4_cell2"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="โรคอ้วน"></TextView>-->
-
-<!--            </TableRow>-->
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:id="@+id/bmi_revel5" >-->
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel5_cell1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_column="1"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="มากกว่า 30">-->
-
-<!--                </TextView>-->
-<!--                <TextView-->
-<!--                    android:id="@+id/bmi_revel5_cell2"-->
-<!--                    android:padding="3dip"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:text="โรคอ้วนอันตราย"></TextView>-->
-
-<!--            </TableRow>-->
-<!--        </TableLayout>-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:paddingTop="10dp"
-            android:text="Bloose Pressure"
+            android:text="Blood Pressure"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"></TextView>
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chartBloosePressure"
@@ -591,16 +542,16 @@ tools:context=".person.genogram.personPopupActivity"
             android:padding="9dp"
             android:layout_width="match_parent"
             android:background="@color/blue_50"
-            android:layout_height="250dp"/>
+            android:layout_height="300dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:paddingTop="10dp"
-            android:text="Bloose Glucose"
+            android:text="Blood Sugar"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"></TextView>
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chartBlooseGlucose"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chartBloodSugar"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="5dp"
@@ -608,7 +559,7 @@ tools:context=".person.genogram.personPopupActivity"
             android:padding="9dp"
             android:layout_width="match_parent"
             android:background="@color/blue_50"
-            android:layout_height="250dp"/>
+            android:layout_height="300dp"/>
         <Button
             android:id="@+id/button_popup"
             android:layout_width="wrap_content"
