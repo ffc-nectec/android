@@ -3,6 +3,7 @@ package ffc.app.asm
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import ffc.android.observe
 
 class MyPagerAdapter (fm: FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
@@ -15,7 +16,6 @@ class MyPagerAdapter (fm: FragmentManager): FragmentPagerAdapter(fm) {
                 AsmNotCareFragment()
             }
         }
-
     }
 
     override fun getCount(): Int {
@@ -28,4 +28,5 @@ class MyPagerAdapter (fm: FragmentManager): FragmentPagerAdapter(fm) {
             else->"บ้าน ทั้งหมด"
         }
     }
+
 }

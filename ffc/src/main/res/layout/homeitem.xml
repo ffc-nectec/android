@@ -25,13 +25,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lblhomeId"
+                    android:visibility="gone"
+                    />
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/lblhomeNo"
                         android:text="เลขที่บ้าน:"
                         android:textSize="20dp"
                         android:gravity="left"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.1"
                         />
                 <TextView
                     android:layout_width="wrap_content"
@@ -42,24 +48,24 @@
                     android:textSize="20dp"
                     android:layout_weight="1"
                     />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="หมู่:"
-                    android:textSize="20dp"
-                    android:gravity="right"
-                    android:id="@+id/lblVillageNo"
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/villageNo"
-                    android:text="2"
-                    android:gravity="center_horizontal"
-                    android:textSize="20dp"
-                    android:layout_weight="1"
-                    />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="หมู่:"-->
+<!--                    android:textSize="20dp"-->
+<!--                    android:gravity="right"-->
+<!--                    android:id="@+id/lblVillageNo"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/villageNo"-->
+<!--                    android:text="2"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:textSize="20dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,16 +74,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/lblMember"
-                    android:text="จำนวนสมาชิก:"
+                    android:id="@+id/lblVillageName"
+                    android:text="หมู่บ้าน:"
                     android:textSize="20dp"
                     android:gravity="left"
-                    android:layout_weight="0.03"
+                    android:layout_weight="0.1"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvMembers"
+                    android:id="@+id/tvVillageName"
                     android:text="2"
                     android:gravity="left"
                     android:textSize="20dp"

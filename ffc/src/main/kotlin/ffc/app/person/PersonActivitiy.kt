@@ -115,6 +115,10 @@ class PersonActivitiy : FamilyFolderActivity() {
         observe(viewModel.exception) {
             it?.let { handle(it) }
         }
+        var user = auth(this).user
+        if (user!!.roles[0] == User.Role.SURVEYOR ){
+            btnInfo.visibility =  View.GONE
+        }
         btnInfo.onClick {
 
             var intent =  Intent(this, personPopupActivity::class.java)

@@ -11,12 +11,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <EditText
+            android:id="@+id/txtAsmSearch"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="เลขที่บ้าน หมู่"
+            android:hint="เลขที่บ้าน หมู่บ้าน"
             />
-
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:layout_marginLeft="12dp"
+            android:text="จำนวนบ้าน:"
+            />
       <ListView
           android:id="@+id/lvHomeList"
           android:layout_width="match_parent"

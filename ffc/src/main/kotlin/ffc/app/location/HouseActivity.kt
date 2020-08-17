@@ -126,13 +126,10 @@ class HouseActivity : FamilyFolderActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = PersonAdapter(listOf()) {
                 onItemClick {
-                    val user = auth(context!!).user
-                    if(user!!.roles[0] != User.Role.SURVEYOR) {
-                        startPersonActivityOf(it, viewModel.house.value,
-                            appbar to getString(R.string.transition_appbar),
-                            find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile)
-                        )
-                    }
+                    startPersonActivityOf(it, viewModel.house.value,
+                        appbar to getString(R.string.transition_appbar),
+                        find<ImageView>(R.id.personImageView) to getString(R.string.transition_person_profile)
+                    )
                 }
             }
         }
