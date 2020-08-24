@@ -348,6 +348,9 @@ function genogramSymbol(data, spouse,twin,idCard) {
         }
         return 0;
     }
+    function compareGroup( a, b ) {
+        return a.group*1 - b.group*1 || b.age*1 - a.age*1;
+    }
     this.FindSpouse = function (id, spouse) {
         var slist = spouse;
         var result = [];
@@ -726,7 +729,9 @@ function genogramSymbol(data, spouse,twin,idCard) {
                 var personData = this.GetDataById(id);
                 if (personData.length > 0) {
                     lstParent.push({
-                        "data": personData[0].father_id + "," + personData[0].mother_id
+                        "data": personData[0].father_id + "," + personData[0].mother_id,
+                        "age": personData[0].age,
+                        "group":-1
                     });
                 }
             }
@@ -743,9 +748,38 @@ function genogramSymbol(data, spouse,twin,idCard) {
                     tmp.push(lstParent[i]);
                 }
             }
+            var myGroup = -1;
+            for(var l=0;l<tmp.length;l++){
+                if(l==0){
+                    myGroup=1;
+                }
+                else{
+                    myGroup=myGroup+1;
+                }
+                var pre_data_1 = tmp[l].data.split(",")[0];
+                var pre_data_2 = tmp[l].data.split(",")[1];
+                if(tmp[l].group == -1){
+                    tmp[l].group=myGroup;
+                }
+                for(var k=l+1;k<tmp.length;k++){
+                    var cur_data_1 = tmp[k].data.split(",")[0];
+                    var cur_data_2 = tmp[k].data.split(",")[1];
+                    if(    (pre_data_1==cur_data_1 &&  pre_data_1!=0 && cur_data_1!=0)
+                        || (pre_data_2==cur_data_2 &&  pre_data_2!=0 && cur_data_2!=0)
+                        || (pre_data_1==cur_data_2 &&  pre_data_1!=0 && cur_data_2!=0)
+                        || (pre_data_2==cur_data_1 &&  pre_data_2!=0 && cur_data_1!=0)
+                        ){
+                        tmp[k].group=myGroup;
+                    }
+                }
+            }
             //tmp = lstParent;
             var lstSameLevel = [];
             var lastPositionX = 0;
+            console.log(" ========= tmp ======== ");
+            console.log(JSON.stringify(tmp));
+            var tmp = tmp.sort(compareGroup);
+            console.log(" ========= tmp sort ======== ");
             console.log(JSON.stringify(tmp));
             for (var j = 0; j < tmp.length; j++) {
                 lstSameLevel = [];
@@ -864,6 +898,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
                         if (distinct < 100) {
                             distinct = 100;
                         }
+                        console.log('distinct:'+distinct);
                         //beginX = distinct;
                         //distinct = 150;
                         var space = (((widthObj) / 2 + ((lstSameLevel.length - 1) * distinct) / 2));
@@ -886,7 +921,7 @@ function genogramSymbol(data, spouse,twin,idCard) {
                             lastPositionX = beginX + (i * distinct);
                             lstSameLevel[i].x.baseVal.value = beginX + (i * distinct);
                             var n = 0;
-                           
+                            
                             while (this.isOverlap(level,lstSameLevel[i].x.baseVal.value) && n<this.hisPosition.length )
                             {
                                lstSameLevel[i].x.baseVal.value = beginX + ((i+n) * distinct);
@@ -1606,18 +1641,24 @@ function genogramSymbol(data, spouse,twin,idCard) {
     }
     this.isOverlap = function(level,x){
         var isOverlap = false;
+       //return false;
         if(level!==0){
             for(var i = 0;i <this.hisPosition.length; i++){
-                
             if( level == this.hisPosition[i].level 
                 
                 && (
-                    // (x-25<=(this.hisPosition[i].x+25)) 
-                    // || 
+                    //(x-25<=(this.hisPosition[i].x+25)) 
+                    // (x+50 >= this.hisPosition[i].x && x+50< this.hisPosition[i].x)
+                    // ||
+                    (x-(this.hisPosition[i].x+50)<=50 && x-(this.hisPosition[i].x+50)>0)
+                    ||
+                    (x+50 >=this.hisPosition[i].x && x+50 <=this.hisPosition[i].x+50)
+                    ||
                     (this.hisPosition[i].x<=x && x<=this.hisPosition[i].x+75)
                     )
                 )
                 {
+                
                 isOverlap=true;
                 break;
             }

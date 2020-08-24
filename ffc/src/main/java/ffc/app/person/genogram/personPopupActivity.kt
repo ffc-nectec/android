@@ -76,7 +76,8 @@ class personPopupActivity : FamilyFolderActivity() {
         val bundle = intent.extras
         var id = bundle?.getString("id","") ?: ""
         var personId = bundle?.getString("personId", "") ?: ""
-
+        var  tvBMI:TextView = findViewById(R.id.tvBMIResult)
+        tvBMI.text = ""
         val avatarView = findViewById<CircleImageView>(R.id.avatarView);
         avatarView.onClick {
             dispatchTakePictureIntent();
@@ -107,15 +108,17 @@ class personPopupActivity : FamilyFolderActivity() {
         viewModel = viewModel()
         personViewModel = viewModel();
         observe(personViewModel.person){
-            if (it != null) {
-               bindPerson(it)
+            if (it == null)
+            {
+                emptyViewPerson.showEmpty()
+            }
+            else{
+                emptyViewPerson.showContent()
+                bindPerson(it)
             }
         }
         observe(viewModel.services){
-            if (it == null || it.isEmpty())
-                emptyViewPerson.showEmpty()
-            else{
-                emptyViewPerson.showContent()
+            if (it != null &&  !it.isEmpty()) {
                 bind(it)
             }
         }
