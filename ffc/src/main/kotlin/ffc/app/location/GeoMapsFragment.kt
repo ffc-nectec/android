@@ -252,7 +252,7 @@ class GeoMapsFragment : PointMarloFragment() {
                        lstDisease.add("disable");
                     }
                     if(disease7){
-                        lstDisease.add("old");
+                        lstDisease.add("elder");
                     }
                     if(lstDisease.size==0){
                         var features = data?.features?.filter { it.properties?.tags!!.indexOf("----")>-1 }
@@ -427,7 +427,7 @@ class GeoMapsFragment : PointMarloFragment() {
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
                 }
-                else if(disease7 &&  it.getProperty("tags").indexOf("old")>-1){
+                else if(disease7 &&  it.getProperty("tags").indexOf("elder")>-1){
                     it.pointStyle = GeoJsonPointStyle().apply {
                         icon =  oldHomeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
