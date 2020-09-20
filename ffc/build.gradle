@@ -47,6 +47,10 @@ android {
         multiDexEnabled true
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     signingConfigs {
         debug {
             storeFile file("debug.keystore")
