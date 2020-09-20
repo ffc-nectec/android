@@ -36,9 +36,6 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
-    lintOptions {
-        abortOnError false
-    }
 
     defaultConfig {
         applicationId "ffc.app"
@@ -152,8 +149,11 @@ dependencies {
     implementation "ru.noties:markwon-view:2.0.1"
     implementation "th.or.nectec.android:marlo:0.5.3"
     implementation "th.or.nectec.android:thai-widget:0.6.2"
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation files('libs/North-vision_Lifecare-10.jar')
+//    implementation 'androidx.appcompat:appcompat:1.1.0'
 
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.amshove.kluent:kluent:1.48'
 
@@ -163,6 +163,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
-}
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+}
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 apply plugin: 'com.google.gms.google-services'
