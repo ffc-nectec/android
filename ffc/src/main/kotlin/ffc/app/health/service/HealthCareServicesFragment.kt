@@ -91,7 +91,7 @@ class HealthCareServicesFragment : Fragment() {
         with(vitalSign) {
             layoutManager = GridLayoutManager(context!!, 3)
             addHorizontalItemDivider()
-            adapter = ValueAdapter(service.toValues(), limit =3)
+            adapter = ValueAdapter(service.toValues(), limit = 3)
         }
     }
 

@@ -16,10 +16,9 @@
  */
 
 package ffc.app.person
-import android.app.Activity
+
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -27,13 +26,10 @@ import android.widget.LinearLayout
 import ffc.android.getString
 import ffc.android.layoutInflater
 import ffc.android.load
-import ffc.android.tag
 import ffc.app.R
-import ffc.app.auth.auth
 import ffc.app.health.analyze.toIconTitlePair
 import ffc.app.util.AdapterClickListener
 import ffc.entity.Person
-import ffc.entity.User
 import kotlinx.android.synthetic.main.person_list_item.view.*
 import org.jetbrains.anko.dip
 import timber.log.Timber
@@ -76,7 +72,7 @@ class PersonAdapter(
                 itemView.personStatus.removeAllViews()
                 //Log.d("disabilities:",person.disabilities.toString());
                 //Log.d("Tags:",person.tags.toString());
-                if(person.disabilities.size>0) {
+                if (person.disabilities.size > 0) {
                     val layoutParam = LinearLayout.LayoutParams(itemView.dip(16), itemView.dip(16)).apply {
                         marginStart = itemView.dip(4)
                         marginEnd = itemView.dip(4)
@@ -98,7 +94,7 @@ class PersonAdapter(
                     }, layoutParam)
                 }
                 avatarUrl?.let { itemView.personImageView.load(Uri.parse(it)) }
-               listener.bindOnItemClick(itemView, person)
+                listener.bindOnItemClick(itemView, person)
             }
         }
     }

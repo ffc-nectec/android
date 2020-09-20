@@ -29,10 +29,9 @@ import com.google.android.gms.maps.model.LatLng
 import ffc.android.onClick
 import kotlinx.android.synthetic.main.fragment_map.*
 import java.io.IOException
-import java.util.*
+import java.util.* // ktlint-disable
 
-
-class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
+class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     fun mapFragment() {}
     private var mMap: GoogleMap? = null
@@ -44,8 +43,11 @@ class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
     private var geocoder: Geocoder? = null
     private var locationString: String? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         var view: View = inflater.inflate(R.layout.fragment_map, container, false)
         geocoder = Geocoder(context, Locale("th", "TH"))
         (childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment?)!!.getMapAsync { googleMap ->
@@ -67,11 +69,12 @@ class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
                     onShareLayout()
                 }
             }
-            getLocation();
+            getLocation()
         }
 
-        return view;
+        return view
     }
+
     fun onShareLayout() {
         if (resultLatLng == null) {
             //Alert.showAlertOK(activity, "กรุณาเลือกพิกัด", false, null)
@@ -84,11 +87,15 @@ class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
         activity!!.setResult(Activity.RESULT_OK, resultIntent)
         activity!!.finish()
     }
+
     private fun getLocation() {
         if (ActivityCompat.checkSelfPermission(
-                context!!, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context!!, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(Activity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
+                context!!, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(context!!,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                Activity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
         } else {
             locationManager = this.activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
             val locationGPS = locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -109,6 +116,7 @@ class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
             }
         }
     }
+
     override fun onLocationChanged(p0: Location?) {
         val latLng = LatLng(p0!!.getLatitude(), p0!!.getLongitude())
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
@@ -129,7 +137,7 @@ class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
         }
     }
 
-//    override fun onCameraIdle() {
+    //    override fun onCameraIdle() {
 //        val cameraPosition: CameraPosition = mMap!!.getCameraPosition()
 //        if (cameraPosition != null) {
 //            try {
@@ -155,7 +163,9 @@ class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
         var knownName: String? = null
         if (addresses != null) {
             if (addresses.size > 0) {
-                address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                // If any additional address line present than only,
+                // check with max available address lines by getMaxAddressLineIndex()
+                address = addresses[0].getAddressLine(0)
                 city = addresses[0].locality
                 state = addresses[0].adminArea
                 country = addresses[0].countryName
@@ -187,5 +197,4 @@ class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
         locationString = address
         locationTextView.setText(address)
     }
-
 }
