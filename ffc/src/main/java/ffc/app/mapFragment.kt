@@ -43,6 +43,7 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var geocoder: Geocoder? = null
     private var locationString: String? = null
 
+    @SuppressWarnings("MissingPermission")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
