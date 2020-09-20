@@ -7,7 +7,6 @@ import ffc.android.get
 import ffc.android.put
 import ffc.entity.Organization
 import ffc.entity.place.House
-import me.piruin.geok.geometry.FeatureCollection
 import org.jetbrains.anko.doAsync
 
 class GeoPreferences(context: Context, val org: Organization?) {

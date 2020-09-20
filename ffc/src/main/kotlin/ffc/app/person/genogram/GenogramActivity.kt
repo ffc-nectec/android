@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Build
@@ -18,8 +17,8 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.webkit.*
-import android.widget.*
+import android.webkit.* // ktlint-disable
+import android.widget.* // ktlint-disable
 import ffc.android.onClick
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
@@ -30,56 +29,54 @@ import ffc.entity.Organization
 import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.healthcare.HealthCareService
-import kotlinx.android.synthetic.main.activity_genogram.*
+import kotlinx.android.synthetic.main.activity_genogram.* // ktlint-disable
 import kotlinx.android.synthetic.main.activity_genogram.emptyViewPerson
 import org.jetbrains.anko.runOnUiThread
 import org.json.JSONArray
-import org.json.JSONObject
-import java.util.*
 
 class GenogramActivity : FamilyFolderActivity() {
 
-
     private lateinit var viewModel: GenogramActivity.ServicesViewModel
-    var pass:Boolean = false
+    var pass: Boolean = false
     var maxScrollX = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genogram)
         var tverrorMessage = root_layout.findViewById<TextView>(R.id.errorMessage)
-        tverrorMessage.visibility =View.INVISIBLE
+        tverrorMessage.visibility = View.INVISIBLE
         //loadData()
-        addEvent();
+        addEvent()
     }
-    private fun addEvent()
-    {
-        var  homeAsUp :ImageButton = findViewById(R.id.homeAsUp)
+
+    private fun addEvent() {
+        var homeAsUp: ImageButton = findViewById(R.id.homeAsUp)
         homeAsUp.onClick {
             finish()
         }
     }
+
     override fun onResume() {
         super.onResume()
         loadData()
     }
-    fun loadData()
-    {
+
+    fun loadData() {
         val personId = intent.personId
         val genogram = ApiFamilies(org!!, personId!!)
-        emptyViewPerson.showLoading();
+        emptyViewPerson.showLoading()
         genogram.genogramCollects {
             onSuccess {
-                Log.d("genogram:",personId+" -> "+it.toJson());
-                loadGenogram(personId, it.toJson(),org!!);
+                Log.d("genogram:", personId + " -> " + it.toJson())
+                loadGenogram(personId, it.toJson(), org!!)
             }
             onFail {
-                emptyViewPerson.showEmpty();
+                emptyViewPerson.showEmpty()
                 handle(it!!)
             }
         }
     }
 
-    fun loadGenogram(personId:String, jsonData: String, org: Organization){
+    fun loadGenogram(personId: String, jsonData: String, org: Organization) {
 
         val myWebView: WebView = findViewById(R.id.webview)
         val displayMetrics = DisplayMetrics()
@@ -93,108 +90,105 @@ class GenogramActivity : FamilyFolderActivity() {
         myWebView.settings.builtInZoomControls = true
         myWebView.settings.useWideViewPort = true
         myWebView.settings.loadWithOverviewMode = true
-        myWebView.scrollBarStyle= WebView.SCROLLBARS_OUTSIDE_OVERLAY
+        myWebView.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
         myWebView.isScrollbarFadingEnabled = true
-        myWebView.setPadding(0,0,0,0)
+        myWebView.setPadding(0, 0, 0, 0)
         myWebView.webChromeClient = WebChromeClient()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             myWebView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
                 run {
-//                    if(scrollX!=100000 && scrollX>0) {
+                    //                    if(scrollX!=100000 && scrollX>0) {
 //                        maxScrollX = scrollX;
 //                    }
-                    if(oldScrollX>scrollX && scrollX !=0)
-                    {
+                    if (oldScrollX > scrollX && scrollX != 0) {
                         maxScrollX = scrollX
                     }
                     //maxScrollX = scrollX;
                     var oldX = oldScrollX
-                    Log.d("=======:","scaleX-->"+v.scaleX+"--> scaleY:"+v.scaleY+" --> scrollX:"+scrollX!!.toString()+" maxScrollX:"+maxScrollX);
+                    Log.d("=======:",
+                        "scaleX-->${v.scaleX}--> scaleY:${v.scaleY} --> scrollX:${scrollX!!} maxScrollX:$maxScrollX")
                 }
             }
-
         }
 
-        var intent =  Intent(this, personPopupActivity::class.java)
-        myWebView.addJavascriptInterface(WebAppInterface(this,root_layout,org!!,intent), "Android")
+        var intent = Intent(this, personPopupActivity::class.java)
+        myWebView.addJavascriptInterface(WebAppInterface(this, root_layout, org!!, intent), "Android")
         myWebView.setWebViewClient(object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
-                    super.onPageFinished(view, url)
-                    var Scroll= Point(0,0);
-                    var scale = 0
-                    var size = 0.0
+                super.onPageFinished(view, url)
+                var Scroll = Point(0, 0)
+                var scale = 0
+                var size = 0.0
 
-                    val objJSON = JSONArray(jsonData)
-                    val jsString = "javascript:initialize(" +
-                        "'" + personId + "'," + objJSON + ","+width+","+height+")"
-                    view.loadUrl(jsString)
-                    view.evaluateJavascript("getWidthContent()") {
-                        var orientation = getResources().getConfiguration().orientation;
-                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            //view.setInitialScale(100);
-                            view.setInitialScale(50);
-                            // In landscape
-                        } else {
-                            // In portrait
-                            size = it.toDouble()*1.25
-                            if(size<600){
-                                size=600.0;
-                            }
-                            scale = getScale(size)
-                            view.setInitialScale(scale)
-                            view.visibility = View.INVISIBLE
-                            view.evaluateJavascript("getFirstPosition()"){
-                                //view.scrollX = 100000
-                                var anim = ObjectAnimator.ofInt(view, "scrollX",
-                                    0, 100000000);
-                                /*getScale(it.toDouble())+(scale*1.715).toInt());*/
-                                anim.setDuration(500);
-                                anim.start();
-
-                                //view.scrollBy(getScale(it.toDouble())+(scale*1.715).toInt(),0)
-                            }
-                            view.postDelayed(Runnable() {
-                                run() {
-
-                                    view.evaluateJavascript("getFirstPosition()"){
-                                        //view.scrollX = 100000
-                                        view.visibility = View.VISIBLE
-                                        var anim = ObjectAnimator.ofInt(view, "scrollX",
-                                            0, maxScrollX/2);
-                                        /*getScale(it.toDouble())+(scale*1.715).toInt());*/
-                                        anim.setDuration(500);
-                                        anim.start();
-
-                                        //view.scrollBy(getScale(it.toDouble())+(scale*1.715).toInt(),0)
-                                    }
-
-                                }
-                                // Delay the scrollTo to make it work
-                            }, 1000);
+                val objJSON = JSONArray(jsonData)
+                val jsString = "javascript:initialize(" +
+                    "'" + personId + "'," + objJSON + "," + width + "," + height + ")"
+                view.loadUrl(jsString)
+                view.evaluateJavascript("getWidthContent()") {
+                    var orientation = getResources().getConfiguration().orientation
+                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        //view.setInitialScale(100);
+                        view.setInitialScale(50)
+                        // In landscape
+                    } else {
+                        // In portrait
+                        size = it.toDouble() * 1.25
+                        if (size < 600) {
+                            size = 600.0
                         }
+                        scale = getScale(size)
+                        view.setInitialScale(scale)
+                        view.visibility = View.INVISIBLE
+                        view.evaluateJavascript("getFirstPosition()") {
+                            //view.scrollX = 100000
+                            var anim = ObjectAnimator.ofInt(view, "scrollX",
+                                0, 100000000)
+                            /*getScale(it.toDouble())+(scale*1.715).toInt());*/
+                            anim.setDuration(500)
+                            anim.start()
 
-                    };
+                            //view.scrollBy(getScale(it.toDouble())+(scale*1.715).toInt(),0)
+                        }
+                        view.postDelayed(Runnable() {
+                            run() {
 
+                                view.evaluateJavascript("getFirstPosition()") {
+                                    //view.scrollX = 100000
+                                    view.visibility = View.VISIBLE
+                                    var anim = ObjectAnimator.ofInt(view, "scrollX",
+                                        0, maxScrollX / 2)
+                                    /*getScale(it.toDouble())+(scale*1.715).toInt());*/
+                                    anim.setDuration(500)
+                                    anim.start()
 
-                    emptyViewPerson.showContent();
+                                    //view.scrollBy(getScale(it.toDouble())+(scale*1.715).toInt(),0)
+                                }
+                            }
+                            // Delay the scrollTo to make it work
+                        }, 1000)
                     }
+                }
+
+                emptyViewPerson.showContent()
+            }
 
             override fun onScaleChanged(view: WebView?, oldScale: Float, newScale: Float) {
                 super.onScaleChanged(view, oldScale, newScale)
-                Log.d("======== >ScaleChanged",oldScale.toString()+ " " + newScale.toString());
+                Log.d("======== >ScaleChanged", oldScale.toString() + " " + newScale.toString())
             }
         })
     }
-    private fun  calculateProgression(myWebView: WebView) :Int
-    {
-        var positionTopView  = myWebView.getTop();
-        var contentHeight = myWebView.getContentHeight();
-        var currentScrollPosition = myWebView.getScrollY();
-        var percentWebview = (currentScrollPosition - positionTopView) / contentHeight;
-        return percentWebview;
+
+    private fun calculateProgression(myWebView: WebView): Int {
+        var positionTopView = myWebView.getTop()
+        var contentHeight = myWebView.getContentHeight()
+        var currentScrollPosition = myWebView.getScrollY()
+        var percentWebview = (currentScrollPosition - positionTopView) / contentHeight
+        return percentWebview
     }
-    private fun getScale(PIC_WIDTH:Double): Int {
+
+    private fun getScale(PIC_WIDTH: Double): Int {
 
         val display =
             (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
@@ -209,40 +203,44 @@ class GenogramActivity : FamilyFolderActivity() {
         val loading = MutableLiveData<Boolean>()
         val exception = MutableLiveData<Throwable>()
     }
-    class WebAppInterface(private val mContext: Context,private val root_layout: LinearLayout, private val org: Organization,private val intent: Intent) {
 
+    class WebAppInterface(
+        private val mContext: Context,
+        private val root_layout: LinearLayout,
+        private val org: Organization,
+        private val intent: Intent
+    ) {
 
         private lateinit var viewModel: ServicesViewModel
 //        private var _intent:Intent = intent
         /** Show a toast from the web page  */
         @JavascriptInterface
         fun showToast(toast: String) {
-            var builder:AlertDialog.Builder = AlertDialog.Builder(mContext);
-            builder.setCancelable(false);
-            builder.setMessage(toast);
-            builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener() {
-                dialogInterface: DialogInterface, i: Int ->
-
-            });
-            var dialog = builder.create();
-            dialog.show();
-
+            var builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
+            builder.setCancelable(false)
+            builder.setMessage(toast)
+            builder.setPositiveButton(R.string.ok,
+                DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
+                })
+            var dialog = builder.create()
+            dialog.show()
         }
+
         @JavascriptInterface
-        fun showMessage(){
+        fun showMessage() {
             Thread(Runnable {
                 // try to touch View of UI thread
-                 mContext.runOnUiThread {
-                     var tverrorMessage = root_layout.findViewById<TextView>(R.id.errorMessage);
-                     tverrorMessage.visibility = View.VISIBLE
-                 }
+                mContext.runOnUiThread {
+                    var tverrorMessage = root_layout.findViewById<TextView>(R.id.errorMessage)
+                    tverrorMessage.visibility = View.VISIBLE
+                }
             }).start()
-
         }
+
         @JavascriptInterface
-        fun showPersonalInfo(id:String,personId:String) {
+        fun showPersonalInfo(id: String, personId: String) {
             var user = auth(mContext).user
-            if (user!!.roles[0] != User.Role.SURVEYOR ) {
+            if (user!!.roles[0] != User.Role.SURVEYOR) {
                 intent.putExtra("id", id)
                 intent.putExtra("personId", personId)
                 mContext.startActivity(intent)
@@ -286,10 +284,9 @@ class GenogramActivity : FamilyFolderActivity() {
 //                0
 //            )
 //
-
         }
 
-//        private fun loadHealthcareServices(personId: String,org: Organization,view :View) {
+        //        private fun loadHealthcareServices(personId: String,org: Organization,view :View) {
 //            viewModel.loading.value = true
 //            var data: List<HealthCareService> = emptyList()
 //
@@ -304,9 +301,9 @@ class GenogramActivity : FamilyFolderActivity() {
 //
 //
 //        }
-        private fun Bind(data:List<HealthCareService>,view :View){
-            if(data!=null){
-                if(data.size>0) {
+        private fun Bind(data: List<HealthCareService>, view: View) {
+            if (data != null) {
+                if (data.size > 0) {
                     if (data[0].bmi!!.value < 18.5) {
                         val tr = view.findViewById<TableRow>(R.id.bmi_revel1)
                         if (tr != null) {
@@ -341,6 +338,5 @@ class GenogramActivity : FamilyFolderActivity() {
                 }
             }
         }
-
     }
 }

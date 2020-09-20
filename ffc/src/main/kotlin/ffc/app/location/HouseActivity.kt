@@ -39,7 +39,6 @@ import ffc.android.setTransition
 import ffc.android.viewModel
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
-import ffc.app.auth.auth
 import ffc.app.dev
 import ffc.app.person.PersonAdapter
 import ffc.app.person.startPersonActivityOf
@@ -51,7 +50,6 @@ import ffc.app.util.Analytics
 import ffc.app.util.alert.handle
 import ffc.app.util.alert.toast
 import ffc.entity.Person
-import ffc.entity.User
 import ffc.entity.gson.toJson
 import ffc.entity.place.House
 import ffc.entity.update

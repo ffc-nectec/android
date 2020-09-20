@@ -19,7 +19,6 @@ package ffc.app.health
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -37,7 +36,6 @@ import ffc.entity.healthcare.BloodPressure
 import ffc.entity.healthcare.HealthCareService
 import ffc.entity.update
 import kotlinx.android.synthetic.main.hs_vitalsign_form_fragment.*
-import org.jetbrains.anko.support.v4.startActivity
 
 internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
@@ -71,52 +69,52 @@ internal class VitalSignFormFragment : Fragment(), HealthCareServivceForm<Health
             it.bodyTemperature?.let { temp -> tempField.setText("$temp") }
         }
         btnMeasuringTools.onClick {
-            var intent = Intent(context,DeviceMainActivity::class.java)
-            startActivityForResult(intent,1)
+            var intent = Intent(context, DeviceMainActivity::class.java)
+            startActivityForResult(intent, 1)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == RESULT_OK){
-            if(requestCode == 1) {
-                var ecgInfo = data!!.getStringExtra("ECGInfo");
-                var spO2Info = data!!.getStringExtra("SPO2Info");
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                var ecgInfo = data!!.getStringExtra("ECGInfo")
+                var spO2Info = data!!.getStringExtra("SPO2Info")
 
-                var tempInfo = data!!.getStringExtra("TEMPInfo");
-                var nibpInfo = data!!.getStringExtra("NIBPInfo");
+                var tempInfo = data!!.getStringExtra("TEMPInfo")
+                var nibpInfo = data!!.getStringExtra("NIBPInfo")
 
-                var ecgTemp = ecgInfo.split(":");
-                var heartRate = ecgTemp[1].replace("Resp Rate","");
-                var RespRate = ecgTemp[2];
+                var ecgTemp = ecgInfo.split(":")
+                var heartRate = ecgTemp[1].replace("Resp Rate", "")
+                var RespRate = ecgTemp[2]
 
                 var spO2Temp = spO2Info.split(":")
-                var spO2 = spO2Temp[1].replace("SPO2","")
+                var spO2 = spO2Temp[1].replace("SPO2", "")
                 var spO2PluseRate = spO2Temp[2]
 
-                var strHigh = "High:";
-                var strLow ="Low:"
-                var strMean ="Mean:"
-                var indexHigh = nibpInfo.indexOf(strHigh);
-                var indexLow = nibpInfo.indexOf(strLow);
-                var indexMean =  nibpInfo.indexOf(strMean);
-                var hight= nibpInfo.substring(indexHigh+strHigh.length,indexLow-1);
-                var low= nibpInfo.substring(indexLow+strLow.length,indexMean-1);
-                var tmp = tempInfo.replace("TEMP:","").replace("°C","").trim();
-                if(tmp.trim().indexOf("-")<0) {
-                    tempField.setText(tmp);
+                var strHigh = "High:"
+                var strLow = "Low:"
+                var strMean = "Mean:"
+                var indexHigh = nibpInfo.indexOf(strHigh)
+                var indexLow = nibpInfo.indexOf(strLow)
+                var indexMean = nibpInfo.indexOf(strMean)
+                var hight = nibpInfo.substring(indexHigh + strHigh.length, indexLow - 1)
+                var low = nibpInfo.substring(indexLow + strLow.length, indexMean - 1)
+                var tmp = tempInfo.replace("TEMP:", "").replace("°C", "").trim()
+                if (tmp.trim().indexOf("-")<0) {
+                    tempField.setText(tmp)
                 }
-                if(hight.indexOf("-")<0) {
+                if (hight.indexOf("-")<0) {
                     bpSysField.setText(hight)
                 }
-                if(low.indexOf("-")<0) {
+                if (low.indexOf("-")<0) {
                     bpDiaField.setText(low)
                 }
-                if(spO2PluseRate.indexOf("-")<0) {
+                if (spO2PluseRate.indexOf("-")<0) {
 
                     pulseField.setText(spO2PluseRate)
                 }
-                if(RespRate.indexOf("-")<0) {
+                if (RespRate.indexOf("-")<0) {
                     rrField.setText(RespRate)
                 }
             }

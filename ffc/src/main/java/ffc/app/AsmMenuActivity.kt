@@ -3,8 +3,6 @@ package ffc.app
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toolbar
 import ffc.android.onClick
@@ -24,11 +22,10 @@ class AsmMenuActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("ยืนยัน")
             builder.setTitle("คุณต้องการออกจากระบบ หรือไม่")
-            builder.setPositiveButton(android.R.string.yes){ dialog, which ->
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
                 finish()
             }
-            builder.setNegativeButton(android.R.string.no){ dialog, which ->
-
+            builder.setNegativeButton(android.R.string.no) { dialog, which ->
             }
             builder.show()
         }

@@ -20,15 +20,13 @@ package ffc.app.location
 import android.app.Activity
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.Gravity
-import android.view.View
-import android.widget.*
+import android.widget.* // ktlint-disable
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -36,7 +34,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.data.geojson.GeoJsonLayer
 import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import com.sembozdemir.permissionskt.handlePermissionsResult
-import ffc.android.*
+import ffc.android.* // ktlint-disable
 import ffc.app.R
 import ffc.app.auth.auth
 import ffc.app.dev
@@ -44,7 +42,6 @@ import ffc.app.familyFolderActivity
 import ffc.app.util.alert.handle
 import ffc.entity.gson.toJson
 import ffc.entity.place.House
-import me.piruin.geok.geometry.Feature
 import me.piruin.geok.geometry.Point
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.intentFor
@@ -62,15 +59,15 @@ class GeoMapsFragment : PointMarloFragment() {
     private val viewModel by lazy { viewModel<GeoViewModel>() }
     private val preference by lazy { GeoPreferences(context!!, org) }
     var window = PopupWindow()
-    var isShow = false;
-    var disease0 = true;
-    var disease1 = true;
-    var disease2 = true;
-    var disease3 = true;
-    var disease4 = true;
-    var disease5 = true;
-    var disease6 = true;
-    var disease7 = true;
+    var isShow = false
+    var disease0 = true
+    var disease1 = true
+    var disease2 = true
+    var disease3 = true
+    var disease4 = true
+    var disease5 = true
+    var disease6 = true
+    var disease7 = true
     private val org by lazy { familyFolderActivity.org }
 
     override fun onActivityCreated(bundle: Bundle?) {
@@ -81,17 +78,17 @@ class GeoMapsFragment : PointMarloFragment() {
         viewFinder.gone()
         hideToolsMenu()
         observeViewModel()
-        if(window!=null){
-            window.dismiss();
+        if (window != null) {
+            window.dismiss()
         }
         btnFilter!!.onClick {
 
-            if(!isShow) {
+            if (!isShow) {
                 window = PopupWindow(context)
                 val view = layoutInflater.inflate(R.layout.disease_filter, null)
                 window.contentView = view
 
-                window.showAtLocation(view,Gravity.NO_GRAVITY,40,420)
+                window.showAtLocation(view, Gravity.NO_GRAVITY, 40, 420)
 
                 var swDisease0 = view.findViewById<Switch>(R.id.swDisease0)
                 var swDisease1 = view.findViewById<Switch>(R.id.swDisease1)
@@ -127,68 +124,70 @@ class GeoMapsFragment : PointMarloFragment() {
                     swDisease7.isChecked = b
                     observeViewModel()
                 }
+                /* ktlint-disable */
                 swDisease1.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
-                     disease1 = b
-                     clearSwith0Event(swDisease0);
-                     setValueSwitch0(swDisease0,swDisease1,swDisease2,swDisease3,swDisease4,swDisease5,swDisease6,swDisease7)
-                     observeViewModel()
+                    disease1 = b
+                    clearSwith0Event(swDisease0)
+                    setValueSwitch0(swDisease0, swDisease1, swDisease2, swDisease3, swDisease4, swDisease5, swDisease6, swDisease7)
+                    observeViewModel()
                 }
-                 swDisease2.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
-                     disease2 = b
-                     clearSwith0Event(swDisease0);
-                     setValueSwitch0(swDisease0,swDisease1,swDisease2,swDisease3,swDisease4,swDisease5,swDisease6,swDisease7)
-                     observeViewModel()
+                swDisease2.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+                    disease2 = b
+                    clearSwith0Event(swDisease0)
+                    setValueSwitch0(swDisease0, swDisease1, swDisease2, swDisease3, swDisease4, swDisease5, swDisease6, swDisease7)
+                    observeViewModel()
                 }
-                swDisease3.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
+                swDisease3.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
                     disease3 = b
-                    clearSwith0Event(swDisease0);
-                    setValueSwitch0(swDisease0,swDisease1,swDisease2,swDisease3,swDisease4,swDisease5,swDisease6,swDisease7)
+                    clearSwith0Event(swDisease0)
+                    setValueSwitch0(swDisease0, swDisease1, swDisease2, swDisease3, swDisease4, swDisease5, swDisease6, swDisease7)
                     observeViewModel()
                 }
-                swDisease4.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
+                swDisease4.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
                     disease4 = b
-                    clearSwith0Event(swDisease0);
-                    setValueSwitch0(swDisease0,swDisease1,swDisease2,swDisease3,swDisease4,swDisease5,swDisease6,swDisease7)
+                    clearSwith0Event(swDisease0)
+                    setValueSwitch0(swDisease0, swDisease1, swDisease2, swDisease3, swDisease4, swDisease5, swDisease6, swDisease7)
                     observeViewModel()
                 }
-                swDisease5.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
+                swDisease5.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
                     disease5 = b
-                    clearSwith0Event(swDisease0);
-                    setValueSwitch0(swDisease0,swDisease1,swDisease2,swDisease3,swDisease4,swDisease5,swDisease6,swDisease7)
+                    clearSwith0Event(swDisease0)
+                    setValueSwitch0(swDisease0, swDisease1, swDisease2, swDisease3, swDisease4, swDisease5, swDisease6, swDisease7)
                     observeViewModel()
                 }
-                swDisease6.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
+                swDisease6.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
                     disease6 = b
-                    clearSwith0Event(swDisease0);
-                    setValueSwitch0(swDisease0,swDisease1,swDisease2,swDisease3,swDisease4,swDisease5,swDisease6,swDisease7)
+                    clearSwith0Event(swDisease0)
+                    setValueSwitch0(swDisease0, swDisease1, swDisease2, swDisease3, swDisease4, swDisease5, swDisease6, swDisease7)
                     observeViewModel()
                 }
-                swDisease7.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
+                swDisease7.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
                     disease7 = b
-                    clearSwith0Event(swDisease0);
-                    setValueSwitch0(swDisease0,swDisease1,swDisease2,swDisease3,swDisease4,swDisease5,swDisease6,swDisease7)
+                    clearSwith0Event(swDisease0)
+                    setValueSwitch0(swDisease0, swDisease1, swDisease2, swDisease3, swDisease4, swDisease5, swDisease6, swDisease7)
                     observeViewModel()
                 }
-                isShow = true;
-            }
-            else{
-                window.dismiss();
-                isShow = false;
+                isShow = true
+            } else {
+                window.dismiss()
+                isShow = false
             }
         }
     }
-    private fun setValueSwitch0(sw0: Switch,sw1: Switch,sw2: Switch,sw3: Switch,sw4: Switch,sw5: Switch,sw6: Switch,sw7: Switch)
-    {
-        sw0.isChecked =  disease1 && disease2 && disease3 && disease4 && disease5 && disease6 && disease7
+
+    private fun setValueSwitch0(sw0: Switch, sw1: Switch, sw2: Switch, sw3: Switch, sw4: Switch, sw5: Switch, sw6: Switch, sw7: Switch) {
+        sw0.isChecked = disease1 && disease2 && disease3 && disease4 && disease5 && disease6 && disease7
         disease0 = sw0.isChecked
-        setSwitch0Event(sw0,sw1,sw2,sw3,sw4,sw5,sw6,sw7)
+        setSwitch0Event(sw0, sw1, sw2, sw3, sw4, sw5, sw6, sw7)
     }
-    private fun clearSwith0Event(sw0: Switch){
-        sw0.setOnCheckedChangeListener{compoundButton: CompoundButton, b: Boolean ->
+
+    private fun clearSwith0Event(sw0: Switch) {
+        sw0.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
         }
     }
-    private fun setSwitch0Event(sw0:Switch,sw1:Switch,sw2:Switch,sw3:Switch,sw4:Switch,sw5:Switch,sw6:Switch,sw7:Switch){
-            sw0.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+
+    private fun setSwitch0Event(sw0: Switch, sw1: Switch, sw2: Switch, sw3: Switch, sw4: Switch, sw5: Switch, sw6: Switch, sw7: Switch) {
+        sw0.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
             disease0 = b
             disease1 = b
             disease2 = b
@@ -208,11 +207,12 @@ class GeoMapsFragment : PointMarloFragment() {
             observeViewModel()
         }
     }
+
     private fun observeViewModel() {
         observe(viewModel.geojson) {
             var data = it?.copy()
             it?.let {
-                if(data?.features?.size!! >0) {
+                if (data?.features?.size!! > 0) {
                     val coordinates = (data?.features?.get(0)?.geometry as Point).coordinates
                     googleMap.animateCameraTo(
                         coordinates.latitude,
@@ -222,9 +222,9 @@ class GeoMapsFragment : PointMarloFragment() {
                     )
                     googleMap.clear()
                     googleMap.setOnMapClickListener {
-                        if(isShow) {
-                            window.dismiss();
-                            isShow=false;
+                        if (isShow) {
+                            window.dismiss()
+                            isShow = false
                         }
                     }
                     /*
@@ -233,103 +233,105 @@ class GeoMapsFragment : PointMarloFragment() {
                     disable = มีคนพิการอยู่ในบ้าน
                      */
                     var lstDisease = ArrayList<String>()
-                    if(disease1){
-                        lstDisease.add("[]");
+                    if (disease1) {
+                        lstDisease.add("[]")
                     }
-                    if(disease2){
-                        lstDisease.add("chronic");
+                    if (disease2) {
+                        lstDisease.add("chronic")
                     }
-                    if(disease3){
-                       lstDisease.add("chronic");
+                    if (disease3) {
+                        lstDisease.add("chronic")
                     }
-                    if(disease4){
-                       lstDisease.add("chronic");
+                    if (disease4) {
+                        lstDisease.add("chronic")
                     }
-                    if(disease5){
-                       lstDisease.add("chronic");
+                    if (disease5) {
+                        lstDisease.add("chronic")
                     }
-                    if(disease6){
-                       lstDisease.add("disable");
+                    if (disease6) {
+                        lstDisease.add("disable")
                     }
-                    if(disease7){
-                        lstDisease.add("elder");
+                    if (disease7) {
+                        lstDisease.add("elder")
                     }
-                    if(lstDisease.size==0){
-                        var features = data?.features?.filter { it.properties?.tags!!.indexOf("----")>-1 }
-                        Log.d("Filter----> :",features.size.toString());
+                    if (lstDisease.size == 0) {
+                        var features = data?.features?.filter { it.properties?.tags!!.indexOf("----") > -1 }
+                        Log.d("Filter----> :", features.size.toString())
                         data.features = features!!
                     }
 
-                    if(lstDisease.size==1){
+                    if (lstDisease.size == 1) {
                         //var features = data?.features?.filter { it.properties?.tags!!.indexOf(lstDisease[0].toString())>-1 }
                         var features = data?.features?.filter {
-                            it.properties?.tags.toString().indexOf(lstDisease[0])>-1 }
-                        Log.d("Filter----> :",features.size.toString());
-                        data.features = features!!
-                    }
-                    if(lstDisease.size==2){
-                        var features = data?.features?.filter {
-                                   it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
-                                || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
+                            it.properties?.tags.toString().indexOf(lstDisease[0]) > -1
                         }
-                        Log.d("Filter----> :",features.size.toString());
+                        Log.d("Filter----> :", features.size.toString())
                         data.features = features!!
                     }
-                    if(lstDisease.size==3){
+                    if (lstDisease.size == 2) {
                         var features = data?.features?.filter {
-                                   it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
-                                || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
-                                || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1}
-                        Log.d("Filter----> :",features.size.toString());
-                        data.features = features!!
-                    }
-                    if(lstDisease.size==4){
-                        var features = data?.features?.filter {
-                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
+                            it.properties?.tags!!.toString().indexOf(lstDisease[0].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[1].toString()) > -1
                         }
-                        Log.d("Filter----> :",features.size.toString());
+                        Log.d("Filter----> :", features.size.toString())
                         data.features = features!!
                     }
-                    if(lstDisease.size==5){
+                    if (lstDisease.size == 3) {
                         var features = data?.features?.filter {
-                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[4].toString())>-1
+                            it.properties?.tags!!.toString().indexOf(lstDisease[0].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[1].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[2].toString()) > -1
                         }
-                        Log.d("Filter----> :",features.size.toString());
+                        Log.d("Filter----> :", features.size.toString())
                         data.features = features!!
                     }
-                    if(lstDisease.size==6){
+                    if (lstDisease.size == 4) {
                         var features = data?.features?.filter {
-                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[4].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[5].toString())>-1
+                            it.properties?.tags!!.toString().indexOf(lstDisease[0].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[1].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[2].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[3].toString()) > -1
                         }
-                        Log.d("Filter----> :",features.size.toString());
+                        Log.d("Filter----> :", features.size.toString())
                         data.features = features!!
                     }
-                    if(lstDisease.size==7){
+                    if (lstDisease.size == 5) {
                         var features = data?.features?.filter {
-                               it.properties?.tags!!.toString().indexOf(lstDisease[0].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[1].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[2].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[3].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[4].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[5].toString())>-1
-                            || it.properties?.tags!!.toString().indexOf(lstDisease[6].toString())>-1
+                            it.properties?.tags!!.toString().indexOf(lstDisease[0].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[1].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[2].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[3].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[4].toString()) > -1
                         }
-                        Log.d("Filter----> :",features.size.toString());
+                        Log.d("Filter----> :", features.size.toString())
                         data.features = features!!
                     }
-                    addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(data?.toJson())));
+                    if (lstDisease.size == 6) {
+                        var features = data?.features?.filter {
+                            it.properties?.tags!!.toString().indexOf(lstDisease[0].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[1].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[2].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[3].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[4].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[5].toString()) > -1
+                        }
+                        Log.d("Filter----> :", features.size.toString())
+                        data.features = features!!
+                    }
+                    if (lstDisease.size == 7) {
+                        var features = data?.features?.filter {
+                            it.properties?.tags!!.toString().indexOf(lstDisease[0].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[1].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[2].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[3].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[4].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[5].toString()) > -1 ||
+                                it.properties?.tags!!.toString().indexOf(lstDisease[6].toString()) > -1
+                        }
+                        Log.d("Filter----> :", features.size.toString())
+                        data.features = features!!
+                    }
+                    addGeoJsonLayer(GeoJsonLayer(googleMap, JSONObject(data?.toJson())))
                     preference.geojsonCache = data
                 }
             }
@@ -364,7 +366,7 @@ class GeoMapsFragment : PointMarloFragment() {
     private fun loadGeoJson() {
         placeGeoJson(familyFolderActivity.org!!).all {
             onFound {
-                viewModel.geojson.value = it;
+                viewModel.geojson.value = it
             }
             onFail {
                 dev { viewModel.geojson.value = context?.rawAs(R.raw.place) }
@@ -374,77 +376,71 @@ class GeoMapsFragment : PointMarloFragment() {
     }
 
     private fun addGeoJsonLayer(layer: GeoJsonLayer) {
-        var i= 0;
+        var i = 0
         with(layer) {
             features.forEach {
-//                it.pointStyle = GeoJsonPointStyle().apply {
+                //                it.pointStyle = GeoJsonPointStyle().apply {
 //                    icon = if (it.getProperty("haveChronic") == "true") chronicHomeIcon else homeIcon
 //                    title = "บ้านเลขที่ ${it.getProperty("no")}"
 //                    snippet = it.getProperty("coordinates")?.trimMargin()
 //                }
 
-                i = i +1;
-                Log.d("tags---->:"," no:"+i+" id:"+it.getProperty("id")+ " --> length:"+it.getProperty("tags").toString().length.toString()+" -> "+it.getProperty("tags").toString());
-                if(disease1  && it.getProperty("tags").indexOf("[]")>-1) {
+                i = i + 1
+                Log.d("tags---->:", " no:" + i + " id:" + it.getProperty("id") + " --> length:" + it.getProperty("tags").toString().length.toString() + " -> " + it.getProperty("tags").toString())
+                /* ktlint-enable */
+                if (disease1 && it.getProperty("tags").indexOf("[]") > -1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  homeIcon
+                        icon = homeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
-                }
-                else if(disease2 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                } else if (disease2 && it.getProperty("tags").indexOf("chronic") > -1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  chronicHomeIcon
+                        icon = chronicHomeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
-                }
-                else if(disease3 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                } else if (disease3 && it.getProperty("tags").indexOf("chronic") > -1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  chronicHomeIcon
+                        icon = chronicHomeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
-                }
-                else if(disease4 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                } else if (disease4 && it.getProperty("tags").indexOf("chronic") > -1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  chronicHomeIcon
+                        icon = chronicHomeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
-                }
-                else if(disease5 &&  it.getProperty("tags").indexOf("chronic")>-1){
+                } else if (disease5 && it.getProperty("tags").indexOf("chronic") > -1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  chronicHomeIcon
+                        icon = chronicHomeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
-                }
-                else if(disease6 &&  it.getProperty("tags").indexOf("disable")>-1){
+                } else if (disease6 && it.getProperty("tags").indexOf("disable") > -1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  disableHomeIcon
+                        icon = disableHomeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
-                }
-                else if(disease7 &&  it.getProperty("tags").indexOf("elder")>-1){
+                } else if (disease7 && it.getProperty("tags").indexOf("elder") > -1) {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  oldHomeIcon
+                        icon = oldHomeIcon
                         title = "บ้านเลขที่ ${it.getProperty("no")}"
                         snippet = it.getProperty("coordinates")?.trimMargin()
                     }
-                }
-                else{
+                } else {
                     it.pointStyle = GeoJsonPointStyle().apply {
-                        icon =  null
+                        icon = null
                         title = null
                         snippet = "0,0"
-                    };
+                    }
                 }
             }
             setOnFeatureClickListener { feature ->
                 val user = auth(context!!).user!!
-                if(feature!=null) {
+                if (feature != null) {
                     val intent = intentFor<HouseActivity>("houseId" to feature.getProperty("id"))
                     startActivityForResult(intent, REQ_ADD_LOCATION, activity!!.sceneTransition())
                 }
