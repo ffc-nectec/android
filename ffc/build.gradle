@@ -149,6 +149,7 @@ dependencies {
     implementation "ru.noties:markwon-view:2.0.1"
     implementation "th.or.nectec.android:marlo:0.5.3"
     implementation "th.or.nectec.android:thai-widget:0.6.2"
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.amshove.kluent:kluent:1.48'
