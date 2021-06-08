@@ -35,10 +35,10 @@ import retrofit2.dsl.RetrofitDslConfig
 import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
 
-private var url_staging = "https://api-staging.ffc.in.th/v1/"
-private var url_beta = "https://api-beta.ffc.in.th/v1/"
-private var url_production = "https://api.ffc.in.th/v1/"
-private var url_debug = "https://api-test.ffc.in.th/v1/"
+private var url_staging = "https://api-fixbug.ffc.in.th/v1/"
+private var url_beta = "https://api-fixbug.ffc.in.th/v1/"
+private var url_production = "https://api-fixbug.ffc.in.th/v1/"
+private var url_debug = "https://api-fixbug.ffc.in.th/v1/"
 
 class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
 
