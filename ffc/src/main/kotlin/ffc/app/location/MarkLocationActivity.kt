@@ -30,6 +30,7 @@ import ffc.app.R
 import ffc.app.R.id
 import ffc.app.R.layout
 import ffc.entity.Place
+import ffc.entity.place.House
 import ffc.entity.update
 import kotlinx.android.synthetic.main.activity_add_location.done
 import org.jetbrains.anko.alert
@@ -90,7 +91,12 @@ class MarkLocationActivity : FamilyFolderActivity() {
     private fun updateHouse() {
         val dialog = indeterminateProgressDialog("ปรับปรุงพิกัด...")
 
-        FfcCentral().service<PlaceService>().updateHouse(org!!.id, targetPlace!!).enqueue {
+        require(targetPlace is House) {
+            indeterminateProgressDialog("ไม่ใช่ Object ประเภทบ้าน แจ้งผู้ดูแลระบบ...")
+            "ไม่ใช่ Object ประเภทบ้าน"
+        }
+
+        FfcCentral().service<PlaceService>().updateHouse(org!!.id, targetPlace!! as House).enqueue {
             always { dialog.dismiss() }
             onSuccess {
                 setResult(Activity.RESULT_OK)
