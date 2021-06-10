@@ -17,7 +17,6 @@
 
 package ffc.app.location
 
-import ffc.entity.Place
 import ffc.entity.place.House
 import retrofit2.Call
 import retrofit2.http.Body
@@ -44,7 +43,7 @@ interface PlaceService {
     @PUT("org/{orgId}/house/{houseId}")
     fun updateHouse(
         @Path("orgId") orgId: String,
-        @Body place: Place,
-        @Path("houseId") houseId: String = place.id
+        @Body house: House,
+        @Path("houseId") houseId: String = house.id
     ): Call<House>
 }
