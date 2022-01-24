@@ -11,7 +11,8 @@ class ImageItem(
     var urls: String,
     var _columnSpan: Int = 1,
     var _rowSpan: Int = 1
-) : AsymmetricItem {
+) : AsymmetricItem
+{
 
     override fun getColumnSpan(): Int = _columnSpan
     override fun getRowSpan(): Int = _rowSpan

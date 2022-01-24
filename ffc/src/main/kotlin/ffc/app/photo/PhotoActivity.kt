@@ -20,7 +20,7 @@ class PhotoActivity : FamilyFolderActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val uri = intent.data
-        photo.load(uri)
+        photo.load(uri!!)
     }
 
     override fun onSupportNavigateUp(): Boolean {

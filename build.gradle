@@ -25,12 +25,14 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.0'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.9.4'
         classpath 'com.google.firebase:perf-plugin:1.2.1'
+//        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.0'
         classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.1.0"
         classpath 'io.fabric.tools:gradle:1.26.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
     }
 }
 
@@ -38,7 +40,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/blazei/maven' }
+//        maven { url 'https://dl.bintray.com/blazei/maven' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.google.com/' }
     }

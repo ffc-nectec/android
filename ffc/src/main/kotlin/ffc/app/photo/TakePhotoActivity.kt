@@ -1,28 +1,33 @@
 package ffc.app.photo
 
+//import android.support.v4.app.Fragment
+//import android.support.v7.widget.LinearLayoutManager
+//import android.support.v7.widget.RecyclerView
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
+import androidx.recyclerview.widget.RecyclerView
 import ffc.android.SpacesItemDecoration
 import ffc.android.onClick
 import ffc.android.sceneTransition
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
+import ffc.app.setting.AboutActivity
 import ffc.app.util.alert.handle
-import kotlinx.android.synthetic.main.photo_action_bar.choosePhoto
-import kotlinx.android.synthetic.main.photo_action_bar.takePhoto
-import kotlinx.android.synthetic.main.photo_take_activity.photos
+import kotlinx.android.synthetic.main.photo_action_bar.*
+import kotlinx.android.synthetic.main.photo_take_activity.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.support.v4.intentFor
+
+
+//import org.jetbrains.anko.support.v4.intentFor
 
 val REQUEST_TAKE_PHOTO = 2034
 val REQUEST_PICK_PHOTO = 2035
@@ -49,7 +54,7 @@ class TakePhotoActivity : FamilyFolderActivity() {
         }
         with(photos) {
             addItemDecoration(SpacesItemDecoration(dip(16)))
-            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, true)
+            layoutManager = LinearLayoutManager(context,  VERTICAL, true)
             adapter = TakePhotoAdapter(photoList) {
                 onViewClick { view, photo ->
                     when (view.id) {
@@ -73,7 +78,7 @@ class TakePhotoActivity : FamilyFolderActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             R.id.done,
             android.R.id.home -> {
@@ -206,14 +211,14 @@ fun Activity.startTakePhotoActivity(
     intent.limit = limit
     startActivityForResult(intent, requestCode)
 }
-
+//
 fun Fragment.startTakePhotoActivity(
     type: PhotoType,
     urls: List<String>? = null,
     limit: Int = 2,
     requestCode: Int = REQUEST_TAKE_PHOTO
 ) {
-    val intent = intentFor<TakePhotoActivity>()
+    val intent = context!!.intentFor<TakePhotoActivity>()
     urls?.let { intent.urls = it }
     intent.photoType = type
     intent.limit = limit

@@ -1,13 +1,17 @@
 package ffc.app.person
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+//import android.support.v4.app.Fragment
+//import android.support.v7.widget.DividerItemDecoration
+//import android.support.v7.widget.LinearLayoutManager
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ffc.app.R
 import ffc.app.util.datetime.toBuddistString
 import ffc.entity.Lang
@@ -31,7 +35,7 @@ class DeathFragment : Fragment() {
             personDeathDate.text = it.date.toBuddistString()
             with(personDeathCause) {
                 adapter = DeathCauseAdapter(it.causes)
-                layoutManager = LinearLayoutManager(context!!)
+                layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
         }

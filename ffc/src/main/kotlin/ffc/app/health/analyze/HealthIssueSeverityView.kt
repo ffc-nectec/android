@@ -19,11 +19,13 @@ package ffc.app.health.analyze
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
-import android.support.annotation.ColorInt
-import android.support.v4.content.ContextCompat
+//import android.support.annotation.ColorInt
+//import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import ffc.android.gone
 import ffc.app.R
 import ffc.entity.healthcare.Severity

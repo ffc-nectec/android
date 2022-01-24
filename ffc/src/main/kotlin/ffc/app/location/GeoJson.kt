@@ -5,6 +5,7 @@ import ffc.api.FfcCentral
 import ffc.app.util.RepoCallback
 import ffc.entity.Organization
 import ffc.entity.place.House
+import me.piruin.geok.geometry.FeatureCollection
 import retrofit2.dsl.enqueue
 
 interface PlaceGeoJson {

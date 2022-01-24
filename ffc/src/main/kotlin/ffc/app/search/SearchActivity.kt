@@ -17,15 +17,19 @@
 
 package ffc.app.search
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
+//import android.support.v7.widget.LinearLayoutManager
+//import androidx.appcompat.widget.SearchView
 import android.transition.Fade
 import android.transition.Slide
 import android.view.Gravity
 import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import ffc.android.addVeriticalItemDivider
 import ffc.android.enter
 import ffc.android.excludeSystemView

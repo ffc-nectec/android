@@ -33,7 +33,7 @@ internal class FirebasePhotoStorage(val org: Organization, val photoType: PhotoT
     override fun delete(uri: Uri, callback: TaskCallback<Boolean>.() -> Unit) {
         val taskCallback = TaskCallback<Boolean>().apply(callback)
         //lastPathSegment of download url is full reference path
-        val photoRef = storage.getReference(uri.lastPathSegment)
+        val photoRef = storage.getReference(uri.lastPathSegment.toString())
         photoRef.delete().addOnSuccessListener {
             taskCallback.result(true)
         }.addOnFailureListener {

@@ -1,8 +1,12 @@
 package ffc.app.util.value
 
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+
+//import android.support.annotation.ColorInt
+//import android.support.annotation.ColorRes
+//import android.support.annotation.DrawableRes
 
 class Value(
     val label: String? = null,

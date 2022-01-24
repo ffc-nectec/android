@@ -1,8 +1,9 @@
 package ffc.app.photo
 
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import ffc.android.inflate
 import ffc.android.onClick
 import ffc.android.onLongClick

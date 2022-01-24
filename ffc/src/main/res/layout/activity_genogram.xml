@@ -22,7 +22,7 @@
     tools:context=".person.genogram.GenogramActivity"
     android:orientation="vertical">
 
-    <android.support.design.widget.CollapsingToolbarLayout
+    <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsingToolbar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -113,7 +113,7 @@
         </LinearLayout>
 
 
-    </android.support.design.widget.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
     <com.santalu.emptyview.EmptyView
         android:id="@+id/emptyViewPerson"
         android:layout_width="match_parent"

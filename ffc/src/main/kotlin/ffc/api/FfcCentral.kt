@@ -35,10 +35,37 @@ import retrofit2.dsl.RetrofitDslConfig
 import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
 
-private var url_staging = "https://api-staging.ffc.in.th/v1/"
-private var url_beta = "https://api-beta.ffc.in.th/v1/"
-private var url_production = "https://api.ffc.in.th/v1/"
-private var url_debug = "https://api-test.ffc.in.th/v1/"
+//private var url_staging = "https://api-staging.ffc.in.th/v1/"
+//private var url_beta = "https://api-beta.ffc.in.th/v1/"
+//private var url_production = "https://api.ffc.in.th/v1/"
+//private var url_debug = "https://ffc-staging-pr-48.herokuapp.com/v1/"
+
+//private var url_staging = "https://infinite-sea-82636.herokuapp.com/v1/"
+//private var url_beta = "https://infinite-sea-82636.herokuapp.com/v1/"
+//private var url_production = "https://infinite-sea-82636.herokuapp.com/v1/"
+//private var url_debug = "https://infinite-sea-82636.herokuapp.com/v1/"
+
+//private var url_staging = "https://api.ffc.in.th/v1/"
+//private var url_beta = "https://api.ffc.in.th/v1/"
+//private var url_production = "https://api.ffc.in.th/v1/"
+//private var url_debug = "https://api.ffc.in.th/v1/"
+
+private var url_staging = "https://api-fixbug.ffc.in.th/v1/"
+private var url_beta = "https://api-fixbug.ffc.in.th/v1/"
+private var url_production = "https://api-fixbug.ffc.in.th/v1/"
+private var url_debug = "https://api-fixbug.ffc.in.th/v1/"
+// https://api-fixbug.ffc.in.th/v1
+//
+// private var url_staging = "https://api-test.ffc.in.th/v1/"
+// private var url_beta = "https://api-test.ffc.in.th/v1/"
+// private var url_production = "https://api-test.ffc.in.th/v1/"
+// private var url_debug = "https://api-test.ffc.in.th/v1/"
+
+//
+//private var url_staging = "https://ffc-temp-test.herokuapp.com/v1/"
+//private var url_beta = "https://ffc-temp-test.herokuapp.com/v1/"
+//private var url_production = "https://ffc-temp-test.herokuapp.com/v1/"
+//private var url_debug = "https://ffc-temp-test.herokuapp.com/v1/"
 
 class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
 
@@ -76,7 +103,7 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
         fun loadUrl(context: Context) {
             if (BuildConfig.DEBUG) {
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-                url = context.defaultSharedPreferences.getString("url", defaultUrl)
+                url = context.defaultSharedPreferences.getString("url", defaultUrl).toString()
                 Timber.d("url=$url")
             }
         }
@@ -84,7 +111,7 @@ class FfcCentral(url: String = FfcCentral.url, val gson: Gson = ffcGson) {
         fun saveUrl(context: Context, url: Uri) {
             require(BuildConfig.DEBUG) { "Can't edit url on not debuggable app" }
             require(url.scheme == "https") { "url must be http" }
-            require(url.path.endsWith("/")) { "url must end with /" }
+            url.path?.let { require(it.endsWith("/")) { "url must end with /" } }
 
             context.defaultSharedPreferences.edit().put("url", url.toString()).apply()
             FfcCentral.url = url.toString()

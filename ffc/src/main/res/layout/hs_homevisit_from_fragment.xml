@@ -4,62 +4,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <me.piruin.spinney.Spinney
             android:id="@+id/communityServiceField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="ประเภทการเยี่ยม" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/syntomField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="สภาพ/อาการ ของผู้ป่วย" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/detailField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="ให้บริการ" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/resultField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="การประเมินผล" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/planField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="แผนการครั้งต่อไป" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -68,7 +67,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="นัดเยี่ยมบ้านครั้งต่อไป" />
-    </android.support.design.widget.TextInputLayout>
-
-
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

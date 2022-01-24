@@ -18,15 +18,21 @@
 package ffc.app.person
 
 import android.app.Activity
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+//import android.support.v4.app.Fragment
 import android.transition.Slide
 import android.view.Gravity
 import android.view.View
+import android.widget.ImageButton
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import ffc.android.allowTransitionOverlap
 import ffc.android.enter
 import ffc.android.exit
@@ -113,16 +119,17 @@ class PersonActivitiy : FamilyFolderActivity() {
             it?.let { handle(it) }
         }
         var user = auth(this).user
-        if (user!!.roles[0] == User.Role.SURVEYOR ) {
-            btnInfo.visibility = View.GONE
+        if (user!!.roles[0] == User.Role.SURVEYOR ){
+            btnInfo.visibility =  View.GONE
         }
         btnInfo.onClick {
 
-            var intent = Intent(this, personPopupActivity::class.java)
+            var intent =  Intent(this, personPopupActivity::class.java)
             //intent.putExtra("id", id)
             intent.putExtra("personId", personId)
             startActivity(intent)
         }
+
     }
 
     override fun onResume() {
@@ -159,7 +166,7 @@ class PersonActivitiy : FamilyFolderActivity() {
                 fragmentAdd.put("relationship", relationshipFragment)
             }
             val user = auth(applicationContext).user!!
-            if (user.roles.size>0) {
+            if(user.roles.size>0) {
                 if (user.roles[0] != User.Role.SURVEYOR) {
                     val issueFragment = HealthIssueFragment()
                     issueFragment.person = this

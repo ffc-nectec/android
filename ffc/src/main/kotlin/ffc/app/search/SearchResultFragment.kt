@@ -1,13 +1,16 @@
 package ffc.app.search
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+//import android.support.v4.app.Fragment
+//import android.support.v7.widget.LinearLayoutManager
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ffc.android.addVeriticalItemDivider
 import ffc.android.drawable
 import ffc.android.drawableStart
@@ -33,6 +36,7 @@ import kotlinx.android.synthetic.main.search_result_fragment.moreButton
 import kotlinx.android.synthetic.main.search_result_fragment.recycleView
 import org.jetbrains.anko.dimen
 import org.jetbrains.anko.find
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.support.v4.intentFor
 
 abstract class SearchResultFragment<T : Entity> : Fragment() {
@@ -114,7 +118,7 @@ open class PersonSearchResultFragment : SearchResultFragment<Person>() {
 
     override fun onBindAdapter(recycleView: RecyclerView, content: List<Person>) {
         with(recycleView) {
-            layoutManager = LinearLayoutManager(context!!)
+            layoutManager = LinearLayoutManager(requireContext())
             addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
             adapter = PersonAdapter(content, limit = limit) {
                 onItemClick { p ->
@@ -153,7 +157,7 @@ open class HouseSearchResultFragment : SearchResultFragment<House>() {
             layoutManager = LinearLayoutManager(context)
             addVeriticalItemDivider(dimen(R.dimen.content_start_horizontal_padding))
             adapter = HouseAdapter(content, limit = limit) {
-                val intent = intentFor<HouseActivity>("houseId" to it.id)
+                val intent = requireContext().intentFor<HouseActivity>("houseId" to it.id)
                 startActivity(intent, activity?.sceneTransition())
             }
         }

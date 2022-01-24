@@ -17,7 +17,9 @@
 
 package ffc.app.location
 
+import ffc.entity.Place
 import ffc.entity.place.House
+import me.piruin.geok.geometry.FeatureCollection
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

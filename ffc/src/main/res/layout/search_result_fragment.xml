@@ -36,7 +36,8 @@
         android:gravity="center_vertical"
         android:drawablePadding="8dp"
         tools:drawableStart="@drawable/ic_account_circle_black_24dp"
-        tools:text="คน" />
+        tools:text="คน"
+        tools:ignore="RtlCompat" />
 
     <com.santalu.emptyview.EmptyView
         android:id="@+id/emptyView"
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

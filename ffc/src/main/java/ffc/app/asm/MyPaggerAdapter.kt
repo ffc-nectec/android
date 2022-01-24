@@ -1,12 +1,16 @@
 package ffc.app.asm
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+//import android.support.v4.app.Fragment
+//import android.support.v4.app.FragmentManager
+//import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import ffc.android.observe
 
-class MyPagerAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class MyPagerAdapter (fm: FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return when (position) {
+        return when (position){
             0 -> {
                 AsmCareFragment()
             }
@@ -18,13 +22,14 @@ class MyPagerAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getCount(): Int {
-        return 2
+        return 2;
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 -> "บ้านที่ อสม ดูแล"
-            else -> "บ้าน ทั้งหมด"
+            0-> "บ้านที่ อสม ดูแล"
+            else->"บ้าน ทั้งหมด"
         }
     }
+
 }

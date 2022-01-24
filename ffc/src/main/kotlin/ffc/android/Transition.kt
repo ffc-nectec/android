@@ -30,16 +30,21 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.TransitionRes
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
+//import android.support.annotation.TransitionRes
+//import android.support.v4.app.ActivityOptionsCompat
+//import android.support.v4.app.Fragment
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.view.View
 import android.view.Window
 import android.view.animation.Interpolator
-import android.support.v4.util.Pair as AndroidSupportPair
+import androidx.annotation.TransitionRes
+import androidx.core.app.ActivityOptionsCompat
+import androidx.fragment.app.Fragment
+
+// import android.support.v4.util.Pair as AndroidSupportPair
+import  androidx.core.util.Pair as AndroidSupportPair
 
 fun Context.transition(@TransitionRes res: Int) = TransitionInflater.from(this).inflateTransition(res)
 fun Fragment.transition(@TransitionRes res: Int) = context!!.transition(res)
@@ -95,9 +100,9 @@ val enterDuration: Long = 300
 val exitDuration: Long = 250
 val sharedElementDuration: Long = 250
 
-val sharedElementEasing = android.support.v4.view.animation.FastOutSlowInInterpolator()
-val enterEasing = android.support.v4.view.animation.LinearOutSlowInInterpolator()
-val exitEasing = android.support.v4.view.animation.FastOutLinearInInterpolator()
+val sharedElementEasing = androidx.interpolator.view.animation.FastOutSlowInInterpolator()
+val enterEasing = androidx.interpolator.view.animation.LinearOutSlowInInterpolator()
+val exitEasing = androidx.interpolator.view.animation.FastOutLinearInInterpolator()
 
 fun Transition.shareElement(
     time: Long = sharedElementDuration,

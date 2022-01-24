@@ -1,0 +1,227 @@
+[
+    {
+        "id1": "722849927",
+        "id2": "722849926",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849926",
+        "id2": "722849927",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121407",
+        "id2": "1841121406",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849926",
+        "id2": "722849927",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849927",
+        "id2": "722849926",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121406",
+        "id2": "1841121407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849926",
+        "id2": "722849927",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849927",
+        "id2": "722849926",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "808578408",
+        "id2": "808578407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849926",
+        "id2": "722849927",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849927",
+        "id2": "722849926",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849928",
+        "id2": "2076159626",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849926",
+        "id2": "722849927",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849927",
+        "id2": "722849926",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "865497993",
+        "id2": "1595576346",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849926",
+        "id2": "722849927",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849927",
+        "id2": "722849926",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "2133079189",
+        "id2": "1086418367",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1595576346",
+        "id2": "865497993",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "808578407",
+        "id2": "808578408",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "2076159626",
+        "id2": "722849928",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121407",
+        "id2": "1841121406",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121406",
+        "id2": "1841121407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121407",
+        "id2": "1841121406",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121406",
+        "id2": "1841121407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121407",
+        "id2": "1841121406",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121406",
+        "id2": "1841121407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121407",
+        "id2": "1841121406",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1841121406",
+        "id2": "1841121407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "865497993",
+        "id2": "1595576346",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1595576346",
+        "id2": "865497993",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "865497992",
+        "id2": "487811706",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849928",
+        "id2": "2076159628",
+        "relationStatus": "Divorce"
+    },
+    {
+        "id1": "2076159628",
+        "id2": "722849928",
+        "relationStatus": "Divorce"
+    },
+    {
+        "id1": "487811706",
+        "id2": "865497992",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "808578408",
+        "id2": "808578407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "808578407",
+        "id2": "808578408",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "722849928",
+        "id2": "2076159626",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "2076159626",
+        "id2": "722849928",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "808578408",
+        "id2": "808578407",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "808578407",
+        "id2": "808578408",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "487811706",
+        "id2": "865497992",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "865497992",
+        "id2": "487811706",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "487811706",
+        "id2": "865497992",
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "865497992",
+        "id2": "487811706",
+        "relationStatus": "marriage"
+    }
+]

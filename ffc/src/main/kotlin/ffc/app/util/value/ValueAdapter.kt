@@ -1,8 +1,11 @@
 package ffc.app.util.value
 
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
+//import android.support.annotation.LayoutRes
+//import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
 import ffc.android.inflate
 import ffc.app.R
 import ffc.app.util.AdapterClickListener
@@ -13,7 +16,7 @@ class ValueAdapter(
     val showOnlyFistLabel: Boolean = false,
     val limit: Int = 100,
     onClickDsl: AdapterClickListener<Value>.() -> Unit = {}
-) : RecyclerView.Adapter<ValueItemViewHolder>() {
+) : Adapter<ValueItemViewHolder>() {
 
     val listener = AdapterClickListener<Value>().apply(onClickDsl)
 

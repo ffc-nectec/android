@@ -21,10 +21,11 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
-import android.support.v4.app.Fragment
+//import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import ffc.android.find
 import ffc.app.FamilyFolderActivity
 import ffc.app.R
@@ -62,6 +63,7 @@ class SearchResultActivity : FamilyFolderActivity() {
     }
 
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         handleIntent(intent)
     }
 
@@ -95,7 +97,7 @@ class SearchResultActivity : FamilyFolderActivity() {
 class ResultFragment : Fragment() {
 
     val query: String
-        get() = arguments!!.getString("query")!!
+        get() = requireArguments().getString("query")!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.search_result_main_fragment, container, false)

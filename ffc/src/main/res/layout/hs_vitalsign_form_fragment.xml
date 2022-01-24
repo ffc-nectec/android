@@ -16,77 +16,100 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bpSysField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="ตัวบน"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:inputType="number"
                 android:maxLength="3" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bpDiaField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="ตัวล่าง"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:inputType="number"
                 android:maxLength="3" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/btnPressure"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/device_pressure" />
     </LinearLayout>
 
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pulseField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="ชีพจร (ครั้งต่อนาที)"
             android:inputType="number"
             android:maxLength="3" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rrField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="อัตราการหายใจ (ครั้งต่อนาที)"
             android:inputType="number"
             android:maxLength="2" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
+    </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
 
-        <android.support.design.widget.TextInputEditText
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        >
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tempField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="อุณหภูมิร่างกาย"
             android:inputType="number|numberDecimal"
-            android:maxLength="4" />
-    </android.support.design.widget.TextInputLayout>
+            android:maxLength="5" />
 
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/btnTemperator"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/device_temperator" />
+    </LinearLayout>
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/btnMeasuringTools"

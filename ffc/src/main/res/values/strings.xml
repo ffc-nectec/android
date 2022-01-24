@@ -57,7 +57,9 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="device_efdv470">เครื่องมือวัด</string>
+    <string name="device_efdv470">เครื่องมือวัด (Berry Med)</string>
+    <string name="device_pressure">วัดความดัน</string>
+    <string name="device_temperator">วัดอุณหภูมิ</string>
     <string name="action_settings">ตั้งค่า</string>
 
     <string name="transition_appbar">appbar_transition</string>
@@ -152,4 +154,32 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="disabled">พิการ</string>
+    <string name="bluetooth_is_not_available">Bluetooth is not works</string>
+
+    <string name="connectionstatus">ConnectionStatus:</string>
+    <string name="deviceid">DeviceID:</string>
+    <string name="hwversion">HWVersion:</string>
+    <string name="swversion">SWVersion:</string>
+    <string name="battery">Battery:</string>
+    <string name="power">Power:</string>
+    <string name="sys">Sys:</string>
+    <string name="dia">Dia:</string>
+    <string name="map">Map:</string>
+    <string name="pulse">Pulse:</string>
+    <string name="realtime">Realtime:</string>
+    <string name="spo2">SPO2:</string>
+    <string name="pr">PR:</string>
+    <string name="pi">PI:</string>
+    <string name="wave_data">Wave data:</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="getdeviceid">getDeviceID</string>
+    <string name="getinformation">getInformation</string>
+    <string name="start_nibp">Start NIBP</string>
+    <string name="stop_nibp">Stop NIBP</string>
+    <string name="nibpaction">NIBPAction:</string>
+    <string name="errorcode">ErrorCode:</string>
+    <string name="close">Close</string>
+    <string name="MeasureTemperature">วัดอุณหภูมิ</string>
+    <string name="MeasurePressure">วัดความดัน</string>
 </resources>

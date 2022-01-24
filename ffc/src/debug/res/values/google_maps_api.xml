@@ -17,4 +17,5 @@
 
 <resources>
   <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD376LQdkIwXWSd47_UFdvsqw8wa1jGHz4</string>
+<!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAK6m83RrW9MAo6RErGvRAf2JTrkvvBrXs</string>-->
 </resources>

@@ -19,10 +19,15 @@
 
 package ffc.android
 
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+
+//import android.support.annotation.IdRes
+//import android.support.v4.app.Fragment
+//import android.support.v4.app.FragmentManager
+//import android.support.v4.app.FragmentTransaction
 
 fun <T> FragmentManager.find(id: Int) = findFragmentById(id) as T
 fun <T> FragmentManager.find(tag: String) = findFragmentByTag(tag) as T

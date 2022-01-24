@@ -2,7 +2,7 @@ package ffc.app.location
 
 import me.piruin.geok.BBox
 import me.piruin.geok.LatLng
-import me.piruin.geok.geometry.* // ktlint-disable
+import me.piruin.geok.geometry.*
 
 data class FeatureCollectionFilter <T>(var features: List<Feature<T>>) {
 

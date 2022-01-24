@@ -1,5 +1,13 @@
 package ffc.android
 
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
+
 /**
  * MIT License
  *
@@ -24,14 +32,14 @@ package ffc.android
  * SOFTWARE.
  *
  */
-
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+//
+//import android.arch.lifecycle.LifecycleOwner
+//import android.arch.lifecycle.LiveData
+//import android.arch.lifecycle.Observer
+//import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.ViewModelProviders
+//import android.support.v4.app.Fragment
+//import android.support.v4.app.FragmentActivity
 
 inline fun <reified T : ViewModel> FragmentActivity.viewModel(): T =
     ViewModelProviders.of(this).get(T::class.java)
