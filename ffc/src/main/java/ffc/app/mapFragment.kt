@@ -11,14 +11,17 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+//import android.support.v4.app.ActivityCompat
+//import android.support.v4.app.Fragment
+//import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -29,9 +32,10 @@ import com.google.android.gms.maps.model.LatLng
 import ffc.android.onClick
 import kotlinx.android.synthetic.main.fragment_map.*
 import java.io.IOException
-import java.util.* // ktlint-disable
+import java.util.*
 
-class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
+
+class mapFragment : Fragment(),  OnMapReadyCallback, LocationListener {
 
     fun mapFragment() {}
     private var mMap: GoogleMap? = null
@@ -43,17 +47,23 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var geocoder: Geocoder? = null
     private var locationString: String? = null
 
-    @SuppressWarnings("MissingPermission")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         var view: View = inflater.inflate(R.layout.fragment_map, container, false)
         geocoder = Geocoder(context, Locale("th", "TH"))
         (childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment?)!!.getMapAsync { googleMap ->
             mMap = googleMap
-            mMap!!.isMyLocationEnabled = true
+//            mMap!!.isMyLocationEnabled = true
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    //buildGoogleApiClient()
+                    mMap!!.isMyLocationEnabled = true
+                }
+            } else {
+                //buildGoogleApiClient()
+                mMap!!.isMyLocationEnabled = true
+            }
             mMap!!.setOnCameraIdleListener {
                 val cameraPosition: CameraPosition = mMap!!.getCameraPosition()
                 if (cameraPosition != null) {
@@ -70,12 +80,11 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
                     onShareLayout()
                 }
             }
-            getLocation()
+            getLocation();
         }
 
-        return view
+        return view;
     }
-
     fun onShareLayout() {
         if (resultLatLng == null) {
             //Alert.showAlertOK(activity, "กรุณาเลือกพิกัด", false, null)
@@ -85,20 +94,16 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         resultIntent.putExtra("lat", resultLatLng!!.latitude)
         resultIntent.putExtra("lon", resultLatLng!!.longitude)
         resultIntent.putExtra("location", locationString)
-        activity!!.setResult(Activity.RESULT_OK, resultIntent)
-        activity!!.finish()
+        requireActivity().setResult(Activity.RESULT_OK, resultIntent)
+        requireActivity().finish()
     }
-
     private fun getLocation() {
         if (ActivityCompat.checkSelfPermission(
-                context!!, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(context!!,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                Activity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
+                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(Activity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
         } else {
-            locationManager = this.activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
+            locationManager = this.requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager?
             val locationGPS = locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             if (locationGPS != null) {
                 val lat = locationGPS.latitude
@@ -117,7 +122,6 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
             }
         }
     }
-
     override fun onLocationChanged(p0: Location?) {
         val latLng = LatLng(p0!!.getLatitude(), p0!!.getLongitude())
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
@@ -127,7 +131,7 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     override fun onMapReady(p0: GoogleMap?) {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(context!!,
+            if (ContextCompat.checkSelfPermission(requireContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 //buildGoogleApiClient()
                 mMap!!.isMyLocationEnabled = true
@@ -138,7 +142,7 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         }
     }
 
-    //    override fun onCameraIdle() {
+//    override fun onCameraIdle() {
 //        val cameraPosition: CameraPosition = mMap!!.getCameraPosition()
 //        if (cameraPosition != null) {
 //            try {
@@ -164,9 +168,7 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         var knownName: String? = null
         if (addresses != null) {
             if (addresses.size > 0) {
-                // If any additional address line present than only,
-                // check with max available address lines by getMaxAddressLineIndex()
-                address = addresses[0].getAddressLine(0)
+                address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                 city = addresses[0].locality
                 state = addresses[0].adminArea
                 country = addresses[0].countryName
@@ -198,4 +200,5 @@ class mapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         locationString = address
         locationTextView.setText(address)
     }
+
 }

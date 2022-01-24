@@ -23,11 +23,15 @@ import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.v4.app.Fragment
-import android.support.v4.content.res.ResourcesCompat
+//import android.support.annotation.ColorInt
+//import android.support.annotation.DrawableRes
+//import android.support.v4.app.Fragment
+//import android.support.v4.content.res.ResourcesCompat
 import android.view.View
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 
 fun Drawable.tint(@ColorInt color: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_IN): Drawable {
     return apply { mutate().setColorFilter(color, mode) }

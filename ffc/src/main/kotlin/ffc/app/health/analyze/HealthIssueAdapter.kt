@@ -2,10 +2,13 @@ package ffc.app.health.analyze
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+//import android.support.annotation.ColorRes
+//import android.support.v4.content.ContextCompat
+//import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import ffc.android.getString
 import ffc.android.inflate
 import ffc.app.R
@@ -36,7 +39,7 @@ class IssueHolder(parent: ViewGroup)
     fun bind(issue: HealthIssue) {
         with(itemView) {
             val pair = issue.issue.toIconTitlePair() ?: null to R.string.app_name
-            title.text = if (pair.second != R.string.app_name) getString(pair.second) else issue.issue.name
+            title.text = if (pair.second != R.string.app_name) context.getString(pair.second) else issue.issue.name
             pair.first?.let { icon.setImageResource(it) }
             caption.text = issue.date.toBuddistString()
             severity.issue = issue

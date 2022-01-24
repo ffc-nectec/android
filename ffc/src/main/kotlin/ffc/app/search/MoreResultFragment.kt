@@ -20,10 +20,10 @@ class PersonMoreResultFragment : PersonSearchResultFragment(), MoreResultFragmen
     override val limit: Int = Int.MAX_VALUE
 
     override val title: String
-        get() = """คน "${arguments!!.getString("query")}" """.trim()
+        get() = """คน "${requireArguments().getString("query")}" """.trim()
 
     val result: List<Person>
-        get() = arguments!!.getAs("result")!!
+        get() = requireArguments().getAs("result")!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -43,10 +43,10 @@ class HouseMoreResultFragment : HouseSearchResultFragment(), MoreResultFragment<
     override val limit: Int = Int.MAX_VALUE
 
     override val title: String
-        get() = """บ้าน "${arguments!!.getString("query")}" """.trim()
+        get() = """บ้าน "${requireArguments().getString("query")}" """.trim()
 
     val result: List<House>
-        get() = arguments!!.getAs("result")!!
+        get() = requireArguments().getAs("result")!!
 
     override fun setArgument(query: String, result: List<House>) {
         arguments = bundleOf(

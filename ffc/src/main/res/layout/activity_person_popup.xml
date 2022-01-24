@@ -11,7 +11,7 @@ android:background="#ffffff"
 android:paddingTop="20dp"
 tools:context=".person.genogram.personPopupActivity"
   >
-    <android.support.design.widget.CollapsingToolbarLayout
+    <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -102,8 +102,8 @@ tools:context=".person.genogram.personPopupActivity"
         </LinearLayout>
 
 
-    </android.support.design.widget.CollapsingToolbarLayout>
-<!--<android.support.design.widget.CollapsingToolbarLayout-->
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+<!--<com.google.android.material.appbar.CollapsingToolbarLayout-->
 <!--    android:id="@+id/collapsingToolbar"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="@dimen/header_personal_height"-->
@@ -112,7 +112,7 @@ tools:context=".person.genogram.personPopupActivity"
 <!--    app:expandedTitleTextAppearance="?android:attr/textAppearanceLarge"-->
 <!--    app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
 <!--    app:theme="@style/ThemeOverlay.AppCompat.ActionBar">-->
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
@@ -170,7 +170,7 @@ tools:context=".person.genogram.personPopupActivity"
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatarView"
         android:layout_width="80dp"
@@ -185,7 +185,7 @@ tools:context=".person.genogram.personPopupActivity"
         android:transitionName="@string/transition_person_profile" />
 
 
-<!--</android.support.design.widget.CollapsingToolbarLayout>-->
+<!--</com.google.android.material.appbar.CollapsingToolbarLayout>-->
     <com.santalu.emptyview.EmptyView
         android:id="@+id/emptyViewPerson"
         android:layout_width="match_parent"
@@ -195,10 +195,10 @@ tools:context=".person.genogram.personPopupActivity"
         app:ev_empty_text="ไม่พบประวัติการรับบริการ"
         app:ev_loading_text="@string/loading"
         app:ev_loading_type="circular">
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
     <LinearLayout
         android:id="@+id/contentContainer"
@@ -568,6 +568,6 @@ tools:context=".person.genogram.personPopupActivity"
             />
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>
     </com.santalu.emptyview.EmptyView>
 </LinearLayout>

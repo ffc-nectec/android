@@ -17,20 +17,30 @@
 
 package ffc.app
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AlertDialog
+//import android.support.design.widget.NavigationView
+//import android.support.v4.view.GravityCompat
+//import android.support.v7.app.ActionBarDrawerToggle
+//import android.support.v7.app.AlertDialog
 import android.transition.Fade
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.berry_med.monitordemo.activity.DeviceMainActivity
+import com.google.android.material.navigation.NavigationView
 import ffc.android.enter
 import ffc.android.load
 import ffc.android.observe
@@ -39,10 +49,12 @@ import ffc.android.sceneTransition
 import ffc.android.setTransition
 import ffc.android.viewModel
 import ffc.app.asm.HomeListActivity
+import ffc.app.auth.Users
 import ffc.app.auth.auth
 import ffc.app.location.GeoMapsFragment
 import ffc.app.location.housesOf
 import ffc.app.report.IncidentReportActivity
+import ffc.app.report.ReportActivity
 import ffc.app.search.SearchActivity
 import ffc.app.setting.AboutActivity
 import ffc.app.setting.SettingsActivity
@@ -67,51 +79,54 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
     private val geoMapsFragment by lazy { GeoMapsFragment() }
 
     private val viewModel by lazy { viewModel<MainViewModel>() }
-    lateinit var asm: View
-    lateinit var map: View
+    lateinit var asm:View
+    lateinit var map:View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val user = auth(applicationContext).user!!
-        asm = findViewById(R.id.asmMenu)
-        map = findViewById(R.id.map)
-        if (user.roles[0] == User.Role.SURVEYOR) {
-            var info = user.displayName
-            asm.visibility = View.VISIBLE
-            if (user.tel != null) {
-                info = info + "\nเบอร์โทรศัพท์:" + user.tel
-            } else {
-                info = info + "\nเบอร์โทรศัพท์:"
+        asm  = findViewById(R.id.asmMenu);
+        map  = findViewById(R.id.map);
+        if(user.roles[0]== User.Role.SURVEYOR){
+            var info = user.displayName;
+            asm.visibility = View.VISIBLE;
+            if(user.tel!=null){
+                info = info+"\nเบอร์โทรศัพท์:"+user.tel
+            }
+            else{
+                info = info+"\nเบอร์โทรศัพท์:";
             }
             tvAsmName.setText(info)
-            if (user.avatarUrl != null) {
+            if(user.avatarUrl!=null) {
                 asm.avatarView.load(Uri.parse(user.avatarUrl))
             }
-            asm.homeAsUp.setOnClickListener {
+            asm.homeAsUp.setOnClickListener{
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("ยืนยัน")
                 builder.setTitle("คุณต้องการออกจากระบบ หรือไม่")
-                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                builder.setPositiveButton(android.R.string.yes){ dialog, which ->
                     auth(this).clear()
                     finish()
                 }
-                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                builder.setNegativeButton(android.R.string.no){ dialog, which ->
                 }
                 builder.show()
+
             }
-            map.visibility = View.INVISIBLE
-            asm.btnLocation.setOnClickListener {
+            map.visibility = View.INVISIBLE;
+            asm.btnLocation.setOnClickListener{
 //                asm.visibility=View.INVISIBLE;
 //                map.visibility = View.VISIBLE;
 //                btnBack.show()
                 startActivity<HomeListActivity>()
             }
-            asm.btnReport.setOnClickListener {
+            asm.btnReport.setOnClickListener{
                 startActivity<IncidentReportActivity>()
             }
-        } else if (user.roles[0] != User.Role.SURVEYOR) {
-            asm.visibility = View.INVISIBLE
-            map.visibility = View.VISIBLE
+        }
+        else if(user.roles[0]!=User.Role.SURVEYOR){
+            asm.visibility = View.INVISIBLE;
+            map.visibility = View.VISIBLE;
             btnBack.hide()
         }
         setTransition {
@@ -138,10 +153,11 @@ class MainActivity : FamilyFolderActivity(), NavigationView.OnNavigationItemSele
             if (it == true) addLocationButton.show() else addLocationButton.hide()
         }
         btnBack.onClick {
-            asm.visibility = View.VISIBLE
-            map.visibility = View.INVISIBLE
+            asm.visibility = View.VISIBLE;
+            map.visibility = View.INVISIBLE;
             btnBack.show()
         }
+
     }
 
     private fun setupNavigationDrawer() {

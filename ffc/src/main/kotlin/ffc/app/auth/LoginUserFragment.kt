@@ -17,14 +17,17 @@
 
 package ffc.app.auth
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
 import android.os.Bundle
-import android.support.v4.app.Fragment
+//import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import ffc.android.check
 import ffc.android.hideSoftKeyboard
 import ffc.android.invisible
@@ -39,6 +42,7 @@ import ffc.app.dev
 import ffc.entity.Organization
 import ffc.entity.gson.parseTo
 import ffc.entity.gson.toJson
+import kotlinx.android.synthetic.main.hs_service_item.view.*
 import kotlinx.android.synthetic.main.login_user_fragment.btnBack
 import kotlinx.android.synthetic.main.login_user_fragment.btnLogin
 import kotlinx.android.synthetic.main.login_user_fragment.emptyView

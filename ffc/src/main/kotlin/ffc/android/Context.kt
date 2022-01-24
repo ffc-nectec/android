@@ -2,7 +2,8 @@ package ffc.android
 
 import android.content.Context
 import android.content.res.Configuration
-import android.support.annotation.RawRes
+import androidx.annotation.RawRes
+//import android.support.annotation.RawRes
 import com.google.gson.Gson
 import ffc.entity.gson.ffcGson
 import java.io.BufferedReader

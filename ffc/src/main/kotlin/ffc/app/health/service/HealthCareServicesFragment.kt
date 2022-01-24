@@ -17,17 +17,24 @@
 
 package ffc.app.health.service
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+//import android.support.v4.app.Fragment
+//import android.support.v7.widget.DividerItemDecoration
+//import android.support.v7.widget.GridLayoutManager
+//import android.support.v7.widget.LinearLayoutManager
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ffc.android.addHorizontalItemDivider
 import ffc.android.observe
 import ffc.android.viewModel
@@ -54,7 +61,7 @@ class HealthCareServicesFragment : Fragment() {
     private lateinit var viewModel: ServicesViewModel
 
     private val personId: String?
-        get() = arguments!!.personId
+        get() = requireArguments().personId
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.hs_services_list_card, container, false)
@@ -89,9 +96,9 @@ class HealthCareServicesFragment : Fragment() {
 
     private fun bindVitalSign(service: HealthCareService) {
         with(vitalSign) {
-            layoutManager = GridLayoutManager(context!!, 3)
+            layoutManager = GridLayoutManager(requireContext(), 3)
             addHorizontalItemDivider()
-            adapter = ValueAdapter(service.toValues(), limit = 3)
+            adapter = ValueAdapter(service.toValues(), limit =3)
         }
     }
 

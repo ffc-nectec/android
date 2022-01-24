@@ -2,11 +2,13 @@ package ffc.app.photo
 
 import android.app.Activity
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
+//import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ffc.android.inflate
 import ffc.android.load
 import ffc.android.onClick

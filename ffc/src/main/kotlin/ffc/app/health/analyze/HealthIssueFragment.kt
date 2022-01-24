@@ -1,12 +1,15 @@
 package ffc.app.health.analyze
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+//import android.support.v4.app.Fragment
+//import android.support.v7.widget.DividerItemDecoration
+//import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import ffc.android.observe
 import ffc.android.viewModel
 import ffc.app.R
@@ -31,7 +34,7 @@ class HealthIssueFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         with(recycleView) {
-            layoutManager = LinearLayoutManager(context!!)
+            layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
         observe(viewModel.content) {

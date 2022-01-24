@@ -1,6 +1,8 @@
 package ffc.android
 
-import android.support.v4.widget.NestedScrollView
+import androidx.core.widget.NestedScrollView
+
+//import android.support.v4.widget.NestedScrollView
 
 fun NestedScrollView.onScrolledToBottom(block: (NestedScrollView) -> Unit) {
     viewTreeObserver.addOnScrollChangedListener {

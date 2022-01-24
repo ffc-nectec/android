@@ -1,5 +1,6 @@
 package ffc.app.location
 
+import android.util.Log
 import ffc.api.ApiErrorException
 import ffc.api.FfcCentral
 import ffc.app.mockRepository
@@ -34,6 +35,7 @@ private class ApiHouses(val org: Organization) : Houses {
         val callback = RepoCallback<House>().apply(callbackDsl)
         api.get(org.id, id).enqueue {
             onSuccess {
+//                Log.d("==> body <==",body().toString())
                 callback.onFound!!.invoke(body()!!)
             }
             onError {

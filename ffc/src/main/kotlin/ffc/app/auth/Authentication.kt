@@ -18,7 +18,7 @@
 package ffc.app.auth
 
 import android.content.Context
-import com.crashlytics.android.Crashlytics
+//import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import ffc.android.get
 import ffc.android.put
@@ -67,15 +67,15 @@ private class PreferenceAuthen(context: Context) : Authentication {
                 //Firebase Anonymously sign for Upload Photo to FB's Storage
                 FirebaseAuth.getInstance().signInAnonymously()
                 if (BuildConfig.BUILD_TYPE == "release") {
-                    Crashlytics.setUserIdentifier(value.id)
-                    Crashlytics.setUserName(value.name)
+//                    Crashlytics.setUserIdentifier(value.id)
+//                    Crashlytics.setUserName(value.name)
                     Analytics.setUserProperty(org, user)
                 }
             } else {
                 FirebaseAuth.getInstance().signOut()
                 if (BuildConfig.BUILD_TYPE == "release") {
-                    Crashlytics.setUserIdentifier(null)
-                    Crashlytics.setUserName(null)
+//                    Crashlytics.setUserIdentifier(null)
+//                    Crashlytics.setUserName(null)
                     Analytics.setUserProperty(null, null)
                 }
             }

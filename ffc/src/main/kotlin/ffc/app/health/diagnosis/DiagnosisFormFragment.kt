@@ -18,10 +18,11 @@
 package ffc.app.health.diagnosis
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+//import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import ffc.android.onClick
 import ffc.app.R
 import ffc.app.health.service.HealthCareServivceForm
@@ -41,20 +42,20 @@ class DiagnosisFormFragment : Fragment(), HealthCareServivceForm<HealthCareServi
         super.onActivityCreated(savedInstanceState)
 
         addDiagnosis.onClick {
-            container.addView(DiagnosisFormView(activity!!))
+            container.addView(DiagnosisFormView(requireActivity()))
         }
     }
 
     override fun bind(service: HealthCareService) {
         service.diagnosises.forEach {
-            container.addView(DiagnosisFormView(activity!!).apply { diagnosis = it })
+            container.addView(DiagnosisFormView(requireActivity()).apply { diagnosis = it })
         }
     }
 
     fun addDefaultPrincipleDx() {
-        diseases(context!!).disease("Z71.8") {
+        diseases(requireContext()).disease("Z71.8") {
             onFound { z718 ->
-                container.addView(DiagnosisFormView(activity!!).apply {
+                container.addView(DiagnosisFormView(requireActivity()).apply {
                     diagnosis = Diagnosis(z718, Diagnosis.Type.PRINCIPLE_DX)
                 })
             }

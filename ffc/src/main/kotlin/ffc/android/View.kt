@@ -25,12 +25,14 @@
 
 package ffc.android
 
-import android.support.annotation.LayoutRes
-import android.support.design.widget.TextInputLayout
+//import android.support.annotation.LayoutRes
+//import android.support.design.widget.TextInputLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.annotation.LayoutRes
+import com.google.android.material.textfield.TextInputLayout
 
 fun <T : View> T.onClick(listener: (T) -> Unit) = setOnClickListener { listener(this) }
 

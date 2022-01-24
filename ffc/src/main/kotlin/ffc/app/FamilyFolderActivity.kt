@@ -21,12 +21,17 @@ import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+//import android.support.annotation.LayoutRes
+//import android.support.design.widget.Snackbar
+//import android.support.v4.app.Fragment
+//import android.support.v7.app.AppCompatActivity
+//import androidx.appcompat.widget.Toolbar
 import android.view.View
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import ffc.android.connectivityManager
 import ffc.android.onClick
 import ffc.app.auth.auth
@@ -34,6 +39,10 @@ import ffc.entity.Organization
 import ffc.entity.User
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
+
+//import org.jetbrains.anko.contentView
+//import org.jetbrains.anko.design.indefiniteSnackbar
+
 
 @SuppressLint("Registered")
 open class FamilyFolderActivity : AppCompatActivity() {
@@ -95,7 +104,7 @@ open class FamilyFolderActivity : AppCompatActivity() {
             offlineSnackbar?.dismiss()
         } else {
             contentView?.let {
-                offlineSnackbar = indefiniteSnackbar(it, message)
+                //offlineSnackbar =  indefiniteSnackbar(it, message)
             }
         }
     }

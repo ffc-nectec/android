@@ -17,14 +17,17 @@
 
 package ffc.app.auth
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
 import android.os.Bundle
-import android.support.v4.app.Fragment
+//import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import ffc.android.addTextWatcher
 import ffc.android.hideSoftKeyboard
 import ffc.android.invisible
@@ -33,6 +36,7 @@ import ffc.android.onClick
 import ffc.android.viewModel
 import ffc.android.visible
 import ffc.app.R
+import kotlinx.android.synthetic.main.hs_service_item.view.*
 import kotlinx.android.synthetic.main.login_otp_fragment.authenBtn
 import kotlinx.android.synthetic.main.login_otp_fragment.btnBack
 import kotlinx.android.synthetic.main.login_otp_fragment.emptyView

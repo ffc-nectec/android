@@ -3,10 +3,13 @@ package ffc.app.setting
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v7.preference.EditTextPreference
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
+//import android.support.v7.preference.EditTextPreference
+//import android.support.v7.preference.Preference
+//import android.support.v7.preference.PreferenceFragmentCompat
 import android.widget.Toast
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import ffc.api.FfcCentral
 import ffc.app.BuildConfig
 import ffc.app.FamilyFolderActivity
@@ -66,13 +69,14 @@ class SettingsActivity : FamilyFolderActivity(),
                     try {
                         input as String
                         require(input.startsWith("https://")) { "must start with https://" }
-                        FfcCentral.saveUrl(context!!, Uri.parse(input))
+                        FfcCentral.saveUrl(requireContext(), Uri.parse(input))
                         preference as EditTextPreference
                         preference.summary = input
-                        toast("updated API address!")
+                        //toast("updated API address!")
+                        Toast.makeText(requireContext(), "updated API address!", Toast.LENGTH_SHORT).show()
                         return@setOnPreferenceChangeListener true
                     } catch (ex: IllegalArgumentException) {
-                        Toast.makeText(context!!, "Url ${ex.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Url ${ex.message}", Toast.LENGTH_SHORT).show()
                         return@setOnPreferenceChangeListener false
                     }
                 }

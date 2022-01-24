@@ -1,7 +1,11 @@
 package ffc.app.util
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+//
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
 
 open class SimpleViewModel<T> : ViewModel() {
     val content = MutableLiveData<T>()

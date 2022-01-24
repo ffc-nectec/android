@@ -4,13 +4,14 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" android:minSdkVersion="30" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:name=".FamilyFolderApplication"
         android:allowBackup="true"
@@ -24,7 +25,10 @@
         <activity android:name=".report.IncidentReportActivity" />
         <activity android:name=".AsmMenuActivity" />
         <activity android:name="com.berry_med.monitordemo.activity.DeviceMainActivity" />
-        <activity android:name=".person.genogram.personPopupActivity" /> <!-- <activity android:name=".PersonPopup" /> -->
+        <activity android:name=".person.genogram.personPopupActivity" />
+        <activity android:name="samplecode_north_vision_lifecare_10.LifeCareActivity" />
+        <activity android:name="samplecode_north_vision_thermometer.Activity.ThermometerActivity" />
+        <!-- <activity android:name=".PersonPopup" /> -->
         <activity android:name=".report.ReportActivity" /> <!-- <activity -->
         <!-- android:name=".ReportActivity" -->
         <!-- android:label="@string/title_activity_report" -->
@@ -53,7 +57,7 @@
             android:required="false" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -187,6 +191,10 @@
             android:name=".setting.LegalViewActivity"
             android:label="@string/about_legal"
             android:parentActivityName=".setting.AboutActivity" />
+
+        <service android:name="samplecode_north_vision_thermometer.Service.BackgroundService"></service>
+        <service android:name="samplecode_north_vision_thermometer.bluetooth.BluetoothLeService" />
+        <service android:name="com.north_vision.lifecare_10.Service.BackgroundService"/>
     </application>
 
 </manifest>

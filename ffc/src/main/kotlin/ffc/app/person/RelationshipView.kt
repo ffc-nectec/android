@@ -1,10 +1,11 @@
 package ffc.app.person
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
+//import androidx.constraintlayout.widget.ConstraintLayout
 import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import ffc.app.R
 import ffc.entity.Person
 import org.jetbrains.anko.find

@@ -1,8 +1,9 @@
 package ffc.app.person
 
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import ffc.android.layoutInflater
 import ffc.app.R
 import kotlinx.android.synthetic.main.lookup_item.view.lookupCaption

@@ -1,8 +1,9 @@
 package ffc.app.location
 
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import ffc.app.R
 import ffc.entity.place.House
 

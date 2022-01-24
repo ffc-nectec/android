@@ -2,12 +2,14 @@ package ffc.app.photo.asymmetric
 
 import android.app.Activity
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
 import com.felipecsl.asymmetricgridview.AGVRecyclerViewAdapter
 import com.felipecsl.asymmetricgridview.AsymmetricItem
 import com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
@@ -28,7 +30,8 @@ internal class AsymmetricPhotoAdapter(
     private val items: List<ImageItem>,
     private val maxDisplay: Int = 4,
     private val onPhotoClickDsl: AdapterClickListener<Uri>.() -> Unit = {}
-) : AGVRecyclerViewAdapter<ViewHolder>() {
+) : AGVRecyclerViewAdapter<ViewHolder>()
+{
 
     private val listener = AdapterClickListener<Uri>().apply(onPhotoClickDsl)
 

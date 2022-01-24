@@ -17,9 +17,11 @@
 
 package ffc.app.auth.legal
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import ffc.android.observe
 import ffc.android.viewModel
 import ffc.api.ApiErrorException

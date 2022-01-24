@@ -18,13 +18,16 @@
 package ffc.app.health.service.community
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.MutableLiveData
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
-import android.support.v4.app.Fragment
+//import android.support.design.widget.TextInputEditText
+//import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import com.google.android.material.textfield.TextInputEditText
 import ffc.android.check
 import ffc.android.observe
 import ffc.android.onLongClick
@@ -52,6 +55,7 @@ import me.piruin.spinney.SpinneyDialog
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.support.v4.toast
 
+
 internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<HealthCareService> {
 
     val communityServicesField by lazy { find<Spinney<CommunityService.ServiceType>>(R.id.communityServiceField) }
@@ -76,7 +80,7 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
                 viewModel.bindItem.value?.let { communityServicesField.selectedItem = it }
             }
         }
-        observe(viewModel.exception) { toast(it?.message ?: "What happend") }
+        //observe(viewModel.exception) { toast(it?.message ?: "What happend") }
         observe(viewModel.bindItem) {
             if (!viewModel.content.value.isNullOrEmpty()) {
                 communityServicesField.selectedItem = it
@@ -96,7 +100,7 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
             }
         }
 
-        communityServiceTypes(context!!).all {
+        communityServiceTypes(requireContext()).all {
             onFound { viewModel.content.value = it }
             onNotFound { viewModel.content.value = listOf() }
             onFail { viewModel.exception.value = it }
@@ -140,7 +144,7 @@ internal class HomeVisitFormFragment : Fragment(), HealthCareServivceForm<Health
 
     override fun dataInto(services: HealthCareService) {
         communityServicesField.check {
-            that { selectedItem != null }
+            that {selectedItem != null }
             message = "กรุณาระบุประเภทการเยี่ยม"
         }
         appointField.check {

@@ -17,12 +17,12 @@ internal class FacebookImagePresent(
             ImageItem(it).apply {
                 when (gravity) {
                     Gravity.TOP -> {
-                        columnSpan = if (index == 0) 3 else 1
-                        rowSpan = if (index == 0) 2 else 1
+//                        columnSpan = if (index == 0) 3 else 1
+//                        rowSpan = if (index == 0) 2 else 1
                     }
                     else -> {
-                        columnSpan = if (index == 0) 2 else 1
-                        rowSpan = if (index == 0) 3 else 1
+//                        columnSpan = if (index == 0) 2 else 1
+//                        rowSpan = if (index == 0) 3 else 1
                     }
                 }
             }

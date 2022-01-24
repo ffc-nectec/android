@@ -1,16 +1,21 @@
 package ffc.app.health.service
 
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+//import android.support.annotation.DrawableRes
+//import android.support.annotation.StringRes
+//import android.support.v7.widget.LinearLayoutManager
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.felipecsl.asymmetricgridview.AsymmetricRecyclerView
+
 import ffc.android.drawable
 import ffc.android.getString
 import ffc.android.gone
@@ -79,7 +84,7 @@ class HealthCareServiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         with(services) {
             date.text = services.time.toTimeAgo()
             val type = typeOf(services)
-            title.text = getString(type.titleRes)
+            title.text = itemView.context.getString(type.titleRes)
             icon.setImageDrawable(itemView.context.drawable(type.iconRes))
             photos.bind(photosUrl)
             detailView.adapter = ValueAdapter(toValue(), ValueAdapter.Style.SMALL, true)

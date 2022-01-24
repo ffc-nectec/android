@@ -25,8 +25,11 @@
 
 package ffc.android
 
-import android.support.annotation.StringRes
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.RecyclerView
+
+//import android.support.annotation.StringRes
+//import android.support.v7.widget.RecyclerView
 
 fun RecyclerView.ViewHolder.getString(@StringRes resId: Int): String = itemView.context.getString(resId)
 

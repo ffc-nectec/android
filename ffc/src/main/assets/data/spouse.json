@@ -1,0 +1,368 @@
+[
+    {
+        "id1": "116042574",
+        "id2": 602295098,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "602295098",
+        "id2": 116042574,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "541433430",
+        "id2": 1237267281,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1237267281",
+        "id2": 541433430,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "467834587",
+        "id2": 401492719,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878076210",
+        "id2": 878076209,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878076209",
+        "id2": 878076210,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1237266633",
+        "id2": 1237266632,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1237266632",
+        "id2": 1237266633,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "401492719",
+        "id2": 467834587,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "620747007",
+        "id2": 467871421,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "82506095",
+        "id2": 237282572,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "297115822",
+        "id2": 1326306416,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "237282572",
+        "id2": 82506095,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "762299713",
+        "id2": 930306597,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878074780",
+        "id2": 878074779,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878074779",
+        "id2": 878074780,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "930306597",
+        "id2": 762299713,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1326306416",
+        "id2": 297115822,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "128842750",
+        "id2": 1647471373,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "467871421",
+        "id2": 620747007,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1647471373",
+        "id2": 128842750,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "541432666",
+        "id2": 1237266630,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1430159634",
+        "id2": 541433433,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "576243289",
+        "id2": 541432666,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "541433428",
+        "id2": 541433427,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "541433433",
+        "id2": 1430159634,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "541432668",
+        "id2": 878076187,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "639048358",
+        "id2": 467834586,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1000850672",
+        "id2": 878076190,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878076187",
+        "id2": 541432668,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1759369991",
+        "id2": 878076189,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1237266630",
+        "id2": 541432666,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1281356510",
+        "id2": 687703811,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "541433427",
+        "id2": 541433428,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "762299715",
+        "id2": 1237266628,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "237282571",
+        "id2": 878076188,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "467834586",
+        "id2": 639048358,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878076190",
+        "id2": 1000850672,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878076188",
+        "id2": 237282571,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878076189",
+        "id2": 1759369991,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1647469948",
+        "id2": 1237266631,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1603382094",
+        "id2": 1647469950,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1237266631",
+        "id2": 1647469948,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1237266629",
+        "id2": 7670886,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1237266628",
+        "id2": 762299715,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "687703811",
+        "id2": 1281356510,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "237282612",
+        "id2": 1982496525,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "7670886",
+        "id2": 1237266629,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1982496525",
+        "id2": 237282612,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1647471375",
+        "id2": 1647471374,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1647469947",
+        "id2": 116042635,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "878074781",
+        "id2": 576243784,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1647469950",
+        "id2": 1603382094,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1647469949",
+        "id2": 113567862,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "576243784",
+        "id2": 878074781,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "113567862",
+        "id2": 1647469949,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "1647471374",
+        "id2": 1647471375,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "116042635",
+        "id2": 1647469947,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "541433426",
+        "id2": 730631096,
+        "seq": 1,
+        "relationStatus": "marriage"
+    },
+    {
+        "id1": "730631096",
+        "id2": 541433426,
+        "seq": 1,
+        "relationStatus": "marriage"
+    }
+]

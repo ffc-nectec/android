@@ -1,12 +1,15 @@
 package ffc.app.person
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+//import android.support.v4.app.Fragment
+//import android.support.v7.widget.GridLayoutManager
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ffc.android.onClick
 import ffc.app.R
 import ffc.app.person.genogram.GenogramActivity
@@ -29,11 +32,11 @@ class RelationshipFragment : Fragment() {
         person?.let {
             with(recycleView) {
                 adapter = RelationshipAdapter(it.relationships.sortedBy { it.relate })
-                layoutManager = GridLayoutManager(context!!, 2)
+                layoutManager = GridLayoutManager(requireContext(), 2)
             }
 
             genogramButton.onClick {
-                activity!!.startActivity<GenogramActivity>("personId" to person?.id)
+                requireActivity().startActivity<GenogramActivity>("personId" to person?.id)
             }
         }
     }

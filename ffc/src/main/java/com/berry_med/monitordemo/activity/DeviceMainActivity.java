@@ -6,8 +6,8 @@ import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceFragmentCompat;
+//import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ffc.app.R;
 import com.berry_med.monitordemo.bluetooth.BTController;
@@ -32,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DeviceMainActivity extends AppCompatActivity  implements BTController.Listener, DataParser.onPackageReceivedListener{
+public class DeviceMainActivity extends AppCompatActivity implements BTController.Listener, DataParser.onPackageReceivedListener{
 
 
         private BTController mBtController;
@@ -349,7 +351,7 @@ public class DeviceMainActivity extends AppCompatActivity  implements BTControll
     }
         private void setToolBar ()
         {
-//            android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+//            androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
 //            setSupportActionBar(toolbar);
 //            if (getSupportActionBar() != null) {
 //                getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -18,14 +18,19 @@
 package ffc.app.location
 
 import android.app.Activity
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+//import android.arch.lifecycle.MutableLiveData
+//import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+//import android.support.v7.widget.LinearLayoutManager
+//import android.support.v7.widget.RecyclerView
+//import androidx.appcompat.widget.SearchView
+//import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import ffc.android.addVeriticalItemDivider
 import ffc.android.observe
 import ffc.android.viewModel
@@ -51,7 +56,7 @@ class HouseNoLocationActivtiy : FamilyFolderActivity() {
 
         val searchView = find<SearchView>(R.id.searchView)
         searchView.queryHint = getString(R.string.search_house_hint)
-        searchView.setOnQueryTextListener(object : OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 houseAdapter?.filter = query
