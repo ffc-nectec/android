@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 plugins {
-    id 'com.gladed.androidgitversion' version '0.4.5'
+    id 'com.gladed.androidgitversion' version '0.4.14'
 }
 
 
