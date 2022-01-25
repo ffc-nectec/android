@@ -45,8 +45,10 @@ android {
         applicationId "ffc.app"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode androidGitVersion.code()
-        versionName androidGitVersion.name()
+        // versionCode androidGitVersion.code()
+        // versionName androidGitVersion.name()
+        versionCode "2"
+        versionName "test_ffc"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
