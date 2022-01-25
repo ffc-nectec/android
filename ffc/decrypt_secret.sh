@@ -8,4 +8,4 @@
 # --batch to prevent interactive command
 # --yes to assume "yes" for questions
 gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
---output $HOME/ffc/google-services.json $HOME/ffc/google-services.json.gpg
+--output ffc/google-services.json ffc/google-services.json.gpg
