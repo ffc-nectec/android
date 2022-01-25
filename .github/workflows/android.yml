@@ -19,12 +19,18 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      # - name: Setup ruby
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     ruby-version: 2.7
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       #- name: update sdk
       #  run: echo y | android update sdk --no-ui --filter platform-tool
-      - name: android verstion build
-        run: yes | sdkmanager "platforms;android-30"
+      #- name: android verstion build
+      #  run: yes | sdkmanager "platforms;android-30"
       - name: Build with Gradle
         run: ./gradlew build
