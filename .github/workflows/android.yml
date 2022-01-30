@@ -33,6 +33,7 @@ jobs:
         run: ./ffc/decrypt_secret.sh
         env:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_KEY_DESCRYPT }}
+          GET_ENV_TEST: ${{ secrets.GET_ENV_TEST }}
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       #- name: update sdk
