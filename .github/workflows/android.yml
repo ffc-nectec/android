@@ -41,8 +41,8 @@ jobs:
         run: yes | sdkmanager --update
       #- name: Install ndk
       #  run: yes | sdkmanager --install "ndk;21.3.6528147" --channel=3
-      - name: Install Cmark
-        run: yes | sdkmanager --install "cmake"
+      #- name: Install Cmark
+      #  run: yes | sdkmanager --install "cmake"
       - name: android verstion build
         run: yes | sdkmanager "platforms;android-30"
       - name: ffc:androidDependencies
