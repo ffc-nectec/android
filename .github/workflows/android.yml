@@ -33,7 +33,7 @@ jobs:
       - name: Descrypt google-service
         run: ./ffc/decrypt_secret.sh
         env:
-          LARGE_SECRET_PASSPHRASE: ${{ env.secrets.LARGE_KEY_DESCRYPT }}
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.env.LARGE_KEY_DESCRYPT }}
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       #- name: update sdk
