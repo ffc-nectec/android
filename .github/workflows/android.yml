@@ -35,22 +35,28 @@ jobs:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_KEY_DESCRYPT }}
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: update sdk
-        run: echo y | android update sdk --no-ui --filter platform-tool
-      - name: android verstion build
-        run: yes | sdkmanager "platforms;android-30"
-      - name: androidDependencies
-        run: ./gradlew androidDependencies
+      #- name: update sdk
+      #  run: echo y | android update sdk --no-ui --filter platform-tool
+      #- name: android verstion build
+      #  run: yes | sdkmanager "platforms;android-30"
+      - name: ffc:androidDependencies
+        run: ./gradlew ffc:androidDependencies
+      - name: ffc:getDependencies
+        run: ./gradlew ffc:getDependencies
       - name: Build GitVersion
-        run: ./gradlew androidGitVersion
+        run: ./gradlew ffc:androidGitVersion
       - name: Build with Gradle
         run: ./gradlew build
       - name: List file in build
         run: ls -al ffc/build/
       - name: List file in build/*
         run: ls -al ffc/build/*
-      - name: Archive apk
-        uses: actions/upload-artifact@v2
-        with:
-          name: store apk
-          path: ffc/build/outputs/apk/release/ffc-release.apk
+      - name: List file in build/*/*
+        run: ls -al ffc/build/*/*
+      - name: find ffc/build
+        run: find ffc/build
+#      - name: Archive apk
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: store apk
+#          path: ffc/build/outputs/apk/release/ffc-release.apk
