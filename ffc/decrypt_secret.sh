@@ -7,5 +7,6 @@
 # mkdir $HOME/secrets
 # --batch to prevent interactive command
 # --yes to assume "yes" for questions
+pwd
 gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
 --output ffc/google-services.json ffc/google-services.json.gpg

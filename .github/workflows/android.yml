@@ -25,6 +25,8 @@ jobs:
       #   uses: ruby/setup-ruby@v1
       #   with:
       #     ruby-version: 2.7
+      - name: current dir
+        run: pwd
       - name: Grant execute permission for decrypt_secret.sh
         run: chmod +x ffc/decrypt_secret.sh
       - name: Descrypt google-service
