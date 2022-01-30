@@ -39,8 +39,8 @@ jobs:
       #  run: echo y | android update sdk --no-ui --filter platform-tool
       - name: update sdk
         run: yes | sdkmanager --update
-      - name: Install ndk
-        run: yes | sdkmanager --install "ndk;21.3.6528147" --channel=3
+      #- name: Install ndk
+      #  run: yes | sdkmanager --install "ndk;21.3.6528147" --channel=3
       - name: Install Cmark
         run: yes | sdkmanager --install "cmake;10.24988404"
       - name: android verstion build

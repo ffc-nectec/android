@@ -30,7 +30,7 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 30
-    ndkVersion "23.1.7779620"
+//    ndkVersion "23.1.7779620"
 //    buildToolsVersion "30.0.2"
 //    compileOptions {
 //        sourceCompatibility JavaVersion.VERSION_1_8
