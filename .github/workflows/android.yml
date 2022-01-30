@@ -53,6 +53,9 @@ jobs:
         run: ./gradlew ffc:androidGitVersion
       - name: Build with Gradle
         run: ./gradlew build
+        env:
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
       - name: List file in build
         run: ls -al ffc/build/
       - name: List file in build/*
