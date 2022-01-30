@@ -28,15 +28,12 @@ jobs:
       #     ruby-version: 2.7
       - name: current dir
         run: pwd
-      - name: Echo test
-        run: echo "${{ secrets.GET_ENV_TEST }}"
       - name: Grant execute permission for decrypt_secret.sh
         run: chmod +x ffc/decrypt_secret.sh
       - name: Descrypt google-service
         run: ./ffc/decrypt_secret.sh
         env:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_KEY_DESCRYPT }}
-          GET_ENV_TEST: ${{ secrets.GET_ENV_TEST }}
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       #- name: update sdk

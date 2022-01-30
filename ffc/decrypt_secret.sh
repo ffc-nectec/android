@@ -8,7 +8,6 @@
 # --batch to prevent interactive command
 # --yes to assume "yes" for questions
 pwd
-echo "$GET_ENV_TEST"
 echo "_____Decrypt_______"
 gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
 --output ffc/google-services.json ffc/google-services.json.gpg
