@@ -19,9 +19,8 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-      #- name: Setup Android SDK
-      #  uses: android-actions/setup-android@v2
-
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
       # - name: Setup ruby
       #   uses: ruby/setup-ruby@v1
       #   with:
@@ -42,3 +41,12 @@ jobs:
       #  run: yes | sdkmanager "platforms;android-30"
       - name: Build with Gradle
         run: ./gradlew build
+      - name: List file in build
+        run: ls -al ffc/build/
+      - name: List file in build/*
+        run: ls -al ffc/build/*
+      - name: Archive apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: store apk
+          path: ffc/build/outputs/apk/release/ffc-release.apk
