@@ -39,6 +39,8 @@ jobs:
       #  run: echo y | android update sdk --no-ui --filter platform-tool
       #- name: android verstion build
       #  run: yes | sdkmanager "platforms;android-30"
+      - name: Build GitVersion
+        run: ./gradlew androidGitVersion
       - name: Build with Gradle
         run: ./gradlew build
       - name: List file in build

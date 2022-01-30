@@ -45,10 +45,10 @@ android {
         applicationId "ffc.app"
         minSdkVersion 26
         targetSdkVersion 30
-        // versionCode androidGitVersion.code()
-        // versionName androidGitVersion.name()
-        versionCode 2
-        versionName "test_ffc"
+        versionCode androidGitVersion.code()
+        versionName androidGitVersion.name()
+        //versionCode 2
+        //versionName "test_ffc"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -180,7 +180,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'joda-time:joda-time:2.10.1'
     implementation 'me.piruin:spinney:1.0.0'
-    implementation 'me.piruin:phototaker:1.2'
+    //implementation 'me.piruin:phototaker:1.2'
 
     implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$ankoVersion"
     implementation "org.jetbrains.anko:anko-design:$ankoVersion"
