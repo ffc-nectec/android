@@ -1,0 +1,71 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ github_ci_build ]
+  pull_request:
+    branches: [ github_ci_build ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      # - name: Setup ruby
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     ruby-version: 2.7
+      - name: current dir
+        run: pwd
+      - name: Grant execute permission for decrypt_secret.sh
+        run: chmod +x ffc/decrypt_secret.sh
+      - name: Descrypt google-service
+        run: ./ffc/decrypt_secret.sh
+        env:
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_KEY_DESCRYPT }}
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      #- name: update sdk
+      #  run: echo y | android update sdk --no-ui --filter platform-tool
+      - name: update sdk
+        run: yes | sdkmanager --update
+      #- name: Install ndk
+      #  run: yes | sdkmanager --install "ndk;21.3.6528147" --channel=3
+      #- name: Install Cmark
+      #  run: yes | sdkmanager --install "cmake"
+      - name: android verstion build
+        run: yes | sdkmanager "platforms;android-30"
+      - name: ffc:androidDependencies
+        run: ./gradlew ffc:androidDependencies
+      - name: ffc:getDependencies
+        run: ./gradlew ffc:getDependencies
+      - name: Build GitVersion
+        run: ./gradlew ffc:androidGitVersion
+      - name: Build with Gradle
+        run: ./gradlew build
+        env:
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+      - name: List file in build
+        run: ls -al ffc/build/
+      - name: List file in build/*
+        run: ls -al ffc/build/*
+      - name: List file in build/*/*
+        run: ls -al ffc/build/*/*
+      - name: find ffc/build
+        run: find ffc/build
+#      - name: Archive apk
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: store apk
+#          path: ffc/build/outputs/apk/release/ffc-release.apk
